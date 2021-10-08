@@ -25,8 +25,9 @@ using System;
 
 namespace Intervals.Intervals
 {
-	public interface IEndpoint<T> : IEnd<T>, IPoint<T>, IComparable<IEndpoint<T>>, IEquatable<IEndpoint<T>>
+	public interface IEndpoint<T> : IPoint<T>, IComparable<IEndpoint<T>>, IEquatable<IEndpoint<T>>
 		where T : IComparable<T>, IEquatable<T>
 	{
+		EndpointLocation Location { get; }
 	}
 }

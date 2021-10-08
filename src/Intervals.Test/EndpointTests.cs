@@ -41,24 +41,24 @@ namespace Intervals.Test
 		}
 
 		[Test]
-		[TestCase(EndLocation.Left)]
-		[TestCase(EndLocation.Right)]
-		public void New_WhenGivenLocation_ReturnEndpointWithLocation(EndLocation endLocation)
+		[TestCase(EndpointLocation.Left)]
+		[TestCase(EndpointLocation.Right)]
+		public void New_WhenGivenLocation_ReturnEndpointWithLocation(EndpointLocation endpointLocation)
 		{
 			var point = _firstPoint.Object;
 
-			var actual = Endpoint.New(point, endLocation);
+			var actual = Endpoint.New(point, endpointLocation);
 
 			actual.Should().BeEquivalentTo(point);
-			actual.Location.Should().Be(endLocation);
+			actual.Location.Should().Be(endpointLocation);
 		}
 
 		[Test]
 		public void Equals_WhenHasSameMembers_ReturnTrue()
 		{
 			_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
-			var first = Endpoint.New(_firstPoint.Object, EndLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndLocation.Left);
+			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
 
 			var actual = first.Equals(second);
 
@@ -69,8 +69,8 @@ namespace Intervals.Test
 		public void Equals_WhenHasOtherLocation_ReturnFalse()
 		{
 			_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
-			var first = Endpoint.New(_firstPoint.Object, EndLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndLocation.Right);
+			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Right);
 
 			var actual = first.Equals(second);
 
@@ -81,8 +81,8 @@ namespace Intervals.Test
 		public void Equals_WhenHasOtherPoint_ReturnFalse()
 		{
 			_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(false);
-			var first = Endpoint.New(_firstPoint.Object, EndLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndLocation.Left);
+			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
 
 			var actual = first.Equals(second);
 
@@ -94,8 +94,8 @@ namespace Intervals.Test
 		{
 			_firstPoint.Setup(p => p.Value).Returns(-1);
 			_secondPoint.Setup(p => p.Value).Returns(0);
-			var first = Endpoint.New(_firstPoint.Object, EndLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndLocation.Left);
+			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
 
 			var actual = first.CompareTo(second);
 
@@ -115,8 +115,8 @@ namespace Intervals.Test
 		{
 			_firstPoint.Setup(p => p.Value).Returns(1);
 			_secondPoint.Setup(p => p.Value).Returns(0);
-			var first = Endpoint.New(_firstPoint.Object, EndLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndLocation.Left);
+			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
 
 			var actual = first.CompareTo(second);
 

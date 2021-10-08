@@ -25,8 +25,10 @@ using System;
 
 namespace Intervals.Intervals
 {
-	public interface IEnd<T> : IComparable<IEnd<T>>
+	[Flags]
+	public enum EndpointLocation
 	{
-		EndLocation Location { get; }
+		Left = 1,
+		Right = 0
 	}
 }

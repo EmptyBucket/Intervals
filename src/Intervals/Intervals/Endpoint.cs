@@ -27,7 +27,7 @@ namespace Intervals.Intervals
 {
 	public static class Endpoint
 	{
-		public static IEndpoint<T> New<T>(IPoint<T> point, EndLocation location)
+		public static IEndpoint<T> New<T>(IPoint<T> point, EndpointLocation location)
 			where T : IEquatable<T>, IComparable<T> => new Endpoint<T>(point, location);
 	}
 
@@ -35,16 +35,13 @@ namespace Intervals.Intervals
 	{
 		private readonly IPoint<T> _point;
 
-		public Endpoint(IPoint<T> point, EndLocation location) => (_point, Location) = (point, location);
+		public Endpoint(IPoint<T> point, EndpointLocation location) => (_point, Location) = (point, location);
 
 		public T Value => _point.Value;
 
 		public Inclusion Inclusion => _point.Inclusion;
 
-		public EndLocation Location { get; }
-
-		public int CompareTo(IEnd<T> other) =>
-			other is IEndpoint<T> otherEndpoint ? CompareTo(otherEndpoint) : (int)other.Location * 2 - 1;
+		public EndpointLocation Location { get; }
 
 		public int CompareTo(IEndpoint<T> other)
 		{
@@ -66,10 +63,9 @@ namespace Intervals.Intervals
 			       byInclusion * inclusionCompared * ToSign(thisIsRight);
 		}
 
-		public bool Equals(IPoint<T> other) =>
-			other is IEndpoint<T> otherEndpoint ? Equals(otherEndpoint) : _point.Equals(other);
+		public bool Equals(IEndpoint<T> other) => Equals((IPoint<T>)other) && Location == other.Location;
 
-		public bool Equals(IEndpoint<T> other) => _point.Equals(other) && Location == other.Location;
+		public bool Equals(IPoint<T> other) => _point.Equals(other);
 
 		public override bool Equals(object? obj) => obj is IEndpoint<T> other && Equals(other);
 
@@ -77,13 +73,13 @@ namespace Intervals.Intervals
 
 		public override string ToString() => Location switch
 		{
-			EndLocation.Left => Inclusion switch
+			EndpointLocation.Left => Inclusion switch
 			{
 				Inclusion.Excluded => $"({Value}",
 				Inclusion.Included => $"[{Value}",
 				_ => throw new ArgumentOutOfRangeException()
 			},
-			EndLocation.Right => Inclusion switch
+			EndpointLocation.Right => Inclusion switch
 			{
 				Inclusion.Excluded => $"{Value})",
 				Inclusion.Included => $"{Value}]",

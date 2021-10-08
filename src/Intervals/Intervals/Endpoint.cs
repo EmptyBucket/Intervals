@@ -35,7 +35,7 @@ namespace Intervals.Intervals
 	{
 		private readonly IPoint<T> _point;
 
-		internal Endpoint(IPoint<T> point, EndLocation location) => (_point, Location) = (point, location);
+		public Endpoint(IPoint<T> point, EndLocation location) => (_point, Location) = (point, location);
 
 		public T Value => _point.Value;
 

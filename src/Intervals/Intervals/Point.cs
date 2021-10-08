@@ -38,7 +38,7 @@ namespace Intervals.Intervals
 
 	public readonly struct Point<T> : IPoint<T> where T : IEquatable<T>
 	{
-		internal Point(T value, Inclusion inclusion) => (Value, Inclusion) = (value, inclusion);
+		public Point(T value, Inclusion inclusion) => (Value, Inclusion) = (value, inclusion);
 
 		public T Value { get; }
 

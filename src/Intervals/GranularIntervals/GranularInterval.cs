@@ -55,4 +55,20 @@ namespace Intervals.GranularIntervals
 
 		protected abstract TInterval Create(Point<DateTime> left, Point<DateTime> right);
 	}
+
+	public class GranularInterval : GranularInterval<GranularInterval>
+	{
+		public GranularInterval(IPoint<DateTime> left, IPoint<DateTime> right)
+			: base(left, right)
+		{
+		}
+
+		public GranularInterval(DateTime leftValue, DateTime rightValue, IntervalType intervalType)
+			: base(leftValue, rightValue, intervalType)
+		{
+		}
+
+		protected override GranularInterval Create(Point<DateTime> left, Point<DateTime> right) =>
+			new GranularInterval(left, right);
+	}
 }

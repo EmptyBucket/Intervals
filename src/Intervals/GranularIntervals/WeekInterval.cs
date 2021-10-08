@@ -31,7 +31,7 @@ namespace Intervals.GranularIntervals
 		public WeekInterval(DateTime dateTime) : base(dateTime, dateTime.AddDays(7), IntervalType.RightOpen) =>
 			DateTime = dateTime;
 
-		public WeekInterval(IPoint<DateTime> left, IPoint<DateTime> right) : base(left, right) => DateTime = left.Value;
+		private WeekInterval(IPoint<DateTime> left, IPoint<DateTime> right) : base(left, right) => DateTime = left.Value;
 
 		public DateTime DateTime { get; }
 

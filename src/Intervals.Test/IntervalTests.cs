@@ -63,19 +63,19 @@ namespace Intervals.Test
 		}
 
 		[Test]
-		public void New_WhenGivenValuesAndIntervalType_ReturnIntervalWithValuesAndIntervalType()
+		public void New_WhenGivenValuesAndIntervalInclusion_ReturnIntervalWithValuesAndIntervalInclusion()
 		{
 			const int leftValue = 0;
 			const int rightValue = 1;
-			const IntervalType intervalType = IntervalType.Open;
+			const IntervalInclusion intervalInclusion = IntervalInclusion.Open;
 
-			var actual = Interval.New(leftValue, rightValue, intervalType);
+			var actual = Interval.New(leftValue, rightValue, intervalInclusion);
 
 			actual.Left.Location.Should().Be(EndLocation.Left);
 			actual.Left.Value.Should().Be(leftValue);
 			actual.Right.Location.Should().Be(EndLocation.Right);
 			actual.Right.Value.Should().Be(rightValue);
-			actual.IntervalType.Should().Be(intervalType);
+			actual.Inclusion.Should().Be(intervalInclusion);
 		}
 
 		[Test]

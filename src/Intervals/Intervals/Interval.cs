@@ -32,8 +32,8 @@ namespace Intervals.Intervals
 		public static IInterval<T> New<T>(IPoint<T> left, IPoint<T> right)
 			where T : IEquatable<T>, IComparable<T> => new Interval<T>(left, right);
 
-		public static IInterval<T> New<T>(T leftValue, T rightValue, IntervalType intervalType)
-			where T : IEquatable<T>, IComparable<T> => new Interval<T>(leftValue, rightValue, intervalType);
+		public static IInterval<T> New<T>(T leftValue, T rightValue, IntervalInclusion intervalInclusion)
+			where T : IEquatable<T>, IComparable<T> => new Interval<T>(leftValue, rightValue, intervalInclusion);
 	}
 
 	public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
@@ -42,22 +42,22 @@ namespace Intervals.Intervals
 		{
 			Left = Endpoint.New(left, EndLocation.Left);
 			Right = Endpoint.New(right, EndLocation.Right);
-			IntervalType = IntervalTypeConvert.FromInclusions(left.Inclusion, right.Inclusion);
+			Inclusion = IntervalInclusionConvert.FromInclusions(left.Inclusion, right.Inclusion);
 		}
 
-		protected internal Interval(T leftValue, T rightValue, IntervalType intervalType)
+		protected internal Interval(T leftValue, T rightValue, IntervalInclusion intervalInclusion)
 		{
-			var (leftInclusion, rightInclusion) = IntervalTypeConvert.ToInclusions(intervalType);
+			var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
 			Left = Endpoint.New(Point.New(leftValue, leftInclusion), EndLocation.Left);
 			Right = Endpoint.New(Point.New(rightValue, rightInclusion), EndLocation.Right);
-			IntervalType = intervalType;
+			Inclusion = intervalInclusion;
 		}
 
 		public virtual IEndpoint<T> Left { get; }
 
 		public virtual IEndpoint<T> Right { get; }
 
-		public IntervalType IntervalType { get; }
+		public IntervalInclusion Inclusion { get; }
 
 		public bool Equals(IInterval<T> other) => Left.Equals(other.Left) && Right.Equals(other.Right);
 

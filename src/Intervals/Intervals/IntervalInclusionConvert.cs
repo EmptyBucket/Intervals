@@ -23,13 +23,13 @@
 
 namespace Intervals.Intervals
 {
-	public static class IntervalTypeConvert
+	public static class IntervalInclusionConvert
 	{
-		public static IntervalType FromInclusions(Inclusion left, Inclusion right) =>
-			(IntervalType)((int)left << (int)EndLocation.Left | (int)right << (int)EndLocation.Right);
+		public static IntervalInclusion FromInclusions(Inclusion left, Inclusion right) =>
+			(IntervalInclusion)((int)left << (int)EndLocation.Left | (int)right << (int)EndLocation.Right);
 
-		public static (Inclusion Left, Inclusion Right) ToInclusions(IntervalType intervalType) =>
-			((Inclusion)((int)intervalType >> (int)EndLocation.Left & 1),
-				(Inclusion)((int)intervalType >> (int)EndLocation.Right & 1));
+		public static (Inclusion Left, Inclusion Right) ToInclusions(IntervalInclusion intervalInclusion) =>
+			((Inclusion)((int)intervalInclusion >> (int)EndLocation.Left & 1),
+				(Inclusion)((int)intervalInclusion >> (int)EndLocation.Right & 1));
 	}
 }

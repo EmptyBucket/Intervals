@@ -30,13 +30,13 @@ namespace Intervals.Test
 	public class IntervalExtensionsTests
 	{
 		[Test]
-		[TestCase(IntervalType.Open)]
-		[TestCase(IntervalType.Closed)]
-		[TestCase(IntervalType.LeftOpen)]
-		[TestCase(IntervalType.RightOpen)]
-		public void IsEmpty_WhenLeftLessThanRight_ReturnTrue(IntervalType type)
+		[TestCase(IntervalInclusion.Open)]
+		[TestCase(IntervalInclusion.Closed)]
+		[TestCase(IntervalInclusion.LeftOpen)]
+		[TestCase(IntervalInclusion.RightOpen)]
+		public void IsEmpty_WhenLeftLessThanRight_ReturnTrue(IntervalInclusion inclusion)
 		{
-			var interval = Interval.New(0, -1, type);
+			var interval = Interval.New(0, -1, inclusion);
 
 			var actual = interval.IsEmpty();
 
@@ -46,7 +46,7 @@ namespace Intervals.Test
 		[Test]
 		public void IsEmpty_WhenClosedIntervalWithEqualEndpoints_ReturnFalse()
 		{
-			var interval = Interval.New(0, 0, IntervalType.Closed);
+			var interval = Interval.New(0, 0, IntervalInclusion.Closed);
 
 			var actual = interval.IsEmpty();
 
@@ -54,12 +54,12 @@ namespace Intervals.Test
 		}
 
 		[Test]
-		[TestCase(IntervalType.Open)]
-		[TestCase(IntervalType.LeftOpen)]
-		[TestCase(IntervalType.RightOpen)]
-		public void IsEmpty_WhenNonClosedIntervalWithEqualEndpoints_ReturnTrue(IntervalType type)
+		[TestCase(IntervalInclusion.Open)]
+		[TestCase(IntervalInclusion.LeftOpen)]
+		[TestCase(IntervalInclusion.RightOpen)]
+		public void IsEmpty_WhenNonClosedIntervalWithEqualEndpoints_ReturnTrue(IntervalInclusion inclusion)
 		{
-			var interval = Interval.New(0, 0, type);
+			var interval = Interval.New(0, 0, inclusion);
 
 			var actual = interval.IsEmpty();
 
@@ -67,13 +67,13 @@ namespace Intervals.Test
 		}
 
 		[Test]
-		[TestCase(IntervalType.Open)]
-		[TestCase(IntervalType.Closed)]
-		[TestCase(IntervalType.LeftOpen)]
-		[TestCase(IntervalType.RightOpen)]
-		public void IsEmpty_WhenIntervalWithNonEqualEndpoints_ReturnFalse(IntervalType type)
+		[TestCase(IntervalInclusion.Open)]
+		[TestCase(IntervalInclusion.Closed)]
+		[TestCase(IntervalInclusion.LeftOpen)]
+		[TestCase(IntervalInclusion.RightOpen)]
+		public void IsEmpty_WhenIntervalWithNonEqualEndpoints_ReturnFalse(IntervalInclusion inclusion)
 		{
-			var interval = Interval.New(0, 1, type);
+			var interval = Interval.New(0, 1, inclusion);
 
 			var actual = interval.IsEmpty();
 
@@ -83,8 +83,8 @@ namespace Intervals.Test
 		[Test]
 		public void IsOverlap_WhenIntervalsNotIntersect_ReturnFalse()
 		{
-			var left = Interval.New(0, 1, IntervalType.Closed);
-			var right = Interval.New(2, 3, IntervalType.Closed);
+			var left = Interval.New(0, 1, IntervalInclusion.Closed);
+			var right = Interval.New(2, 3, IntervalInclusion.Closed);
 
 			var actual1 = left.IsOverlap(right);
 			var actual2 = right.IsOverlap(left);
@@ -96,8 +96,8 @@ namespace Intervals.Test
 		[Test]
 		public void IsOverlap_WhenOpenIntervalsHaveSameEndpointWithDifferentLocation_ReturnFalse()
 		{
-			var left = Interval.New(0, 1, IntervalType.Open);
-			var right = Interval.New(1, 2, IntervalType.Open);
+			var left = Interval.New(0, 1, IntervalInclusion.Open);
+			var right = Interval.New(1, 2, IntervalInclusion.Open);
 
 			var actual1 = left.IsOverlap(right);
 			var actual2 = right.IsOverlap(left);
@@ -109,8 +109,8 @@ namespace Intervals.Test
 		[Test]
 		public void IsOverlap_WhenClosedIntervalsHaveSameEndpointWithDifferentLocation_ReturnTrue()
 		{
-			var left = Interval.New(0, 1, IntervalType.Closed);
-			var right = Interval.New(1, 2, IntervalType.Closed);
+			var left = Interval.New(0, 1, IntervalInclusion.Closed);
+			var right = Interval.New(1, 2, IntervalInclusion.Closed);
 
 			var actual1 = left.IsOverlap(right);
 			var actual2 = right.IsOverlap(left);
@@ -122,8 +122,8 @@ namespace Intervals.Test
 		[Test]
 		public void IsOverlap_WhenIntervalsIntersect_ReturnTrue()
 		{
-			var left = Interval.New(0, 2, IntervalType.Closed);
-			var right = Interval.New(1, 3, IntervalType.Closed);
+			var left = Interval.New(0, 2, IntervalInclusion.Closed);
+			var right = Interval.New(1, 3, IntervalInclusion.Closed);
 
 			var actual1 = left.IsOverlap(right);
 			var actual2 = right.IsOverlap(left);
@@ -135,8 +135,8 @@ namespace Intervals.Test
 		[Test]
 		public void IsInclude_WhenIntervalsNotIntersect_ReturnFalse()
 		{
-			var left = Interval.New(0, 1, IntervalType.Closed);
-			var right = Interval.New(2, 3, IntervalType.Closed);
+			var left = Interval.New(0, 1, IntervalInclusion.Closed);
+			var right = Interval.New(2, 3, IntervalInclusion.Closed);
 
 			var actual = left.IsInclude(right);
 
@@ -146,8 +146,8 @@ namespace Intervals.Test
 		[Test]
 		public void IsInclude_WhenIntervalsIntersectButNotContain_ReturnFalse()
 		{
-			var left = Interval.New(0, 2, IntervalType.Closed);
-			var right = Interval.New(1, 3, IntervalType.Closed);
+			var left = Interval.New(0, 2, IntervalInclusion.Closed);
+			var right = Interval.New(1, 3, IntervalInclusion.Closed);
 
 			var actual = left.IsInclude(right);
 
@@ -155,17 +155,17 @@ namespace Intervals.Test
 		}
 
 		[Test]
-		[TestCase(IntervalType.Open, IntervalType.Closed)]
-		[TestCase(IntervalType.Open, IntervalType.LeftOpen)]
-		[TestCase(IntervalType.Open, IntervalType.RightOpen)]
-		[TestCase(IntervalType.LeftOpen, IntervalType.Closed)]
-		[TestCase(IntervalType.LeftOpen, IntervalType.RightOpen)]
-		[TestCase(IntervalType.RightOpen, IntervalType.Closed)]
-		[TestCase(IntervalType.RightOpen, IntervalType.LeftOpen)]
-		public void IsInclude_WhenNotContainEndpoints_ReturnFalse(IntervalType outerType, IntervalType innerType)
+		[TestCase(IntervalInclusion.Open, IntervalInclusion.Closed)]
+		[TestCase(IntervalInclusion.Open, IntervalInclusion.LeftOpen)]
+		[TestCase(IntervalInclusion.Open, IntervalInclusion.RightOpen)]
+		[TestCase(IntervalInclusion.LeftOpen, IntervalInclusion.Closed)]
+		[TestCase(IntervalInclusion.LeftOpen, IntervalInclusion.RightOpen)]
+		[TestCase(IntervalInclusion.RightOpen, IntervalInclusion.Closed)]
+		[TestCase(IntervalInclusion.RightOpen, IntervalInclusion.LeftOpen)]
+		public void IsInclude_WhenNotContainEndpoints_ReturnFalse(IntervalInclusion outerInclusion, IntervalInclusion innerInclusion)
 		{
-			var outer = Interval.New(0, 1, outerType);
-			var inner = Interval.New(0, 1, innerType);
+			var outer = Interval.New(0, 1, outerInclusion);
+			var inner = Interval.New(0, 1, innerInclusion);
 
 			var actual = outer.IsInclude(inner);
 
@@ -173,19 +173,19 @@ namespace Intervals.Test
 		}
 
 		[Test]
-		[TestCase(IntervalType.Open, IntervalType.Open)]
-		[TestCase(IntervalType.Closed, IntervalType.Open)]
-		[TestCase(IntervalType.Closed, IntervalType.Closed)]
-		[TestCase(IntervalType.Closed, IntervalType.LeftOpen)]
-		[TestCase(IntervalType.Closed, IntervalType.RightOpen)]
-		[TestCase(IntervalType.LeftOpen, IntervalType.Open)]
-		[TestCase(IntervalType.LeftOpen, IntervalType.LeftOpen)]
-		[TestCase(IntervalType.RightOpen, IntervalType.Open)]
-		[TestCase(IntervalType.RightOpen, IntervalType.RightOpen)]
-		public void IsInclude_WhenContainEndpoints_ReturnTrue(IntervalType outerType, IntervalType innerType)
+		[TestCase(IntervalInclusion.Open, IntervalInclusion.Open)]
+		[TestCase(IntervalInclusion.Closed, IntervalInclusion.Open)]
+		[TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+		[TestCase(IntervalInclusion.Closed, IntervalInclusion.LeftOpen)]
+		[TestCase(IntervalInclusion.Closed, IntervalInclusion.RightOpen)]
+		[TestCase(IntervalInclusion.LeftOpen, IntervalInclusion.Open)]
+		[TestCase(IntervalInclusion.LeftOpen, IntervalInclusion.LeftOpen)]
+		[TestCase(IntervalInclusion.RightOpen, IntervalInclusion.Open)]
+		[TestCase(IntervalInclusion.RightOpen, IntervalInclusion.RightOpen)]
+		public void IsInclude_WhenContainEndpoints_ReturnTrue(IntervalInclusion outerInclusion, IntervalInclusion innerInclusion)
 		{
-			var outer = Interval.New(0, 1, outerType);
-			var inner = Interval.New(0, 1, innerType);
+			var outer = Interval.New(0, 1, outerInclusion);
+			var inner = Interval.New(0, 1, innerInclusion);
 
 			var actual = outer.IsInclude(inner);
 
@@ -195,8 +195,8 @@ namespace Intervals.Test
 		[Test]
 		public void IsInclude_WhenOuterIsBigger_ReturnTrue()
 		{
-			var outer = Interval.New(0, 5, IntervalType.Closed);
-			var inner = Interval.New(1, 2, IntervalType.Closed);
+			var outer = Interval.New(0, 5, IntervalInclusion.Closed);
+			var inner = Interval.New(1, 2, IntervalInclusion.Closed);
 
 			var actual = outer.IsInclude(inner);
 

@@ -30,7 +30,7 @@ namespace Intervals.GranularIntervals
 	{
 		public HalfAYearInterval(int year, int halfAYear)
 			: base(DateTimeHelper.GetStartOfHalfAYear(year, halfAYear), DateTimeHelper.GetOpenEndOfHalfAYear(year, halfAYear),
-				IntervalType.RightOpen) =>
+				IntervalInclusion.RightOpen) =>
 			(Year, HalfAYear) = (year, halfAYear);
 
 		private HalfAYearInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>

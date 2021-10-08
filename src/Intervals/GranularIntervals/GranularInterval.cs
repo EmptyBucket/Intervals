@@ -35,8 +35,8 @@ namespace Intervals.GranularIntervals
 			: base(left, right) =>
 			_granuleSize = ComputeGranuleSize(left.Value, right.Value);
 
-		protected GranularInterval(DateTime leftValue, DateTime rightValue, IntervalType intervalType)
-			: base(leftValue, rightValue, intervalType) =>
+		protected GranularInterval(DateTime leftValue, DateTime rightValue, IntervalInclusion intervalInclusion)
+			: base(leftValue, rightValue, intervalInclusion) =>
 			_granuleSize = ComputeGranuleSize(leftValue, rightValue);
 
 		public TInterval GetPrev() => AddBatches(-1);
@@ -63,8 +63,9 @@ namespace Intervals.GranularIntervals
 		{
 		}
 
-		public GranularInterval(DateTime leftValue, DateTime rightValue, IntervalType intervalType = IntervalType.RightOpen)
-			: base(leftValue, rightValue, intervalType)
+		public GranularInterval(DateTime leftValue, DateTime rightValue,
+			IntervalInclusion intervalInclusion = IntervalInclusion.RightOpen)
+			: base(leftValue, rightValue, intervalInclusion)
 		{
 		}
 

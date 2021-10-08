@@ -38,6 +38,6 @@ namespace Intervals.Intervals
 
 		IEndpoint<T> Right { get; }
 
-		IntervalType IntervalType { get; }
+		IntervalInclusion Inclusion { get; }
 	}
 }

@@ -49,8 +49,8 @@ namespace Intervals.GranularIntervals
 		{
 			var totalGranulesSize = _granuleSize * batchesCount;
 			return Create(
-				new Point<DateTime>(Left.Value + totalGranulesSize, Left.Inclusion),
-				new Point<DateTime>(Right.Value + totalGranulesSize, Right.Inclusion));
+				new Point<DateTime>(Left.Value + totalGranulesSize, Right.Inclusion.Invert()),
+				new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
 		}
 
 		protected abstract TInterval Create(Point<DateTime> left, Point<DateTime> right);

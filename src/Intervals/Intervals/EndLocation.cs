@@ -21,32 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using FluentAssertions;
-using Intervals.Intervals;
-using NUnit.Framework;
+using System;
 
-namespace Intervals.Test
+namespace Intervals.Intervals
 {
-	public class EndpointLocationTests
+	[Flags]
+	public enum EndLocation
 	{
-		[Test]
-		public void Invert_WhenLeft_ReturnRight()
-		{
-			const EndpointLocation endpointLocation = EndpointLocation.Left;
-
-			var actual = endpointLocation.Invert();
-
-			actual.Should().Be(EndpointLocation.Right);
-		}
-
-		[Test]
-		public void Invert_WhenRight_ReturnLeft()
-		{
-			const EndpointLocation endpointLocation = EndpointLocation.Right;
-
-			var actual = endpointLocation.Invert();
-
-			actual.Should().Be(EndpointLocation.Left);
-		}
+		Left = 1,
+		Right = 0
 	}
 }

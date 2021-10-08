@@ -23,9 +23,9 @@
 
 namespace Intervals.Intervals
 {
-	public static class EndpointLocationExtensions
+	public static class EndLocationExtensions
 	{
-		public static EndpointLocation Invert(this EndpointLocation endpointLocation) =>
-			(EndpointLocation)((int)endpointLocation ^ 1);
+		public static EndLocation Invert(this EndLocation endLocation) =>
+			(EndLocation)((int)endLocation ^ 1);
 	}
 }

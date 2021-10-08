@@ -29,9 +29,9 @@ namespace Intervals.Test
 {
 	public class IntervalInclusionConvertTests
 	{
-		[TestCase(Inclusion.Excluded, Inclusion.Excluded, IntervalInclusion.Open)]
-		[TestCase(Inclusion.Excluded, Inclusion.Included, IntervalInclusion.LeftOpen)]
-		[TestCase(Inclusion.Included, Inclusion.Excluded, IntervalInclusion.RightOpen)]
+		[TestCase(Inclusion.Excluded, Inclusion.Excluded, IntervalInclusion.Opened)]
+		[TestCase(Inclusion.Excluded, Inclusion.Included, IntervalInclusion.LeftOpened)]
+		[TestCase(Inclusion.Included, Inclusion.Excluded, IntervalInclusion.RightOpened)]
 		[TestCase(Inclusion.Included, Inclusion.Included, IntervalInclusion.Closed)]
 		public void FromInclusion_WhenGivenInclusions_ReturnIntervalInclusion(Inclusion left, Inclusion right,
 			IntervalInclusion result)
@@ -41,9 +41,9 @@ namespace Intervals.Test
 			actual.Should().Be(result);
 		}
 
-		[TestCase(IntervalInclusion.Open, Inclusion.Excluded, Inclusion.Excluded)]
-		[TestCase(IntervalInclusion.LeftOpen, Inclusion.Excluded, Inclusion.Included)]
-		[TestCase(IntervalInclusion.RightOpen, Inclusion.Included, Inclusion.Excluded)]
+		[TestCase(IntervalInclusion.Opened, Inclusion.Excluded, Inclusion.Excluded)]
+		[TestCase(IntervalInclusion.LeftOpened, Inclusion.Excluded, Inclusion.Included)]
+		[TestCase(IntervalInclusion.RightOpened, Inclusion.Included, Inclusion.Excluded)]
 		[TestCase(IntervalInclusion.Closed, Inclusion.Included, Inclusion.Included)]
 		public void ToInclusions_WhenGivenIntervalInclusion_ReturnInclusions(IntervalInclusion intervalInclusion,
 			Inclusion left, Inclusion right)

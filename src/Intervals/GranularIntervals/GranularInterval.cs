@@ -64,7 +64,7 @@ namespace Intervals.GranularIntervals
 		}
 
 		public GranularInterval(DateTime leftValue, DateTime rightValue,
-			IntervalInclusion intervalInclusion = IntervalInclusion.RightOpen)
+			IntervalInclusion intervalInclusion = IntervalInclusion.RightOpened)
 			: base(leftValue, rightValue, intervalInclusion)
 		{
 		}

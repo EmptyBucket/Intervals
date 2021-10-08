@@ -28,8 +28,8 @@ namespace Intervals.GranularIntervals
 {
 	public class YearInterval : MonthsGranularInterval<YearInterval>
 	{
-		public YearInterval(int year)
-			: base(DateTimeHelper.GetStartOfYear(year), DateTimeHelper.GetOpenEndOfYear(year), IntervalInclusion.RightOpen) =>
+		public YearInterval(int year) : base(
+			DateTimeHelper.GetStartOfYear(year), DateTimeHelper.GetOpenedEndOfYear(year), IntervalInclusion.RightOpened) =>
 			Year = year;
 
 		private YearInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>

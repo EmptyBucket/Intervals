@@ -28,9 +28,9 @@ namespace Intervals.GranularIntervals
 {
 	public class HalfAYearInterval : MonthsGranularInterval<HalfAYearInterval>
 	{
-		public HalfAYearInterval(int year, int halfAYear)
-			: base(DateTimeHelper.GetStartOfHalfAYear(year, halfAYear), DateTimeHelper.GetOpenEndOfHalfAYear(year, halfAYear),
-				IntervalInclusion.RightOpen) =>
+		public HalfAYearInterval(int year, int halfAYear) : base(
+			DateTimeHelper.GetStartOfHalfAYear(year, halfAYear), DateTimeHelper.GetOpenedEndOfHalfAYear(year, halfAYear),
+			IntervalInclusion.RightOpened) =>
 			(Year, HalfAYear) = (year, halfAYear);
 
 		private HalfAYearInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>

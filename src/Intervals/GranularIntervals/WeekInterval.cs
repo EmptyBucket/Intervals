@@ -28,7 +28,7 @@ namespace Intervals.GranularIntervals
 {
 	public class WeekInterval : GranularInterval<WeekInterval>
 	{
-		public WeekInterval(DateTime dateTime) : base(dateTime, dateTime.AddDays(7), IntervalInclusion.RightOpen) =>
+		public WeekInterval(DateTime dateTime) : base(dateTime, dateTime.AddDays(7), IntervalInclusion.RightOpened) =>
 			DateTime = dateTime;
 
 		private WeekInterval(IPoint<DateTime> left, IPoint<DateTime> right) : base(left, right) => DateTime = left.Value;

@@ -30,9 +30,9 @@ namespace Intervals.Intervals
 	[Flags]
 	public enum IntervalInclusion
 	{
-		Opened = Inclusion.Excluded << EndLocation.Left | Inclusion.Excluded << EndLocation.Right,
-		LeftOpened = Inclusion.Excluded << EndLocation.Left | Inclusion.Included << EndLocation.Right,
-		RightOpened = Inclusion.Included << EndLocation.Left | Inclusion.Excluded << EndLocation.Right,
-		Closed = Inclusion.Included << EndLocation.Left | Inclusion.Included << EndLocation.Right
+		Opened = Inclusion.Excluded << EndpointLocation.Left | Inclusion.Excluded << EndpointLocation.Right,
+		LeftOpened = Inclusion.Excluded << EndpointLocation.Left | Inclusion.Included << EndpointLocation.Right,
+		RightOpened = Inclusion.Included << EndpointLocation.Left | Inclusion.Excluded << EndpointLocation.Right,
+		Closed = Inclusion.Included << EndpointLocation.Left | Inclusion.Included << EndpointLocation.Right
 	}
 }

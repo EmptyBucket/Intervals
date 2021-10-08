@@ -56,9 +56,9 @@ namespace Intervals.Test
 
 			var actual = Interval.New(leftPoint, rightPoint);
 
-			actual.Left.Location.Should().Be(EndLocation.Left);
+			actual.Left.Location.Should().Be(EndpointLocation.Left);
 			actual.Left.Should().BeEquivalentTo(leftPoint);
-			actual.Right.Location.Should().Be(EndLocation.Right);
+			actual.Right.Location.Should().Be(EndpointLocation.Right);
 			actual.Right.Should().BeEquivalentTo(rightPoint);
 		}
 
@@ -71,9 +71,9 @@ namespace Intervals.Test
 
 			var actual = Interval.New(leftValue, rightValue, intervalInclusion);
 
-			actual.Left.Location.Should().Be(EndLocation.Left);
+			actual.Left.Location.Should().Be(EndpointLocation.Left);
 			actual.Left.Value.Should().Be(leftValue);
-			actual.Right.Location.Should().Be(EndLocation.Right);
+			actual.Right.Location.Should().Be(EndpointLocation.Right);
 			actual.Right.Value.Should().Be(rightValue);
 			actual.Inclusion.Should().Be(intervalInclusion);
 		}

@@ -40,16 +40,16 @@ namespace Intervals.Intervals
 	{
 		protected internal Interval(IPoint<T> left, IPoint<T> right)
 		{
-			Left = Endpoint.New(left, EndLocation.Left);
-			Right = Endpoint.New(right, EndLocation.Right);
+			Left = Endpoint.New(left, EndpointLocation.Left);
+			Right = Endpoint.New(right, EndpointLocation.Right);
 			Inclusion = IntervalInclusionConvert.FromInclusions(left.Inclusion, right.Inclusion);
 		}
 
 		protected internal Interval(T leftValue, T rightValue, IntervalInclusion intervalInclusion)
 		{
 			var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
-			Left = Endpoint.New(Point.New(leftValue, leftInclusion), EndLocation.Left);
-			Right = Endpoint.New(Point.New(rightValue, rightInclusion), EndLocation.Right);
+			Left = Endpoint.New(Point.New(leftValue, leftInclusion), EndpointLocation.Left);
+			Right = Endpoint.New(Point.New(rightValue, rightInclusion), EndpointLocation.Right);
 			Inclusion = intervalInclusion;
 		}
 

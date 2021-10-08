@@ -30,7 +30,7 @@ namespace Intervals.GranularIntervals
 	{
 		public QuarterInterval(int year, int quarter)
 			: base(DateTimeHelper.GetStartOfQuarter(year, quarter), DateTimeHelper.GetOpenEndOfQuarter(year, quarter),
-				IntervalType.RightOpen) =>
+				IntervalInclusion.RightOpen) =>
 			(Year, Quarter) = (year, quarter);
 
 		private QuarterInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>

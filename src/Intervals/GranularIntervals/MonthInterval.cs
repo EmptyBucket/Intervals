@@ -30,7 +30,7 @@ namespace Intervals.GranularIntervals
 	{
 		public MonthInterval(int year, int month)
 			: base(DateTimeHelper.GetStartOfMonth(year, month), DateTimeHelper.GetOpenEndOfMonth(year, month),
-				IntervalType.RightOpen) =>
+				IntervalInclusion.RightOpen) =>
 			(Year, Month) = (year, month);
 
 		private MonthInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>

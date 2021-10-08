@@ -27,27 +27,28 @@ using NUnit.Framework;
 
 namespace Intervals.Test
 {
-	public class IntervalTypeConvertTests
+	public class IntervalInclusionConvertTests
 	{
-		[TestCase(Inclusion.Excluded, Inclusion.Excluded, IntervalType.Open)]
-		[TestCase(Inclusion.Excluded, Inclusion.Included, IntervalType.LeftOpen)]
-		[TestCase(Inclusion.Included, Inclusion.Excluded, IntervalType.RightOpen)]
-		[TestCase(Inclusion.Included, Inclusion.Included, IntervalType.Closed)]
-		public void FromInclusion_WhenGivenInclusions_ReturnIntervalType(Inclusion left, Inclusion right, IntervalType result)
+		[TestCase(Inclusion.Excluded, Inclusion.Excluded, IntervalInclusion.Open)]
+		[TestCase(Inclusion.Excluded, Inclusion.Included, IntervalInclusion.LeftOpen)]
+		[TestCase(Inclusion.Included, Inclusion.Excluded, IntervalInclusion.RightOpen)]
+		[TestCase(Inclusion.Included, Inclusion.Included, IntervalInclusion.Closed)]
+		public void FromInclusion_WhenGivenInclusions_ReturnIntervalInclusion(Inclusion left, Inclusion right,
+			IntervalInclusion result)
 		{
-			var actual = IntervalTypeConvert.FromInclusions(left, right);
+			var actual = IntervalInclusionConvert.FromInclusions(left, right);
 
 			actual.Should().Be(result);
 		}
 
-		[TestCase(IntervalType.Open, Inclusion.Excluded, Inclusion.Excluded)]
-		[TestCase(IntervalType.LeftOpen, Inclusion.Excluded, Inclusion.Included)]
-		[TestCase(IntervalType.RightOpen, Inclusion.Included, Inclusion.Excluded)]
-		[TestCase(IntervalType.Closed, Inclusion.Included, Inclusion.Included)]
-		public void ToInclusions_WhenGivenIntervalType_ReturnInclusions(IntervalType intervalType,
+		[TestCase(IntervalInclusion.Open, Inclusion.Excluded, Inclusion.Excluded)]
+		[TestCase(IntervalInclusion.LeftOpen, Inclusion.Excluded, Inclusion.Included)]
+		[TestCase(IntervalInclusion.RightOpen, Inclusion.Included, Inclusion.Excluded)]
+		[TestCase(IntervalInclusion.Closed, Inclusion.Included, Inclusion.Included)]
+		public void ToInclusions_WhenGivenIntervalInclusion_ReturnInclusions(IntervalInclusion intervalInclusion,
 			Inclusion left, Inclusion right)
 		{
-			var (actualLeft, actualRight) = IntervalTypeConvert.ToInclusions(intervalType);
+			var (actualLeft, actualRight) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
 
 			actualLeft.Should().Be(left);
 			actualRight.Should().Be(right);

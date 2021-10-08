@@ -35,8 +35,8 @@ namespace Intervals.GranularIntervals
 			: base(left, right) =>
 			_granulesCount = GranulesCount(left.Value, right.Value);
 
-		protected MonthsGranularInterval(DateTime leftValue, DateTime rightValue, IntervalType intervalType)
-			: base(leftValue, rightValue, intervalType) =>
+		protected MonthsGranularInterval(DateTime leftValue, DateTime rightValue, IntervalInclusion intervalInclusion)
+			: base(leftValue, rightValue, intervalInclusion) =>
 			_granulesCount = GranulesCount(leftValue, rightValue);
 
 		public TInterval GetPrev() => AddBatches(-1);

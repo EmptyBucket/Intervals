@@ -28,7 +28,7 @@ using System;
 namespace Intervals.Intervals
 {
 	[Flags]
-	public enum IntervalType
+	public enum IntervalInclusion
 	{
 		Open = Inclusion.Excluded << EndLocation.Left | Inclusion.Excluded << EndLocation.Right,
 		LeftOpen = Inclusion.Excluded << EndLocation.Left | Inclusion.Included << EndLocation.Right,

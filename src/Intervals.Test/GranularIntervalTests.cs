@@ -29,7 +29,7 @@ using NUnit.Framework;
 
 namespace Intervals.Test
 {
-	public class MonthsGranularIntervalTests
+	public class GranularIntervalTests
 	{
 		private Mock<IPoint<DateTime>> _leftPoint = null!;
 		private Mock<IPoint<DateTime>> _rightPoint = null!;
@@ -43,32 +43,30 @@ namespace Intervals.Test
 			_rightPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
 		}
 
-		[TestCaseSource(typeof(MonthsGranularIntervalGetNextData))]
-		public void GetNext(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-			DateTime expectedRightValue)
+		[Test]
+		public void GetNext__ReturnNext()
 		{
-			_leftPoint.Setup(p => p.Value).Returns(leftValue);
-			_rightPoint.Setup(p => p.Value).Returns(rightValue);
-			var fooInterval = new FooMonthsGranularInterval(_leftPoint.Object, _rightPoint.Object);
+			_leftPoint.Setup(p => p.Value).Returns(new DateTime(2021, 1, 1, 1, 1, 1));
+			_rightPoint.Setup(p => p.Value).Returns(new DateTime(2022, 1, 4, 5, 6, 7));
+			var fooInterval = new FooGranularInterval(_leftPoint.Object, _rightPoint.Object);
 
 			var actual = fooInterval.GetNext();
 
-			actual.Left.Value.Should().Be(expectedLeftValue);
-			actual.Right.Value.Should().Be(expectedRightValue);
+			actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+			actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
 		}
 
-		[TestCaseSource(typeof(MonthsGranularIntervalGetPrevData))]
-		public void GetPrev(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-			DateTime expectedRightValue)
+		[Test]
+		public void GetPrev__ReturnPrev()
 		{
-			_leftPoint.Setup(p => p.Value).Returns(leftValue);
-			_rightPoint.Setup(p => p.Value).Returns(rightValue);
-			var fooInterval = new FooMonthsGranularInterval(_leftPoint.Object, _rightPoint.Object);
+			_leftPoint.Setup(p => p.Value).Returns(new DateTime(2022, 1, 4, 5, 6, 7));
+			_rightPoint.Setup(p => p.Value).Returns(new DateTime(2023, 1, 7, 9, 11, 13));
+			var fooInterval = new FooGranularInterval(_leftPoint.Object, _rightPoint.Object);
 
 			var actual = fooInterval.GetPrev();
 
-			actual.Left.Value.Should().Be(expectedLeftValue);
-			actual.Right.Value.Should().Be(expectedRightValue);
+			actual.Left.Value.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
+			actual.Right.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
 		}
 	}
 }

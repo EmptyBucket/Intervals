@@ -27,13 +27,13 @@ using Intervals.Intervals;
 
 namespace Intervals.Test
 {
-	public class FooInterval : MonthsGranularInterval<FooInterval>
+	public class FooMonthsGranularInterval : MonthsGranularInterval<FooMonthsGranularInterval>
 	{
-		public FooInterval(IPoint<DateTime> left, IPoint<DateTime> right) : base(left, right)
+		public FooMonthsGranularInterval(IPoint<DateTime> left, IPoint<DateTime> right) : base(left, right)
 		{
 		}
 
-		protected override FooInterval Create(Point<DateTime> left, Point<DateTime> right) =>
-			new FooInterval(left, right);
+		protected override FooMonthsGranularInterval Create(Point<DateTime> left, Point<DateTime> right) =>
+			new FooMonthsGranularInterval(left, right);
 	}
 }

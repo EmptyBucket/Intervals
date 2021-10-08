@@ -28,9 +28,9 @@ namespace Intervals.GranularIntervals
 {
 	public class QuarterInterval : MonthsGranularInterval<QuarterInterval>
 	{
-		public QuarterInterval(int year, int quarter)
-			: base(DateTimeHelper.GetStartOfQuarter(year, quarter), DateTimeHelper.GetOpenEndOfQuarter(year, quarter),
-				IntervalInclusion.RightOpen) =>
+		public QuarterInterval(int year, int quarter) : base(
+			DateTimeHelper.GetStartOfQuarter(year, quarter), DateTimeHelper.GetOpenedEndOfQuarter(year, quarter),
+			IntervalInclusion.RightOpened) =>
 			(Year, Quarter) = (year, quarter);
 
 		private QuarterInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>

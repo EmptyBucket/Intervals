@@ -67,7 +67,7 @@ namespace Intervals.Test
 		{
 			const int leftValue = 0;
 			const int rightValue = 1;
-			const IntervalInclusion intervalInclusion = IntervalInclusion.Open;
+			const IntervalInclusion intervalInclusion = IntervalInclusion.Opened;
 
 			var actual = Interval.New(leftValue, rightValue, intervalInclusion);
 

@@ -21,18 +21,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ReSharper disable ShiftExpressionZeroLeftOperand
+using FluentAssertions;
+using Intervals.Intervals;
+using NUnit.Framework;
 
-using System;
-
-namespace Intervals.Intervals
+namespace Intervals.Test
 {
-	[Flags]
-	public enum IntervalType
+	public class EndLocationTests
 	{
-		Open = Inclusion.Excluded << EndLocation.Left | Inclusion.Excluded << EndLocation.Right,
-		LeftOpen = Inclusion.Excluded << EndLocation.Left | Inclusion.Included << EndLocation.Right,
-		RightOpen = Inclusion.Included << EndLocation.Left | Inclusion.Excluded << EndLocation.Right,
-		Closed = Inclusion.Included << EndLocation.Left | Inclusion.Included << EndLocation.Right
+		[Test]
+		public void Invert_WhenLeft_ReturnRight()
+		{
+			const EndLocation endLocation = EndLocation.Left;
+
+			var actual = endLocation.Invert();
+
+			actual.Should().Be(EndLocation.Right);
+		}
+
+		[Test]
+		public void Invert_WhenRight_ReturnLeft()
+		{
+			const EndLocation endLocation = EndLocation.Right;
+
+			var actual = endLocation.Invert();
+
+			actual.Should().Be(EndLocation.Left);
+		}
 	}
 }

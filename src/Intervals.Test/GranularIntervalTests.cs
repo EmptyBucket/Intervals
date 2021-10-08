@@ -23,6 +23,7 @@
 
 using System;
 using FluentAssertions;
+using Intervals.GranularIntervals;
 using Intervals.Intervals;
 using Moq;
 using NUnit.Framework;
@@ -48,7 +49,7 @@ namespace Intervals.Test
 		{
 			_leftPoint.Setup(p => p.Value).Returns(new DateTime(2021, 1, 1, 1, 1, 1));
 			_rightPoint.Setup(p => p.Value).Returns(new DateTime(2022, 1, 4, 5, 6, 7));
-			var fooInterval = new FooGranularInterval(_leftPoint.Object, _rightPoint.Object);
+			var fooInterval = new GranularInterval(_leftPoint.Object, _rightPoint.Object);
 
 			var actual = fooInterval.GetNext();
 
@@ -61,7 +62,7 @@ namespace Intervals.Test
 		{
 			_leftPoint.Setup(p => p.Value).Returns(new DateTime(2022, 1, 4, 5, 6, 7));
 			_rightPoint.Setup(p => p.Value).Returns(new DateTime(2023, 1, 7, 9, 11, 13));
-			var fooInterval = new FooGranularInterval(_leftPoint.Object, _rightPoint.Object);
+			var fooInterval = new GranularInterval(_leftPoint.Object, _rightPoint.Object);
 
 			var actual = fooInterval.GetPrev();
 

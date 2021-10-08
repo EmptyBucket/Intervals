@@ -22,11 +22,11 @@
 // SOFTWARE.
 
 using System.Collections;
+using Intervals.Intervals;
 using Moq;
 using NUnit.Framework;
-using PeriodNet.Intervals;
 
-namespace PeriodNet.Test
+namespace Intervals.Test
 {
 	public class EndpointCompareToSameValueData : IEnumerable
 	{

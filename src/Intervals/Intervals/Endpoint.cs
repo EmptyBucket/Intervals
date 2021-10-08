@@ -23,7 +23,7 @@
 
 using System;
 
-namespace PeriodNet.Intervals
+namespace Intervals.Intervals
 {
 	public static class Endpoint
 	{

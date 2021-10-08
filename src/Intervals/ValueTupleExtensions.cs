@@ -22,9 +22,9 @@
 // SOFTWARE.
 
 using System;
-using PeriodNet.Intervals;
+using Intervals.Intervals;
 
-namespace PeriodNet
+namespace Intervals
 {
 	public static class ValueTupleExtensions
 	{

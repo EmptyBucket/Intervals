@@ -23,11 +23,11 @@
 
 using System;
 using FluentAssertions;
+using Intervals.Intervals;
 using Moq;
 using NUnit.Framework;
-using PeriodNet.Intervals;
 
-namespace PeriodNet.Test
+namespace Intervals.Test
 {
 	public class MonthsGranularIntervalTests
 	{

@@ -25,7 +25,7 @@ using System;
 using System.Collections;
 using NUnit.Framework;
 
-namespace PeriodNet.Test
+namespace Intervals.Test
 {
 	public class MonthsGranularIntervalGetPrevData : IEnumerable
 	{

@@ -24,7 +24,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PeriodNet.Intervals
+namespace Intervals.Intervals
 {
 	//фичи:
 	//лучи

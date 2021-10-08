@@ -22,10 +22,10 @@
 // SOFTWARE.
 
 using FluentAssertions;
+using Intervals.Intervals;
 using NUnit.Framework;
-using PeriodNet.Intervals;
 
-namespace PeriodNet.Test
+namespace Intervals.Test
 {
 	public class IntervalCombineTests
 	{

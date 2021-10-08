@@ -25,7 +25,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace PeriodNet.Intervals
+namespace Intervals.Intervals
 {
 	public static class Interval
 	{

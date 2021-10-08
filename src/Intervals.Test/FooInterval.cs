@@ -22,10 +22,10 @@
 // SOFTWARE.
 
 using System;
-using PeriodNet.GranularIntervals;
-using PeriodNet.Intervals;
+using Intervals.GranularIntervals;
+using Intervals.Intervals;
 
-namespace PeriodNet.Test
+namespace Intervals.Test
 {
 	public class FooInterval : MonthsGranularInterval<FooInterval>
 	{

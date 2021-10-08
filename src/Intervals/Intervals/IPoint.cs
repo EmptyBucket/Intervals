@@ -23,7 +23,7 @@
 
 using System;
 
-namespace PeriodNet.Intervals
+namespace Intervals.Intervals
 {
 	public interface IPoint<T> : IEquatable<IPoint<T>> where T : IEquatable<T>
 	{

@@ -22,9 +22,9 @@
 // SOFTWARE.
 
 using System;
-using PeriodNet.Intervals;
+using Intervals.Intervals;
 
-namespace PeriodNet.GranularIntervals
+namespace Intervals.GranularIntervals
 {
 	public class YearInterval : MonthsGranularInterval<YearInterval>
 	{

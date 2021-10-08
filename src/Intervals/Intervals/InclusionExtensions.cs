@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace PeriodNet.Intervals
+namespace Intervals.Intervals
 {
 	public static class InclusionExtensions
 	{

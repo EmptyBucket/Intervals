@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace PeriodNet.Intervals
+namespace Intervals.Intervals
 {
 	public static partial class IntervalsExtensions
 	{

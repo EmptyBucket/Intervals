@@ -23,7 +23,7 @@
 
 using System;
 
-namespace PeriodNet
+namespace Intervals
 {
 	internal static class DateTimeHelper
 	{

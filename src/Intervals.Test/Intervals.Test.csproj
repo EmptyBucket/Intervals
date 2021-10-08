@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>default</LangVersion>
+        <Nullable>enable</Nullable>
+        <RootNamespace>PeriodNet.Test</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="FluentAssertions" Version="6.1.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+      <PackageReference Include="Moq" Version="4.16.1" />
+      <PackageReference Include="NUnit" Version="3.13.2" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Intervals\Intervals.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -25,52 +25,47 @@ using System.Collections;
 
 namespace Intervals.Intervals;
 
-public static class Interval
+public record Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
-	public static IInterval<T> New<T>(IPoint<T> left, IPoint<T> right)
-		where T : IEquatable<T>, IComparable<T> => new Interval<T>(left, right);
+    public Interval(IPoint<T> left, IPoint<T> right)
+    {
+        Left = new Endpoint<T>(left, EndpointLocation.Left);
+        Right = new Endpoint<T>(right, EndpointLocation.Right);
+        Inclusion = IntervalInclusionConvert.FromInclusions(left.Inclusion, right.Inclusion);
+    }
 
-	public static IInterval<T> New<T>(T leftValue, T rightValue, IntervalInclusion intervalInclusion)
-		where T : IEquatable<T>, IComparable<T> => new Interval<T>(leftValue, rightValue, intervalInclusion);
-}
+    public Interval(T leftValue, T rightValue, IntervalInclusion intervalInclusion = IntervalInclusion.RightOpened)
+    {
+        var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
+        Left = new Endpoint<T>(new Point<T>(leftValue, leftInclusion), EndpointLocation.Left);
+        Right = new Endpoint<T>(new Point<T>(rightValue, rightInclusion), EndpointLocation.Right);
+        Inclusion = intervalInclusion;
+    }
 
-public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
-{
-	protected internal Interval(IPoint<T> left, IPoint<T> right)
-	{
-		Left = Endpoint.New(left, EndpointLocation.Left);
-		Right = Endpoint.New(right, EndpointLocation.Right);
-		Inclusion = IntervalInclusionConvert.FromInclusions(left.Inclusion, right.Inclusion);
-	}
+    public virtual IEndpoint<T> Left { get; }
 
-	protected internal Interval(T leftValue, T rightValue, IntervalInclusion intervalInclusion)
-	{
-		var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
-		Left = Endpoint.New(Point.New(leftValue, leftInclusion), EndpointLocation.Left);
-		Right = Endpoint.New(Point.New(rightValue, rightInclusion), EndpointLocation.Right);
-		Inclusion = intervalInclusion;
-	}
+    public virtual IEndpoint<T> Right { get; }
 
-	public virtual IEndpoint<T> Left { get; }
+    public IntervalInclusion Inclusion { get; }
 
-	public virtual IEndpoint<T> Right { get; }
+    public bool Equals(IInterval<T>? other) =>
+        other is Interval<T> otherInterval && Left.Equals(otherInterval.Left) && Right.Equals(otherInterval.Right);
 
-	public IntervalInclusion Inclusion { get; }
+    public int CompareTo(IInterval<T>? other)
+    {
+        if (other == null) return 1;
 
-	public bool Equals(IInterval<T> other) => Left.Equals(other.Left) && Right.Equals(other.Right);
+        return Left.CompareTo(other.Left) is var leftCompared && leftCompared != 0
+            ? leftCompared
+            : Right.CompareTo(other.Right);
+    }
 
-	public int CompareTo(IInterval<T> other) => Left.CompareTo(other.Left) is var leftCompareTo && leftCompareTo != 0
-		? leftCompareTo
-		: Right.CompareTo(other.Right);
+    public IEnumerator<IInterval<T>> GetEnumerator()
+    {
+        yield return this;
+    }
 
-	public override int GetHashCode() => HashCode.Combine(Left, Right);
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-	public IEnumerator<IInterval<T>> GetEnumerator()
-	{
-		yield return this;
-	}
-
-	IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-	public override string ToString() => $"{Left}, {Right}";
+    public override string ToString() => $"{Left}, {Right}";
 }

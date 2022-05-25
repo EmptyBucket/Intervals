@@ -54,7 +54,7 @@ public class IntervalTests
 		var leftPoint = new Mock<IPoint<int>>().Object;
 		var rightPoint = new Mock<IPoint<int>>().Object;
 
-		var actual = Interval.New(leftPoint, rightPoint);
+		var actual = (IInterval<int>)new Interval<int>(leftPoint, rightPoint);
 
 		actual.Left.Location.Should().Be(EndpointLocation.Left);
 		actual.Left.Should().BeEquivalentTo(leftPoint);
@@ -69,7 +69,7 @@ public class IntervalTests
 		const int rightValue = 1;
 		const IntervalInclusion intervalInclusion = IntervalInclusion.Opened;
 
-		var actual = Interval.New(leftValue, rightValue, intervalInclusion);
+		var actual = (IInterval<int>)new Interval<int>(leftValue, rightValue, intervalInclusion);
 
 		actual.Left.Location.Should().Be(EndpointLocation.Left);
 		actual.Left.Value.Should().Be(leftValue);

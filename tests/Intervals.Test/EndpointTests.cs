@@ -24,7 +24,7 @@ public class EndpointTests
 	{
 		var point = _firstPoint.Object;
 
-		var actual = Endpoint.New(point, endpointLocation);
+		var actual = (IEndpoint<int>)new Endpoint<int>(point, endpointLocation);
 
 		actual.Should().BeEquivalentTo(point);
 		actual.Location.Should().Be(endpointLocation);
@@ -34,8 +34,8 @@ public class EndpointTests
 	public void Equals_WhenHasSameMembers_ReturnTrue()
 	{
 		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
-		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
+		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
+		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Left);
 
 		var actual = first.Equals(second);
 
@@ -46,8 +46,8 @@ public class EndpointTests
 	public void Equals_WhenHasOtherLocation_ReturnFalse()
 	{
 		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
-		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Right);
+		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
+		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Right);
 
 		var actual = first.Equals(second);
 
@@ -58,8 +58,8 @@ public class EndpointTests
 	public void Equals_WhenHasOtherPoint_ReturnFalse()
 	{
 		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(false);
-		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
+		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
+		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Left);
 
 		var actual = first.Equals(second);
 
@@ -71,8 +71,8 @@ public class EndpointTests
 	{
 		_firstPoint.Setup(p => p.Value).Returns(-1);
 		_secondPoint.Setup(p => p.Value).Returns(0);
-		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
+		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
+		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Left);
 
 		var actual = first.CompareTo(second);
 
@@ -92,8 +92,8 @@ public class EndpointTests
 	{
 		_firstPoint.Setup(p => p.Value).Returns(1);
 		_secondPoint.Setup(p => p.Value).Returns(0);
-		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
+		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
+		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Left);
 
 		var actual = first.CompareTo(second);
 

@@ -13,7 +13,7 @@ public class IntervalExtensionsTests
 	[TestCase(IntervalInclusion.RightOpened)]
 	public void IsEmpty_WhenLeftLessThanRight_ReturnTrue(IntervalInclusion inclusion)
 	{
-		var interval = Interval.New(0, -1, inclusion);
+		var interval = (IInterval<int>)new Interval<int>(0, -1, inclusion);
 
 		var actual = interval.IsEmpty();
 
@@ -23,7 +23,7 @@ public class IntervalExtensionsTests
 	[Test]
 	public void IsEmpty_WhenClosedIntervalWithEqualEndpoints_ReturnFalse()
 	{
-		var interval = Interval.New(0, 0, IntervalInclusion.Closed);
+		var interval = (IInterval<int>)new Interval<int>(0, 0, IntervalInclusion.Closed);
 
 		var actual = interval.IsEmpty();
 
@@ -36,7 +36,7 @@ public class IntervalExtensionsTests
 	[TestCase(IntervalInclusion.RightOpened)]
 	public void IsEmpty_WhenNonClosedIntervalWithEqualEndpoints_ReturnTrue(IntervalInclusion inclusion)
 	{
-		var interval = Interval.New(0, 0, inclusion);
+		var interval = (IInterval<int>)new Interval<int>(0, 0, inclusion);
 
 		var actual = interval.IsEmpty();
 
@@ -50,7 +50,7 @@ public class IntervalExtensionsTests
 	[TestCase(IntervalInclusion.RightOpened)]
 	public void IsEmpty_WhenIntervalWithNonEqualEndpoints_ReturnFalse(IntervalInclusion inclusion)
 	{
-		var interval = Interval.New(0, 1, inclusion);
+		var interval = (IInterval<int>)new Interval<int>(0, 1, inclusion);
 
 		var actual = interval.IsEmpty();
 
@@ -60,8 +60,8 @@ public class IntervalExtensionsTests
 	[Test]
 	public void IsOverlap_WhenIntervalsNotIntersect_ReturnFalse()
 	{
-		var left = Interval.New(0, 1, IntervalInclusion.Closed);
-		var right = Interval.New(2, 3, IntervalInclusion.Closed);
+		var left = (IInterval<int>)new Interval<int>(0, 1, IntervalInclusion.Closed);
+		var right = (IInterval<int>)new Interval<int>(2, 3, IntervalInclusion.Closed);
 
 		var actual1 = left.IsOverlap(right);
 		var actual2 = right.IsOverlap(left);
@@ -73,8 +73,8 @@ public class IntervalExtensionsTests
 	[Test]
 	public void IsOverlap_WhenOpenedIntervalsHaveSameEndpointWithDifferentLocation_ReturnFalse()
 	{
-		var left = Interval.New(0, 1, IntervalInclusion.Opened);
-		var right = Interval.New(1, 2, IntervalInclusion.Opened);
+		var left = (IInterval<int>)new Interval<int>(0, 1, IntervalInclusion.Opened);
+		var right = (IInterval<int>)new Interval<int>(1, 2, IntervalInclusion.Opened);
 
 		var actual1 = left.IsOverlap(right);
 		var actual2 = right.IsOverlap(left);
@@ -86,8 +86,8 @@ public class IntervalExtensionsTests
 	[Test]
 	public void IsOverlap_WhenClosedIntervalsHaveSameEndpointWithDifferentLocation_ReturnTrue()
 	{
-		var left = Interval.New(0, 1, IntervalInclusion.Closed);
-		var right = Interval.New(1, 2, IntervalInclusion.Closed);
+		var left = (IInterval<int>)new Interval<int>(0, 1, IntervalInclusion.Closed);
+		var right = (IInterval<int>)new Interval<int>(1, 2, IntervalInclusion.Closed);
 
 		var actual1 = left.IsOverlap(right);
 		var actual2 = right.IsOverlap(left);
@@ -99,8 +99,8 @@ public class IntervalExtensionsTests
 	[Test]
 	public void IsOverlap_WhenIntervalsIntersect_ReturnTrue()
 	{
-		var left = Interval.New(0, 2, IntervalInclusion.Closed);
-		var right = Interval.New(1, 3, IntervalInclusion.Closed);
+		var left = (IInterval<int>)new Interval<int>(0, 2, IntervalInclusion.Closed);
+		var right = (IInterval<int>)new Interval<int>(1, 3, IntervalInclusion.Closed);
 
 		var actual1 = left.IsOverlap(right);
 		var actual2 = right.IsOverlap(left);
@@ -112,8 +112,8 @@ public class IntervalExtensionsTests
 	[Test]
 	public void IsInclude_WhenIntervalsNotIntersect_ReturnFalse()
 	{
-		var left = Interval.New(0, 1, IntervalInclusion.Closed);
-		var right = Interval.New(2, 3, IntervalInclusion.Closed);
+		var left = (IInterval<int>)new Interval<int>(0, 1, IntervalInclusion.Closed);
+		var right = (IInterval<int>)new Interval<int>(2, 3, IntervalInclusion.Closed);
 
 		var actual = left.IsInclude(right);
 
@@ -123,8 +123,8 @@ public class IntervalExtensionsTests
 	[Test]
 	public void IsInclude_WhenIntervalsIntersectButNotContain_ReturnFalse()
 	{
-		var left = Interval.New(0, 2, IntervalInclusion.Closed);
-		var right = Interval.New(1, 3, IntervalInclusion.Closed);
+		var left = (IInterval<int>)new Interval<int>(0, 2, IntervalInclusion.Closed);
+		var right = (IInterval<int>)new Interval<int>(1, 3, IntervalInclusion.Closed);
 
 		var actual = left.IsInclude(right);
 
@@ -141,8 +141,8 @@ public class IntervalExtensionsTests
 	[TestCase(IntervalInclusion.RightOpened, IntervalInclusion.LeftOpened)]
 	public void IsInclude_WhenNotContainEndpoints_ReturnFalse(IntervalInclusion outerInclusion, IntervalInclusion innerInclusion)
 	{
-		var outer = Interval.New(0, 1, outerInclusion);
-		var inner = Interval.New(0, 1, innerInclusion);
+		var outer = (IInterval<int>)new Interval<int>(0, 1, outerInclusion);
+		var inner = (IInterval<int>)new Interval<int>(0, 1, innerInclusion);
 
 		var actual = outer.IsInclude(inner);
 
@@ -161,8 +161,8 @@ public class IntervalExtensionsTests
 	[TestCase(IntervalInclusion.RightOpened, IntervalInclusion.RightOpened)]
 	public void IsInclude_WhenContainEndpoints_ReturnTrue(IntervalInclusion outerInclusion, IntervalInclusion innerInclusion)
 	{
-		var outer = Interval.New(0, 1, outerInclusion);
-		var inner = Interval.New(0, 1, innerInclusion);
+		var outer = (IInterval<int>)new Interval<int>(0, 1, outerInclusion);
+		var inner = (IInterval<int>)new Interval<int>(0, 1, innerInclusion);
 
 		var actual = outer.IsInclude(inner);
 
@@ -172,8 +172,8 @@ public class IntervalExtensionsTests
 	[Test]
 	public void IsInclude_WhenOuterIsBigger_ReturnTrue()
 	{
-		var outer = Interval.New(0, 5, IntervalInclusion.Closed);
-		var inner = Interval.New(1, 2, IntervalInclusion.Closed);
+		var outer = (IInterval<int>)new Interval<int>(0, 5, IntervalInclusion.Closed);
+		var inner = (IInterval<int>)new Interval<int>(1, 2, IntervalInclusion.Closed);
 
 		var actual = outer.IsInclude(inner);
 

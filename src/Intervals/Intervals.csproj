@@ -5,10 +5,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-      <None Remove="PeriodNet.csproj.DotSettings" />
+        <None Remove="PeriodNet.csproj.DotSettings" />
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
+        <PackageReference Include="System.Collections.Immutable" Version="1.7.0" />
     </ItemGroup>
 
 </Project>

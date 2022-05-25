@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intervals", "Intervals\Intervals.csproj", "{34FB6750-6241-4202-897E-9DD13BA64237}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intervals", "src\Intervals\Intervals.csproj", "{34FB6750-6241-4202-897E-9DD13BA64237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intervals.Test", "Intervals.Test\Intervals.Test.csproj", "{85C67CC0-5A25-48B6-BB92-14E56A7AFE11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intervals.Test", "tests\Intervals.Test\Intervals.Test.csproj", "{85C67CC0-5A25-48B6-BB92-14E56A7AFE11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

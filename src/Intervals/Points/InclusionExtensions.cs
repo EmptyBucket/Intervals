@@ -1,4 +1,4 @@
-namespace Intervals.Intervals;
+namespace Intervals.Points;
 
 public static class InclusionExtensions
 {

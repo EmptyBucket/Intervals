@@ -1,10 +1,12 @@
-namespace Intervals.Intervals;
+using Intervals.Utils;
 
-public readonly record struct Endpoint<T> : IEndpoint<T> where T : IComparable<T>, IEquatable<T>
+namespace Intervals.Points;
+
+public readonly record struct Endpoint<T> : IComparable<Endpoint<T>> where T : IComparable<T>, IEquatable<T>
 {
-    private readonly IPoint<T> _point;
+    private readonly Point<T> _point;
 
-    public Endpoint(IPoint<T> point, EndpointLocation location)
+    public Endpoint(Point<T> point, EndpointLocation location)
     {
         _point = point;
         Location = location;
@@ -16,10 +18,8 @@ public readonly record struct Endpoint<T> : IEndpoint<T> where T : IComparable<T
 
     public EndpointLocation Location { get; }
 
-    public int CompareTo(IEndpoint<T>? other)
+    public int CompareTo(Endpoint<T> other)
     {
-        if (other == null) return 1;
-
         var valueCompared = Value.CompareTo(other.Value);
 
         if (valueCompared != 0) return valueCompared;
@@ -39,10 +39,6 @@ public readonly record struct Endpoint<T> : IEndpoint<T> where T : IComparable<T
         return inclusionCompared * BitHelper.ToSign((int)thisIsLeft);
     }
 
-    public bool Equals(IEndpoint<T>? other) => other is Endpoint<T> otherEndpoint && Equals(otherEndpoint);
-
-    public bool Equals(IPoint<T>? other) => _point.Equals(other);
-
     public override string ToString() => Location switch
     {
         EndpointLocation.Left => Inclusion switch
@@ -60,13 +56,5 @@ public readonly record struct Endpoint<T> : IEndpoint<T> where T : IComparable<T
         _ => throw new ArgumentOutOfRangeException()
     };
 
-    private static class BitHelper
-    {
-        /// <summary>
-        /// Convert least significant bit to sign int. From 0 to 1, from 1 to -1
-        /// </summary>
-        /// <param name="bit">least significant bit</param>
-        /// <returns>sign int</returns>
-        public static int ToSign(int bit) => -bit | 1;
-    }
+    public static implicit operator Point<T>(Endpoint<T> endpoint) => endpoint._point;
 }

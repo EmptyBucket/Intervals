@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Intervals.Intervals;
+using Intervals.Points;
 using Moq;
 using NUnit.Framework;
 
@@ -7,25 +8,13 @@ namespace Intervals.Test;
 
 public class MonthsGranularIntervalTests
 {
-	private Mock<IPoint<DateTime>> _leftPoint = null!;
-	private Mock<IPoint<DateTime>> _rightPoint = null!;
-
-	[SetUp]
-	public void Init()
-	{
-		_leftPoint = new Mock<IPoint<DateTime>>();
-		_leftPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
-		_rightPoint = new Mock<IPoint<DateTime>>();
-		_rightPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
-	}
-
 	[TestCaseSource(typeof(MonthsGranularIntervalGetNextData))]
 	public void GetNext(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
 		DateTime expectedRightValue)
 	{
-		_leftPoint.Setup(p => p.Value).Returns(leftValue);
-		_rightPoint.Setup(p => p.Value).Returns(rightValue);
-		var fooInterval = new FooMonthsGranularInterval(_leftPoint.Object, _rightPoint.Object);
+		var left = Point.Excluded(leftValue);
+		var right = Point.Excluded(rightValue);
+		var fooInterval = new FooMonthsGranularInterval(left, right);
 
 		var actual = fooInterval.GetNext();
 
@@ -37,9 +26,9 @@ public class MonthsGranularIntervalTests
 	public void GetPrev(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
 		DateTime expectedRightValue)
 	{
-		_leftPoint.Setup(p => p.Value).Returns(leftValue);
-		_rightPoint.Setup(p => p.Value).Returns(rightValue);
-		var fooInterval = new FooMonthsGranularInterval(_leftPoint.Object, _rightPoint.Object);
+		var left = Point.Excluded(leftValue);
+		var right = Point.Excluded(rightValue);
+		var fooInterval = new FooMonthsGranularInterval(left, right);
 
 		var actual = fooInterval.GetPrev();
 

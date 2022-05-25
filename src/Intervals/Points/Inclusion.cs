@@ -1,4 +1,4 @@
-namespace Intervals.Intervals;
+namespace Intervals.Points;
 
 [Flags]
 public enum Inclusion

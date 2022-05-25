@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Intervals.Intervals;
+using Intervals.Points;
 using Moq;
 using NUnit.Framework;
 
@@ -7,35 +8,11 @@ namespace Intervals.Test;
 
 public class EndpointTests
 {
-	private Mock<IPoint<int>> _firstPoint = null!;
-	private Mock<IPoint<int>> _secondPoint = null!;
-
-	[SetUp]
-	public void Init()
-	{
-		_firstPoint = new Mock<IPoint<int>>();
-		_secondPoint = new Mock<IPoint<int>>();
-	}
-
-	[Test]
-	[TestCase(EndpointLocation.Left)]
-	[TestCase(EndpointLocation.Right)]
-	public void New_WhenGivenLocation_ReturnEndpointWithLocation(EndpointLocation endpointLocation)
-	{
-		var point = _firstPoint.Object;
-
-		var actual = (IEndpoint<int>)new Endpoint<int>(point, endpointLocation);
-
-		actual.Should().BeEquivalentTo(point);
-		actual.Location.Should().Be(endpointLocation);
-	}
-
 	[Test]
 	public void Equals_WhenHasSameMembers_ReturnTrue()
 	{
-		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
-		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
-		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Left);
+		var first = new Endpoint<int>(new Point<int>(), EndpointLocation.Left);
+		var second = new Endpoint<int>(new Point<int>(), EndpointLocation.Left);
 
 		var actual = first.Equals(second);
 
@@ -45,9 +22,8 @@ public class EndpointTests
 	[Test]
 	public void Equals_WhenHasOtherLocation_ReturnFalse()
 	{
-		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
-		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
-		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Right);
+		var first = new Endpoint<int>(new Point<int>(), EndpointLocation.Left);
+		var second = new Endpoint<int>(new Point<int>(), EndpointLocation.Right);
 
 		var actual = first.Equals(second);
 
@@ -57,9 +33,8 @@ public class EndpointTests
 	[Test]
 	public void Equals_WhenHasOtherPoint_ReturnFalse()
 	{
-		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(false);
-		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
-		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Left);
+		var first = new Endpoint<int>(Point.Included(0), EndpointLocation.Left);
+		var second = new Endpoint<int>(Point.Included(1), EndpointLocation.Left);
 
 		var actual = first.Equals(second);
 
@@ -69,10 +44,8 @@ public class EndpointTests
 	[Test]
 	public void CompareTo_WhenHasLessValue_ReturnResult()
 	{
-		_firstPoint.Setup(p => p.Value).Returns(-1);
-		_secondPoint.Setup(p => p.Value).Returns(0);
-		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
-		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Left);
+		var first = new Endpoint<int>(Point.Included(-1), EndpointLocation.Left);
+		var second = new Endpoint<int>(Point.Included(0), EndpointLocation.Left);
 
 		var actual = first.CompareTo(second);
 
@@ -80,7 +53,7 @@ public class EndpointTests
 	}
 
 	[TestCaseSource(typeof(EndpointCompareToSameValueData))]
-	public void CompareTo_WhenHasSameValue(IEndpoint<int> first, IEndpoint<int> second, int result)
+	public void CompareTo_WhenHasSameValue(Endpoint<int> first, Endpoint<int> second, int result)
 	{
 		var actual = first.CompareTo(second);
 
@@ -90,10 +63,8 @@ public class EndpointTests
 	[Test]
 	public void CompareTo_WhenHasMoreValue_ReturnResult()
 	{
-		_firstPoint.Setup(p => p.Value).Returns(1);
-		_secondPoint.Setup(p => p.Value).Returns(0);
-		var first = (IEndpoint<int>)new Endpoint<int>(_firstPoint.Object, EndpointLocation.Left);
-		var second = (IEndpoint<int>)new Endpoint<int>(_secondPoint.Object, EndpointLocation.Left);
+		var first = new Endpoint<int>(Point.Included(1), EndpointLocation.Left);
+		var second = new Endpoint<int>(Point.Included(0), EndpointLocation.Left);
 
 		var actual = first.CompareTo(second);
 

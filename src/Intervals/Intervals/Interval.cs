@@ -25,7 +25,7 @@ using System.Collections;
 
 namespace Intervals.Intervals;
 
-public record Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
+public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
     public Interval(IPoint<T> left, IPoint<T> right)
     {

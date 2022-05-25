@@ -21,14 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+namespace Intervals.Intervals;
 
-namespace Intervals.Intervals
+[Flags]
+public enum Inclusion
 {
-	[Flags]
-	public enum Inclusion
-	{
-		Excluded = 0,
-		Included = 1
-	}
+	Excluded = 0,
+	Included = 1
 }

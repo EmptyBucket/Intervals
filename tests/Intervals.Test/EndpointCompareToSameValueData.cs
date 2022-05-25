@@ -26,84 +26,83 @@ using Intervals.Intervals;
 using Moq;
 using NUnit.Framework;
 
-namespace Intervals.Test
+namespace Intervals.Test;
+
+public class EndpointCompareToSameValueData : IEnumerable
 {
-	public class EndpointCompareToSameValueData : IEnumerable
+	public IEnumerator GetEnumerator()
 	{
-		public IEnumerator GetEnumerator()
-		{
-			var excludedPoint = new Mock<IPoint<int>>();
-			excludedPoint.Setup(p => p.Value).Returns(0);
-			excludedPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
-			var includedPoint = new Mock<IPoint<int>>();
-			includedPoint.Setup(p => p.Value).Returns(0);
-			includedPoint.Setup(p => p.Inclusion).Returns(Inclusion.Included);
+		var excludedPoint = new Mock<IPoint<int>>();
+		excludedPoint.Setup(p => p.Value).Returns(0);
+		excludedPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
+		var includedPoint = new Mock<IPoint<int>>();
+		includedPoint.Setup(p => p.Value).Returns(0);
+		includedPoint.Setup(p => p.Inclusion).Returns(Inclusion.Included);
 
-			yield return new TestCaseData(
-					Endpoint.New(includedPoint.Object, EndpointLocation.Left),
-					Endpoint.New(includedPoint.Object, EndpointLocation.Left), 0)
-				.SetName("AndBothIncludedLeft_ReturnZero");
-			yield return new TestCaseData(
-					Endpoint.New(includedPoint.Object, EndpointLocation.Right),
-					Endpoint.New(includedPoint.Object, EndpointLocation.Right), 0)
-				.SetName("AndBothIncludedRight_ReturnZero");
-			yield return new TestCaseData(
-					Endpoint.New(includedPoint.Object, EndpointLocation.Left),
-					Endpoint.New(includedPoint.Object, EndpointLocation.Right), -1)
-				.SetName("AndIncludedLeftAndIncludedRight_ReturnZero");
-			yield return new TestCaseData(
-					Endpoint.New(includedPoint.Object, EndpointLocation.Right),
-					Endpoint.New(includedPoint.Object, EndpointLocation.Left), 1)
-				.SetName("AndIncludedRightAndIncludedLeft_ReturnZero");
-			yield return new TestCaseData(
-					Endpoint.New(includedPoint.Object, EndpointLocation.Left),
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Left), -1)
-				.SetName("AndIncludedLeftAndExcludedRight_ReturnNegative");
-			yield return new TestCaseData(
-					Endpoint.New(includedPoint.Object, EndpointLocation.Right),
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Right), 1)
-				.SetName("AndIncludedRightAndExcludedRight_ReturnPositive");
-			yield return new TestCaseData(
-					Endpoint.New(includedPoint.Object, EndpointLocation.Left),
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Right), 1)
-				.SetName("AndIncludedLeftAndExcludedRight_ReturnPositive");
-			yield return new TestCaseData(
-					Endpoint.New(includedPoint.Object, EndpointLocation.Right),
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Left), -1)
-				.SetName("AndIncludedRightAndExcludedLeft_ReturnNegative");
+		yield return new TestCaseData(
+				Endpoint.New(includedPoint.Object, EndpointLocation.Left),
+				Endpoint.New(includedPoint.Object, EndpointLocation.Left), 0)
+			.SetName("AndBothIncludedLeft_ReturnZero");
+		yield return new TestCaseData(
+				Endpoint.New(includedPoint.Object, EndpointLocation.Right),
+				Endpoint.New(includedPoint.Object, EndpointLocation.Right), 0)
+			.SetName("AndBothIncludedRight_ReturnZero");
+		yield return new TestCaseData(
+				Endpoint.New(includedPoint.Object, EndpointLocation.Left),
+				Endpoint.New(includedPoint.Object, EndpointLocation.Right), -1)
+			.SetName("AndIncludedLeftAndIncludedRight_ReturnZero");
+		yield return new TestCaseData(
+				Endpoint.New(includedPoint.Object, EndpointLocation.Right),
+				Endpoint.New(includedPoint.Object, EndpointLocation.Left), 1)
+			.SetName("AndIncludedRightAndIncludedLeft_ReturnZero");
+		yield return new TestCaseData(
+				Endpoint.New(includedPoint.Object, EndpointLocation.Left),
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Left), -1)
+			.SetName("AndIncludedLeftAndExcludedRight_ReturnNegative");
+		yield return new TestCaseData(
+				Endpoint.New(includedPoint.Object, EndpointLocation.Right),
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Right), 1)
+			.SetName("AndIncludedRightAndExcludedRight_ReturnPositive");
+		yield return new TestCaseData(
+				Endpoint.New(includedPoint.Object, EndpointLocation.Left),
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Right), 1)
+			.SetName("AndIncludedLeftAndExcludedRight_ReturnPositive");
+		yield return new TestCaseData(
+				Endpoint.New(includedPoint.Object, EndpointLocation.Right),
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Left), -1)
+			.SetName("AndIncludedRightAndExcludedLeft_ReturnNegative");
 
-			yield return new TestCaseData(
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Left),
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Left), 0)
-				.SetName("AndBothExcludedLeft_ReturnZero");
-			yield return new TestCaseData(
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Right),
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Right), 0)
-				.SetName("AndBothExcludedRight_ReturnZero");
-			yield return new TestCaseData(
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Left),
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Right), 1)
-				.SetName("AndExcludedLeftAndExcludedRight_ReturnPositive");
-			yield return new TestCaseData(
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Right),
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Left), -1)
-				.SetName("AndExcludedRightAndExcludedLeft_ReturnNegative");
-			yield return new TestCaseData(
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Left),
-					Endpoint.New(includedPoint.Object, EndpointLocation.Left), 1)
-				.SetName("AndExcludedLeftAndIncludedLeft_ReturnPositive");
-			yield return new TestCaseData(
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Right),
-					Endpoint.New(includedPoint.Object, EndpointLocation.Right), -1)
-				.SetName("AndExcludedRightAndIncludedRight_ReturnNegative");
-			yield return new TestCaseData(
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Left),
-					Endpoint.New(includedPoint.Object, EndpointLocation.Right), 1)
-				.SetName("AndExcludedLeftAndIncludedRight_ReturnPositive");
-			yield return new TestCaseData(
-					Endpoint.New(excludedPoint.Object, EndpointLocation.Right),
-					Endpoint.New(includedPoint.Object, EndpointLocation.Left), -1)
-				.SetName("AndExcludedRightAndIncludedLeft_ReturnNegative");
-		}
+		yield return new TestCaseData(
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Left),
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Left), 0)
+			.SetName("AndBothExcludedLeft_ReturnZero");
+		yield return new TestCaseData(
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Right),
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Right), 0)
+			.SetName("AndBothExcludedRight_ReturnZero");
+		yield return new TestCaseData(
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Left),
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Right), 1)
+			.SetName("AndExcludedLeftAndExcludedRight_ReturnPositive");
+		yield return new TestCaseData(
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Right),
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Left), -1)
+			.SetName("AndExcludedRightAndExcludedLeft_ReturnNegative");
+		yield return new TestCaseData(
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Left),
+				Endpoint.New(includedPoint.Object, EndpointLocation.Left), 1)
+			.SetName("AndExcludedLeftAndIncludedLeft_ReturnPositive");
+		yield return new TestCaseData(
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Right),
+				Endpoint.New(includedPoint.Object, EndpointLocation.Right), -1)
+			.SetName("AndExcludedRightAndIncludedRight_ReturnNegative");
+		yield return new TestCaseData(
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Left),
+				Endpoint.New(includedPoint.Object, EndpointLocation.Right), 1)
+			.SetName("AndExcludedLeftAndIncludedRight_ReturnPositive");
+		yield return new TestCaseData(
+				Endpoint.New(excludedPoint.Object, EndpointLocation.Right),
+				Endpoint.New(includedPoint.Object, EndpointLocation.Left), -1)
+			.SetName("AndExcludedRightAndIncludedLeft_ReturnNegative");
 	}
 }

@@ -21,13 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+namespace Intervals.Intervals;
 
-namespace Intervals.Intervals
+public interface IEndpoint<T> : IPoint<T>, IComparable<IEndpoint<T>>, IEquatable<IEndpoint<T>>
+	where T : IComparable<T>, IEquatable<T>
 {
-	public interface IEndpoint<T> : IPoint<T>, IComparable<IEndpoint<T>>, IEquatable<IEndpoint<T>>
-		where T : IComparable<T>, IEquatable<T>
-	{
-		EndpointLocation Location { get; }
-	}
+	EndpointLocation Location { get; }
 }

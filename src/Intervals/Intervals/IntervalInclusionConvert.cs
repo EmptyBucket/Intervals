@@ -21,15 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Intervals.Intervals
-{
-	public static class IntervalInclusionConvert
-	{
-		public static IntervalInclusion FromInclusions(Inclusion left, Inclusion right) =>
-			(IntervalInclusion)((int)left << (int)EndpointLocation.Left | (int)right << (int)EndpointLocation.Right);
+namespace Intervals.Intervals;
 
-		public static (Inclusion Left, Inclusion Right) ToInclusions(IntervalInclusion intervalInclusion) =>
-			((Inclusion)((int)intervalInclusion >> (int)EndpointLocation.Left & 1),
-				(Inclusion)((int)intervalInclusion >> (int)EndpointLocation.Right & 1));
-	}
+public static class IntervalInclusionConvert
+{
+	public static IntervalInclusion FromInclusions(Inclusion left, Inclusion right) =>
+		(IntervalInclusion)((int)left << (int)EndpointLocation.Left | (int)right << (int)EndpointLocation.Right);
+
+	public static (Inclusion Left, Inclusion Right) ToInclusions(IntervalInclusion intervalInclusion) =>
+		((Inclusion)((int)intervalInclusion >> (int)EndpointLocation.Left & 1),
+			(Inclusion)((int)intervalInclusion >> (int)EndpointLocation.Right & 1));
 }

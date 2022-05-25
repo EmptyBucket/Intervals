@@ -21,14 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+namespace Intervals.Intervals;
 
-namespace Intervals.Intervals
+public interface IPoint<T> : IEquatable<IPoint<T>> where T : IEquatable<T>
 {
-	public interface IPoint<T> : IEquatable<IPoint<T>> where T : IEquatable<T>
-	{
-		T Value { get; }
+    T Value { get; }
 
-		Inclusion Inclusion { get; }
-	}
+    Inclusion Inclusion { get; }
 }

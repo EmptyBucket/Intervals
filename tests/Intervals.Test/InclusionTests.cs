@@ -25,28 +25,27 @@ using FluentAssertions;
 using Intervals.Intervals;
 using NUnit.Framework;
 
-namespace Intervals.Test
+namespace Intervals.Test;
+
+public class InclusionTests
 {
-	public class InclusionTests
+	[Test]
+	public void Invert_WhenIncluded_ReturnExcluded()
 	{
-		[Test]
-		public void Invert_WhenIncluded_ReturnExcluded()
-		{
-			const Inclusion inclusion = Inclusion.Included;
+		const Inclusion inclusion = Inclusion.Included;
 
-			var actual = inclusion.Invert();
+		var actual = inclusion.Invert();
 
-			actual.Should().Be(Inclusion.Excluded);
-		}
+		actual.Should().Be(Inclusion.Excluded);
+	}
 
-		[Test]
-		public void Invert_WhenExcluded_ReturnIncluded()
-		{
-			const Inclusion inclusion = Inclusion.Excluded;
+	[Test]
+	public void Invert_WhenExcluded_ReturnIncluded()
+	{
+		const Inclusion inclusion = Inclusion.Excluded;
 
-			var actual = inclusion.Invert();
+		var actual = inclusion.Invert();
 
-			actual.Should().Be(Inclusion.Included);
-		}
+		actual.Should().Be(Inclusion.Included);
 	}
 }

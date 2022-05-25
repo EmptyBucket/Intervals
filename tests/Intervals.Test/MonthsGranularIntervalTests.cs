@@ -21,54 +21,52 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
 using FluentAssertions;
 using Intervals.Intervals;
 using Moq;
 using NUnit.Framework;
 
-namespace Intervals.Test
+namespace Intervals.Test;
+
+public class MonthsGranularIntervalTests
 {
-	public class MonthsGranularIntervalTests
+	private Mock<IPoint<DateTime>> _leftPoint = null!;
+	private Mock<IPoint<DateTime>> _rightPoint = null!;
+
+	[SetUp]
+	public void Init()
 	{
-		private Mock<IPoint<DateTime>> _leftPoint = null!;
-		private Mock<IPoint<DateTime>> _rightPoint = null!;
+		_leftPoint = new Mock<IPoint<DateTime>>();
+		_leftPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
+		_rightPoint = new Mock<IPoint<DateTime>>();
+		_rightPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
+	}
 
-		[SetUp]
-		public void Init()
-		{
-			_leftPoint = new Mock<IPoint<DateTime>>();
-			_leftPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
-			_rightPoint = new Mock<IPoint<DateTime>>();
-			_rightPoint.Setup(p => p.Inclusion).Returns(Inclusion.Excluded);
-		}
+	[TestCaseSource(typeof(MonthsGranularIntervalGetNextData))]
+	public void GetNext(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
+		DateTime expectedRightValue)
+	{
+		_leftPoint.Setup(p => p.Value).Returns(leftValue);
+		_rightPoint.Setup(p => p.Value).Returns(rightValue);
+		var fooInterval = new FooMonthsGranularInterval(_leftPoint.Object, _rightPoint.Object);
 
-		[TestCaseSource(typeof(MonthsGranularIntervalGetNextData))]
-		public void GetNext(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-			DateTime expectedRightValue)
-		{
-			_leftPoint.Setup(p => p.Value).Returns(leftValue);
-			_rightPoint.Setup(p => p.Value).Returns(rightValue);
-			var fooInterval = new FooMonthsGranularInterval(_leftPoint.Object, _rightPoint.Object);
+		var actual = fooInterval.GetNext();
 
-			var actual = fooInterval.GetNext();
+		actual.Left.Value.Should().Be(expectedLeftValue);
+		actual.Right.Value.Should().Be(expectedRightValue);
+	}
 
-			actual.Left.Value.Should().Be(expectedLeftValue);
-			actual.Right.Value.Should().Be(expectedRightValue);
-		}
+	[TestCaseSource(typeof(MonthsGranularIntervalGetPrevData))]
+	public void GetPrev(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
+		DateTime expectedRightValue)
+	{
+		_leftPoint.Setup(p => p.Value).Returns(leftValue);
+		_rightPoint.Setup(p => p.Value).Returns(rightValue);
+		var fooInterval = new FooMonthsGranularInterval(_leftPoint.Object, _rightPoint.Object);
 
-		[TestCaseSource(typeof(MonthsGranularIntervalGetPrevData))]
-		public void GetPrev(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-			DateTime expectedRightValue)
-		{
-			_leftPoint.Setup(p => p.Value).Returns(leftValue);
-			_rightPoint.Setup(p => p.Value).Returns(rightValue);
-			var fooInterval = new FooMonthsGranularInterval(_leftPoint.Object, _rightPoint.Object);
+		var actual = fooInterval.GetPrev();
 
-			var actual = fooInterval.GetPrev();
-
-			actual.Left.Value.Should().Be(expectedLeftValue);
-			actual.Right.Value.Should().Be(expectedRightValue);
-		}
+		actual.Left.Value.Should().Be(expectedLeftValue);
+		actual.Right.Value.Should().Be(expectedRightValue);
 	}
 }

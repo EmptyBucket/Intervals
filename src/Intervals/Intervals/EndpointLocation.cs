@@ -21,14 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System;
+namespace Intervals.Intervals;
 
-namespace Intervals.Intervals
+[Flags]
+public enum EndpointLocation
 {
-	[Flags]
-	public enum EndpointLocation
-	{
-		Left = 1,
-		Right = 0
-	}
+	Left = 1,
+	Right = 0
 }

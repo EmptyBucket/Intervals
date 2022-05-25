@@ -26,101 +26,100 @@ using Intervals.Intervals;
 using Moq;
 using NUnit.Framework;
 
-namespace Intervals.Test
+namespace Intervals.Test;
+
+public class EndpointTests
 {
-	public class EndpointTests
+	private Mock<IPoint<int>> _firstPoint = null!;
+	private Mock<IPoint<int>> _secondPoint = null!;
+
+	[SetUp]
+	public void Init()
 	{
-		private Mock<IPoint<int>> _firstPoint = null!;
-		private Mock<IPoint<int>> _secondPoint = null!;
+		_firstPoint = new Mock<IPoint<int>>();
+		_secondPoint = new Mock<IPoint<int>>();
+	}
 
-		[SetUp]
-		public void Init()
-		{
-			_firstPoint = new Mock<IPoint<int>>();
-			_secondPoint = new Mock<IPoint<int>>();
-		}
+	[Test]
+	[TestCase(EndpointLocation.Left)]
+	[TestCase(EndpointLocation.Right)]
+	public void New_WhenGivenLocation_ReturnEndpointWithLocation(EndpointLocation endpointLocation)
+	{
+		var point = _firstPoint.Object;
 
-		[Test]
-		[TestCase(EndpointLocation.Left)]
-		[TestCase(EndpointLocation.Right)]
-		public void New_WhenGivenLocation_ReturnEndpointWithLocation(EndpointLocation endpointLocation)
-		{
-			var point = _firstPoint.Object;
+		var actual = Endpoint.New(point, endpointLocation);
 
-			var actual = Endpoint.New(point, endpointLocation);
+		actual.Should().BeEquivalentTo(point);
+		actual.Location.Should().Be(endpointLocation);
+	}
 
-			actual.Should().BeEquivalentTo(point);
-			actual.Location.Should().Be(endpointLocation);
-		}
+	[Test]
+	public void Equals_WhenHasSameMembers_ReturnTrue()
+	{
+		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
+		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
 
-		[Test]
-		public void Equals_WhenHasSameMembers_ReturnTrue()
-		{
-			_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
-			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
+		var actual = first.Equals(second);
 
-			var actual = first.Equals(second);
+		actual.Should().BeTrue();
+	}
 
-			actual.Should().BeTrue();
-		}
+	[Test]
+	public void Equals_WhenHasOtherLocation_ReturnFalse()
+	{
+		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
+		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Right);
 
-		[Test]
-		public void Equals_WhenHasOtherLocation_ReturnFalse()
-		{
-			_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(true);
-			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Right);
+		var actual = first.Equals(second);
 
-			var actual = first.Equals(second);
+		actual.Should().BeFalse();
+	}
 
-			actual.Should().BeFalse();
-		}
+	[Test]
+	public void Equals_WhenHasOtherPoint_ReturnFalse()
+	{
+		_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(false);
+		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
 
-		[Test]
-		public void Equals_WhenHasOtherPoint_ReturnFalse()
-		{
-			_firstPoint.Setup(p => p.Equals(It.IsAny<IPoint<int>>())).Returns(false);
-			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
+		var actual = first.Equals(second);
 
-			var actual = first.Equals(second);
+		actual.Should().BeFalse();
+	}
 
-			actual.Should().BeFalse();
-		}
+	[Test]
+	public void CompareTo_WhenHasLessValue_ReturnResult()
+	{
+		_firstPoint.Setup(p => p.Value).Returns(-1);
+		_secondPoint.Setup(p => p.Value).Returns(0);
+		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
 
-		[Test]
-		public void CompareTo_WhenHasLessValue_ReturnResult()
-		{
-			_firstPoint.Setup(p => p.Value).Returns(-1);
-			_secondPoint.Setup(p => p.Value).Returns(0);
-			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
+		var actual = first.CompareTo(second);
 
-			var actual = first.CompareTo(second);
+		actual.Should().Be(-1);
+	}
 
-			actual.Should().Be(-1);
-		}
+	[TestCaseSource(typeof(EndpointCompareToSameValueData))]
+	public void CompareTo_WhenHasSameValue(IEndpoint<int> first, IEndpoint<int> second, int result)
+	{
+		var actual = first.CompareTo(second);
 
-		[TestCaseSource(typeof(EndpointCompareToSameValueData))]
-		public void CompareTo_WhenHasSameValue(IEndpoint<int> first, IEndpoint<int> second, int result)
-		{
-			var actual = first.CompareTo(second);
+		actual.Should().Be(result);
+	}
 
-			actual.Should().Be(result);
-		}
+	[Test]
+	public void CompareTo_WhenHasMoreValue_ReturnResult()
+	{
+		_firstPoint.Setup(p => p.Value).Returns(1);
+		_secondPoint.Setup(p => p.Value).Returns(0);
+		var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
+		var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
 
-		[Test]
-		public void CompareTo_WhenHasMoreValue_ReturnResult()
-		{
-			_firstPoint.Setup(p => p.Value).Returns(1);
-			_secondPoint.Setup(p => p.Value).Returns(0);
-			var first = Endpoint.New(_firstPoint.Object, EndpointLocation.Left);
-			var second = Endpoint.New(_secondPoint.Object, EndpointLocation.Left);
+		var actual = first.CompareTo(second);
 
-			var actual = first.CompareTo(second);
-
-			actual.Should().Be(1);
-		}
+		actual.Should().Be(1);
 	}
 }

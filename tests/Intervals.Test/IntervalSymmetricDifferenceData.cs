@@ -39,7 +39,7 @@ public class SingleIntervalsSymmetricDifferenceData : IEnumerable
 		yield return new TestCaseData(
 				new Interval<int>(0, 1, IntervalInclusion.Closed),
 				new Interval<int>(0, -1, IntervalInclusion.Closed),
-				new[] { (IInterval<int>)new Interval<int>(0, 1, IntervalInclusion.Closed) })
+				new[] { new Interval<int>(0, 1, IntervalInclusion.Closed) })
 			.SetName("AndOneOfThemIsEmpty_ReturnOther");
 		yield return new TestCaseData(
 				new Interval<int>(0, 1, IntervalInclusion.Closed),
@@ -49,32 +49,32 @@ public class SingleIntervalsSymmetricDifferenceData : IEnumerable
 		yield return new TestCaseData(
 				new Interval<int>(0, 1, IntervalInclusion.Closed),
 				new Interval<int>(1, 2, IntervalInclusion.Closed),
-				new[] {new Interval<int>(0, 1, IntervalInclusion.RightOpened), (IInterval<int>)new Interval<int>(1, 2, IntervalInclusion.LeftOpened)})
+				new[] {new Interval<int>(0, 1, IntervalInclusion.RightOpened), new Interval<int>(1, 2, IntervalInclusion.LeftOpened)})
 			.SetName("AndTheyShareSameEndpointIncluded_ReturnIntervalsWithoutThePoint");
 		yield return new TestCaseData(
 				new Interval<int>(0, 1, IntervalInclusion.Opened),
 				new Interval<int>(1, 2, IntervalInclusion.Opened),
-				new[] {new Interval<int>(0, 1, IntervalInclusion.Opened), (IInterval<int>)new Interval<int>(1, 2, IntervalInclusion.Opened)})
+				new[] {new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(1, 2, IntervalInclusion.Opened)})
 			.SetName("AndTheyShareSameEndpointExcluded_ReturnIntervalsCollection");
 		yield return new TestCaseData(
 				new Interval<int>(0, 1, IntervalInclusion.RightOpened),
 				new Interval<int>(1, 2, IntervalInclusion.Closed),
-				new[] { (IInterval<int>)new Interval<int>(0, 2, IntervalInclusion.Closed) })
+				new[] { new Interval<int>(0, 2, IntervalInclusion.Closed) })
 			.SetName("AndTheyShareSameEndpointWithDifferentInclusion_ReturnConnectedInterval");
 		yield return new TestCaseData(
 				new Interval<int>(0, 2, IntervalInclusion.LeftOpened),
 				new Interval<int>(1, 3, IntervalInclusion.RightOpened),
-				new[] {new Interval<int>(0, 1, IntervalInclusion.Opened), (IInterval<int>)new Interval<int>(2, 3, IntervalInclusion.Opened)})
+				new[] {new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(2, 3, IntervalInclusion.Opened)})
 			.SetName("AndTheyOverlapForSomeInterval_ReturnIntervalsCollection");
 		yield return new TestCaseData(
 				new Interval<int>(0, 4, IntervalInclusion.LeftOpened),
 				new Interval<int>(1, 3, IntervalInclusion.RightOpened),
-				new[] {new Interval<int>(0, 1, IntervalInclusion.Opened), (IInterval<int>)new Interval<int>(3, 4, IntervalInclusion.Closed)})
+				new[] {new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(3, 4, IntervalInclusion.Closed)})
 			.SetName("AndFirstIntervalContainsSecond_ReturnDifference");
 		yield return new TestCaseData(
 				new Interval<int>(0, 1, IntervalInclusion.Opened),
 				new Interval<int>(2, 3, IntervalInclusion.Opened),
-				new[] {new Interval<int>(0, 1, IntervalInclusion.Opened), (IInterval<int>)new Interval<int>(2, 3, IntervalInclusion.Opened)})
+				new[] {new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(2, 3, IntervalInclusion.Opened)})
 			.SetName("AndTheyDontIntersect_ReturnThisIntervalsCollection");
 	}
 }
@@ -88,19 +88,19 @@ public class MultipleIntervalsSymmetricDifferenceData : IEnumerable
 				{
 					new Interval<int>(0, 1, IntervalInclusion.RightOpened),
 					new Interval<int>(2, 3, IntervalInclusion.Closed),
-					(IInterval<int>)new Interval<int>(4, 5, IntervalInclusion.RightOpened)
+					new Interval<int>(4, 5, IntervalInclusion.RightOpened)
 				},
 				new[]
 				{
 					new Interval<int>(1, 2, IntervalInclusion.Closed),
-					(IInterval<int>)new Interval<int>(3, 4, IntervalInclusion.Closed)
+					new Interval<int>(3, 4, IntervalInclusion.Closed)
 				},
 				new[]
 				{
 					new Interval<int>(0, 2, IntervalInclusion.RightOpened),
 					new Interval<int>(2, 3, IntervalInclusion.Opened),
 					new Interval<int>(3, 4, IntervalInclusion.Opened),
-					(IInterval<int>)new Interval<int>(4, 5, IntervalInclusion.Opened) 
+					new Interval<int>(4, 5, IntervalInclusion.Opened) 
 				})
 			.SetName("AndAllMightOverlapByOneEndpointOnly_ReturnSingleIntervalCollection");
 		yield return new TestCaseData(
@@ -108,12 +108,12 @@ public class MultipleIntervalsSymmetricDifferenceData : IEnumerable
 				{
 					new Interval<int>(0, 1, IntervalInclusion.Opened),
 					new Interval<int>(2, 3, IntervalInclusion.Opened),
-					(IInterval<int>)new Interval<int>(4, 5, IntervalInclusion.Opened)
+					new Interval<int>(4, 5, IntervalInclusion.Opened)
 				},
 				new[]
 				{
 					new Interval<int>(1, 2, IntervalInclusion.Opened),
-					(IInterval<int>)new Interval<int>(3, 4, IntervalInclusion.Opened)
+					new Interval<int>(3, 4, IntervalInclusion.Opened)
 				},
 				new[]
 				{
@@ -121,7 +121,7 @@ public class MultipleIntervalsSymmetricDifferenceData : IEnumerable
 					new Interval<int>(1, 2, IntervalInclusion.Opened),
 					new Interval<int>(2, 3, IntervalInclusion.Opened),
 					new Interval<int>(3, 4, IntervalInclusion.Opened),
-					(IInterval<int>)new Interval<int>(4, 5, IntervalInclusion.Opened)
+					new Interval<int>(4, 5, IntervalInclusion.Opened)
 				})
 			.SetName("AndTheyDontIntersect_ReturnAllIntervalsCollection");
 		yield return new TestCaseData(
@@ -129,19 +129,19 @@ public class MultipleIntervalsSymmetricDifferenceData : IEnumerable
 				{
 					new Interval<int>(0, 1, IntervalInclusion.Closed),
 					new Interval<int>(2, 3, IntervalInclusion.Closed),
-					(IInterval<int>)new Interval<int>(4, 5, IntervalInclusion.Closed)
+					new Interval<int>(4, 5, IntervalInclusion.Closed)
 				},
 				new[]
 				{
 					new Interval<int>(1, 2, IntervalInclusion.Closed),
-					(IInterval<int>)new Interval<int>(3, 3, IntervalInclusion.Closed)
+					new Interval<int>(3, 3, IntervalInclusion.Closed)
 				},
 				new[]
 				{
 					new Interval<int>(0, 1, IntervalInclusion.RightOpened),
 					new Interval<int>(1, 2, IntervalInclusion.Opened),
 					new Interval<int>(2, 3, IntervalInclusion.Opened),
-					(IInterval<int>)new Interval<int>(4, 5, IntervalInclusion.Closed)
+					new Interval<int>(4, 5, IntervalInclusion.Closed)
 				})
 			.SetName("AndAllMightOverlapByIncludedEndpointOnly_ReturnIntervalsCollectionWithoutSomeEndpoints");
 		yield return new TestCaseData(
@@ -149,56 +149,56 @@ public class MultipleIntervalsSymmetricDifferenceData : IEnumerable
 				{
 					new Interval<int>(0, 1, IntervalInclusion.Opened),
 					new Interval<int>(2, 3, IntervalInclusion.Opened),
-					(IInterval<int>)new Interval<int>(4, 5, IntervalInclusion.Opened)
+					new Interval<int>(4, 5, IntervalInclusion.Opened)
 				},
 				new[]
 				{
 					new Interval<int>(1, 2, IntervalInclusion.Closed),
-					(IInterval<int>)new Interval<int>(3, 3, IntervalInclusion.Closed)
+					new Interval<int>(3, 3, IntervalInclusion.Closed)
 				},
 				new[]
 				{
 					new Interval<int>(0, 3, IntervalInclusion.LeftOpened),
-					(IInterval<int>)new Interval<int>(4, 5, IntervalInclusion.Opened)
+					new Interval<int>(4, 5, IntervalInclusion.Opened)
 				})
 			.SetName("AndAllMightOverlapByExcludedEndpointOnly_ReturnIntervalsCollectionUnchanged");
 		yield return new TestCaseData(
 				new[]
 				{
 					new Interval<int>(0, 5, IntervalInclusion.Opened),
-					(IInterval<int>)new Interval<int>(6, 11, IntervalInclusion.Opened)
+					new Interval<int>(6, 11, IntervalInclusion.Opened)
 				},
 				new[]
 				{
 					new Interval<int>(4, 7, IntervalInclusion.Closed),
 					new Interval<int>(8, 9, IntervalInclusion.LeftOpened),
-					(IInterval<int>)new Interval<int>(11, 15, IntervalInclusion.Closed)
+					new Interval<int>(11, 15, IntervalInclusion.Closed)
 				},
 				new[]
 				{
 					new Interval<int>(0, 4, IntervalInclusion.Opened),
 					new Interval<int>(5, 6, IntervalInclusion.Closed),
 					new Interval<int>(7, 8, IntervalInclusion.LeftOpened),
-					(IInterval<int>)new Interval<int>(9, 15, IntervalInclusion.LeftOpened)
+					new Interval<int>(9, 15, IntervalInclusion.LeftOpened)
 				})
 			.SetName("AndMightOverlapBySomeIntervals_ReturnIntervalsCollection");
 		yield return new TestCaseData(
 				new[]
 				{
 					new Interval<int>(0, 5, IntervalInclusion.RightOpened),
-					(IInterval<int>)new Interval<int>(6, 10, IntervalInclusion.Closed)
+					new Interval<int>(6, 10, IntervalInclusion.Closed)
 				},
 				new[]
 				{
 					new Interval<int>(4, 5, IntervalInclusion.Closed),
-					(IInterval<int>)new Interval<int>(6, 8, IntervalInclusion.LeftOpened)
+					new Interval<int>(6, 8, IntervalInclusion.LeftOpened)
 				},
 				new[]
 				{
 					new Interval<int>(0, 4, IntervalInclusion.RightOpened),
 					new Interval<int>(5, 5, IntervalInclusion.Closed),
 					new Interval<int>(6, 6, IntervalInclusion.Closed),
-					(IInterval<int>)new Interval<int>(8, 10, IntervalInclusion.LeftOpened)
+					new Interval<int>(8, 10, IntervalInclusion.LeftOpened)
 				})
 			.SetName("AndMightOverlapBySomeDividedIntervalAndHaveACommonGap_ReturnIntervalCollection");
 	}

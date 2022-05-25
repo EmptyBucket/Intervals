@@ -21,11 +21,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Intervals.Intervals;
+namespace Intervals.Points;
 
-public interface IPoint<T> : IEquatable<IPoint<T>> where T : IEquatable<T>
+public static class InclusionExtensions
 {
-    T Value { get; }
-
-    Inclusion Inclusion { get; }
+	public static Inclusion Invert(this Inclusion inclusion) => (Inclusion)((int)inclusion ^ 1);
 }

@@ -21,13 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Intervals;
+namespace Intervals.Utils;
 
-namespace Intervals;
-
-public static class ValueTupleExtensions
+internal static class BitHelper
 {
-	public static IInterval<T> ToInterval<T>(this (T Left, T Right) pair,
-		IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-		where T : IComparable<T>, IEquatable<T> => new Interval<T>(pair.Left, pair.Right, inclusion);
+    /// <summary>
+    /// Convert least significant bit to sign int. From 0 to 1, from 1 to -1
+    /// </summary>
+    /// <param name="bit">least significant bit</param>
+    /// <returns>sign int</returns>
+    public static int ToSign(int bit) => -bit | 1;
 }

@@ -22,17 +22,18 @@
 // SOFTWARE.
 
 using Intervals.Intervals;
+using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public class DayInterval : GranularInterval<DayInterval>
+public record DayInterval : GranularInterval<DayInterval>
 {
-	public DayInterval(DateTime dateTime) : base(dateTime, dateTime.AddDays(1), IntervalInclusion.RightOpened) =>
-		DateTime = dateTime;
+    public DayInterval(DateTime startOfDay) : base(startOfDay, startOfDay.AddDays(1), IntervalInclusion.RightOpened) =>
+        StartOfDay = startOfDay;
 
-	private DayInterval(IPoint<DateTime> left, IPoint<DateTime> right) : base(left, right) => DateTime = left.Value;
+    private DayInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) => StartOfDay = left.Value;
 
-	public DateTime DateTime { get; }
+    public DateTime StartOfDay { get; }
 
-	protected override DayInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
+    protected override DayInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
 }

@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Intervals;
+namespace Intervals.Utils;
 
 internal static class DateTimeHelper
 {
@@ -33,7 +33,7 @@ internal static class DateTimeHelper
 	public static int GetHalfAYear(this DateTime dateTime) => dateTime.GetIntervalNumberInYear(HalfAYearLenInMonths);
 
 	public static DateTime GetStartOfMonth(int year, int month, DateTimeKind kind = DateTimeKind.Utc) =>
-		new DateTime(year, month, 1, 0, 0, 0, kind);
+		new(year, month, 1, 0, 0, 0, kind);
 
 	public static DateTime GetOpenedEndOfMonth(int year, int month, DateTimeKind kind = DateTimeKind.Utc) =>
 		GetStartOfMonth(year, month, kind).AddMonths(1);

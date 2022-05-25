@@ -21,13 +21,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Intervals.Points;
+
 namespace Intervals.Intervals;
 
 public static class IntervalExtensions
 {
-	public static bool IsEmpty<T>(this IInterval<T> interval) where T : IEquatable<T>, IComparable<T> =>
-		interval.Left.Value.CompareTo(interval.Right.Value) is var compareTo &&
-		interval.Left.Inclusion == Inclusion.Included && interval.Right.Inclusion == Inclusion.Included
-			? compareTo > 0
-			: compareTo >= 0;
+    public static bool IsEmpty<T>(this IInterval<T> interval) where T : IEquatable<T>, IComparable<T> =>
+        interval.Left.Value.CompareTo(interval.Right.Value) is var compareTo &&
+        (interval.Left.Inclusion & interval.Right.Inclusion) == Inclusion.Included
+            ? compareTo > 0
+            : compareTo >= 0;
 }

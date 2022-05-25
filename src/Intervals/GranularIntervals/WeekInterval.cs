@@ -22,18 +22,19 @@
 // SOFTWARE.
 
 using Intervals.Intervals;
+using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public class WeekInterval : GranularInterval<WeekInterval>
+public record WeekInterval : GranularInterval<WeekInterval>
 {
-	public WeekInterval(DateTime dateTime) : base(dateTime, dateTime.AddDays(7), IntervalInclusion.RightOpened) =>
-		DateTime = dateTime;
+    public WeekInterval(DateTime startOfWeek)
+        : base(startOfWeek, startOfWeek.AddDays(7), IntervalInclusion.RightOpened) =>
+        StartOfWeek = startOfWeek;
 
-	private WeekInterval(IPoint<DateTime> left, IPoint<DateTime> right) : base(left, right) => DateTime = left.Value;
+    private WeekInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) => StartOfWeek = left.Value;
 
-	public DateTime DateTime { get; }
+    public DateTime StartOfWeek { get; }
 
-	protected override WeekInterval Create(Point<DateTime> left, Point<DateTime> right) =>
-		new WeekInterval(left, right);
+    protected override WeekInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
 }

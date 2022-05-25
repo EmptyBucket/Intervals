@@ -21,18 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Intervals.Intervals;
+namespace Intervals.Points;
 
-public static class Point
+[Flags]
+public enum EndpointLocation
 {
-    public static IPoint<T> Included<T>(T value) where T : IEquatable<T> => new Point<T>(value, Inclusion.Included);
-
-    public static IPoint<T> Excluded<T>(T value) where T : IEquatable<T> => new Point<T>(value, Inclusion.Excluded);
-}
-
-public readonly record struct Point<T>(T Value, Inclusion Inclusion) : IPoint<T> where T : IEquatable<T>
-{
-    public bool Equals(IPoint<T>? other) => other is Point<T> otherPoint && Equals(otherPoint);
-
-    public override string ToString() => $"{Value}-{Inclusion}";
+	Left = 1,
+	Right = 0
 }

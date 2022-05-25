@@ -22,12 +22,13 @@
 // SOFTWARE.
 
 using System.Collections;
+using Intervals.Points;
 
 namespace Intervals.Intervals;
 
-public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
+public record Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
-    public Interval(IPoint<T> left, IPoint<T> right)
+    public Interval(Point<T> left, Point<T> right)
     {
         Left = new Endpoint<T>(left, EndpointLocation.Left);
         Right = new Endpoint<T>(right, EndpointLocation.Right);
@@ -42,14 +43,13 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
         Inclusion = intervalInclusion;
     }
 
-    public virtual IEndpoint<T> Left { get; }
+    public Endpoint<T> Left { get; }
 
-    public virtual IEndpoint<T> Right { get; }
+    public Endpoint<T> Right { get; }
 
     public IntervalInclusion Inclusion { get; }
 
-    public bool Equals(IInterval<T>? other) =>
-        other is Interval<T> otherInterval && Left.Equals(otherInterval.Left) && Right.Equals(otherInterval.Right);
+    public bool Equals(IInterval<T>? other) => other is Interval<T> otherInterval && Equals(otherInterval);
 
     public int CompareTo(IInterval<T>? other)
     {
@@ -59,6 +59,8 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
             ? leftCompared
             : Right.CompareTo(other.Right);
     }
+
+    public override int GetHashCode() => HashCode.Combine(Left, Right);
 
     public IEnumerator<IInterval<T>> GetEnumerator()
     {

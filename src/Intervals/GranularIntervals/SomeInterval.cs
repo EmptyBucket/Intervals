@@ -21,11 +21,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Intervals.Intervals;
+using Intervals.Intervals;
+using Intervals.Points;
 
-[Flags]
-public enum Inclusion
+namespace Intervals.GranularIntervals;
+
+public record SomeInterval : GranularInterval<SomeInterval>
 {
-    Excluded = 0,
-    Included = 1
+    public SomeInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right)
+    {
+    }
+
+    public SomeInterval(DateTime leftValue, DateTime rightValue,
+        IntervalInclusion intervalInclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, rightValue, intervalInclusion)
+    {
+    }
+
+    protected override SomeInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
 }

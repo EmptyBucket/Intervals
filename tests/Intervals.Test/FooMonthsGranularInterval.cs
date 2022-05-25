@@ -23,15 +23,16 @@
 
 using Intervals.GranularIntervals;
 using Intervals.Intervals;
+using Intervals.Points;
 
 namespace Intervals.Test;
 
-public class FooMonthsGranularInterval : MonthsGranularInterval<FooMonthsGranularInterval>
+public record FooMonthsGranularInterval : MonthsGranularInterval<FooMonthsGranularInterval>
 {
-	public FooMonthsGranularInterval(IPoint<DateTime> left, IPoint<DateTime> right) : base(left, right)
-	{
-	}
+    public FooMonthsGranularInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right)
+    {
+    }
 
-	protected override FooMonthsGranularInterval Create(Point<DateTime> left, Point<DateTime> right) =>
-		new FooMonthsGranularInterval(left, right);
+    protected override FooMonthsGranularInterval Create(Point<DateTime> left, Point<DateTime> right) =>
+        new(left, right);
 }

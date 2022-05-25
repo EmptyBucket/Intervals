@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Intervals.Points;
+
 namespace Intervals.Intervals;
 
 public static partial class IntervalsExtensions
@@ -32,17 +34,13 @@ public static partial class IntervalsExtensions
         where T : IComparable<T>, IEquatable<T>
     {
         var included = right.ToArray();
-        var enumerable = left.Overlap(included).ToArray();
-        return new HashSet<IInterval<T>>(included).SetEquals(enumerable);
+        return new HashSet<IInterval<T>>(included).SetEquals(left.Overlap(included).ToArray());
     }
 
-    private static int ToBalance<T>(this IEndpoint<T> endpoint) where T : IComparable<T>, IEquatable<T> =>
+    private static int ToBalance<T>(this Endpoint<T> endpoint) where T : IComparable<T>, IEquatable<T> =>
         (int)endpoint.Location * 2 - 1;
 
-    private static IPoint<T> WithInvertedInclusion<T>(this IPoint<T> point) where T : IComparable<T>, IEquatable<T> =>
-        new Point<T>(point.Value, point.Inclusion.Invert());
-
-    private static IEnumerable<IEndpoint<T>> GetEndpoints<T>(this IInterval<T> interval)
+    private static IEnumerable<Endpoint<T>> GetEndpoints<T>(this IInterval<T> interval)
         where T : IComparable<T>, IEquatable<T>
     {
         yield return interval.Left;

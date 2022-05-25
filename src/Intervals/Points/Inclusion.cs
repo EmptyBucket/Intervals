@@ -21,9 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Intervals.Intervals;
+namespace Intervals.Points;
 
-public static class EndpointLocationExtensions
+[Flags]
+public enum Inclusion
 {
-    public static EndpointLocation Invert(this EndpointLocation location) => (EndpointLocation)((int)location ^ 1);
+    Excluded = 0,
+    Included = 1
 }

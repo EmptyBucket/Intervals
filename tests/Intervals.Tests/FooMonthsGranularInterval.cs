@@ -1,8 +1,7 @@
 using Intervals.GranularIntervals;
-using Intervals.Intervals;
 using Intervals.Points;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
 public record FooMonthsGranularInterval : MonthsGranularInterval<FooMonthsGranularInterval>
 {

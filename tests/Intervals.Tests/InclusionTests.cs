@@ -1,9 +1,8 @@
 using FluentAssertions;
-using Intervals.Intervals;
 using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
 public class InclusionTests
 {

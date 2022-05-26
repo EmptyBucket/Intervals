@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intervals", "src\Intervals\Intervals.csproj", "{34FB6750-6241-4202-897E-9DD13BA64237}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intervals.Test", "tests\Intervals.Test\Intervals.Test.csproj", "{85C67CC0-5A25-48B6-BB92-14E56A7AFE11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intervals.Tests", "tests\Intervals.Tests\Intervals.Tests.csproj", "{85C67CC0-5A25-48B6-BB92-14E56A7AFE11}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "Samples\Samples.csproj", "{739E7820-8214-495D-8284-0936E5B91B47}"
 EndProject

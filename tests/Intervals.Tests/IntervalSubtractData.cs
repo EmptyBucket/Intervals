@@ -2,7 +2,7 @@ using System.Collections;
 using Intervals.Intervals;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
 public class SingleIntervalsSubtractData : IEnumerable
 {

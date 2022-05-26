@@ -1,7 +1,7 @@
 using System.Collections;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
 public class MonthsGranularIntervalGetNextData : IEnumerable
 {

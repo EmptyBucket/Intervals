@@ -21,27 +21,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using FluentAssertions;
-using Intervals.Intervals;
+using System.Collections;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class IntervalSubtractTests
+public class MonthsGranularIntervalGetNextData : IEnumerable
 {
-	[TestCaseSource(typeof(SingleIntervalsSubtractData))]
-	public void Subtract_WhenSingleIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
+	public IEnumerator GetEnumerator()
 	{
-		var actual = first.Subtract(second);
-
-		actual.Should().Equal(result);
-	}
-
-	[TestCaseSource(typeof(MultipleIntervalsSubtractData))]
-	public void Subtract_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
-	{
-		var actual = first.Subtract(second);
-
-		actual.Should().Equal(result);
+		yield return new TestCaseData(
+				new DateTime(2021, 1, 1), new DateTime(2021, 2, 1),
+				new DateTime(2021, 2, 1), new DateTime(2021, 3, 1))
+			.SetName("WhenMonth_ReturnNextMonth");
+		yield return new TestCaseData(
+				new DateTime(2021, 1, 1), new DateTime(2021, 3, 1),
+				new DateTime(2021, 3, 1), new DateTime(2021, 5, 1))
+			.SetName("WhenMonths_ReturnNextMonths");
+		yield return new TestCaseData(
+				new DateTime(2021, 1, 1), new DateTime(2022, 1, 1),
+				new DateTime(2022, 1, 1), new DateTime(2023, 1, 1))
+			.SetName("WhenYear_ReturnNextYear");
+		yield return new TestCaseData(
+				new DateTime(2021, 1, 1), new DateTime(2022, 3, 1),
+				new DateTime(2022, 3, 1), new DateTime(2023, 5, 1))
+			.SetName("WhenYearAndMonths_ReturnNextYearAndMonths");
+		yield return new TestCaseData(
+				new DateTime(2021, 1, 1), new DateTime(2023, 3, 1),
+				new DateTime(2023, 3, 1), new DateTime(2025, 5, 1))
+			.SetName("WhenYearsAndMonths_ReturnNextYearsAndMonths");
 	}
 }

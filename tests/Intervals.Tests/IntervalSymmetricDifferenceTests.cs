@@ -23,35 +23,31 @@
 
 using FluentAssertions;
 using Intervals.Intervals;
-using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class IntervalInclusionConvertTests
+public class IntervalSymmetricDifferenceTests
 {
-	[TestCase(Inclusion.Excluded, Inclusion.Excluded, IntervalInclusion.Opened)]
-	[TestCase(Inclusion.Excluded, Inclusion.Included, IntervalInclusion.LeftOpened)]
-	[TestCase(Inclusion.Included, Inclusion.Excluded, IntervalInclusion.RightOpened)]
-	[TestCase(Inclusion.Included, Inclusion.Included, IntervalInclusion.Closed)]
-	public void FromInclusion_WhenGivenInclusions_ReturnIntervalInclusion(Inclusion left, Inclusion right,
-		IntervalInclusion result)
+	[TestCaseSource(typeof(SingleIntervalsSymmetricDifferenceData))]
+	public void SymmetricDifference_WhenSingleIntervals(IInterval<int> first, IInterval<int> second,
+		IInterval<int>[] result)
 	{
-		var actual = IntervalInclusionConvert.FromInclusions(left, right);
+		var actual1 = first.SymmetricDifference(second);
+		var actual2 = second.SymmetricDifference(first);
 
-		actual.Should().Be(result);
+		actual1.Should().Equal(result);
+		actual2.Should().Equal(result);
 	}
 
-	[TestCase(IntervalInclusion.Opened, Inclusion.Excluded, Inclusion.Excluded)]
-	[TestCase(IntervalInclusion.LeftOpened, Inclusion.Excluded, Inclusion.Included)]
-	[TestCase(IntervalInclusion.RightOpened, Inclusion.Included, Inclusion.Excluded)]
-	[TestCase(IntervalInclusion.Closed, Inclusion.Included, Inclusion.Included)]
-	public void ToInclusions_WhenGivenIntervalInclusion_ReturnInclusions(IntervalInclusion intervalInclusion,
-		Inclusion left, Inclusion right)
+	[TestCaseSource(typeof(MultipleIntervalsSymmetricDifferenceData))]
+	public void SymmetricDifference_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second,
+		IInterval<int>[] result)
 	{
-		var (actualLeft, actualRight) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
+		var actual1 = first.SymmetricDifference(second);
+		var actual2 = second.SymmetricDifference(first);
 
-		actualLeft.Should().Be(left);
-		actualRight.Should().Be(right);
+		actual1.Should().Equal(result);
+		actual2.Should().Equal(result);
 	}
 }

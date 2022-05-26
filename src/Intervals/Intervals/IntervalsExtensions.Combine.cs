@@ -23,7 +23,7 @@
 
 using System.Collections;
 using System.Collections.Immutable;
-using Intervals.Points;
+using Intervals.Utils;
 
 namespace Intervals.Intervals;
 
@@ -33,69 +33,60 @@ public static partial class IntervalsExtensions
         IEnumerable<IInterval<T>> right)
         where T : IComparable<T>, IEquatable<T>
     {
-        if (left is CombineEnumerable<T> leftCombineEnumerable)
-        {
-            return right is CombineEnumerable<T> rightCombineEnumerable
-                ? new CombineEnumerable<T>(leftCombineEnumerable.Batches.AddRange(rightCombineEnumerable.Batches))
-                : new CombineEnumerable<T>(leftCombineEnumerable.Batches.Add(right));
-        }
-        else
-        {
-            return right is CombineEnumerable<T> rightCombineEnumerable
-                ? new CombineEnumerable<T>(rightCombineEnumerable.Batches.Insert(0, left))
-                : new CombineEnumerable<T>(ImmutableList.Create(left, right));
-        }
+        var l = (left as CombineEnumerable<T>)?.Batches ?? ImmutableList.Create(left);
+        var r = (left as CombineEnumerable<T>)?.Batches ?? ImmutableList.Create(right);
+        return new CombineEnumerable<T>(l.AddRange(r));
     }
 
-    private class CombineEnumerable<T> : IEnumerable<IInterval<T>> where T : IEquatable<T>, IComparable<T>
+    private class CombineEnumerable<T> : IOrderedEnumerable<IInterval<T>> where T : IEquatable<T>, IComparable<T>
     {
-        public CombineEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) => Batches = batches;
+        public CombineEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches)
+        {
+            Batches = batches;
+        }
 
         public IImmutableList<IEnumerable<IInterval<T>>> Batches { get; }
 
         public IEnumerator<IInterval<T>> GetEnumerator()
         {
-            bool HasGap(Point<T> first, Point<T> second) =>
-                !first.Value.Equals(second.Value) || (first.Inclusion | second.Inclusion) != Inclusion.Included;
-
-            var batches = Batches.Select((ie, i) => new { Intervals = ie, BatchIndex = i }).ToArray();
-            var endpoints = batches
-                .SelectMany(ie => ie.Intervals, (ie, i) => new { ie.BatchIndex, Interval = i })
-                .Where(i => !i.Interval.IsEmpty())
-                .SelectMany(i => GetEndpoints(i.Interval), (ie, e) => new { ie.BatchIndex, Endpoint = e })
-                .OrderBy(m => m.Endpoint)
-                .ToArray();
-            var batchBalances = new int[batches.Length];
-            int prevLeft = -1, prevRight = -1, curLeft = -1;
-
-            for (var i = 0; i < endpoints.Length; i++)
-            {
-                batchBalances[endpoints[i].BatchIndex] += endpoints[i].Endpoint.ToBalance();
-                var anyBatchIsPositive = batchBalances.Any(b => b > 0);
-
-                if (anyBatchIsPositive)
+            var endpoints = Batches
+                .Select((i, idx) =>
                 {
-                    if (curLeft < 0)
+                    var endpoints =
+                        i.Where(il => !il.IsEmpty()).SelectMany(GetEndpoints, (_, e) => (Endpoint: e, BatchIndex: idx));
+                    return i is IOrderedEnumerable<IInterval<T>> ? endpoints : endpoints.OrderBy(e => e.Endpoint);
+                })
+                .Aggregate(EnumerableExtensions.MergeAscending)
+                .ToArray();
+            var batchBalances = new int[Batches.Count];
+            var (prevLeft, prevRight) = (-1, -1);
+
+            for (var (i, left, deviation) = (0, -1, false); i < endpoints.Length; i++)
+            {
+                batchBalances[endpoints[i].BatchIndex] += endpoints[i].Endpoint.GetBalance();
+                (var prevDeviation, deviation) = (deviation, batchBalances.Any(b => b > 0));
+
+                if (!prevDeviation && deviation)
+                {
+                    left = i;
+
+                    if (prevRight >= 0 && HasGap<T>(endpoints[prevRight].Endpoint, endpoints[left].Endpoint))
                     {
-                        curLeft = i;
+                        var interval = new Interval<T>(endpoints[prevLeft].Endpoint, endpoints[prevRight].Endpoint);
+                        (prevLeft, prevRight) = (-1, -1);
 
-                        if (prevRight >= 0 && HasGap(endpoints[prevRight].Endpoint, endpoints[curLeft].Endpoint))
-                        {
-                            var interval = new Interval<T>(endpoints[prevLeft].Endpoint, endpoints[prevRight].Endpoint);
-                            (prevLeft, prevRight) = (-1, -1);
-
-                            if (!interval.IsEmpty()) yield return interval;
-                        }
+                        if (!interval.IsEmpty()) yield return interval;
                     }
                 }
-                else (prevLeft, prevRight, curLeft) = (prevLeft < 0 ? curLeft : prevLeft, i, -1);
+                else if (prevDeviation && !deviation) (prevLeft, prevRight) = (prevLeft < 0 ? left : prevLeft, i);
             }
 
-            if (prevLeft < 0) yield break;
+            if (prevRight >= 0)
+            {
+                var interval = new Interval<T>(endpoints[prevLeft].Endpoint, endpoints[prevRight].Endpoint);
 
-            var lastInterval = new Interval<T>(endpoints[prevLeft].Endpoint, endpoints[prevRight].Endpoint);
-
-            if (!lastInterval.IsEmpty()) yield return lastInterval;
+                if (!interval.IsEmpty()) yield return interval;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

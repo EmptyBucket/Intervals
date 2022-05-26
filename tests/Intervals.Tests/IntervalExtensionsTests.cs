@@ -25,7 +25,7 @@ using FluentAssertions;
 using Intervals.Intervals;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
 public class IntervalExtensionsTests
 {

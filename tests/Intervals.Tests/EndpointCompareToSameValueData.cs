@@ -22,12 +22,10 @@
 // SOFTWARE.
 
 using System.Collections;
-using Intervals.Intervals;
 using Intervals.Points;
-using Moq;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
 public class EndpointCompareToSameValueData : IEnumerable
 {

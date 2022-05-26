@@ -37,7 +37,10 @@ public static partial class IntervalsExtensions
         return new HashSet<IInterval<T>>(included).SetEquals(left.Overlap(included).ToArray());
     }
 
-    private static int ToBalance<T>(this Endpoint<T> endpoint) where T : IComparable<T>, IEquatable<T> =>
+    private static bool HasGap<T>(Point<T> first, Point<T> second) where T : IEquatable<T> =>
+        !first.Value.Equals(second.Value) || (first.Inclusion | second.Inclusion) != Inclusion.Included;
+
+    private static int GetBalance<T>(this Endpoint<T> endpoint) where T : IComparable<T>, IEquatable<T> =>
         (int)endpoint.Location * 2 - 1;
 
     private static IEnumerable<Endpoint<T>> GetEndpoints<T>(this IInterval<T> interval)
@@ -45,5 +48,9 @@ public static partial class IntervalsExtensions
     {
         yield return interval.Left;
         yield return interval.Right;
+    }
+
+    private interface IOrderedEnumerable<out T> : IEnumerable<T>
+    {
     }
 }

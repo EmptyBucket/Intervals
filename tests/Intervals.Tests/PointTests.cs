@@ -22,39 +22,59 @@
 // SOFTWARE.
 
 using FluentAssertions;
-using Intervals.GranularIntervals;
-using Intervals.Intervals;
 using Intervals.Points;
-using Moq;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class GranularIntervalTests
+public class PointTests
 {
     [Test]
-    public void GetNext__ReturnNext()
+    public void Included__ReturnIncludedPoint()
     {
-        var left = Point.Excluded(new DateTime(2021, 1, 1, 1, 1, 1));
-        var right = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
-        var fooInterval = new SomeInterval(left, right);
+        var actual = Point.Included(0);
 
-        var actual = fooInterval.GetNext();
-
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        actual.Inclusion.Should().Be(Inclusion.Included);
     }
 
     [Test]
-    public void GetPrev__ReturnPrev()
+    public void Excluded__ReturnExcludedPoint()
     {
-        var left = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var fooInterval = new SomeInterval(left, right);
+        var actual = Point.Excluded(0);
 
-        var actual = fooInterval.GetPrev();
+        actual.Inclusion.Should().Be(Inclusion.Excluded);
+    }
 
-        actual.Left.Value.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+    [Test]
+    public void Equals_WhenHasSameMembers_ReturnTrue()
+    {
+        var first = new Point<int>(0, Inclusion.Excluded);
+        var second = new Point<int>(0, Inclusion.Excluded);
+
+        var actual = first.Equals(second);
+
+        actual.Should().BeTrue();
+    }
+
+    [Test]
+    public void Equals_WhenHasOtherValue_ReturnFalse()
+    {
+        var first = new Point<int>(0, Inclusion.Excluded);
+        var second = new Point<int>(1, Inclusion.Excluded);
+
+        var actual = first.Equals(second);
+
+        actual.Should().BeFalse();
+    }
+
+    [Test]
+    public void Equals_WhenHasOtherInclusion_ReturnFalse()
+    {
+        var first = new Point<int>(0, Inclusion.Excluded);
+        var second = new Point<int>(0, Inclusion.Included);
+
+        var actual = first.Equals(second);
+
+        actual.Should().BeFalse();
     }
 }

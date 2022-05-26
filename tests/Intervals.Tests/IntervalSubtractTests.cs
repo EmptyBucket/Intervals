@@ -23,39 +23,25 @@
 
 using FluentAssertions;
 using Intervals.Intervals;
-using Intervals.Points;
-using Moq;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class MonthsGranularIntervalTests
+public class IntervalSubtractTests
 {
-	[TestCaseSource(typeof(MonthsGranularIntervalGetNextData))]
-	public void GetNext(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-		DateTime expectedRightValue)
+	[TestCaseSource(typeof(SingleIntervalsSubtractData))]
+	public void Subtract_WhenSingleIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
 	{
-		var left = Point.Excluded(leftValue);
-		var right = Point.Excluded(rightValue);
-		var fooInterval = new FooMonthsGranularInterval(left, right);
+		var actual = first.Subtract(second);
 
-		var actual = fooInterval.GetNext();
-
-		actual.Left.Value.Should().Be(expectedLeftValue);
-		actual.Right.Value.Should().Be(expectedRightValue);
+		actual.Should().Equal(result);
 	}
 
-	[TestCaseSource(typeof(MonthsGranularIntervalGetPrevData))]
-	public void GetPrev(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-		DateTime expectedRightValue)
+	[TestCaseSource(typeof(MultipleIntervalsSubtractData))]
+	public void Subtract_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
 	{
-		var left = Point.Excluded(leftValue);
-		var right = Point.Excluded(rightValue);
-		var fooInterval = new FooMonthsGranularInterval(left, right);
+		var actual = first.Subtract(second);
 
-		var actual = fooInterval.GetPrev();
-
-		actual.Left.Value.Should().Be(expectedLeftValue);
-		actual.Right.Value.Should().Be(expectedRightValue);
+		actual.Should().Equal(result);
 	}
 }

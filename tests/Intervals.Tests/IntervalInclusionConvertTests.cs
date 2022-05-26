@@ -26,56 +26,32 @@ using Intervals.Intervals;
 using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class PointTests
+public class IntervalInclusionConvertTests
 {
-    [Test]
-    public void Included__ReturnIncludedPoint()
-    {
-        var actual = Point.Included(0);
+	[TestCase(Inclusion.Excluded, Inclusion.Excluded, IntervalInclusion.Opened)]
+	[TestCase(Inclusion.Excluded, Inclusion.Included, IntervalInclusion.LeftOpened)]
+	[TestCase(Inclusion.Included, Inclusion.Excluded, IntervalInclusion.RightOpened)]
+	[TestCase(Inclusion.Included, Inclusion.Included, IntervalInclusion.Closed)]
+	public void FromInclusion_WhenGivenInclusions_ReturnIntervalInclusion(Inclusion left, Inclusion right,
+		IntervalInclusion result)
+	{
+		var actual = IntervalInclusionConvert.FromInclusions(left, right);
 
-        actual.Inclusion.Should().Be(Inclusion.Included);
-    }
+		actual.Should().Be(result);
+	}
 
-    [Test]
-    public void Excluded__ReturnExcludedPoint()
-    {
-        var actual = Point.Excluded(0);
+	[TestCase(IntervalInclusion.Opened, Inclusion.Excluded, Inclusion.Excluded)]
+	[TestCase(IntervalInclusion.LeftOpened, Inclusion.Excluded, Inclusion.Included)]
+	[TestCase(IntervalInclusion.RightOpened, Inclusion.Included, Inclusion.Excluded)]
+	[TestCase(IntervalInclusion.Closed, Inclusion.Included, Inclusion.Included)]
+	public void ToInclusions_WhenGivenIntervalInclusion_ReturnInclusions(IntervalInclusion intervalInclusion,
+		Inclusion left, Inclusion right)
+	{
+		var (actualLeft, actualRight) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
 
-        actual.Inclusion.Should().Be(Inclusion.Excluded);
-    }
-
-    [Test]
-    public void Equals_WhenHasSameMembers_ReturnTrue()
-    {
-        var first = new Point<int>(0, Inclusion.Excluded);
-        var second = new Point<int>(0, Inclusion.Excluded);
-
-        var actual = first.Equals(second);
-
-        actual.Should().BeTrue();
-    }
-
-    [Test]
-    public void Equals_WhenHasOtherValue_ReturnFalse()
-    {
-        var first = new Point<int>(0, Inclusion.Excluded);
-        var second = new Point<int>(1, Inclusion.Excluded);
-
-        var actual = first.Equals(second);
-
-        actual.Should().BeFalse();
-    }
-
-    [Test]
-    public void Equals_WhenHasOtherInclusion_ReturnFalse()
-    {
-        var first = new Point<int>(0, Inclusion.Excluded);
-        var second = new Point<int>(0, Inclusion.Included);
-
-        var actual = first.Equals(second);
-
-        actual.Should().BeFalse();
-    }
+		actualLeft.Should().Be(left);
+		actualRight.Should().Be(right);
+	}
 }

@@ -22,32 +22,37 @@
 // SOFTWARE.
 
 using FluentAssertions;
-using Intervals.Intervals;
+using Intervals.GranularIntervals;
+using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class IntervalSymmetricDifferenceTests
+public class GranularIntervalTests
 {
-	[TestCaseSource(typeof(SingleIntervalsSymmetricDifferenceData))]
-	public void SymmetricDifference_WhenSingleIntervals(IInterval<int> first, IInterval<int> second,
-		IInterval<int>[] result)
-	{
-		var actual1 = first.SymmetricDifference(second);
-		var actual2 = second.SymmetricDifference(first);
+    [Test]
+    public void GetNext__ReturnNext()
+    {
+        var left = Point.Excluded(new DateTime(2021, 1, 1, 1, 1, 1));
+        var right = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
+        var fooInterval = new SomeInterval(left, right);
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
-	}
+        var actual = fooInterval.GetNext();
 
-	[TestCaseSource(typeof(MultipleIntervalsSymmetricDifferenceData))]
-	public void SymmetricDifference_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second,
-		IInterval<int>[] result)
-	{
-		var actual1 = first.SymmetricDifference(second);
-		var actual2 = second.SymmetricDifference(first);
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+    }
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
-	}
+    [Test]
+    public void GetPrev__ReturnPrev()
+    {
+        var left = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
+        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
+        var fooInterval = new SomeInterval(left, right);
+
+        var actual = fooInterval.GetPrev();
+
+        actual.Left.Value.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
+        actual.Right.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+    }
 }

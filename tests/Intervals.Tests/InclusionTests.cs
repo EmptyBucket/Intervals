@@ -22,30 +22,30 @@
 // SOFTWARE.
 
 using FluentAssertions;
-using Intervals.Intervals;
+using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class IntervalOverlapTests
+public class InclusionTests
 {
-	[TestCaseSource(typeof(SingleIntervalsOverlapData))]
-	public void Overlap_WhenSingleIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
+	[Test]
+	public void Invert_WhenIncluded_ReturnExcluded()
 	{
-		var actual1 = first.Overlap(second);
-		var actual2 = second.Overlap(first);
+		const Inclusion inclusion = Inclusion.Included;
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
+		var actual = inclusion.Invert();
+
+		actual.Should().Be(Inclusion.Excluded);
 	}
 
-	[TestCaseSource(typeof(MultipleIntervalsOverlapData))]
-	public void Overlap_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
+	[Test]
+	public void Invert_WhenExcluded_ReturnIncluded()
 	{
-		var actual1 = first.Overlap(second);
-		var actual2 = second.Overlap(first);
+		const Inclusion inclusion = Inclusion.Excluded;
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
+		var actual = inclusion.Invert();
+
+		actual.Should().Be(Inclusion.Included);
 	}
 }

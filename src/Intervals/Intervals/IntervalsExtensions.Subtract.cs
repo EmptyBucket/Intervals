@@ -32,9 +32,8 @@ public static partial class IntervalsExtensions
     public static IEnumerable<IInterval<T>> Subtract<T>(this IEnumerable<IInterval<T>> left,
         IEnumerable<IInterval<T>> right)
         where T : IComparable<T>, IEquatable<T> =>
-        left is SubtractEnumerable<T> leftSubtractEnumerable
-            ? new SubtractEnumerable<T>(
-                leftSubtractEnumerable.MinuendBatch, leftSubtractEnumerable.SubtractBatches.Add(right))
+        left is SubtractEnumerable<T> l
+            ? new SubtractEnumerable<T>(l.MinuendBatch, l.SubtractBatches.Add(right))
             : new SubtractEnumerable<T>(left, ImmutableList.Create(right));
 
     private class SubtractEnumerable<T> : IEnumerable<IInterval<T>> where T : IComparable<T>, IEquatable<T>
@@ -66,20 +65,20 @@ public static partial class IntervalsExtensions
                 .ToArray();
             var batchBalances = new int[batches.Length];
 
-            for (int i = 0, leftEndpointIndex = -1; i < endpoints.Length; i++)
+            for (var (i, left, deviation) = (0, -1, false); i < endpoints.Length; i++)
             {
-                batchBalances[endpoints[i].BatchIndex] += endpoints[i].Endpoint.ToBalance();
-                var minuendBatchIsPositive = batchBalances[minuendBatchIndex] > 0;
-                var anySubtractBatchIsPositive = batchBalances.Skip(1).Any(b => b > 0);
+                batchBalances[endpoints[i].BatchIndex] += endpoints[i].Endpoint.GetBalance();
+                (var prevDeviation, deviation) =
+                    (deviation, batchBalances[minuendBatchIndex] > 0 && !batchBalances.Skip(1).Any(b => b > 0));
 
-                if (leftEndpointIndex < 0 && minuendBatchIsPositive && !anySubtractBatchIsPositive)
-                    leftEndpointIndex = i;
-                else if (leftEndpointIndex >= 0 && (!minuendBatchIsPositive || anySubtractBatchIsPositive))
+                if (!prevDeviation && deviation)
+                    left = i;
+                else if (prevDeviation && !deviation)
                 {
                     var interval = new Interval<T>(
-                        ToNewPoint(endpoints[leftEndpointIndex].Endpoint, endpoints[leftEndpointIndex].BatchIndex),
+                        ToNewPoint(endpoints[left].Endpoint, endpoints[left].BatchIndex),
                         ToNewPoint(endpoints[i].Endpoint, endpoints[i].BatchIndex));
-                    leftEndpointIndex = -1;
+                    left = -1;
 
                     if (!interval.IsEmpty()) yield return interval;
                 }

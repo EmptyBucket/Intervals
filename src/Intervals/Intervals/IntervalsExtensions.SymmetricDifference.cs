@@ -86,7 +86,7 @@ public static partial class IntervalsExtensions
                     .Where((j, index) => j > 0 && index != endpoints[i].BatchIndex)
                     .Any();
 
-                batchBalances[endpoints[i].BatchIndex] += endpoints[i].Endpoint.ToBalance();
+                batchBalances[endpoints[i].BatchIndex] += endpoints[i].Endpoint.GetBalance();
                 var positiveBatchBalances = batchBalances.Where(b => b > 0);
                 var exactlyOneBatchIsPositive = HasExactlyOne(positiveBatchBalances);
 

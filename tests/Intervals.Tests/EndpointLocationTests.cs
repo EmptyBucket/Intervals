@@ -22,32 +22,30 @@
 // SOFTWARE.
 
 using FluentAssertions;
-using Intervals.Intervals;
+using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class IntervalCombineTests
+public class EndpointLocationTests
 {
-	[TestCaseSource(typeof(SingleIntervalsCombineData))]
-	public void Combine_WhenSingleIntervals_ReturnResult(IInterval<int> first, IInterval<int> second,
-		IInterval<int>[] result)
+	[Test]
+	public void Invert_WhenLeft_ReturnRight()
 	{
-		var actual1 = first.Combine(second);
-		var actual2 = second.Combine(first);
+		const EndpointLocation endpointLocation = EndpointLocation.Left;
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
+		var actual = endpointLocation.Invert();
+
+		actual.Should().Be(EndpointLocation.Right);
 	}
 
-	[TestCaseSource(typeof(MultipleIntervalsCombineData))]
-	public void Combine_WhenMultipleIntervals_ReturnResult(IInterval<int>[] first, IInterval<int>[] second,
-		IInterval<int>[] result)
+	[Test]
+	public void Invert_WhenRight_ReturnLeft()
 	{
-		var actual1 = first.Combine(second);
-		var actual2 = second.Combine(first);
+		const EndpointLocation endpointLocation = EndpointLocation.Right;
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
+		var actual = endpointLocation.Invert();
+
+		actual.Should().Be(EndpointLocation.Left);
 	}
 }

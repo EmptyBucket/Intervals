@@ -23,30 +23,29 @@
 
 using FluentAssertions;
 using Intervals.Intervals;
-using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Test;
+namespace Intervals.Tests;
 
-public class EndpointLocationTests
+public class IntervalOverlapTests
 {
-	[Test]
-	public void Invert_WhenLeft_ReturnRight()
+	[TestCaseSource(typeof(SingleIntervalsOverlapData))]
+	public void Overlap_WhenSingleIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
 	{
-		const EndpointLocation endpointLocation = EndpointLocation.Left;
+		var actual1 = first.Overlap(second);
+		var actual2 = second.Overlap(first);
 
-		var actual = endpointLocation.Invert();
-
-		actual.Should().Be(EndpointLocation.Right);
+		actual1.Should().Equal(result);
+		actual2.Should().Equal(result);
 	}
 
-	[Test]
-	public void Invert_WhenRight_ReturnLeft()
+	[TestCaseSource(typeof(MultipleIntervalsOverlapData))]
+	public void Overlap_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
 	{
-		const EndpointLocation endpointLocation = EndpointLocation.Right;
+		var actual1 = first.Overlap(second);
+		var actual2 = second.Overlap(first);
 
-		var actual = endpointLocation.Invert();
-
-		actual.Should().Be(EndpointLocation.Left);
+		actual1.Should().Equal(result);
+		actual2.Should().Equal(result);
 	}
 }

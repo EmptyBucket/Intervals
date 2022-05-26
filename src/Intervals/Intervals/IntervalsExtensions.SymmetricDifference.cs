@@ -24,6 +24,7 @@
 using System.Collections;
 using System.Collections.Immutable;
 using Intervals.Points;
+using Intervals.Utils;
 
 namespace Intervals.Intervals;
 
@@ -33,83 +34,74 @@ public static partial class IntervalsExtensions
         IEnumerable<IInterval<T>> right)
         where T : IComparable<T>, IEquatable<T>
     {
-        if (left is SymmetricDifferenceEnumerable<T> leftSymmetricDifferenceEnumerable)
-        {
-            return right is SymmetricDifferenceEnumerable<T> rightSymmetricDifferenceEnumerable
-                ? new SymmetricDifferenceEnumerable<T>(
-                    leftSymmetricDifferenceEnumerable.Batches.AddRange(rightSymmetricDifferenceEnumerable.Batches))
-                : new SymmetricDifferenceEnumerable<T>(leftSymmetricDifferenceEnumerable.Batches.Add(right));
-        }
-        else
-        {
-            return right is SymmetricDifferenceEnumerable<T> rightSymmetricDifferenceEnumerable
-                ? new SymmetricDifferenceEnumerable<T>(rightSymmetricDifferenceEnumerable.Batches.Insert(0, left))
-                : new SymmetricDifferenceEnumerable<T>(ImmutableList.Create(left, right));
-        }
+            var l = (left as SymmetricDifferenceEnumerable<T>)?.Batches ?? ImmutableList.Create(left);
+            var r = (left as SymmetricDifferenceEnumerable<T>)?.Batches ?? ImmutableList.Create(right);
+            return new SymmetricDifferenceEnumerable<T>(l.AddRange(r));
     }
 
     private class SymmetricDifferenceEnumerable<T> : IEnumerable<IInterval<T>> where T : IComparable<T>, IEquatable<T>
     {
-        public SymmetricDifferenceEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) => Batches = batches;
+        private int _minuendBatchIndex = -1;
+
+        public SymmetricDifferenceEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches)
+        {
+            Batches = batches;
+        }
 
         public IImmutableList<IEnumerable<IInterval<T>>> Batches { get; }
 
         public IEnumerator<IInterval<T>> GetEnumerator()
         {
-            var batches = Batches.Select((ie, i) => new { Intervals = ie, BatchIndex = i }).ToArray();
-            var endpoints = batches
-                .SelectMany(ie => ie.Intervals, (ie, i) => new { ie.BatchIndex, Interval = i })
-                .Where(i => !i.Interval.IsEmpty())
-                .SelectMany(i => GetEndpoints(i.Interval), (ie, e) => new { ie.BatchIndex, Endpoint = e })
-                .OrderBy(m => m.Endpoint)
+            var endpoints = Batches
+                .Select((i, idx) =>
+                {
+                    var endpoints =
+                        i.Where(il => !il.IsEmpty()).SelectMany(GetEndpoints, (_, e) => (Endpoint: e, BatchIndex: idx));
+                    return i is IOrderedEnumerable<IInterval<T>> ? endpoints : endpoints.OrderBy(e => e.Endpoint);
+                })
+                .Aggregate(EnumerableExtensions.MergeAscending)
                 .ToArray();
-            var batchBalances = new int[batches.Length];
+            var batchBalances = new int[Batches.Count];
+            var (prevLeft, prevRight) = (-1, -1);
 
-            var isLeftInvert = false;
-            Point<T>? leftBound = null, rightBound = null;
-            for (int i = 0, leftEndpointIndex = -1; i < endpoints.Length; i++)
+            for (var (i, left, deviation) = (0, -1, false); i < endpoints.Length; i++)
             {
-                var isAnyOtherPositive = batchBalances
-                    .Where((j, index) => j > 0 && index != endpoints[i].BatchIndex)
-                    .Any();
-
                 batchBalances[endpoints[i].BatchIndex] += GetBalance(endpoints[i].Endpoint);
-                var exactlyOneBatchIsPositive = batchBalances.Count(b => b > 0) == 1;
+                (var prevDeviation, deviation) = (deviation, GetDeviance(batchBalances));
 
-                if (exactlyOneBatchIsPositive)
+                if (!prevDeviation && deviation)
                 {
-                    (isLeftInvert, leftEndpointIndex) = (isAnyOtherPositive, i);
-                    if (rightBound is { })
+                    left = i;
+
+                    if (prevRight >= 0 && HasGap(endpoints[prevRight].Endpoint, endpoints[left].Endpoint))
                     {
-                        if (ToNewPoint(endpoints[i].Endpoint, isLeftInvert) is var point &&
-                            HasGap(rightBound.Value, point))
-                        {
-                            var interval = new Interval<T>(leftBound!.Value, rightBound.Value);
+                        var interval = new Interval<T>(
+                            CreatePoint(endpoints[prevLeft].Endpoint, endpoints[prevLeft].BatchIndex),
+                            CreatePoint(endpoints[prevRight].Endpoint, endpoints[prevRight].BatchIndex));
+                        (prevLeft, prevRight) = (-1, -1);
 
-                            if (!interval.IsEmpty()) yield return interval;
-                            (leftBound, rightBound) = (null!, null!);
-                        }
-                        else
-                            rightBound = null!;
+                        if (!interval.IsEmpty()) yield return interval;
                     }
+                    
+                    _minuendBatchIndex = endpoints[i].BatchIndex;
                 }
-                else
-                {
-                    leftBound ??= ToNewPoint(endpoints[leftEndpointIndex].Endpoint, isLeftInvert);
-                    rightBound ??= ToNewPoint(endpoints[i].Endpoint, isAnyOtherPositive);
-                    leftEndpointIndex = -1;
-                }
+                else if (prevDeviation && !deviation) (prevLeft, prevRight) = (prevLeft < 0 ? left : prevLeft, i);
             }
 
-            if (rightBound is null) yield break;
+            if (prevRight >= 0)
+            {
+                var interval = new Interval<T>(
+                    CreatePoint(endpoints[prevLeft].Endpoint, endpoints[prevLeft].BatchIndex),
+                    CreatePoint(endpoints[prevRight].Endpoint, endpoints[prevRight].BatchIndex));
 
-            var lastInterval = new Interval<T>(leftBound!.Value, rightBound.Value);
-
-            if (!lastInterval.IsEmpty()) yield return lastInterval;
+                if (!interval.IsEmpty()) yield return interval;
+            }
         }
 
-        private static Point<T> ToNewPoint(Point<T> point, bool needsToInvert) =>
-            needsToInvert ? point with { Inclusion = point.Inclusion.Invert() } : point;
+        private static bool GetDeviance(IReadOnlyList<int> batchBalances) => batchBalances.Count(b => b > 0) == 1;
+
+        private Point<T> CreatePoint(Point<T> point, int batchIndex) => 
+            batchIndex == _minuendBatchIndex ? point : point with { Inclusion = point.Inclusion.Invert() };
 
         private static bool HasGap(Point<T> first, Point<T> second) =>
             !first.Value.Equals(second.Value) || first.Inclusion == second.Inclusion;

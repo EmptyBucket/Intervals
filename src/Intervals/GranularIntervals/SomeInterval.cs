@@ -3,7 +3,7 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public record SomeInterval : GranularInterval<SomeInterval>
+public class SomeInterval : GranularInterval<SomeInterval>
 {
     public SomeInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right)
     {

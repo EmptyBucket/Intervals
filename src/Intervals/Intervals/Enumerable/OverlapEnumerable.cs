@@ -23,22 +23,20 @@
 
 using Intervals.Points;
 
-namespace Intervals.Intervals;
+namespace Intervals.Intervals.Enumerable;
 
-public static partial class IntervalsExtensions
+internal class OverlapEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Overlap<T>(this IEnumerable<IInterval<T>> left,
-        IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
-        new OverlapEnumerable<T>(left, right);
-
-    private class OverlapEnumerable<T> : IntervalDeviationEnumerable<T> where T : IEquatable<T>, IComparable<T>
+    public OverlapEnumerable(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) : base(left, right)
     {
-        public OverlapEnumerable(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) : base(left, right)
-        {
-        }
-
-        protected override bool GetDeviance(IReadOnlyList<int> batchBalances) => batchBalances.All(b => b > 0);
-
-        protected override Point<T> CreatePoint(Point<T> point, int batchIndex) => point;
     }
+
+    protected override IInterval<T> CreateInterval(EndpointContext leftContext, EndpointContext rightContext) =>
+        new Interval<T>(leftContext.Endpoint, rightContext.Endpoint);
+
+    protected override bool HasGap(EndpointContext leftContext, EndpointContext rightContext) =>
+        !leftContext.Endpoint.Value.Equals(rightContext.Endpoint.Value) ||
+        (leftContext.Endpoint.Inclusion | rightContext.Endpoint.Inclusion) != Inclusion.Included;
+
+    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances.All(b => b > 0);
 }

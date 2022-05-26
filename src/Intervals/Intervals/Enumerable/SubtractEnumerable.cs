@@ -23,26 +23,29 @@
 
 using Intervals.Points;
 
-namespace Intervals.Intervals;
+namespace Intervals.Intervals.Enumerable;
 
-public static partial class IntervalsExtensions
+internal class SubtractEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Subtract<T>(this IEnumerable<IInterval<T>> left,
-        IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
-        new SubtractEnumerable<T>(left, right);
-
-    private class SubtractEnumerable<T> : IntervalDeviationEnumerable<T> where T : IEquatable<T>, IComparable<T>
+    public SubtractEnumerable(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) : base(left, right)
     {
-        private const int MinuendBatchIndex = 0;
-
-        public SubtractEnumerable(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) : base(left, right)
-        {
-        }
-
-        protected override bool GetDeviance(IReadOnlyList<int> batchBalances) =>
-            batchBalances[MinuendBatchIndex] > 0 && batchBalances.Skip(1).All(b => b == 0);
-
-        protected override Point<T> CreatePoint(Point<T> point, int batchIndex) =>
-            batchIndex == MinuendBatchIndex ? point : point with { Inclusion = point.Inclusion.Invert() };
     }
+
+    protected override IInterval<T> CreateInterval(EndpointContext leftContext, EndpointContext rightContext) =>
+        new Interval<T>(CreatePoint(leftContext), CreatePoint(rightContext));
+
+    protected override bool HasGap(EndpointContext leftContext, EndpointContext rightContext)
+    {
+        var leftPoint = CreatePoint(leftContext);
+        var rightPoint = CreatePoint(rightContext);
+        return !leftPoint.Value.Equals(rightPoint.Value) ||
+               (leftPoint.Inclusion | rightPoint.Inclusion) != Inclusion.Included;
+    }
+
+    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) =>
+        batchBalances[0] > 0 && batchBalances.Skip(1).All(b => b == 0);
+
+    private static Point<T> CreatePoint(EndpointContext context) => context.BatchIndex == 0
+        ? context.Endpoint
+        : new Point<T>(context.Endpoint.Value, context.Endpoint.Inclusion.Invert());
 }

@@ -26,7 +26,7 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public abstract record MonthsGranularInterval<TInterval> : Interval<DateTime>, IGranularInterval<DateTime, TInterval>
+public abstract class MonthsGranularInterval<TInterval> : Interval<DateTime>, IGranularInterval<DateTime, TInterval>
     where TInterval : IGranularInterval<DateTime, TInterval>
 {
     private readonly int _granulesCount;

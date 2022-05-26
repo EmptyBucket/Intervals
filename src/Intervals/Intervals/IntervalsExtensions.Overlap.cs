@@ -23,6 +23,7 @@
 
 using System.Collections;
 using System.Collections.Immutable;
+using Intervals.Points;
 using Intervals.Utils;
 
 namespace Intervals.Intervals;
@@ -61,7 +62,7 @@ public static partial class IntervalsExtensions
             for (var (i, left, deviation) = (0, -1, false); i < endpoints.Length; i++)
             {
                 batchBalances[endpoints[i].BatchIndex] += endpoints[i].Endpoint.GetBalance();
-                (var prevDeviation, deviation) = (deviation, batchBalances.All(b => b > 0));
+                (var prevDeviation, deviation) = (deviation, GetDeviance(batchBalances));
 
                 if (!prevDeviation && deviation)
                 {
@@ -69,7 +70,9 @@ public static partial class IntervalsExtensions
 
                     if (prevRight >= 0 && HasGap<T>(endpoints[prevRight].Endpoint, endpoints[left].Endpoint))
                     {
-                        var interval = new Interval<T>(endpoints[prevLeft].Endpoint, endpoints[prevRight].Endpoint);
+                        var interval = new Interval<T>(
+                            ToNewPoint(endpoints[prevLeft].Endpoint, endpoints[prevLeft].BatchIndex),
+                            ToNewPoint(endpoints[prevRight].Endpoint, endpoints[prevRight].BatchIndex));
                         (prevLeft, prevRight) = (-1, -1);
 
                         if (!interval.IsEmpty()) yield return interval;
@@ -80,11 +83,20 @@ public static partial class IntervalsExtensions
 
             if (prevRight >= 0)
             {
-                var interval = new Interval<T>(endpoints[prevLeft].Endpoint, endpoints[prevRight].Endpoint);
+                var interval = new Interval<T>(
+                    ToNewPoint(endpoints[prevLeft].Endpoint, endpoints[prevLeft].BatchIndex),
+                    ToNewPoint(endpoints[prevRight].Endpoint, endpoints[prevRight].BatchIndex));
 
                 if (!interval.IsEmpty()) yield return interval;
             }
         }
+
+        private static bool GetDeviance(int[] batchBalances)
+        {
+            return batchBalances.All(b => b > 0);
+        }
+
+        private static Point<T> ToNewPoint(Point<T> point, int batchIndex) => point;
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

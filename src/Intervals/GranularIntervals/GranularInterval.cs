@@ -26,7 +26,7 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public abstract record GranularInterval<TInterval> : Interval<DateTime>, IGranularInterval<DateTime, TInterval>
+public abstract class GranularInterval<TInterval> : Interval<DateTime>, IGranularInterval<DateTime, TInterval>
     where TInterval : IGranularInterval<DateTime, TInterval>
 {
     private readonly TimeSpan _granuleSize;

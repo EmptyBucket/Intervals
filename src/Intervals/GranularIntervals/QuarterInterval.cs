@@ -27,7 +27,7 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
-public record QuarterInterval : MonthsGranularInterval<QuarterInterval>
+public class QuarterInterval : MonthsGranularInterval<QuarterInterval>
 {
     public QuarterInterval(int year, int quarter)
         : base(DateTimeHelper.GetStartOfQuarter(year, quarter), DateTimeHelper.GetOpenedEndOfQuarter(year, quarter),

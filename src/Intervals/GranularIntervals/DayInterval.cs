@@ -26,7 +26,7 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public record DayInterval : GranularInterval<DayInterval>
+public class DayInterval : GranularInterval<DayInterval>
 {
     public DayInterval(DateTime startOfDay) : base(startOfDay, startOfDay.AddDays(1), IntervalInclusion.RightOpened) =>
         StartOfDay = startOfDay;

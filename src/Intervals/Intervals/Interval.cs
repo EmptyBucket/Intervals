@@ -26,7 +26,7 @@ using Intervals.Points;
 
 namespace Intervals.Intervals;
 
-public record Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
+public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
     public Interval(Point<T> left, Point<T> right)
     {
@@ -49,7 +49,8 @@ public record Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 
     public IntervalInclusion Inclusion { get; }
 
-    public bool Equals(IInterval<T>? other) => other is Interval<T> otherInterval && Equals(otherInterval);
+    public bool Equals(IInterval<T>? other) =>
+        other is Interval<T> otherInterval && Left == otherInterval.Left && Right == otherInterval.Right;
 
     public int CompareTo(IInterval<T>? other)
     {

@@ -48,7 +48,6 @@ public static partial class IntervalsExtensions
         }
     }
 
-    //todo кажется, что это можно выразить через другие операции
     private class SymmetricDifferenceEnumerable<T> : IEnumerable<IInterval<T>> where T : IComparable<T>, IEquatable<T>
     {
         public SymmetricDifferenceEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) => Batches = batches;
@@ -57,18 +56,6 @@ public static partial class IntervalsExtensions
 
         public IEnumerator<IInterval<T>> GetEnumerator()
         {
-            Point<T> ToNewPoint(Point<T> point, bool needsToInvert) =>
-                needsToInvert ? point with { Inclusion = point.Inclusion.Invert() } : point;
-
-            bool HasExactlyOne(IEnumerable<int> enumerable)
-            {
-                using var enumerator = enumerable.GetEnumerator();
-                return enumerator.MoveNext() && !enumerator.MoveNext();
-            }
-
-            bool HasGap(Point<T> first, Point<T> second) =>
-                !first.Value.Equals(second.Value) || first.Inclusion == second.Inclusion;
-
             var batches = Batches.Select((ie, i) => new { Intervals = ie, BatchIndex = i }).ToArray();
             var endpoints = batches
                 .SelectMany(ie => ie.Intervals, (ie, i) => new { ie.BatchIndex, Interval = i })
@@ -86,9 +73,8 @@ public static partial class IntervalsExtensions
                     .Where((j, index) => j > 0 && index != endpoints[i].BatchIndex)
                     .Any();
 
-                batchBalances[endpoints[i].BatchIndex] += endpoints[i].Endpoint.GetBalance();
-                var positiveBatchBalances = batchBalances.Where(b => b > 0);
-                var exactlyOneBatchIsPositive = HasExactlyOne(positiveBatchBalances);
+                batchBalances[endpoints[i].BatchIndex] += GetBalance(endpoints[i].Endpoint);
+                var exactlyOneBatchIsPositive = batchBalances.Count(b => b > 0) == 1;
 
                 if (exactlyOneBatchIsPositive)
                 {
@@ -109,7 +95,6 @@ public static partial class IntervalsExtensions
                 }
                 else
                 {
-                    // ReSharper disable once ConstantNullCoalescingCondition
                     leftBound ??= ToNewPoint(endpoints[leftEndpointIndex].Endpoint, isLeftInvert);
                     rightBound ??= ToNewPoint(endpoints[i].Endpoint, isAnyOtherPositive);
                     leftEndpointIndex = -1;
@@ -121,6 +106,20 @@ public static partial class IntervalsExtensions
             var lastInterval = new Interval<T>(leftBound!.Value, rightBound.Value);
 
             if (!lastInterval.IsEmpty()) yield return lastInterval;
+        }
+
+        private static Point<T> ToNewPoint(Point<T> point, bool needsToInvert) =>
+            needsToInvert ? point with { Inclusion = point.Inclusion.Invert() } : point;
+
+        private static bool HasGap(Point<T> first, Point<T> second) =>
+            !first.Value.Equals(second.Value) || first.Inclusion == second.Inclusion;
+
+        private static int GetBalance(Endpoint<T> endpoint) => (int)endpoint.Location * 2 - 1;
+
+        private static IEnumerable<Endpoint<T>> GetEndpoints(IInterval<T> interval)
+        {
+            yield return interval.Left;
+            yield return interval.Right;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

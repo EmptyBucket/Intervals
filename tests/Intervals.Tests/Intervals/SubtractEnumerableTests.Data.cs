@@ -35,37 +35,37 @@ public partial class SubtractEnumerableTests
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 Array.Empty<IInterval<int>>())
-            .SetName("AndBothAreEmpty_ReturnEmptyCollection");
+            .SetName("WhenTwoIntervalsAndBothAreEmpty_ReturnEmpty");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.Closed) })
-            .SetName("AndOneOfThemIsEmpty_ReturnOther");
+            .SetName("WhenTwoIntervalsAndSecondIsEmpty_ReturnFirst");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 Array.Empty<Interval<int>>())
-            .SetName("AndTheyAreEqual_ReturnEmptyCollection");
+            .SetName("WhenTwoIntervalsAndTheyAreEqual_ReturnEmpty");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(1, 2, IntervalInclusion.Closed),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.RightOpened) })
-            .SetName("AndTheyShareSameEndpointIncluded_ReturnIntervalWithoutThePointCollection");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointIncluded_ReturnFirstRightOpened");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Opened),
                 new Interval<int>(1, 2, IntervalInclusion.Opened),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.Opened) })
-            .SetName("AndTheyShareSameEndpointExcluded_ReturnIntervalCollection");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointExcluded_ReturnFirst");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.LeftOpened),
                 new Interval<int>(1, 2, IntervalInclusion.LeftOpened),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.LeftOpened) })
-            .SetName("AndTheyShareSameEndpointWithDifferentInclusion_ReturnIntervalCollection");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointWithDifferentInclusion_ReturnFirst");
         yield return new TestCaseData(
                 new Interval<int>(0, 2, IntervalInclusion.LeftOpened),
                 new Interval<int>(1, 3, IntervalInclusion.RightOpened),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.Opened) })
-            .SetName("AndTheyOverlapForSomeInterval_ReturnConnectedDifferenceWithRightInclusions");
+            .SetName("WhenTwoIntervalsAndTheyOverlapForSome_ReturnSubtract");
         yield return new TestCaseData(
                 new Interval<int>(0, 4, IntervalInclusion.LeftOpened),
                 new Interval<int>(1, 3, IntervalInclusion.RightOpened),
@@ -73,12 +73,12 @@ public partial class SubtractEnumerableTests
                 {
                     new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(3, 4, IntervalInclusion.Closed)
                 })
-            .SetName("AndFirstIntervalContainsSecond_ReturnNonConnectedDifferenceWithRightInclusions");
+            .SetName("WhenTwoIntervalsAndFirstContainsSecond_ReturnSubtract");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(3, 4, IntervalInclusion.Closed),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.Closed) })
-            .SetName("AndTheyDontIntersect_ReturnFirstInterval");
+            .SetName("WhenTwoIntervalsAndTheyDontIntersect_ReturnFirst");
     }
 
     public static IEnumerable Subtract_WhenManyIntervals_Data()
@@ -101,7 +101,7 @@ public partial class SubtractEnumerableTests
                     new Interval<int>(2, 3, IntervalInclusion.Opened),
                     new Interval<int>(4, 5, IntervalInclusion.LeftOpened)
                 })
-            .SetName("AndAllMightOverlapByIncludedEndpointOnly_ReturnIntervalsCollectionWithoutSomeEndpoints");
+            .SetName("WhenManyIntervalsAndAllMightOverlapByIncludedEndpointOnly_ReturnSubtracted");
         yield return new TestCaseData(
                 new[]
                 {
@@ -120,7 +120,7 @@ public partial class SubtractEnumerableTests
                     new Interval<int>(2, 3, IntervalInclusion.Opened),
                     new Interval<int>(4, 5, IntervalInclusion.Opened)
                 })
-            .SetName("AndAllMightOverlapByExcludedEndpointOnly_ReturnFirstIntervalsCollection");
+            .SetName("WhenManyIntervalsAndAllMightOverlapByExcludedEndpointOnly_ReturnFirst");
         yield return new TestCaseData(
                 new[]
                 {
@@ -139,7 +139,7 @@ public partial class SubtractEnumerableTests
                     new Interval<int>(7, 8, IntervalInclusion.LeftOpened),
                     new Interval<int>(9, 11, IntervalInclusion.Opened)
                 })
-            .SetName("AndMightOverlapBySomeIntervals_ReturnIntervalsCollectionWithRightInclusion");
+            .SetName("WhenManyIntervalsAndMightOverlapBySomeIntervals_ReturnSubtracted");
         yield return new TestCaseData(
                 new[]
                 {
@@ -155,6 +155,6 @@ public partial class SubtractEnumerableTests
                     new Interval<int>(0, 4, IntervalInclusion.RightOpened),
                     new Interval<int>(6, 10, IntervalInclusion.LeftOpened)
                 })
-            .SetName("AndMightOverlapBySomeDividedInterval_ReturnIntervalsCollection");
+            .SetName("WhenManyIntervalsAndMightOverlapBySomeDividedInterval_ReturnSubtracted");
     }
 }

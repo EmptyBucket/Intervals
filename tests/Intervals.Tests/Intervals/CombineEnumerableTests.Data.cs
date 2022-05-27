@@ -35,22 +35,22 @@ public partial class CombineEnumerableTests
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 Array.Empty<IInterval<int>>())
-            .SetName("AndBothAreEmpty_ReturnEmptyCollection");
+            .SetName("WhenTwoIntervalsAndBothAreEmpty_ReturnEmpty");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.Closed) })
-            .SetName("AndOneOfThemIsEmpty_ReturnOther");
+            .SetName("WhenTwoIntervalsAndSecondIsEmpty_ReturnFirst");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.Closed) })
-            .SetName("AndTheyAreEqual_ReturnIt");
+            .SetName("WhenTwoIntervalsAndTheyAreEqual_ReturnFirst");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(1, 2, IntervalInclusion.Closed),
                 new[] { new Interval<int>(0, 2, IntervalInclusion.Closed) })
-            .SetName("AndTheyShareSameEndpointIncluded_ReturnConnectedInterval");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointIncluded_ReturnCombined");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.RightOpened),
                 new Interval<int>(1, 2, IntervalInclusion.LeftOpened),
@@ -59,22 +59,22 @@ public partial class CombineEnumerableTests
                     new Interval<int>(0, 1, IntervalInclusion.RightOpened),
                     new Interval<int>(1, 2, IntervalInclusion.LeftOpened)
                 })
-            .SetName("AndTheyShareSameEndpointExcluded_ReturnIntervalsCollection");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointExcluded_ReturnBoth");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.LeftOpened),
                 new Interval<int>(1, 2, IntervalInclusion.LeftOpened),
                 new[] { new Interval<int>(0, 2, IntervalInclusion.LeftOpened) })
-            .SetName("AndTheyShareSameEndpointWithDifferentInclusion_ReturnEmptyCollection");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointWithDifferentInclusion_ReturnEmpty");
         yield return new TestCaseData(
                 new Interval<int>(0, 2, IntervalInclusion.LeftOpened),
                 new Interval<int>(1, 3, IntervalInclusion.RightOpened),
                 new[] { new Interval<int>(0, 3, IntervalInclusion.Opened) })
-            .SetName("AndTheyOverlapForSomeInterval_ReturnInterval");
+            .SetName("WhenTwoIntervalsAndTheyOverlapForSomeInterval_ReturnCombined");
         yield return new TestCaseData(
                 new Interval<int>(0, 4, IntervalInclusion.LeftOpened),
                 new Interval<int>(1, 3, IntervalInclusion.RightOpened),
                 new[] { new Interval<int>(0, 4, IntervalInclusion.LeftOpened) })
-            .SetName("AndFirstIntervalContainsSecond_ReturnFirst");
+            .SetName("WhenTwoIntervalsAndFirstIntervalContainsSecond_ReturnFirst");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Opened),
                 new Interval<int>(2, 3, IntervalInclusion.Opened),
@@ -83,7 +83,7 @@ public partial class CombineEnumerableTests
                     new Interval<int>(0, 1, IntervalInclusion.Opened),
                     new Interval<int>(2, 3, IntervalInclusion.Opened)
                 })
-            .SetName("AndTheyDontIntersect_ReturnThisIntervalsCollection");
+            .SetName("WhenTwoIntervalsAndTheyDontIntersect_ReturnBoth");
     }
 
     public static IEnumerable Combine_WhenManyIntervals_Data()
@@ -104,7 +104,7 @@ public partial class CombineEnumerableTests
                 {
                     new Interval<int>(0, 5, IntervalInclusion.RightOpened)
                 })
-            .SetName("AndAllMightOverlapByOneEndpointOnly_ReturnSingleIntervalCollection");
+            .SetName("WhenManyIntervalsAndAllMightOverlapByOneEndpointOnly_ReturnCombined");
         yield return new TestCaseData(
                 new[]
                 {
@@ -125,7 +125,7 @@ public partial class CombineEnumerableTests
                     new Interval<int>(3, 4, IntervalInclusion.Opened),
                     new Interval<int>(4, 5, IntervalInclusion.Opened)
                 })
-            .SetName("AndTheyDontIntersect_ReturnAllIntervalsCollection");
+            .SetName("WhenManyIntervalsAndTheyDontIntersect_ReturnAll");
         yield return new TestCaseData(
                 new[]
                 {
@@ -143,6 +143,6 @@ public partial class CombineEnumerableTests
                     new Interval<int>(0, 11, IntervalInclusion.RightOpened),
                     new Interval<int>(18, 19, IntervalInclusion.LeftOpened)
                 })
-            .SetName("AndMightOverlapBySomeIntervals_ReturnIntervalsCollection");
+            .SetName("WhenManyIntervalsAndMightOverlapBySomeIntervals_ReturnCombined");
     }
 }

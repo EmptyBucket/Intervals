@@ -35,17 +35,17 @@ public partial class SymmetricDifferenceEnumerableTests
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 Array.Empty<IInterval<int>>())
-            .SetName("AndBothAreEmpty_ReturnEmptyCollection");
+            .SetName("WhenTwoIntervalsAndBothAreEmpty_ReturnEmpty");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 new[] { new Interval<int>(0, 1, IntervalInclusion.Closed) })
-            .SetName("AndOneOfThemIsEmpty_ReturnOther");
+            .SetName("WhenTwoIntervalsAndSecondIsEmpty_ReturnFirst");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 Array.Empty<Interval<int>>())
-            .SetName("AndTheyAreEqual_ReturnEmptyCollection");
+            .SetName("WhenTwoIntervalsAndTheyAreEqual_ReturnEmpty");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),
                 new Interval<int>(1, 2, IntervalInclusion.Closed),
@@ -54,7 +54,7 @@ public partial class SymmetricDifferenceEnumerableTests
                     new Interval<int>(0, 1, IntervalInclusion.RightOpened),
                     new Interval<int>(1, 2, IntervalInclusion.LeftOpened)
                 })
-            .SetName("AndTheyShareSameEndpointIncluded_ReturnIntervalsWithoutThePoint");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointIncluded_ReturnBothWithoutPoint");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Opened),
                 new Interval<int>(1, 2, IntervalInclusion.Opened),
@@ -62,12 +62,12 @@ public partial class SymmetricDifferenceEnumerableTests
                 {
                     new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(1, 2, IntervalInclusion.Opened)
                 })
-            .SetName("AndTheyShareSameEndpointExcluded_ReturnIntervalsCollection");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointExcluded_ReturnBoth");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.RightOpened),
                 new Interval<int>(1, 2, IntervalInclusion.Closed),
                 new[] { new Interval<int>(0, 2, IntervalInclusion.Closed) })
-            .SetName("AndTheyShareSameEndpointWithDifferentInclusion_ReturnConnectedInterval");
+            .SetName("WhenTwoIntervalsAndTheyShareSameEndpointWithDifferentInclusion_ReturnConnected");
         yield return new TestCaseData(
                 new Interval<int>(0, 2, IntervalInclusion.LeftOpened),
                 new Interval<int>(1, 3, IntervalInclusion.RightOpened),
@@ -75,7 +75,7 @@ public partial class SymmetricDifferenceEnumerableTests
                 {
                     new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(2, 3, IntervalInclusion.Opened)
                 })
-            .SetName("AndTheyOverlapForSomeInterval_ReturnIntervalsCollection");
+            .SetName("WhenTwoIntervalsAndTheyOverlapForSomeInterval_ReturnDifference");
         yield return new TestCaseData(
                 new Interval<int>(0, 4, IntervalInclusion.LeftOpened),
                 new Interval<int>(1, 3, IntervalInclusion.RightOpened),
@@ -83,7 +83,7 @@ public partial class SymmetricDifferenceEnumerableTests
                 {
                     new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(3, 4, IntervalInclusion.Closed)
                 })
-            .SetName("AndFirstIntervalContainsSecond_ReturnDifference");
+            .SetName("WhenTwoIntervalsAndFirstIntervalContainsSecond_ReturnDifference");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Opened),
                 new Interval<int>(2, 3, IntervalInclusion.Opened),
@@ -91,7 +91,7 @@ public partial class SymmetricDifferenceEnumerableTests
                 {
                     new Interval<int>(0, 1, IntervalInclusion.Opened), new Interval<int>(2, 3, IntervalInclusion.Opened)
                 })
-            .SetName("AndTheyDontIntersect_ReturnThisIntervalsCollection");
+            .SetName("WhenTwoIntervalsAndTheyDontIntersect_ReturnBoth");
     }
 
     public static IEnumerable SymmetricDifference_WhenManyIntervals_Data()
@@ -115,7 +115,7 @@ public partial class SymmetricDifferenceEnumerableTests
                     new Interval<int>(3, 4, IntervalInclusion.Opened),
                     new Interval<int>(4, 5, IntervalInclusion.Opened)
                 })
-            .SetName("AndAllMightOverlapByOneEndpointOnly_ReturnSingleIntervalCollection");
+            .SetName("WhenManyIntervalsAndAllMightOverlapByOneEndpointOnly_ReturnSymmetricDifference");
         yield return new TestCaseData(
                 new[]
                 {
@@ -136,7 +136,7 @@ public partial class SymmetricDifferenceEnumerableTests
                     new Interval<int>(3, 4, IntervalInclusion.Opened),
                     new Interval<int>(4, 5, IntervalInclusion.Opened)
                 })
-            .SetName("AndTheyDontIntersect_ReturnAllIntervalsCollection");
+            .SetName("WhenManyIntervalsAndTheyDontIntersect_ReturnAll");
         yield return new TestCaseData(
                 new[]
                 {
@@ -156,7 +156,7 @@ public partial class SymmetricDifferenceEnumerableTests
                     new Interval<int>(2, 3, IntervalInclusion.Opened),
                     new Interval<int>(4, 5, IntervalInclusion.Closed)
                 })
-            .SetName("AndAllMightOverlapByIncludedEndpointOnly_ReturnIntervalsCollectionWithoutSomeEndpoints");
+            .SetName("WhenManyIntervalsAndAllMightOverlapByIncludedEndpointOnly_ReturnSymmetricDifference");
         yield return new TestCaseData(
                 new[]
                 {
@@ -174,7 +174,7 @@ public partial class SymmetricDifferenceEnumerableTests
                     new Interval<int>(0, 3, IntervalInclusion.LeftOpened),
                     new Interval<int>(4, 5, IntervalInclusion.Opened)
                 })
-            .SetName("AndAllMightOverlapByExcludedEndpointOnly_ReturnIntervalsCollectionUnchanged");
+            .SetName("WhenManyIntervalsAndAllMightOverlapByExcludedEndpointOnly_ReturnSymmetricDifference");
         yield return new TestCaseData(
                 new[]
                 {
@@ -194,7 +194,7 @@ public partial class SymmetricDifferenceEnumerableTests
                     new Interval<int>(7, 8, IntervalInclusion.LeftOpened),
                     new Interval<int>(9, 15, IntervalInclusion.LeftOpened)
                 })
-            .SetName("AndMightOverlapBySomeIntervals_ReturnIntervalsCollection");
+            .SetName("WhenManyIntervalsAndMightOverlapBySomeIntervals_ReturnSymmetricDifference");
         yield return new TestCaseData(
                 new[]
                 {
@@ -213,6 +213,6 @@ public partial class SymmetricDifferenceEnumerableTests
                     new Interval<int>(6, 6, IntervalInclusion.Closed),
                     new Interval<int>(8, 10, IntervalInclusion.LeftOpened)
                 })
-            .SetName("AndMightOverlapBySomeDividedIntervalAndHaveACommonGap_ReturnIntervalCollection");
+            .SetName("WhenManyIntervalsAndMightOverlapBySomeDividedIntervalAndHaveACommonGap_ReturnSymmetricDifference");
     }
 }

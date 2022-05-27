@@ -22,30 +22,54 @@
 // SOFTWARE.
 
 using FluentAssertions;
-using Intervals.Intervals;
+using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Points;
 
-public class IntervalOverlapTests
+public class PointExtensionsTests
 {
-	[TestCaseSource(typeof(SingleIntervalsOverlapData))]
-	public void Overlap_WhenSingleIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
-	{
-		var actual1 = first.Overlap(second);
-		var actual2 = second.Overlap(first);
+    [Test]
+    public void HasGap_WhenValuesNotEqual_ReturnTrue()
+    {
+        var first = Point.Excluded(0);
+        var second = Point.Excluded(1);
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
-	}
+        var hasGap = first.HasGap(second);
 
-	[TestCaseSource(typeof(MultipleIntervalsOverlapData))]
-	public void Overlap_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
-	{
-		var actual1 = first.Overlap(second);
-		var actual2 = second.Overlap(first);
+        hasGap.Should().BeTrue();
+    }
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
-	}
+    [Test]
+    public void HasGap_WhenValuesEqualAndBothExcluded_ReturnTrue()
+    {
+        var first = Point.Excluded(0);
+        var second = Point.Excluded(0);
+
+        var hasGap = first.HasGap(second);
+
+        hasGap.Should().BeTrue();
+    }
+
+    [Test]
+    public void HasGap_WhenValuesEqualAndOneIncluded_ReturnFalse()
+    {
+        var first = Point.Included(0);
+        var second = Point.Excluded(0);
+
+        var hasGap = first.HasGap(second);
+
+        hasGap.Should().BeFalse();
+    }
+
+    [Test]
+    public void HasGap_WhenValuesEqualAndBothIncluded_ReturnFalse()
+    {
+        var first = Point.Included(0);
+        var second = Point.Included(0);
+
+        var hasGap = first.HasGap(second);
+
+        hasGap.Should().BeFalse();
+    }
 }

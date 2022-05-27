@@ -21,34 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections;
-using NUnit.Framework;
+namespace Intervals.Points;
 
-namespace Intervals.Tests;
-
-public class MonthsGranularIntervalGetNextData : IEnumerable
+public static class PointExtensions
 {
-	public IEnumerator GetEnumerator()
-	{
-		yield return new TestCaseData(
-				new DateTime(2021, 1, 1), new DateTime(2021, 2, 1),
-				new DateTime(2021, 2, 1), new DateTime(2021, 3, 1))
-			.SetName("WhenMonth_ReturnNextMonth");
-		yield return new TestCaseData(
-				new DateTime(2021, 1, 1), new DateTime(2021, 3, 1),
-				new DateTime(2021, 3, 1), new DateTime(2021, 5, 1))
-			.SetName("WhenMonths_ReturnNextMonths");
-		yield return new TestCaseData(
-				new DateTime(2021, 1, 1), new DateTime(2022, 1, 1),
-				new DateTime(2022, 1, 1), new DateTime(2023, 1, 1))
-			.SetName("WhenYear_ReturnNextYear");
-		yield return new TestCaseData(
-				new DateTime(2021, 1, 1), new DateTime(2022, 3, 1),
-				new DateTime(2022, 3, 1), new DateTime(2023, 5, 1))
-			.SetName("WhenYearAndMonths_ReturnNextYearAndMonths");
-		yield return new TestCaseData(
-				new DateTime(2021, 1, 1), new DateTime(2023, 3, 1),
-				new DateTime(2023, 3, 1), new DateTime(2025, 5, 1))
-			.SetName("WhenYearsAndMonths_ReturnNextYearsAndMonths");
-	}
+    public static bool HasGap<T>(this Point<T> firstPoint, Point<T> secondPoint) where T : IEquatable<T> =>
+        !firstPoint.Value.Equals(secondPoint.Value) ||
+        (firstPoint.Inclusion | secondPoint.Inclusion) != Inclusion.Included;
 }

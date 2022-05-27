@@ -21,39 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using FluentAssertions;
-using Intervals.Points;
-using NUnit.Framework;
+namespace Intervals.Intervals.Enumerable;
 
-namespace Intervals.Tests;
-
-public class MonthsGranularIntervalTests
+internal class SymmetricDifferenceEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-	[TestCaseSource(typeof(MonthsGranularIntervalGetNextData))]
-	public void GetNext(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-		DateTime expectedRightValue)
-	{
-		var left = Point.Excluded(leftValue);
-		var right = Point.Excluded(rightValue);
-		var fooInterval = new FooMonthsGranularInterval(left, right);
+    public SymmetricDifferenceEnumerable(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
+        : base(left, right)
+    {
+    }
 
-		var actual = fooInterval.GetNext();
-
-		actual.Left.Value.Should().Be(expectedLeftValue);
-		actual.Right.Value.Should().Be(expectedRightValue);
-	}
-
-	[TestCaseSource(typeof(MonthsGranularIntervalGetPrevData))]
-	public void GetPrev(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-		DateTime expectedRightValue)
-	{
-		var left = Point.Excluded(leftValue);
-		var right = Point.Excluded(rightValue);
-		var fooInterval = new FooMonthsGranularInterval(left, right);
-
-		var actual = fooInterval.GetPrev();
-
-		actual.Left.Value.Should().Be(expectedLeftValue);
-		actual.Right.Value.Should().Be(expectedRightValue);
-	}
+    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances.Count(b => b > 0) == 1;
 }

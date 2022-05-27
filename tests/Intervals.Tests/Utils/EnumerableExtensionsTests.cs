@@ -22,37 +22,53 @@
 // SOFTWARE.
 
 using FluentAssertions;
-using Intervals.GranularIntervals;
-using Intervals.Points;
+using Intervals.Utils;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Utils;
 
-public class GranularIntervalTests
+public partial class EnumerableExtensionsTests
 {
     [Test]
-    public void GetNext__ReturnNext()
+    [TestCaseSource(nameof(MergeAscending_WhenBothHasItems_Data))]
+    public void MergeAscending_WhenBothHasItems_ReturnMerged(IEnumerable<int> first, IEnumerable<int> second,
+        IEnumerable<int> result)
     {
-        var left = Point.Excluded(new DateTime(2021, 1, 1, 1, 1, 1));
-        var right = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
-        var fooInterval = new SomeInterval(left, right);
+        var mergedOrdered = first.Merge(second, i => i);
 
-        var actual = fooInterval.GetNext();
-
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        mergedOrdered.Should().BeEquivalentTo(result);
     }
 
     [Test]
-    public void GetPrev__ReturnPrev()
+    public void MergeAscending_WhenBothEmpty_ReturnEmpty()
     {
-        var left = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var fooInterval = new SomeInterval(left, right);
+        var first = Enumerable.Empty<int>();
+        var second = Enumerable.Empty<int>();
 
-        var actual = fooInterval.GetPrev();
+        var mergedOrdered = first.Merge(second, i => i);
 
-        actual.Left.Value.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        mergedOrdered.Should().BeEquivalentTo(Enumerable.Empty<int>());
+    }
+
+    [Test]
+    public void MergeAscending_WhenFirstEmpty_ReturnSecond()
+    {
+        var first = Enumerable.Empty<int>();
+        var second = new[] { 1, 3, 5, 7, 9 };
+
+        var mergedOrdered = first.Merge(second, i => i);
+
+        mergedOrdered.Should().BeEquivalentTo(second);
+    }
+
+    [Test]
+    public void MergeAscending_WhenSecondEmpty_ReturnFirst()
+    {
+        var first = new[] { 0, 2, 4, 6, 8 };
+        var second = Enumerable.Empty<int>();
+
+        var mergedOrdered = first.Merge(second, i => i);
+
+        mergedOrdered.Should().BeEquivalentTo(first);
     }
 }

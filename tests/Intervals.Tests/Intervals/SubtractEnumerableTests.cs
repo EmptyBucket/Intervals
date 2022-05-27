@@ -25,29 +25,23 @@ using FluentAssertions;
 using Intervals.Intervals;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Intervals;
 
-public class IntervalSymmetricDifferenceTests
+public partial class SubtractEnumerableTests
 {
-	[TestCaseSource(typeof(SingleIntervalsSymmetricDifferenceData))]
-	public void SymmetricDifference_WhenSingleIntervals(IInterval<int> first, IInterval<int> second,
-		IInterval<int>[] result)
-	{
-		var actual1 = first.SymmetricDifference(second);
-		var actual2 = second.SymmetricDifference(first);
+    [TestCaseSource(nameof(Subtract_WhenTwoIntervals_Data))]
+    public void Subtract_WhenTwoIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
+    {
+        var actual = first.Subtract(second);
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
-	}
+        actual.Should().Equal(result);
+    }
 
-	[TestCaseSource(typeof(MultipleIntervalsSymmetricDifferenceData))]
-	public void SymmetricDifference_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second,
-		IInterval<int>[] result)
-	{
-		var actual1 = first.SymmetricDifference(second);
-		var actual2 = second.SymmetricDifference(first);
+    [TestCaseSource(nameof(Subtract_WhenManyIntervals_Data))]
+    public void Subtract_WhenManyIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
+    {
+        var actual = first.Subtract(second);
 
-		actual1.Should().Equal(result);
-		actual2.Should().Equal(result);
-	}
+        actual.Should().Equal(result);
+    }
 }

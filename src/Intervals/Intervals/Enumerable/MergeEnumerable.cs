@@ -42,60 +42,66 @@ internal abstract class MergeEnumerable<T> : IEnumerable<IInterval<T>>
 
     public IEnumerator<IInterval<T>> GetEnumerator()
     {
-        static IEnumerable<EndpointContext> GetEndpoints(IInterval<T> interval, int batchIndex)
-        {
-            yield return new EndpointContext(interval.Left, batchIndex);
-            yield return new EndpointContext(interval.Right, batchIndex);
-        }
-
-        static int GetBalance(EndpointContext endpointContext) => (int)endpointContext.Endpoint.Location * 2 - 1;
-
         var endpoints = _batches
             .Select((b, bIdx) =>
             {
                 var endpoints = b.Where(i => !i.IsEmpty()).SelectMany(i => GetEndpoints(i, bIdx));
                 return b is MergeEnumerable<IInterval<T>> ? endpoints : endpoints.OrderBy(e => e.Endpoint);
             })
-            .Aggregate((a, n) => a.Merge(n, c => c.Endpoint))
+            .Aggregate((a, n) => a.Merge(n, e => e.Endpoint))
             .ToArray();
         var batchBalances = new int[_batches.Count];
-        var (pLeft, pRight) = (-1, -1);
 
-        for (var (i, left, deviation) = (0, -1, false); i < endpoints.Length; i++)
+        var deviation = false;
+        IInterval<T>? interval = null;
+        Endpoint<T>? left = null;
+
+        foreach (var endpoint in endpoints)
         {
-            batchBalances[endpoints[i].BatchIndex] += GetBalance(endpoints[i]);
+            batchBalances[endpoint.BatchIndex] += GetBalance(endpoint);
+
             (var pDeviation, deviation) = (deviation, HasDeviation(batchBalances));
+            if (pDeviation == deviation) continue;
 
-            if (!pDeviation && deviation)
+            if (deviation) left = endpoint;
+            else
             {
-                left = i;
+                (var pInterval, interval) = (interval, CreateInterval(left!.Value, endpoint));
 
-                if (pRight >= 0 && HasGap(endpoints[pRight], endpoints[left]))
-                {
-                    var interval = CreateInterval(endpoints[pLeft], endpoints[pRight]);
-                    (pLeft, pRight) = (-1, -1);
-
-                    if (!interval.IsEmpty()) yield return interval;
-                }
+                if (!IsNullOrEmpty(pInterval))
+                    if (PointExtensions.HasGap<T>(pInterval!.Right, interval.Left)) yield return pInterval;
+                    else interval = CreateInterval(pInterval.Left, interval.Right);
             }
-            else if (pDeviation && !deviation) (pLeft, pRight) = (pLeft >= 0 ? pLeft : left, i);
         }
 
-        if (pRight >= 0)
-        {
-            var interval = CreateInterval(endpoints[pLeft], endpoints[pRight]);
-
-            if (!interval.IsEmpty()) yield return interval;
-        }
+        if (!IsNullOrEmpty(interval)) yield return interval!;
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    protected abstract IInterval<T> CreateInterval(EndpointContext leftContext, EndpointContext rightContext);
-
-    protected abstract bool HasGap(EndpointContext leftContext, EndpointContext rightContext);
-
     protected abstract bool HasDeviation(IReadOnlyList<int> batchBalances);
 
-    protected readonly record struct EndpointContext(Endpoint<T> Endpoint, int BatchIndex);
+    private static int GetBalance(Endpoint<T> endpoint) => (int)endpoint.Location * 2 - 1;
+
+    private static bool IsNullOrEmpty(IInterval<T>? interval) => interval is null || interval.IsEmpty();
+
+    private static IInterval<T> CreateInterval(Endpoint<T> leftEndpoint, Endpoint<T> rightEndpoint)
+    {
+        var (lValue, lInclusion, lLocation) = leftEndpoint;
+        var (rValue, rInclusion, rLocation) = rightEndpoint;
+        var lPoint = new Point<T>(lValue, lLocation == EndpointLocation.Right ? lInclusion.Invert() : lInclusion);
+        var rPoint = new Point<T>(rValue, rLocation == EndpointLocation.Left ? rInclusion.Invert() : rInclusion);
+        return new Interval<T>(lPoint, rPoint);
+    }
+
+    private static IEnumerable<EndpointContext> GetEndpoints(IInterval<T> interval, int batchIndex)
+    {
+        yield return new EndpointContext(interval.Left, batchIndex);
+        yield return new EndpointContext(interval.Right, batchIndex);
+    }
+
+    private readonly record struct EndpointContext(Endpoint<T> Endpoint, int BatchIndex)
+    {
+        public static implicit operator Endpoint<T>(EndpointContext context) => context.Endpoint;
+    }
 }

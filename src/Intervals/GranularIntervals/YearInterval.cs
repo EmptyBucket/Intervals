@@ -27,7 +27,7 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
-public class YearInterval : MonthsGranularInterval<YearInterval>
+public class YearInterval : MonthGranularIntervalBase<YearInterval>
 {
     public YearInterval(int year) : base(DateTimeHelper.GetStartOfYear(year), DateTimeHelper.GetOpenedEndOfYear(year),
         IntervalInclusion.RightOpened) =>

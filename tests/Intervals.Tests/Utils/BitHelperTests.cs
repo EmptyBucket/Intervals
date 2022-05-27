@@ -22,59 +22,30 @@
 // SOFTWARE.
 
 using FluentAssertions;
-using Intervals.Points;
+using Intervals.Utils;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Utils;
 
-public class PointTests
+public class BitHelperTests
 {
     [Test]
-    public void Included__ReturnIncludedPoint()
+    public void ToSign_WhenZero_ReturnOne()
     {
-        var actual = Point.Included(0);
+        const int bit = 0;
 
-        actual.Inclusion.Should().Be(Inclusion.Included);
+        var sign = BitHelper.ToSign(bit);
+
+        sign.Should().Be(1);
     }
 
     [Test]
-    public void Excluded__ReturnExcludedPoint()
+    public void ToSign_WhenPositiveOne_ReturnNegativeOne()
     {
-        var actual = Point.Excluded(0);
+        const int bit = 1;
 
-        actual.Inclusion.Should().Be(Inclusion.Excluded);
-    }
+        var sign = BitHelper.ToSign(bit);
 
-    [Test]
-    public void Equals_WhenHasSameMembers_ReturnTrue()
-    {
-        var first = new Point<int>(0, Inclusion.Excluded);
-        var second = new Point<int>(0, Inclusion.Excluded);
-
-        var actual = first.Equals(second);
-
-        actual.Should().BeTrue();
-    }
-
-    [Test]
-    public void Equals_WhenHasOtherValue_ReturnFalse()
-    {
-        var first = new Point<int>(0, Inclusion.Excluded);
-        var second = new Point<int>(1, Inclusion.Excluded);
-
-        var actual = first.Equals(second);
-
-        actual.Should().BeFalse();
-    }
-
-    [Test]
-    public void Equals_WhenHasOtherInclusion_ReturnFalse()
-    {
-        var first = new Point<int>(0, Inclusion.Excluded);
-        var second = new Point<int>(0, Inclusion.Included);
-
-        var actual = first.Equals(second);
-
-        actual.Should().BeFalse();
+        sign.Should().Be(-1);
     }
 }

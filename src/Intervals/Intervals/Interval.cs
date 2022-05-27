@@ -49,6 +49,12 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 
     public IntervalInclusion Inclusion { get; }
 
+    public void Deconstruct(out Endpoint<T> left, out Endpoint<T> right)
+    {
+        left = Left;
+        right = Right;
+    }
+
     public bool Equals(IInterval<T>? other) =>
         other is Interval<T> otherInterval && Left == otherInterval.Left && Right == otherInterval.Right;
 

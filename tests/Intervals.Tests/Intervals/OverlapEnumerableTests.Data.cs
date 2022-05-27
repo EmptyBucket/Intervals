@@ -25,11 +25,11 @@ using System.Collections;
 using Intervals.Intervals;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Intervals;
 
-public class SingleIntervalsOverlapData : IEnumerable
+public partial class OverlapEnumerableTests
 {
-    public IEnumerator GetEnumerator()
+    public static IEnumerable Overlap_WhenTwoIntervals_Data()
     {
         yield return new TestCaseData(
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
@@ -77,11 +77,8 @@ public class SingleIntervalsOverlapData : IEnumerable
                 Array.Empty<Interval<int>>())
             .SetName("AndTheyDontIntersect_ReturnEmptyCollection");
     }
-}
 
-public class MultipleIntervalsOverlapData : IEnumerable
-{
-    public IEnumerator GetEnumerator()
+    public static IEnumerable Overlap_WhenManyIntervals_Data()
     {
         yield return new TestCaseData(
                 new[]

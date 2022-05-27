@@ -27,7 +27,7 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
-public class HalfAYearInterval : MonthsGranularInterval<HalfAYearInterval>
+public class HalfAYearInterval : MonthGranularIntervalBase<HalfAYearInterval>
 {
     public HalfAYearInterval(int year, int halfAYear)
         : base(DateTimeHelper.GetStartOfHalfAYear(year, halfAYear),

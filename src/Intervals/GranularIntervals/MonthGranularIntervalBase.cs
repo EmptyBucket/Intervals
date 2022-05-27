@@ -26,15 +26,15 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public abstract class MonthsGranularInterval<TInterval> : Interval<DateTime>, IGranularInterval<DateTime, TInterval>
+public abstract class MonthGranularIntervalBase<TInterval> : Interval<DateTime>, IGranularInterval<DateTime, TInterval>
     where TInterval : IGranularInterval<DateTime, TInterval>
 {
     private readonly int _granulesCount;
 
-    protected MonthsGranularInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>
+    protected MonthGranularIntervalBase(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>
         _granulesCount = GranulesCount(left.Value, right.Value);
 
-    protected MonthsGranularInterval(DateTime leftValue, DateTime rightValue, IntervalInclusion intervalInclusion)
+    protected MonthGranularIntervalBase(DateTime leftValue, DateTime rightValue, IntervalInclusion intervalInclusion)
         : base(leftValue, rightValue, intervalInclusion) =>
         _granulesCount = GranulesCount(leftValue, rightValue);
 

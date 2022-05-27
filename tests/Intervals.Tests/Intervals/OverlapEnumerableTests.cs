@@ -25,23 +25,27 @@ using FluentAssertions;
 using Intervals.Intervals;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Intervals;
 
-public class IntervalSubtractTests
+public partial class OverlapEnumerableTests
 {
-	[TestCaseSource(typeof(SingleIntervalsSubtractData))]
-	public void Subtract_WhenSingleIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
-	{
-		var actual = first.Subtract(second);
+    [TestCaseSource(nameof(Overlap_WhenTwoIntervals_Data))]
+    public void Overlap_WhenTwoIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
+    {
+        var actual1 = first.Overlap(second);
+        var actual2 = second.Overlap(first);
 
-		actual.Should().Equal(result);
-	}
+        actual1.Should().Equal(result);
+        actual2.Should().Equal(result);
+    }
 
-	[TestCaseSource(typeof(MultipleIntervalsSubtractData))]
-	public void Subtract_WhenMultipleIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
-	{
-		var actual = first.Subtract(second);
+    [TestCaseSource(nameof(Overlap_WhenManyIntervals_Data))]
+    public void Overlap_WhenManyIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
+    {
+        var actual1 = first.Overlap(second);
+        var actual2 = second.Overlap(first);
 
-		actual.Should().Equal(result);
-	}
+        actual1.Should().Equal(result);
+        actual2.Should().Equal(result);
+    }
 }

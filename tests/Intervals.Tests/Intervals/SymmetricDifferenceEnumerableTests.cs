@@ -22,30 +22,32 @@
 // SOFTWARE.
 
 using FluentAssertions;
-using Intervals.Points;
+using Intervals.Intervals;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Intervals;
 
-public class InclusionTests
+public partial class SymmetricDifferenceEnumerableTests
 {
-	[Test]
-	public void Invert_WhenIncluded_ReturnExcluded()
-	{
-		const Inclusion inclusion = Inclusion.Included;
+    [TestCaseSource(nameof(SymmetricDifference_WhenTwoIntervals_Data))]
+    public void SymmetricDifference_WhenTwoIntervals(IInterval<int> first, IInterval<int> second,
+        IInterval<int>[] result)
+    {
+        var actual1 = first.SymmetricDifference(second);
+        var actual2 = second.SymmetricDifference(first);
 
-		var actual = inclusion.Invert();
+        actual1.Should().Equal(result);
+        actual2.Should().Equal(result);
+    }
 
-		actual.Should().Be(Inclusion.Excluded);
-	}
+    [TestCaseSource(nameof(SymmetricDifference_WhenManyIntervals_Data))]
+    public void SymmetricDifference_WhenManyIntervals(IInterval<int>[] first, IInterval<int>[] second,
+        IInterval<int>[] result)
+    {
+        var actual1 = first.SymmetricDifference(second);
+        var actual2 = second.SymmetricDifference(first);
 
-	[Test]
-	public void Invert_WhenExcluded_ReturnIncluded()
-	{
-		const Inclusion inclusion = Inclusion.Excluded;
-
-		var actual = inclusion.Invert();
-
-		actual.Should().Be(Inclusion.Included);
-	}
+        actual1.Should().Equal(result);
+        actual2.Should().Equal(result);
+    }
 }

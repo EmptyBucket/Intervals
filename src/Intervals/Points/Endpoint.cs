@@ -25,6 +25,15 @@ using Intervals.Utils;
 
 namespace Intervals.Points;
 
+public static class Endpoint
+{
+    public static Endpoint<T> Left<T>(Point<T> point) where T : IEquatable<T>, IComparable<T> =>
+        new(point, EndpointLocation.Left);
+
+    public static Endpoint<T> Right<T>(Point<T> point) where T : IEquatable<T>, IComparable<T> =>
+        new(point, EndpointLocation.Right);
+}
+
 public readonly record struct Endpoint<T> : IComparable<Endpoint<T>> where T : IComparable<T>, IEquatable<T>
 {
     private readonly Point<T> _point;
@@ -40,6 +49,13 @@ public readonly record struct Endpoint<T> : IComparable<Endpoint<T>> where T : I
     public Inclusion Inclusion => _point.Inclusion;
 
     public EndpointLocation Location { get; }
+
+    public void Deconstruct(out T value, out Inclusion inclusion, out EndpointLocation location)
+    {
+        value = Value;
+        inclusion = Inclusion;
+        location = Location;
+    }
 
     public int CompareTo(Endpoint<T> other)
     {

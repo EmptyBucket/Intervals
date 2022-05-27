@@ -26,7 +26,7 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public class WeekInterval : GranularInterval<WeekInterval>
+public class WeekInterval : GranularIntervalBase<WeekInterval>
 {
     public WeekInterval(DateTime startOfWeek)
         : base(startOfWeek, startOfWeek.AddDays(7), IntervalInclusion.RightOpened) =>

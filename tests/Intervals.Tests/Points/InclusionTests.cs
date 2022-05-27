@@ -25,27 +25,27 @@ using FluentAssertions;
 using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Points;
 
-public class EndpointLocationTests
+public class InclusionTests
 {
 	[Test]
-	public void Invert_WhenLeft_ReturnRight()
+	public void Invert_WhenIncluded_ReturnExcluded()
 	{
-		const EndpointLocation endpointLocation = EndpointLocation.Left;
+		const Inclusion inclusion = Inclusion.Included;
 
-		var actual = endpointLocation.Invert();
+		var actual = inclusion.Invert();
 
-		actual.Should().Be(EndpointLocation.Right);
+		actual.Should().Be(Inclusion.Excluded);
 	}
 
 	[Test]
-	public void Invert_WhenRight_ReturnLeft()
+	public void Invert_WhenExcluded_ReturnIncluded()
 	{
-		const EndpointLocation endpointLocation = EndpointLocation.Right;
+		const Inclusion inclusion = Inclusion.Excluded;
 
-		var actual = endpointLocation.Invert();
+		var actual = inclusion.Invert();
 
-		actual.Should().Be(EndpointLocation.Left);
+		actual.Should().Be(Inclusion.Included);
 	}
 }

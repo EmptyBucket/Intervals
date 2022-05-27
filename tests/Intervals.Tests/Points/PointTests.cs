@@ -21,17 +21,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.GranularIntervals;
+using FluentAssertions;
 using Intervals.Points;
+using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Points;
 
-public class FooMonthsGranularInterval : MonthsGranularInterval<FooMonthsGranularInterval>
+public class PointTests
 {
-    public FooMonthsGranularInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right)
+    [Test]
+    public void Included__ReturnIncludedPoint()
     {
+        const int value = 0;
+
+        var actual = Point.Included(value);
+
+        actual.Value.Should().Be(value);
+        actual.Inclusion.Should().Be(Inclusion.Included);
     }
 
-    protected override FooMonthsGranularInterval Create(Point<DateTime> left, Point<DateTime> right) =>
-        new(left, right);
+    [Test]
+    public void Excluded__ReturnExcludedPoint()
+    {
+        const int value = 0;
+
+        var actual = Point.Excluded(value);
+
+        actual.Value.Should().Be(value);
+        actual.Inclusion.Should().Be(Inclusion.Excluded);
+    }
 }

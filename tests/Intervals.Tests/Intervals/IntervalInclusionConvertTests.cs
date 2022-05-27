@@ -26,7 +26,7 @@ using Intervals.Intervals;
 using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Intervals;
 
 public class IntervalInclusionConvertTests
 {

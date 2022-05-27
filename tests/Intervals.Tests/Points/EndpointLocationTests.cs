@@ -2,7 +2,7 @@ using FluentAssertions;
 using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.Points;
 
 public class EndpointLocationTests
 {

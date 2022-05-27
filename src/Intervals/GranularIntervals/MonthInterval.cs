@@ -4,7 +4,7 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
-public class MonthInterval : MonthsGranularInterval<MonthInterval>
+public class MonthInterval : MonthGranularIntervalBase<MonthInterval>
 {
     public MonthInterval(int year, int month)
         : base(DateTimeHelper.GetStartOfMonth(year, month), DateTimeHelper.GetOpenedEndOfMonth(year, month),

@@ -3,7 +3,7 @@ using Intervals.GranularIntervals;
 using Intervals.Points;
 using NUnit.Framework;
 
-namespace Intervals.Tests;
+namespace Intervals.Tests.GranularIntervals;
 
 public class GranularIntervalTests
 {
@@ -12,7 +12,7 @@ public class GranularIntervalTests
     {
         var left = Point.Excluded(new DateTime(2021, 1, 1, 1, 1, 1));
         var right = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
-        var fooInterval = new SomeInterval(left, right);
+        var fooInterval = new GranularInterval(left, right);
 
         var actual = fooInterval.GetNext();
 
@@ -25,7 +25,7 @@ public class GranularIntervalTests
     {
         var left = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
         var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var fooInterval = new SomeInterval(left, right);
+        var fooInterval = new GranularInterval(left, right);
 
         var actual = fooInterval.GetPrev();
 

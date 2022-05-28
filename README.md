@@ -31,3 +31,12 @@ var enumerable = new[]
 
 var nextQuarter = new QuarterInterval(2022, 3).GetNext().Combine(new MonthInterval(2022, 1).GetPrev());
 ```
+#### Combine
+![image](https://user-images.githubusercontent.com/8377311/170842990-f7fa9a86-93cb-4904-b0c1-d44e6402b9e8.png)
+#### Overlap
+![image](https://user-images.githubusercontent.com/8377311/170842996-4eeb830e-cb43-4403-9d0e-f3f6935c030c.png)
+#### Subtract
+![image](https://user-images.githubusercontent.com/8377311/170843001-518e926a-ff64-46cb-b88e-a12436ef43b0.png)
+#### SymmetricDifference
+![image](https://user-images.githubusercontent.com/8377311/170843011-a271a586-d46a-4dba-8648-40b91332d630.png)
+

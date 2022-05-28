@@ -31,26 +31,24 @@ namespace Intervals.Intervals.Enumerable;
 internal abstract class MergeEnumerable<T> : IEnumerable<IInterval<T>>
     where T : IEquatable<T>, IComparable<T>
 {
-    private readonly IImmutableList<IEnumerable<IInterval<T>>> _batches;
-
-    protected MergeEnumerable(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
+    protected MergeEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches)
     {
-        var l = (left as MergeEnumerable<T>)?._batches ?? ImmutableList.Create(left);
-        var r = (left as MergeEnumerable<T>)?._batches ?? ImmutableList.Create(right);
-        _batches = l.AddRange(r);
+        Batches = batches;
     }
+
+    public IImmutableList<IEnumerable<IInterval<T>>> Batches { get; }
 
     public IEnumerator<IInterval<T>> GetEnumerator()
     {
-        var endpoints = _batches
+        var endpoints = Batches
             .Select((b, bIdx) =>
             {
                 var endpoints = b.Where(i => !i.IsEmpty()).SelectMany(i => GetEndpoints(i, bIdx));
-                return b is MergeEnumerable<IInterval<T>> ? endpoints : endpoints.OrderBy(e => e.Endpoint);
+                return b is MergeEnumerable<T> ? endpoints : endpoints.OrderBy(e => e.Endpoint);
             })
             .Aggregate((a, n) => a.Merge(n, e => e.Endpoint))
             .ToArray();
-        var batchBalances = new int[_batches.Count];
+        var batchBalances = new int[Batches.Count];
 
         var deviation = false;
         IInterval<T>? interval = null;

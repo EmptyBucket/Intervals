@@ -46,18 +46,17 @@ public static class IntervalExtensions
 
     public static IEnumerable<IInterval<T>> Combine<T>(this IEnumerable<IInterval<T>> left,
         IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
-        new CombineEnumerable<T>(left, right);
+        CombineEnumerable<T>.Create(left, right);
 
     public static IEnumerable<IInterval<T>> Overlap<T>(this IEnumerable<IInterval<T>> left,
         IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
-        new OverlapEnumerable<T>(left, right);
+        OverlapEnumerable<T>.Create(left, right);
 
     public static IEnumerable<IInterval<T>> Subtract<T>(this IEnumerable<IInterval<T>> left,
         IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
-        new SubtractEnumerable<T>(left, right);
+        SubtractEnumerable<T>.Create(left, right);
 
     public static IEnumerable<IInterval<T>> SymmetricDifference<T>(this IEnumerable<IInterval<T>> left,
-        IEnumerable<IInterval<T>> right)
-        where T : IComparable<T>, IEquatable<T> =>
-        new SymmetricDifferenceEnumerable<T>(left, right);
+        IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
+        SymmetricDifferenceEnumerable<T>.Create(left, right);
 }

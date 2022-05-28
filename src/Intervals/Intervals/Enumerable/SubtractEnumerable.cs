@@ -21,11 +21,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Collections.Immutable;
+
 namespace Intervals.Intervals.Enumerable;
 
 internal class SubtractEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public SubtractEnumerable(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) : base(left, right)
+    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) =>
+        new SubtractEnumerable<T>(ImmutableList.Create(left, right));
+
+    private SubtractEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
     {
     }
 

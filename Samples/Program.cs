@@ -21,28 +21,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections.Immutable;
+﻿using Intervals.GranularIntervals;using Intervals.Intervals;
 
-namespace Intervals.Intervals.Enumerable;
+var enumerable =
+    new[]
+        {
+            new Interval<int>(0, 10, IntervalInclusion.LeftOpened),
+            new Interval<int>(20, 30, IntervalInclusion.Closed),
+            new Interval<int>(40, 50, IntervalInclusion.RightOpened)
+        }
+        .Combine(new[]
+            {
+                new Interval<int>(10, 20, IntervalInclusion.Opened),
+                new Interval<int>(30, 40, IntervalInclusion.Opened)
+            }
+            .Subtract(new[]
+            {
+                new Interval<int>(15, 25, IntervalInclusion.Closed),
+                new Interval<int>(25, 35, IntervalInclusion.Closed)
+            }))
+        .Overlap(new[]
+            {
+                new Interval<int>(15, 20, IntervalInclusion.Closed),
+                new Interval<int>(30, 35, IntervalInclusion.Closed)
+            }
+            .SymmetricDifference(new Interval<int>(20, 35, IntervalInclusion.Opened)))
+        .Overlap(new Interval<int>(20, 25, IntervalInclusion.Opened))
+        .ToArray();
 
-internal class SymmetricDifferenceEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
-{
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
-    {
-        var builder = ImmutableList.CreateBuilder<IEnumerable<IInterval<T>>>();
+var nextQuarter = new QuarterInterval(2022, 3).GetNext();
 
-        if (left is SymmetricDifferenceEnumerable<T> l) builder.AddRange(l.Batches);
-        else builder.Add(left);
-
-        if (right is SymmetricDifferenceEnumerable<T> r) builder.AddRange(r.Batches);
-        else builder.Add(right);
-
-        return new SymmetricDifferenceEnumerable<T>(builder.ToImmutable());
-    }
-
-    private SymmetricDifferenceEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
-    {
-    }
-
-    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances.Count(b => b > 0) == 1;
-}
+Console.WriteLine();

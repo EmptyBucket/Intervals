@@ -1,0 +1,43 @@
+name: CI
+
+env:
+  GITHUB_FEED: https://nuget.pkg.github.com/EmptyBucket/index.json
+  GITHUB_KEY: ${{ secrets.INTERVALS_GITHUB_PAT }}
+
+  NUGET_FEED: https://api.nuget.org/v3/index.json
+  NUGET_KEY: ${{ secrets.INTERVALS_NUGET_PAT }}
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v2.1.0
+
+    - name: Create Release NuGet package
+      run: |
+        dotnet pack -c Release -o packages src/Intervals
+      
+    - name: Push to GitHub Feed
+      run: |
+        for f in ./packages/*.nupkg
+        do
+          dotnet nuget push $f -s $GITHUB_FEED -k $GITHUB_KEY --skip-duplicate
+        done
+        
+    - name: Push to Nuget Feed
+      run: |
+        for f in ./packages/*.nupkg
+        do
+          dotnet nuget push $f -s $NUGET_FEED -k $NUGET_KEY --skip-duplicate
+        done

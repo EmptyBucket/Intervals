@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Intervals\Intervals.csproj" />
+      <ProjectReference Include="..\Intervals\Intervals.csproj" />
     </ItemGroup>
 
 </Project>

@@ -28,9 +28,10 @@ namespace Intervals.GranularIntervals;
 
 public class DayInterval : GranularIntervalBase<DayInterval>
 {
-    public DayInterval(DateTime startOfDay) : base(startOfDay, startOfDay.AddDays(1), IntervalInclusion.RightOpened)
+    public DayInterval(DateTime startOfDay) : base(startOfDay.Date, startOfDay.Date.AddDays(1),
+        IntervalInclusion.RightOpened)
     {
-        StartOfDay = startOfDay;
+        StartOfDay = startOfDay.Date;
     }
 
     private DayInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)

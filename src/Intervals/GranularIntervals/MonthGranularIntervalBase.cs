@@ -43,19 +43,21 @@ public abstract class MonthGranularIntervalBase<TInterval> : Interval<DateTime>,
         _granulesCount = GranulesCount(leftValue, rightValue);
     }
 
-    public TInterval GetPrev() => AddBatches(-1);
-
-    public TInterval GetNext() => AddBatches(1);
-
     private static int GranulesCount(DateTime leftValue, DateTime rightValue) =>
         (rightValue.Year - leftValue.Year) * 12 + (rightValue.Month - leftValue.Month);
 
-    private TInterval AddBatches(int batchesCount)
+    public TInterval Move(int granulesCount = 1)
     {
-        var totalGranulesCount = _granulesCount * batchesCount;
+        var totalGranulesCount = _granulesCount * granulesCount;
         return Create(
             new Point<DateTime>(Left.Value.AddMonths(totalGranulesCount), Right.Inclusion.Invert()),
             new Point<DateTime>(Right.Value.AddMonths(totalGranulesCount), Left.Inclusion.Invert()));
+    }
+
+    public TInterval Add(int granulesCount = 1)
+    {
+        var totalGranulesCount = _granulesCount * granulesCount;
+        return Create(Left, new Point<DateTime>(Right.Value.AddMonths(totalGranulesCount), Left.Inclusion.Invert()));
     }
 
     protected abstract TInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint);

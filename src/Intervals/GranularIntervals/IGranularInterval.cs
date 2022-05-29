@@ -27,7 +27,7 @@ public interface IGranularInterval<T, out TInterval>
     where T : IComparable<T>, IEquatable<T>
     where TInterval : IGranularInterval<T, TInterval>
 {
-    TInterval GetPrev();
+    TInterval Move(int granulesCount = 1);
 
-    TInterval GetNext();
+    TInterval Add(int granulesCount = 1);
 }

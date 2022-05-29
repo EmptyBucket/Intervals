@@ -42,18 +42,20 @@ public abstract class GranularIntervalBase<TInterval> : Interval<DateTime>, IGra
         _granuleSize = ComputeGranuleSize(leftValue, rightValue);
     }
 
-    public TInterval GetPrev() => AddBatches(-1);
-
-    public TInterval GetNext() => AddBatches(1);
-
     private static TimeSpan ComputeGranuleSize(DateTime leftValue, DateTime rightValue) => rightValue - leftValue;
 
-    private TInterval AddBatches(int batchesCount)
+    public TInterval Move(int granulesCount = 1)
     {
-        var totalGranulesSize = _granuleSize * batchesCount;
+        var totalGranulesSize = _granuleSize * granulesCount;
         return Create(
             new Point<DateTime>(Left.Value + totalGranulesSize, Right.Inclusion.Invert()),
             new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
+    }
+
+    public TInterval Add(int granulesCount = 1)
+    {
+        var totalGranulesSize = _granuleSize * granulesCount;
+        return Create(Left, new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
     }
 
     protected abstract TInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint);

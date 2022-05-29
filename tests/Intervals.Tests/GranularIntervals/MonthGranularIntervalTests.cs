@@ -38,7 +38,7 @@ public partial class MonthGranularIntervalTests
         var right = Point.Excluded(rightValue);
         var interval = new FooMonthGranularInterval(left, right);
 
-        var actual = interval.GetNext();
+        var actual = interval.Move();
 
         actual.Left.Value.Should().Be(expectedLeftValue);
         actual.Right.Value.Should().Be(expectedRightValue);
@@ -52,7 +52,7 @@ public partial class MonthGranularIntervalTests
         var right = Point.Excluded(rightValue);
         var interval = new FooMonthGranularInterval(left, right);
 
-        var actual = interval.GetPrev();
+        var actual = interval.Move(-1);
 
         actual.Left.Value.Should().Be(expectedLeftValue);
         actual.Right.Value.Should().Be(expectedRightValue);

@@ -29,8 +29,7 @@ public readonly record struct Endpoint<T> : IComparable<Endpoint<T>> where T : I
 
     public void Deconstruct(out T value, out Inclusion inclusion, out EndpointLocation location)
     {
-        value = Value;
-        inclusion = Inclusion;
+        (value, inclusion) = _point;
         location = Location;
     }
 
@@ -55,6 +54,8 @@ public readonly record struct Endpoint<T> : IComparable<Endpoint<T>> where T : I
         return inclusionCompared * BitHelper.ToSign((int)thisIsLeft);
     }
 
+    public static implicit operator Point<T>(Endpoint<T> endpoint) => endpoint._point;
+
     public override string ToString() => Location switch
     {
         EndpointLocation.Left => Inclusion switch
@@ -71,6 +72,4 @@ public readonly record struct Endpoint<T> : IComparable<Endpoint<T>> where T : I
         },
         _ => throw new ArgumentOutOfRangeException()
     };
-
-    public static implicit operator Point<T>(Endpoint<T> endpoint) => endpoint._point;
 }

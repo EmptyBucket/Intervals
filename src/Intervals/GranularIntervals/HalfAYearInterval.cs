@@ -6,17 +6,23 @@ namespace Intervals.GranularIntervals;
 
 public class HalfAYearInterval : MonthGranularIntervalBase<HalfAYearInterval>
 {
-    public HalfAYearInterval(int year, int halfAYear)
-        : base(DateTimeHelper.GetStartOfHalfAYear(year, halfAYear),
-            DateTimeHelper.GetOpenedEndOfHalfAYear(year, halfAYear), IntervalInclusion.RightOpened) =>
-        (Year, HalfAYear) = (year, halfAYear);
+    public HalfAYearInterval(int year, int halfAYear) : base(DateTimeHelper.GetStartOfHalfAYear(year, halfAYear),
+        DateTimeHelper.GetOpenedEndOfHalfAYear(year, halfAYear), IntervalInclusion.RightOpened)
+    {
+        Year = year;
+        HalfAYear = halfAYear;
+    }
 
-    private HalfAYearInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>
-        (Year, HalfAYear) = (left.Value.Year, left.Value.GetHalfAYear());
+    private HalfAYearInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
+    {
+        Year = leftPoint.Value.Year;
+        HalfAYear = leftPoint.Value.GetHalfAYear();
+    }
 
     public int Year { get; }
 
     public int HalfAYear { get; }
 
-    protected override HalfAYearInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
+    protected override HalfAYearInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
+        new(leftPoint, rightPoint);
 }

@@ -46,8 +46,7 @@ internal abstract class MergeEnumerable<T> : IEnumerable<IInterval<T>>
                 var endpoints = b.Where(i => !i.IsEmpty()).SelectMany(i => GetEndpoints(i, bIdx));
                 return b is MergeEnumerable<T> ? endpoints : endpoints.OrderBy(e => e.Endpoint);
             })
-            .Aggregate((a, n) => a.Merge(n, e => e.Endpoint))
-            .ToArray();
+            .Aggregate((a, n) => a.Merge(n, e => e.Endpoint));
         var batchBalances = new int[Batches.Count];
 
         var deviation = false;

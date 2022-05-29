@@ -21,31 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Intervals;
-using Intervals.Points;
-using Intervals.Utils;
+// ReSharper disable once CheckNamespace
 
-namespace Intervals.GranularIntervals;
+namespace System.Runtime.CompilerServices;
 
-public class HalfAYearInterval : MonthGranularIntervalBase<HalfAYearInterval>
+// ReSharper disable once UnusedType.Global
+internal static class IsExternalInit
 {
-    public HalfAYearInterval(int year, int halfAYear) : base(DateTimeHelper.GetStartOfHalfAYear(year, halfAYear),
-        DateTimeHelper.GetOpenedEndOfHalfAYear(year, halfAYear), IntervalInclusion.RightOpened)
-    {
-        Year = year;
-        HalfAYear = halfAYear;
-    }
-
-    private HalfAYearInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
-    {
-        Year = leftPoint.Value.Year;
-        HalfAYear = leftPoint.Value.GetHalfAYear();
-    }
-
-    public int Year { get; }
-
-    public int HalfAYear { get; }
-
-    protected override HalfAYearInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
-        new(leftPoint, rightPoint);
 }

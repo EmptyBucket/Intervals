@@ -29,17 +29,23 @@ namespace Intervals.GranularIntervals;
 
 public class QuarterInterval : MonthGranularIntervalBase<QuarterInterval>
 {
-    public QuarterInterval(int year, int quarter)
-        : base(DateTimeHelper.GetStartOfQuarter(year, quarter), DateTimeHelper.GetOpenedEndOfQuarter(year, quarter),
-            IntervalInclusion.RightOpened) =>
-        (Year, Quarter) = (year, quarter);
+    public QuarterInterval(int year, int quarter) : base(DateTimeHelper.GetStartOfQuarter(year, quarter),
+        DateTimeHelper.GetOpenedEndOfQuarter(year, quarter), IntervalInclusion.RightOpened)
+    {
+        Year = year;
+        Quarter = quarter;
+    }
 
-    private QuarterInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>
-        (Year, Quarter) = (left.Value.Year, left.Value.GetQuarter());
+    private QuarterInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
+    {
+        Year = leftPoint.Value.Year;
+        Quarter = leftPoint.Value.GetQuarter();
+    }
 
     public int Year { get; }
 
     public int Quarter { get; }
 
-    protected override QuarterInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
+    protected override QuarterInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
+        new(leftPoint, rightPoint);
 }

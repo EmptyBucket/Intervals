@@ -31,12 +31,17 @@ public abstract class MonthGranularIntervalBase<TInterval> : Interval<DateTime>,
 {
     private readonly int _granulesCount;
 
-    protected MonthGranularIntervalBase(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>
-        _granulesCount = GranulesCount(left.Value, right.Value);
+    protected MonthGranularIntervalBase(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
+        : base(leftPoint, rightPoint)
+    {
+        _granulesCount = GranulesCount(leftPoint.Value, rightPoint.Value);
+    }
 
-    protected MonthGranularIntervalBase(DateTime leftValue, DateTime rightValue, IntervalInclusion intervalInclusion)
-        : base(leftValue, rightValue, intervalInclusion) =>
+    protected MonthGranularIntervalBase(DateTime leftValue, DateTime rightValue, IntervalInclusion inclusion)
+        : base(leftValue, rightValue, inclusion)
+    {
         _granulesCount = GranulesCount(leftValue, rightValue);
+    }
 
     public TInterval GetPrev() => AddBatches(-1);
 
@@ -53,5 +58,5 @@ public abstract class MonthGranularIntervalBase<TInterval> : Interval<DateTime>,
             new Point<DateTime>(Right.Value.AddMonths(totalGranulesCount), Left.Inclusion.Invert()));
     }
 
-    protected abstract TInterval Create(Point<DateTime> left, Point<DateTime> right);
+    protected abstract TInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint);
 }

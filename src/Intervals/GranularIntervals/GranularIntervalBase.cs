@@ -31,12 +31,16 @@ public abstract class GranularIntervalBase<TInterval> : Interval<DateTime>, IGra
 {
     private readonly TimeSpan _granuleSize;
 
-    protected GranularIntervalBase(Point<DateTime> left, Point<DateTime> right) : base(left, right) =>
-        _granuleSize = ComputeGranuleSize(left.Value, right.Value);
+    protected GranularIntervalBase(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
+    {
+        _granuleSize = ComputeGranuleSize(leftPoint.Value, rightPoint.Value);
+    }
 
-    protected GranularIntervalBase(DateTime leftValue, DateTime rightValue, IntervalInclusion intervalInclusion)
-        : base(leftValue, rightValue, intervalInclusion) =>
+    protected GranularIntervalBase(DateTime leftValue, DateTime rightValue, IntervalInclusion inclusion)
+        : base(leftValue, rightValue, inclusion)
+    {
         _granuleSize = ComputeGranuleSize(leftValue, rightValue);
+    }
 
     public TInterval GetPrev() => AddBatches(-1);
 
@@ -52,5 +56,5 @@ public abstract class GranularIntervalBase<TInterval> : Interval<DateTime>, IGra
             new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
     }
 
-    protected abstract TInterval Create(Point<DateTime> left, Point<DateTime> right);
+    protected abstract TInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint);
 }

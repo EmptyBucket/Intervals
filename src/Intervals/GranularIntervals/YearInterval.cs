@@ -30,12 +30,18 @@ namespace Intervals.GranularIntervals;
 public class YearInterval : MonthGranularIntervalBase<YearInterval>
 {
     public YearInterval(int year) : base(DateTimeHelper.GetStartOfYear(year), DateTimeHelper.GetOpenedEndOfYear(year),
-        IntervalInclusion.RightOpened) =>
+        IntervalInclusion.RightOpened)
+    {
         Year = year;
+    }
 
-    private YearInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) => Year = left.Value.Year;
+    private YearInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
+    {
+        Year = leftPoint.Value.Year;
+    }
 
     public int Year { get; }
 
-    protected override YearInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
+    protected override YearInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
+        new(leftPoint, rightPoint);
 }

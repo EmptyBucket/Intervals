@@ -28,15 +28,16 @@ namespace Intervals.GranularIntervals;
 
 public class GranularInterval : GranularIntervalBase<GranularInterval>
 {
-    public GranularInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right)
+    public GranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
     {
     }
 
     public GranularInterval(DateTime leftValue, DateTime rightValue,
-        IntervalInclusion intervalInclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, rightValue, intervalInclusion)
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, rightValue, inclusion)
     {
     }
 
-    protected override GranularInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
+    protected override GranularInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
+        new(leftPoint, rightPoint);
 }

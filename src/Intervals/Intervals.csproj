@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <ImplicitUsings>true</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>10</LangVersion>
 
         <PackageId>ap.Intervals</PackageId>
-        <Version>1.0.3</Version>
+        <Version>1.0.5</Version>
         <Authors>Alexey Politov, Yevgeny Khoroshavin</Authors>
         <PackageDescription>Library for working with generic intervals and granular time intervals (like a quarter, a week...). Intervals support different inclusions (Opened, LeftOpened, RightOpened, Closed). Operations have O(nlog) asymptotic complexity, even if you did some complex method chaining it would still be O(nlog) where each point would only be sorted once</PackageDescription>
         <RepositoryUrl>https://github.com/EmptyBucket/Intervals</RepositoryUrl>

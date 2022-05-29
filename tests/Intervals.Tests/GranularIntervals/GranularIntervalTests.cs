@@ -35,9 +35,9 @@ public class GranularIntervalTests
     {
         var left = Point.Excluded(new DateTime(2021, 1, 1, 1, 1, 1));
         var right = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
-        var fooInterval = new GranularInterval(left, right);
+        var interval = new GranularInterval(left, right);
 
-        var actual = fooInterval.GetNext();
+        var actual = interval.GetNext();
 
         actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
         actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
@@ -48,9 +48,9 @@ public class GranularIntervalTests
     {
         var left = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
         var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var fooInterval = new GranularInterval(left, right);
+        var interval = new GranularInterval(left, right);
 
-        var actual = fooInterval.GetPrev();
+        var actual = interval.GetPrev();
 
         actual.Left.Value.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
         actual.Right.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));

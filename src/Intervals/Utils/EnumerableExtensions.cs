@@ -25,13 +25,13 @@ namespace Intervals.Utils;
 
 internal static class EnumerableExtensions
 {
-    public static IEnumerable<TSource> Merge<TSource, TKey>(this IEnumerable<TSource> first,
-        IEnumerable<TSource> second, Func<TSource, TKey> selector, bool ascending = true)
+    public static IEnumerable<TSource> Merge<TSource, TKey>(this IEnumerable<TSource> left,
+        IEnumerable<TSource> right, Func<TSource, TKey> selector, bool ascending = true)
         where TKey : IComparable<TKey>
     {
         Func<int, bool> order = ascending ? i => i <= 0 : i => i >= 0;
-        using var firstEnumerator = first.GetEnumerator();
-        using var secondEnumerator = second.GetEnumerator();
+        using var firstEnumerator = left.GetEnumerator();
+        using var secondEnumerator = right.GetEnumerator();
         bool firstHas = firstEnumerator.MoveNext(), secondHas = secondEnumerator.MoveNext();
 
         if (firstHas && secondHas)

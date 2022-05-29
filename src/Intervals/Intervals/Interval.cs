@@ -28,19 +28,19 @@ namespace Intervals.Intervals;
 
 public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
-    public Interval(Point<T> left, Point<T> right)
+    public Interval(Point<T> leftPoint, Point<T> rightPoint)
     {
-        Left = new Endpoint<T>(left, EndpointLocation.Left);
-        Right = new Endpoint<T>(right, EndpointLocation.Right);
-        Inclusion = IntervalInclusionConvert.FromInclusions(left.Inclusion, right.Inclusion);
+        Left = Endpoint.Left(leftPoint);
+        Right = Endpoint.Right(rightPoint);
+        Inclusion = IntervalInclusionConvert.FromInclusions(leftPoint.Inclusion, rightPoint.Inclusion);
     }
 
-    public Interval(T leftValue, T rightValue, IntervalInclusion intervalInclusion = IntervalInclusion.RightOpened)
+    public Interval(T leftValue, T rightValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
     {
-        var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
-        Left = new Endpoint<T>(new Point<T>(leftValue, leftInclusion), EndpointLocation.Left);
-        Right = new Endpoint<T>(new Point<T>(rightValue, rightInclusion), EndpointLocation.Right);
-        Inclusion = intervalInclusion;
+        var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(inclusion);
+        Left = Endpoint.Left(new Point<T>(leftValue, leftInclusion));
+        Right = Endpoint.Right(new Point<T>(rightValue, rightInclusion));
+        Inclusion = inclusion;
     }
 
     public Endpoint<T> Left { get; }

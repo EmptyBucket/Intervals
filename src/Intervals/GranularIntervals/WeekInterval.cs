@@ -28,13 +28,18 @@ namespace Intervals.GranularIntervals;
 
 public class WeekInterval : GranularIntervalBase<WeekInterval>
 {
-    public WeekInterval(DateTime startOfWeek)
-        : base(startOfWeek, startOfWeek.AddDays(7), IntervalInclusion.RightOpened) =>
+    public WeekInterval(DateTime startOfWeek) : base(startOfWeek, startOfWeek.AddDays(7), IntervalInclusion.RightOpened)
+    {
         StartOfWeek = startOfWeek;
+    }
 
-    private WeekInterval(Point<DateTime> left, Point<DateTime> right) : base(left, right) => StartOfWeek = left.Value;
+    private WeekInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
+    {
+        StartOfWeek = leftPoint.Value;
+    }
 
     public DateTime StartOfWeek { get; }
 
-    protected override WeekInterval Create(Point<DateTime> left, Point<DateTime> right) => new(left, right);
+    protected override WeekInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
+        new(leftPoint, rightPoint);
 }

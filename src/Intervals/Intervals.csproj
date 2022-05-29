@@ -5,11 +5,12 @@
         <Nullable>enable</Nullable>
 
         <PackageId>ap.Intervals</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <Authors>Alexey Politov, Yevgeny Khoroshavin</Authors>
         <PackageDescription>Library for working with generic intervals and granular time intervals (like a quarter, a week...). Intervals support different inclusions(Opened, LeftOpened, RightOpened, Closed). Operations have O(nlog) asymptotic complexity, even if you did some complex method chaining it would still be O(nlog) where each point would only be sorted once</PackageDescription>
         <RepositoryUrl>https://github.com/EmptyBucket/Intervals</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,5 +25,10 @@
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>$(MSBuildProjectName).Tests</_Parameter1>
         </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\..\icon.png" Visible="false" Pack="true" PackagePath="">
+      </None>
     </ItemGroup>
 </Project>

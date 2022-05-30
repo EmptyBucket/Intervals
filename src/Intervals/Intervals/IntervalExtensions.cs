@@ -64,37 +64,36 @@ public static class IntervalExtensions
 
     public static IEnumerable<IInterval<DateTime>> SplitByDays(this IInterval<DateTime> interval,
         int daysCount = 1) =>
-        SplitBy(interval, d => new DayInterval(d).Move(daysCount).Left.Value);
+        SplitBy(interval, l => new DayInterval(l).Add(daysCount - 1));
 
     public static IEnumerable<IInterval<DateTime>> SplitByMonths(this IInterval<DateTime> interval,
         int monthsCount = 1) => 
-        SplitBy(interval, d => new MonthInterval(d.Year, d.Month).Move(monthsCount).Left.Value);
+        SplitBy(interval, l => new MonthInterval(l.Year, l.Month).Add(monthsCount - 1));
 
     public static IEnumerable<IInterval<DateTime>> SplitByQuarters(this IInterval<DateTime> interval,
         int quartersCount = 1) =>
-        SplitBy(interval, d => new QuarterInterval(d.Year, d.GetQuarter()).Move(quartersCount).Left.Value);
+        SplitBy(interval, l => new QuarterInterval(l.Year, l.GetQuarter()).Add(quartersCount - 1));
     
     public static IEnumerable<IInterval<DateTime>> SplitByHalfYears(this IInterval<DateTime> interval,
         int halfYearsCount = 1) =>
-        SplitBy(interval, d => new HalfAYearInterval(d.Year, d.GetHalfAYear()).Move(halfYearsCount).Left.Value);
+        SplitBy(interval, l => new HalfAYearInterval(l.Year, l.GetHalfAYear()).Add(halfYearsCount - 1));
     
     public static IEnumerable<IInterval<DateTime>> SplitByYears(this IInterval<DateTime> interval,
         int yearsCount = 1) =>
-        SplitBy(interval, d => new YearInterval(d.Year).Move(yearsCount).Left.Value);
+        SplitBy(interval, l => new YearInterval(l.Year).Add(yearsCount - 1));
 
     private static IEnumerable<IInterval<DateTime>> SplitBy(IInterval<DateTime> interval,
-        Func<DateTime, DateTime> computeRightValue)
+        Func<DateTime, IInterval<DateTime>> computeInterval)
     {
         var (left, right) = (interval.Left, interval.Right);
-        // ReSharper disable once RedundantAssignment
-        var (curLeft, curRight) = (left, default(Endpoint<DateTime>));
 
-        while (curLeft.CompareTo(right) < 0)
+        while (left.CompareTo(right) < 0)
         {
-            var value = computeRightValue(curLeft.Value);
-            curRight = value < right.Value ? Endpoint.Right(Point.Excluded(value)) : right;
-            yield return new Interval<DateTime>(curLeft, curRight);
-            curLeft = Endpoint.Left(new Point<DateTime>(curRight.Value, curRight.Inclusion.Invert()));
+            var curInterval = computeInterval(left.Value);
+            curInterval =
+                new Interval<DateTime>(left, curInterval.Right.CompareTo(right) < 0 ? curInterval.Right : right);
+            yield return curInterval;
+            left = Endpoint.Left(new Point<DateTime>(curInterval.Right.Value, curInterval.Right.Inclusion.Invert()));
         }
     }
 }

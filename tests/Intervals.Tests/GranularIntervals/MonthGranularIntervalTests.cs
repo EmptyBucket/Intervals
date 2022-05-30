@@ -36,7 +36,7 @@ public partial class MonthGranularIntervalTests
     {
         var left = Point.Excluded(leftValue);
         var right = Point.Excluded(rightValue);
-        var interval = new FooMonthGranularInterval(left, right);
+        var interval = new MonthGranularInterval(left, right);
 
         var actual = interval.Move();
 
@@ -50,22 +50,11 @@ public partial class MonthGranularIntervalTests
     {
         var left = Point.Excluded(leftValue);
         var right = Point.Excluded(rightValue);
-        var interval = new FooMonthGranularInterval(left, right);
+        var interval = new MonthGranularInterval(left, right);
 
         var actual = interval.Move(-1);
 
         actual.Left.Value.Should().Be(expectedLeftValue);
         actual.Right.Value.Should().Be(expectedRightValue);
-    }
-
-    private class FooMonthGranularInterval : MonthGranularIntervalBase<FooMonthGranularInterval>
-    {
-        public FooMonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) 
-            : base(leftPoint, rightPoint)
-        {
-        }
-
-        protected override FooMonthGranularInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
-            new(leftPoint, rightPoint);
     }
 }

@@ -21,13 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Intervals.Intervals;
+
 namespace Intervals.GranularIntervals;
 
-public interface IGranularInterval<T, out TInterval>
-    where T : IComparable<T>, IEquatable<T>
-    where TInterval : IGranularInterval<T, TInterval>
+public interface IGranularInterval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
-    TInterval Move(int granulesCount = 1);
+    IGranularInterval<T> Move(int granulesCount = 1);
 
-    TInterval Add(int granulesCount = 1);
+    IGranularInterval<T> Add(int granulesCount = 1);
 }

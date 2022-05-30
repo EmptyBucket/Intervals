@@ -23,7 +23,9 @@
 
 using FluentAssertions;
 using Intervals.Intervals;
+using Intervals.Points;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace Intervals.Tests.Intervals;
 
@@ -201,5 +203,69 @@ public class IntervalExtensionsTests
 		var actual = outer.IsInclude(inner);
 
 		actual.Should().BeTrue();
+	}
+
+	[Test]
+	public void SplitByDays_WhenOneDayByTwoDay_ReturnOneDay()
+	{
+		var interval = new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+
+		var actual = interval.SplitByDays(2).ToArray();
+
+		actual.Length.Should().Be(1);
+		actual[0].Left.Value.Should().Be(new DateTime(2022, 1, 1));
+		actual[0].Left.Inclusion.Should().Be(Inclusion.Included);
+		actual[0].Right.Value.Should().Be(new DateTime(2022, 1, 2));
+		actual[0].Right.Inclusion.Should().Be(Inclusion.Excluded);
+	}
+	
+	[Test]
+	public void SplitByDays_WhenTwoDayByTwoDay_ReturnTwoDay()
+	{
+		var interval = new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 3));
+
+		var actual = interval.SplitByDays(2).ToArray();
+
+		actual.Length.Should().Be(1);
+		actual[0].Left.Value.Should().Be(new DateTime(2022, 1, 1));
+		actual[0].Left.Inclusion.Should().Be(Inclusion.Included);
+		actual[0].Right.Value.Should().Be(new DateTime(2022, 1, 3));
+		actual[0].Right.Inclusion.Should().Be(Inclusion.Excluded);
+	}
+	
+	[Test]
+	public void SplitByDays_WhenThreeDayByTwoDay_ReturnTwoAndOneDay()
+	{
+		var interval = new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 4));
+
+		var actual = interval.SplitByDays(2).ToArray();
+
+		actual.Length.Should().Be(2);
+		actual[0].Left.Value.Should().Be(new DateTime(2022, 1, 1));
+		actual[0].Left.Inclusion.Should().Be(Inclusion.Included);
+		actual[0].Right.Value.Should().Be(new DateTime(2022, 1, 3));
+		actual[0].Right.Inclusion.Should().Be(Inclusion.Excluded);
+		actual[1].Left.Value.Should().Be(new DateTime(2022, 1, 3));
+		actual[1].Left.Inclusion.Should().Be(Inclusion.Included);
+		actual[1].Right.Value.Should().Be(new DateTime(2022, 1, 4));
+		actual[1].Right.Inclusion.Should().Be(Inclusion.Excluded);
+	}
+	
+	[Test]
+	public void SplitByDays_WhenFourDayByTwoDay_ReturnTwoAndTwoDay()
+	{
+		var interval = new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 5));
+
+		var actual = interval.SplitByDays(2).ToArray();
+
+		actual.Length.Should().Be(2);
+		actual[0].Left.Value.Should().Be(new DateTime(2022, 1, 1));
+		actual[0].Left.Inclusion.Should().Be(Inclusion.Included);
+		actual[0].Right.Value.Should().Be(new DateTime(2022, 1, 3));
+		actual[0].Right.Inclusion.Should().Be(Inclusion.Excluded);
+		actual[1].Left.Value.Should().Be(new DateTime(2022, 1, 3));
+		actual[1].Left.Inclusion.Should().Be(Inclusion.Included);
+		actual[1].Right.Value.Should().Be(new DateTime(2022, 1, 5));
+		actual[1].Right.Inclusion.Should().Be(Inclusion.Excluded);
 	}
 }

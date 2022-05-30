@@ -26,18 +26,36 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
-public class GranularInterval : GranularIntervalBase<GranularInterval>
+public class GranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
 {
+    private readonly TimeSpan _granuleSize;
+
     public GranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
     {
+        _granuleSize = ComputeGranuleSize(leftPoint.Value, rightPoint.Value);
     }
 
     public GranularInterval(DateTime leftValue, DateTime rightValue,
-        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, rightValue, inclusion)
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened) : base(leftValue, rightValue, inclusion)
     {
+        _granuleSize = ComputeGranuleSize(leftValue, rightValue);
     }
 
-    protected override GranularInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
-        new(leftPoint, rightPoint);
+    public IGranularInterval<DateTime> Move(int granulesCount = 1)
+    {
+        var totalGranulesSize = _granuleSize * granulesCount;
+        return new GranularInterval(
+            new Point<DateTime>(Left.Value + totalGranulesSize, Right.Inclusion.Invert()),
+            new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
+    }
+
+    public IGranularInterval<DateTime> Add(int granulesCount = 1)
+    {
+        var totalGranulesSize = _granuleSize * granulesCount;
+        return new GranularInterval(
+            Left,
+            new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
+    }
+
+    private static TimeSpan ComputeGranuleSize(DateTime leftValue, DateTime rightValue) => rightValue - leftValue;
 }

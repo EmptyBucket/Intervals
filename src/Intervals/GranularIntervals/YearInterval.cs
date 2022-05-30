@@ -21,27 +21,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Intervals;
-using Intervals.Points;
 using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
-public class YearInterval : MonthGranularIntervalBase<YearInterval>
+public class YearInterval : MonthGranularInterval
 {
-    public YearInterval(int year) : base(DateTimeHelper.GetStartOfYear(year), DateTimeHelper.GetOpenedEndOfYear(year),
-        IntervalInclusion.RightOpened)
+    public YearInterval(int year) : base(DateTimeHelper.GetStartOfYear(year), DateTimeHelper.GetOpenedEndOfYear(year))
     {
         Year = year;
     }
 
-    private YearInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
-    {
-        Year = leftPoint.Value.Year;
-    }
-
     public int Year { get; }
-
-    protected override YearInterval Create(Point<DateTime> leftPoint, Point<DateTime> rightPoint) =>
-        new(leftPoint, rightPoint);
 }

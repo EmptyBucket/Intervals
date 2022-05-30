@@ -28,7 +28,7 @@ namespace Intervals.Tests.GranularIntervals;
 
 public partial class MonthGranularIntervalTests
 {
-    public static IEnumerable GetPrev_Data()
+    public static IEnumerable MoveBackwardData()
     {
         yield return new TestCaseData(
                 new DateTime(2021, 2, 1), new DateTime(2021, 3, 1),
@@ -52,7 +52,7 @@ public partial class MonthGranularIntervalTests
             .SetName("WhenYearsAndMonths_ReturnPrevYearsAndMonths");
     }
 
-    public static IEnumerable GetNext_Data()
+    public static IEnumerable MoveForwardData()
     {
         yield return new TestCaseData(
                 new DateTime(2021, 1, 1), new DateTime(2021, 2, 1),

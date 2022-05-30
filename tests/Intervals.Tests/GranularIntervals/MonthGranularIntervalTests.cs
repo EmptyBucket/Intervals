@@ -30,8 +30,8 @@ namespace Intervals.Tests.GranularIntervals;
 
 public partial class MonthGranularIntervalTests
 {
-    [TestCaseSource(nameof(GetNext_Data))]
-    public void GetNext(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
+    [TestCaseSource(nameof(MoveForwardData))]
+    public void MoveForward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
         DateTime expectedRightValue)
     {
         var left = Point.Excluded(leftValue);
@@ -44,8 +44,8 @@ public partial class MonthGranularIntervalTests
         actual.Right.Value.Should().Be(expectedRightValue);
     }
 
-    [TestCaseSource(nameof(GetPrev_Data))]
-    public void GetPrev(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
+    [TestCaseSource(nameof(MoveBackwardData))]
+    public void MoveBackward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
         DateTime expectedRightValue)
     {
         var left = Point.Excluded(leftValue);

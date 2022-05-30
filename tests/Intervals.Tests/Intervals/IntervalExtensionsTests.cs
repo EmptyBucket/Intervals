@@ -23,13 +23,11 @@
 
 using FluentAssertions;
 using Intervals.Intervals;
-using Intervals.Points;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace Intervals.Tests.Intervals;
 
-public class IntervalExtensionsTests
+public partial class IntervalExtensionsTests
 {
 	[Test]
 	[TestCase(IntervalInclusion.Opened)]
@@ -204,68 +202,85 @@ public class IntervalExtensionsTests
 
 		actual.Should().BeTrue();
 	}
-
-	[Test]
-	public void SplitByDays_WhenOneDayByTwoDay_ReturnOneDay()
-	{
-		var interval = new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
-
-		var actual = interval.SplitByDays(2).ToArray();
-
-		actual.Length.Should().Be(1);
-		actual[0].Left.Value.Should().Be(new DateTime(2022, 1, 1));
-		actual[0].Left.Inclusion.Should().Be(Inclusion.Included);
-		actual[0].Right.Value.Should().Be(new DateTime(2022, 1, 2));
-		actual[0].Right.Inclusion.Should().Be(Inclusion.Excluded);
-	}
 	
 	[Test]
-	public void SplitByDays_WhenTwoDayByTwoDay_ReturnTwoDay()
+	[TestCaseSource(nameof(SplitBySeconds_Data))]
+	public void SplitBy_WhenByTwoSeconds(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
 	{
-		var interval = new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 3));
+		var actual = interval.SplitBy(TimeSpan.FromSeconds(2)).ToArray();
 
-		var actual = interval.SplitByDays(2).ToArray();
-
-		actual.Length.Should().Be(1);
-		actual[0].Left.Value.Should().Be(new DateTime(2022, 1, 1));
-		actual[0].Left.Inclusion.Should().Be(Inclusion.Included);
-		actual[0].Right.Value.Should().Be(new DateTime(2022, 1, 3));
-		actual[0].Right.Inclusion.Should().Be(Inclusion.Excluded);
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
 	}
-	
+
 	[Test]
-	public void SplitByDays_WhenThreeDayByTwoDay_ReturnTwoAndOneDay()
+	[TestCaseSource(nameof(SplitBySeconds_Data))]
+	public void SplitBySeconds_WhenByTwoSeconds(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
 	{
-		var interval = new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 4));
+		var actual = interval.SplitBySeconds(2).ToArray();
 
-		var actual = interval.SplitByDays(2).ToArray();
-
-		actual.Length.Should().Be(2);
-		actual[0].Left.Value.Should().Be(new DateTime(2022, 1, 1));
-		actual[0].Left.Inclusion.Should().Be(Inclusion.Included);
-		actual[0].Right.Value.Should().Be(new DateTime(2022, 1, 3));
-		actual[0].Right.Inclusion.Should().Be(Inclusion.Excluded);
-		actual[1].Left.Value.Should().Be(new DateTime(2022, 1, 3));
-		actual[1].Left.Inclusion.Should().Be(Inclusion.Included);
-		actual[1].Right.Value.Should().Be(new DateTime(2022, 1, 4));
-		actual[1].Right.Inclusion.Should().Be(Inclusion.Excluded);
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
 	}
-	
-	[Test]
-	public void SplitByDays_WhenFourDayByTwoDay_ReturnTwoAndTwoDay()
-	{
-		var interval = new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 5));
 
+	[Test]
+	[TestCaseSource(nameof(SplitByMinutes_Data))]
+	public void SplitByMinutes_WhenByTwoMinutes(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
+	{
+		var actual = interval.SplitByMinutes(2).ToArray();
+
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+	}
+
+	[Test]
+	[TestCaseSource(nameof(SplitByHours_Data))]
+	public void SplitByHours_WhenByTwoHours(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
+	{
+		var actual = interval.SplitByHours(2).ToArray();
+
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+	}
+
+	[Test]
+	[TestCaseSource(nameof(SplitByDays_Data))]
+	public void SplitByDays_WhenByTwoDays(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
+	{
 		var actual = interval.SplitByDays(2).ToArray();
 
-		actual.Length.Should().Be(2);
-		actual[0].Left.Value.Should().Be(new DateTime(2022, 1, 1));
-		actual[0].Left.Inclusion.Should().Be(Inclusion.Included);
-		actual[0].Right.Value.Should().Be(new DateTime(2022, 1, 3));
-		actual[0].Right.Inclusion.Should().Be(Inclusion.Excluded);
-		actual[1].Left.Value.Should().Be(new DateTime(2022, 1, 3));
-		actual[1].Left.Inclusion.Should().Be(Inclusion.Included);
-		actual[1].Right.Value.Should().Be(new DateTime(2022, 1, 5));
-		actual[1].Right.Inclusion.Should().Be(Inclusion.Excluded);
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+	}
+
+	[Test]
+	[TestCaseSource(nameof(SplitByMonths_Data))]
+	public void SplitByDays_WhenByTwoMonths(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
+	{
+		var actual = interval.SplitByMonths(2).ToArray();
+
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+	}
+
+	[Test]
+	[TestCaseSource(nameof(SplitByQuarters_Data))]
+	public void SplitByDays_WhenByTwoQuarters(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
+	{
+		var actual = interval.SplitByQuarters(2).ToArray();
+
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+	}
+
+	[Test]
+	[TestCaseSource(nameof(SplitByHalfYears_Data))]
+	public void SplitByDays_WhenByTwoHalfYears(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
+	{
+		var actual = interval.SplitByHalfYears(2).ToArray();
+
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+	}
+
+	[Test]
+	[TestCaseSource(nameof(SplitByYears_Data))]
+	public void SplitByDays_WhenByTwoYears(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
+	{
+		var actual = interval.SplitByYears(2).ToArray();
+
+		actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
 	}
 }

@@ -62,9 +62,25 @@ public static class IntervalExtensions
         IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
         SymmetricDifferenceEnumerable<T>.Create(left, right);
 
+    public static IEnumerable<IInterval<DateTime>> SplitBy(this IInterval<DateTime> interval, TimeSpan timeSpan) =>
+        SplitBy(interval, l => new Interval<DateTime>(l, l.Add(timeSpan)));
+    
+    public static IEnumerable<IInterval<DateTime>> SplitBySeconds(this IInterval<DateTime> interval,
+        int secondsCount = 1) =>
+        SplitBy(interval,
+            l => new SecondInterval(l.Year, l.Month, l.Day, l.Hour, l.Minute, l.Second).Add(secondsCount - 1));
+    
+    public static IEnumerable<IInterval<DateTime>> SplitByMinutes(this IInterval<DateTime> interval,
+        int minutesCount = 1) =>
+        SplitBy(interval, l => new MinuteInterval(l.Year, l.Month, l.Day, l.Hour, l.Minute).Add(minutesCount - 1));
+    
+    public static IEnumerable<IInterval<DateTime>> SplitByHours(this IInterval<DateTime> interval,
+        int hoursCount = 1) =>
+        SplitBy(interval, l => new HourInterval(l.Year, l.Month, l.Day, l.Hour).Add(hoursCount - 1));
+
     public static IEnumerable<IInterval<DateTime>> SplitByDays(this IInterval<DateTime> interval,
         int daysCount = 1) =>
-        SplitBy(interval, l => new DayInterval(l).Add(daysCount - 1));
+        SplitBy(interval, l => new DayInterval(l.Year, l.Month, l.Day).Add(daysCount - 1));
 
     public static IEnumerable<IInterval<DateTime>> SplitByMonths(this IInterval<DateTime> interval,
         int monthsCount = 1) => 
@@ -90,8 +106,9 @@ public static class IntervalExtensions
         while (left.CompareTo(right) < 0)
         {
             var curInterval = computeInterval(left.Value);
-            curInterval =
-                new Interval<DateTime>(left, curInterval.Right.CompareTo(right) < 0 ? curInterval.Right : right);
+            curInterval = new Interval<DateTime>(
+                curInterval.Left.CompareTo(left) > 0 ? curInterval.Left : left,
+                curInterval.Right.CompareTo(right) < 0 ? curInterval.Right : right);
             yield return curInterval;
             left = Endpoint.Left(new Point<DateTime>(curInterval.Right.Value, curInterval.Right.Inclusion.Invert()));
         }

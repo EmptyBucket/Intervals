@@ -33,6 +33,36 @@ internal static class DateTimeHelper
 
     public static int GetHalfAYear(this DateTime dateTime) =>
         dateTime.GetIntervalNumberInYear(HalfAYearLenInMonths);
+    
+    public static DateTime GetStartOfSecond(int year, int month, int day, int hour, int minute, int second,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        new(year, month, day, hour, minute, second, kind);
+
+    public static DateTime GetOpenedEndOfSecond(int year, int month, int day, int hour, int minute, int second,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        GetStartOfSecond(year, month, day, hour, minute, second, kind).AddSeconds(1);
+    
+    public static DateTime GetStartOfMinute(int year, int month, int day, int hour, int minute,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        new(year, month, day, hour, minute, 0, kind);
+
+    public static DateTime GetOpenedEndOfMinute(int year, int month, int day, int hour, int minute,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        GetStartOfMinute(year, month, day, hour, minute, kind).AddMinutes(1);
+
+    public static DateTime GetStartOfHour(int year, int month, int day, int hour,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        new(year, month, day, hour, 0, 0, kind);
+
+    public static DateTime GetOpenedEndOfHour(int year, int month, int day, int hour,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        GetStartOfHour(year, month, day, hour, kind).AddHours(1);
+
+    public static DateTime GetStartOfDay(int year, int month, int day, DateTimeKind kind = DateTimeKind.Utc) =>
+        new(year, month, day, 0, 0, 0, kind);
+
+    public static DateTime GetOpenedEndOfDay(int year, int month, int day, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetStartOfDay(year, month, day, kind).AddDays(1);
 
     public static DateTime GetStartOfMonth(int year, int month, DateTimeKind kind = DateTimeKind.Utc) =>
         new(year, month, 1, 0, 0, 0, kind);

@@ -49,6 +49,9 @@ var enumerable = new[]
     .Overlap(new Interval<int>(20, 25, IntervalInclusion.Opened))
     .ToArray();
 
-var nextQuarter = new QuarterInterval(2022, 3).Add().Combine(new MonthInterval(2022, 1).Move());
+var result = new QuarterInterval(2022, 3)
+    .Move(-1)
+    .Combine(new MonthInterval(2022, 1).Move(1))
+    .SelectMany(i => i.SplitByMonths(2));
 
 Console.WriteLine();

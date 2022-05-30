@@ -25,14 +25,17 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
-public class DayInterval : GranularInterval
+public class MinuteInterval : GranularInterval
 {
-    public DayInterval(int year, int month, int day) : base(DateTimeHelper.GetStartOfDay(year, month, day),
-        DateTimeHelper.GetOpenedEndOfDay(year, month, day))
+    public MinuteInterval(int year, int month, int day, int hour, int minute) : base(
+        DateTimeHelper.GetStartOfMinute(year, month, day, hour, minute),
+        DateTimeHelper.GetOpenedEndOfMinute(year, month, day, hour, minute))
     {
         Year = year;
         Month = month;
         Day = day;
+        Hour = hour;
+        Minute = minute;
     }
 
     public int Year { get; }
@@ -40,4 +43,8 @@ public class DayInterval : GranularInterval
     public int Month { get; }
 
     public int Day { get; }
+
+    public int Hour { get; }
+
+    public int Minute { get; }
 }

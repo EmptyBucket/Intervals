@@ -21,40 +21,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using FluentAssertions;
-using Intervals.GranularIntervals;
-using Intervals.Points;
-using NUnit.Framework;
+using Intervals.Utils;
 
-namespace Intervals.Tests.GranularIntervals;
+namespace Intervals.GranularIntervals;
 
-public partial class MonthGranularIntervalTests
+public class HourInterval : GranularInterval
 {
-    [TestCaseSource(nameof(Move_WhenForward_Data))]
-    public void MoveForward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-        DateTime expectedRightValue)
+    public HourInterval(int year, int month, int day, int hour) : base(
+        DateTimeHelper.GetStartOfHour(year, month, day, hour),
+        DateTimeHelper.GetOpenedEndOfHour(year, month, day, hour))
     {
-        var left = Point.Excluded(leftValue);
-        var right = Point.Excluded(rightValue);
-        var interval = new MonthGranularInterval(left, right);
-
-        var actual = interval.Move();
-
-        actual.Left.Value.Should().Be(expectedLeftValue);
-        actual.Right.Value.Should().Be(expectedRightValue);
+        Year = year;
+        Month = month;
+        Day = day;
+        Hour = hour;
     }
 
-    [TestCaseSource(nameof(Move_WhenBackward_Data))]
-    public void MoveBackward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-        DateTime expectedRightValue)
-    {
-        var left = Point.Excluded(leftValue);
-        var right = Point.Excluded(rightValue);
-        var interval = new MonthGranularInterval(left, right);
+    public int Year { get; }
 
-        var actual = interval.Move(-1);
+    public int Month { get; }
 
-        actual.Left.Value.Should().Be(expectedLeftValue);
-        actual.Right.Value.Should().Be(expectedRightValue);
-    }
+    public int Day { get; }
+
+    public int Hour { get; }
 }

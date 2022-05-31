@@ -44,13 +44,13 @@ public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateT
     }
 
     public MonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
-        : this(leftPoint, rightPoint, GranulesCount(leftPoint.Value, rightPoint.Value))
+        : this(leftPoint, rightPoint, ComputeMonthsCount(leftPoint.Value, rightPoint.Value))
     {
     }
 
     public MonthGranularInterval(DateTime leftValue, DateTime rightValue,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : this(leftValue, rightValue, GranulesCount(leftValue, rightValue), inclusion)
+        : this(leftValue, rightValue, ComputeMonthsCount(leftValue, rightValue), inclusion)
     {
     }
 
@@ -78,6 +78,6 @@ public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateT
             Right);
     }
 
-    private static int GranulesCount(DateTime leftValue, DateTime rightValue) =>
+    private static int ComputeMonthsCount(DateTime leftValue, DateTime rightValue) =>
         (rightValue.Year - leftValue.Year) * 12 + (rightValue.Month - leftValue.Month);
 }

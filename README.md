@@ -29,7 +29,10 @@ var enumerable = new[]
     .Overlap(new Interval<int>(20, 25, IntervalInclusion.Opened))
     .ToArray();
 
-var nextQuarter = new QuarterInterval(2022, 3).GetNext().Combine(new MonthInterval(2022, 1).GetPrev());
+var result = new QuarterInterval(2022, 3)
+    .Move(-1)
+    .Combine(new MonthInterval(2022, 1).Move(1))
+    .SelectMany(i => i.SplitByMonths(2));
 ```
 #### Combine
 ![image](https://user-images.githubusercontent.com/8377311/170842990-f7fa9a86-93cb-4904-b0c1-d44e6402b9e8.png)

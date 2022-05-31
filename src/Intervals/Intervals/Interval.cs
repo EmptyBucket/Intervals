@@ -49,10 +49,17 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 
     public IntervalInclusion Inclusion { get; }
 
-    public void Deconstruct(out Endpoint<T> left, out Endpoint<T> right)
+    public void Deconstruct(out Point<T> left, out Point<T> right)
     {
         left = Left;
         right = Right;
+    }
+
+    public void Deconstruct(out T left, out T right, out IntervalInclusion inclusion)
+    {
+        left = Left.Value;
+        right = Right.Value;
+        inclusion = Inclusion;
     }
 
     public bool Equals(IInterval<T>? other) =>

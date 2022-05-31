@@ -68,35 +68,35 @@ public static class IntervalExtensions
     public static IEnumerable<IInterval<DateTime>> SplitBySeconds(this IInterval<DateTime> interval,
         int secondsCount = 1) =>
         SplitBy(interval,
-            l => new SecondInterval(l.Year, l.Month, l.Day, l.Hour, l.Minute, l.Second).Add(secondsCount - 1));
+            l => new SecondInterval(l.Year, l.Month, l.Day, l.Hour, l.Minute, l.Second).AddRight(secondsCount - 1));
     
     public static IEnumerable<IInterval<DateTime>> SplitByMinutes(this IInterval<DateTime> interval,
         int minutesCount = 1) =>
-        SplitBy(interval, l => new MinuteInterval(l.Year, l.Month, l.Day, l.Hour, l.Minute).Add(minutesCount - 1));
+        SplitBy(interval, l => new MinuteInterval(l.Year, l.Month, l.Day, l.Hour, l.Minute).AddRight(minutesCount - 1));
     
     public static IEnumerable<IInterval<DateTime>> SplitByHours(this IInterval<DateTime> interval,
         int hoursCount = 1) =>
-        SplitBy(interval, l => new HourInterval(l.Year, l.Month, l.Day, l.Hour).Add(hoursCount - 1));
+        SplitBy(interval, l => new HourInterval(l.Year, l.Month, l.Day, l.Hour).AddRight(hoursCount - 1));
 
     public static IEnumerable<IInterval<DateTime>> SplitByDays(this IInterval<DateTime> interval,
         int daysCount = 1) =>
-        SplitBy(interval, l => new DayInterval(l.Year, l.Month, l.Day).Add(daysCount - 1));
+        SplitBy(interval, l => new DayInterval(l.Year, l.Month, l.Day).AddRight(daysCount - 1));
 
     public static IEnumerable<IInterval<DateTime>> SplitByMonths(this IInterval<DateTime> interval,
         int monthsCount = 1) => 
-        SplitBy(interval, l => new MonthInterval(l.Year, l.Month).Add(monthsCount - 1));
+        SplitBy(interval, l => new MonthInterval(l.Year, l.Month).AddRight(monthsCount - 1));
 
     public static IEnumerable<IInterval<DateTime>> SplitByQuarters(this IInterval<DateTime> interval,
         int quartersCount = 1) =>
-        SplitBy(interval, l => new QuarterInterval(l.Year, l.GetQuarter()).Add(quartersCount - 1));
+        SplitBy(interval, l => new QuarterInterval(l.Year, l.GetQuarter()).AddRight(quartersCount - 1));
     
     public static IEnumerable<IInterval<DateTime>> SplitByHalfYears(this IInterval<DateTime> interval,
         int halfYearsCount = 1) =>
-        SplitBy(interval, l => new HalfAYearInterval(l.Year, l.GetHalfAYear()).Add(halfYearsCount - 1));
+        SplitBy(interval, l => new HalfAYearInterval(l.Year, l.GetHalfAYear()).AddRight(halfYearsCount - 1));
     
     public static IEnumerable<IInterval<DateTime>> SplitByYears(this IInterval<DateTime> interval,
         int yearsCount = 1) =>
-        SplitBy(interval, l => new YearInterval(l.Year).Add(yearsCount - 1));
+        SplitBy(interval, l => new YearInterval(l.Year).AddRight(yearsCount - 1));
 
     private static IEnumerable<IInterval<DateTime>> SplitBy(IInterval<DateTime> interval,
         Func<DateTime, IInterval<DateTime>> computeInterval)

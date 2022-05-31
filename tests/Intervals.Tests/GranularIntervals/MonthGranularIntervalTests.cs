@@ -34,7 +34,7 @@ public partial class MonthGranularIntervalTests
     public void MoveForward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
         DateTime expectedRightValue)
     {
-        var left = Point.Excluded(leftValue);
+        var left = Point.Included(leftValue);
         var right = Point.Excluded(rightValue);
         var interval = new MonthGranularInterval(left, right);
 
@@ -48,7 +48,7 @@ public partial class MonthGranularIntervalTests
     public void MoveBackward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
         DateTime expectedRightValue)
     {
-        var left = Point.Excluded(leftValue);
+        var left = Point.Included(leftValue);
         var right = Point.Excluded(rightValue);
         var interval = new MonthGranularInterval(left, right);
 
@@ -56,5 +56,57 @@ public partial class MonthGranularIntervalTests
 
         actual.Left.Value.Should().Be(expectedLeftValue);
         actual.Right.Value.Should().Be(expectedRightValue);
+    }
+
+    [Test]
+    public void AddLeft_WhenOne_ReturnIntervalWithLeftAddition()
+    {
+        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
+        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
+        var interval = new MonthGranularInterval(left, right);
+
+        var actual = interval.AddLeft(1);
+
+        actual.Left.Value.Should().Be(new DateTime(2021, 1, 4, 5, 6, 7));
+        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+    }
+
+    [Test]
+    public void AddLeft_WhenNegativeOne_ReturnEmpty()
+    {
+        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
+        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
+        var interval = new MonthGranularInterval(left, right);
+
+        var actual = interval.AddLeft(-1);
+
+        actual.Left.Value.Should().Be(new DateTime(2023, 1, 4, 5, 6, 7));
+        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+    }
+
+    [Test]
+    public void AddRight_WhenOne_ReturnIntervalWithRightAddition()
+    {
+        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
+        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
+        var interval = new MonthGranularInterval(left, right);
+
+        var actual = interval.AddRight(1);
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.Right.Value.Should().Be(new DateTime(2024, 1, 7, 9, 11, 13));
+    }
+
+    [Test]
+    public void AddRight_WhenNegativeOne_ReturnEmpty()
+    {
+        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
+        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
+        var interval = new MonthGranularInterval(left, right);
+
+        var actual = interval.AddRight(-1);
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.Right.Value.Should().Be(new DateTime(2022, 1, 7, 9, 11, 13));
     }
 }

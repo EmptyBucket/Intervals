@@ -28,35 +28,22 @@ namespace Intervals.GranularIntervals;
 
 public class GranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
 {
-    private readonly TimeSpan _granuleSize;
+    protected TimeSpan GranuleSize;
 
-    public GranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleSize)
-        : base(leftPoint, rightPoint)
+    public GranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
     {
-        _granuleSize = granuleSize;
-    }
-
-    public GranularInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleSize,
-        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, rightValue, inclusion)
-    {
-        _granuleSize = granuleSize;
-    }
-
-    public GranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
-        : this(leftPoint, rightPoint, ComputeGranuleSize(leftPoint.Value, rightPoint.Value))
-    {
+        GranuleSize = ComputeGranuleSize(leftPoint.Value, rightPoint.Value);
     }
 
     public GranularInterval(DateTime leftValue, DateTime rightValue,
-        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : this(leftValue, rightValue, ComputeGranuleSize(leftValue, rightValue), inclusion)
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened) : base(leftValue, rightValue, inclusion)
     {
+        GranuleSize = ComputeGranuleSize(leftValue, rightValue);
     }
 
     public IGranularInterval<DateTime> Move(int granulesCount = 1)
     {
-        var totalGranulesSize = _granuleSize * granulesCount;
+        var totalGranulesSize = GranuleSize * granulesCount;
         return new GranularInterval(
             new Point<DateTime>(Left.Value + totalGranulesSize, Right.Inclusion.Invert()),
             new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
@@ -64,14 +51,15 @@ public class GranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
 
     public IGranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
     {
-        var totalGranulesSize = _granuleSize * granulesCount;
+        var totalGranulesSize = GranuleSize * granulesCount;
         return new GranularInterval(Left with { Value = Left.Value - totalGranulesSize }, Right);
     }
 
     public IGranularInterval<DateTime> ExpandRight(int granulesCount = 1)
     {
-        var totalGranulesSize = _granuleSize * granulesCount;
+        var totalGranulesSize = GranuleSize * granulesCount;
         return new GranularInterval(Left, Right with { Value = Right.Value + totalGranulesSize });
     }
+
     private static TimeSpan ComputeGranuleSize(DateTime leftValue, DateTime rightValue) => rightValue - leftValue;
 }

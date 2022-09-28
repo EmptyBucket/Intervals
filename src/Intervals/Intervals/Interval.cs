@@ -43,12 +43,6 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
         Inclusion = inclusion;
     }
 
-    public Endpoint<T> Left { get; }
-
-    public Endpoint<T> Right { get; }
-
-    public IntervalInclusion Inclusion { get; }
-
     public void Deconstruct(out Point<T> left, out Point<T> right)
     {
         left = Left;
@@ -61,6 +55,20 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
         right = Right.Value;
         inclusion = Inclusion;
     }
+
+    public Endpoint<T> Left { get; }
+
+    public Endpoint<T> Right { get; }
+
+    public IntervalInclusion Inclusion { get; }
+
+    public IInterval<T> ExpandLeft(Point<T> left) => new Interval<T>(left, Right);
+
+    public IInterval<T> ExpandRight(Point<T> right) => new Interval<T>(Left, right);
+
+    public bool IsEmpty() =>
+        Left.Value.CompareTo(Right.Value) is var compareTo &&
+        Inclusion == IntervalInclusion.Closed ? compareTo > 0 : compareTo >= 0;
 
     public bool Equals(IInterval<T>? other) =>
         other is Interval<T> otherInterval && Left == otherInterval.Left && Right == otherInterval.Right;

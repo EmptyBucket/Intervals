@@ -30,57 +30,6 @@ namespace Intervals.Tests.Intervals;
 public partial class IntervalExtensionsTests
 {
 	[Test]
-	[TestCase(IntervalInclusion.Opened)]
-	[TestCase(IntervalInclusion.Closed)]
-	[TestCase(IntervalInclusion.LeftOpened)]
-	[TestCase(IntervalInclusion.RightOpened)]
-	public void IsEmpty_WhenLeftLessThanRight_ReturnTrue(IntervalInclusion inclusion)
-	{
-		var interval = new Interval<int>(0, -1, inclusion);
-
-		var actual = interval.IsEmpty();
-
-		actual.Should().BeTrue();
-	}
-
-	[Test]
-	public void IsEmpty_WhenClosedIntervalWithEqualEndpoints_ReturnFalse()
-	{
-		var interval = new Interval<int>(0, 0, IntervalInclusion.Closed);
-
-		var actual = interval.IsEmpty();
-
-		actual.Should().BeFalse();
-	}
-
-	[Test]
-	[TestCase(IntervalInclusion.Opened)]
-	[TestCase(IntervalInclusion.LeftOpened)]
-	[TestCase(IntervalInclusion.RightOpened)]
-	public void IsEmpty_WhenNonClosedIntervalWithEqualEndpoints_ReturnTrue(IntervalInclusion inclusion)
-	{
-		var interval = new Interval<int>(0, 0, inclusion);
-
-		var actual = interval.IsEmpty();
-
-		actual.Should().BeTrue();
-	}
-
-	[Test]
-	[TestCase(IntervalInclusion.Opened)]
-	[TestCase(IntervalInclusion.Closed)]
-	[TestCase(IntervalInclusion.LeftOpened)]
-	[TestCase(IntervalInclusion.RightOpened)]
-	public void IsEmpty_WhenIntervalWithNonEqualEndpoints_ReturnFalse(IntervalInclusion inclusion)
-	{
-		var interval = new Interval<int>(0, 1, inclusion);
-
-		var actual = interval.IsEmpty();
-
-		actual.Should().BeFalse();
-	}
-
-	[Test]
 	public void IsOverlap_WhenIntervalsNotIntersect_ReturnFalse()
 	{
 		var first = new Interval<int>(0, 1, IntervalInclusion.Closed);

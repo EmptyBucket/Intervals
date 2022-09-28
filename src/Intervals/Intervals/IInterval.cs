@@ -33,4 +33,10 @@ public interface IInterval<T> : IComparable<IInterval<T>>, IEquatable<IInterval<
     Endpoint<T> Right { get; }
 
     IntervalInclusion Inclusion { get; }
+
+    IInterval<T> ExpandLeft(Point<T> left);
+
+    IInterval<T> ExpandRight(Point<T> right);
+
+    bool IsEmpty();
 }

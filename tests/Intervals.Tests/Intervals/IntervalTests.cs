@@ -106,4 +106,87 @@ public class IntervalTests
 
         actual.Should().Be(0);
     }
+
+    [Test]
+    [TestCase(0, Inclusion.Excluded)]
+    [TestCase(0, Inclusion.Included)]
+    public void ExpandLeft_WhenGivenLeft_ReturnIntervalWithGivenLeft(int value, Inclusion inclusion)
+    {
+        var left = new Point<int>(value, inclusion);
+        var interval = new Interval<int>(5, 10);
+
+        var actual = interval.ExpandLeft(left);
+
+        actual.Left.Value.Should().Be(value);
+        actual.Left.Inclusion.Should().Be(inclusion);
+        actual.Right.Value.Should().Be(10);
+        actual.Right.Inclusion.Should().Be(Inclusion.Excluded);
+    }
+
+    [Test]
+    [TestCase(15, Inclusion.Excluded)]
+    [TestCase(15, Inclusion.Included)]
+    public void ExpandRight_WhenGivenRight_ReturnIntervalWithGivenRight(int value, Inclusion inclusion)
+    {
+        var right = new Point<int>(value, inclusion);
+        var interval = new Interval<int>(5, 10);
+
+        var actual = interval.ExpandRight(right);
+
+        actual.Left.Value.Should().Be(5);
+        actual.Left.Inclusion.Should().Be(Inclusion.Included);
+        actual.Right.Value.Should().Be(value);
+        actual.Right.Inclusion.Should().Be(inclusion);
+    }
+
+    [Test]
+    [TestCase(IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.LeftOpened)]
+    [TestCase(IntervalInclusion.RightOpened)]
+    public void IsEmpty_WhenLeftLessThanRight_ReturnTrue(IntervalInclusion inclusion)
+    {
+        var interval = new Interval<int>(0, -1, inclusion);
+
+        var actual = interval.IsEmpty();
+
+        actual.Should().BeTrue();
+    }
+
+    [Test]
+    public void IsEmpty_WhenClosedIntervalWithEqualEndpoints_ReturnFalse()
+    {
+        var interval = new Interval<int>(0, 0, IntervalInclusion.Closed);
+
+        var actual = interval.IsEmpty();
+
+        actual.Should().BeFalse();
+    }
+
+    [Test]
+    [TestCase(IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.LeftOpened)]
+    [TestCase(IntervalInclusion.RightOpened)]
+    public void IsEmpty_WhenNonClosedIntervalWithEqualEndpoints_ReturnTrue(IntervalInclusion inclusion)
+    {
+        var interval = new Interval<int>(0, 0, inclusion);
+
+        var actual = interval.IsEmpty();
+
+        actual.Should().BeTrue();
+    }
+
+    [Test]
+    [TestCase(IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.LeftOpened)]
+    [TestCase(IntervalInclusion.RightOpened)]
+    public void IsEmpty_WhenIntervalWithNonEqualEndpoints_ReturnFalse(IntervalInclusion inclusion)
+    {
+        var interval = new Interval<int>(0, 1, inclusion);
+
+        var actual = interval.IsEmpty();
+
+        actual.Should().BeFalse();
+    }
 }

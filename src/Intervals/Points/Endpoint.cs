@@ -34,27 +34,14 @@ public static class Endpoint
         new(point, EndpointLocation.Right);
 }
 
-public readonly record struct Endpoint<T> : IComparable<Endpoint<T>> where T : IComparable<T>, IEquatable<T>
+public readonly record struct Endpoint<T>(T Value, Inclusion Inclusion, EndpointLocation Location)
+    : IComparable<Endpoint<T>> where T : IComparable<T>, IEquatable<T>
 {
-    private readonly Point<T> _point;
-
-    public Endpoint(Point<T> point, EndpointLocation location)
+    public Endpoint(Point<T> point, EndpointLocation location) : this(point.Value, point.Inclusion, location)
     {
-        _point = point;
-        Location = location;
     }
 
-    public T Value => _point.Value;
-
-    public Inclusion Inclusion => _point.Inclusion;
-
-    public EndpointLocation Location { get; }
-
-    public void Deconstruct(out T value, out Inclusion inclusion, out EndpointLocation location)
-    {
-        (value, inclusion) = _point;
-        location = Location;
-    }
+    public void Deconstruct(out Point<T> point, out EndpointLocation location) => (point, location) = (this, Location);
 
     public int CompareTo(Endpoint<T> other)
     {
@@ -77,7 +64,7 @@ public readonly record struct Endpoint<T> : IComparable<Endpoint<T>> where T : I
         return inclusionCompared * BitHelper.ToSign((int)thisIsLeft);
     }
 
-    public static implicit operator Point<T>(Endpoint<T> endpoint) => endpoint._point;
+    public static implicit operator Point<T>(Endpoint<T> endpoint) => new(endpoint.Value, endpoint.Inclusion);
 
     public override string ToString() => Location switch
     {

@@ -36,7 +36,8 @@ public partial class EndpointTests
 
         var endpoint = Endpoint.Left(point);
 
-        ((Point<int>)endpoint).Should().Be(point);
+        endpoint.Value.Should().Be(point.Value);
+        endpoint.Inclusion.Should().Be(point.Inclusion);
         endpoint.Location.Should().Be(EndpointLocation.Left);
     }
 
@@ -47,15 +48,16 @@ public partial class EndpointTests
 
         var endpoint = Endpoint.Right(point);
 
-        ((Point<int>)endpoint).Should().Be(point);
+        endpoint.Value.Should().Be(point.Value);
+        endpoint.Inclusion.Should().Be(point.Inclusion);
         endpoint.Location.Should().Be(EndpointLocation.Right);
     }
 
     [Test]
     public void CompareTo_WhenHasLessValue_NegativeOne()
     {
-        var first = new Endpoint<int>(Point.Included(-1), EndpointLocation.Left);
-        var second = new Endpoint<int>(Point.Included(0), EndpointLocation.Left);
+        var first = Endpoint.Left(Point.Included(-1));
+        var second = Endpoint.Left(Point.Included(0));
 
         var actual = first.CompareTo(second);
 
@@ -73,8 +75,8 @@ public partial class EndpointTests
     [Test]
     public void CompareTo_WhenHasMoreValue_PositiveOne()
     {
-        var first = new Endpoint<int>(Point.Included(1), EndpointLocation.Left);
-        var second = new Endpoint<int>(Point.Included(0), EndpointLocation.Left);
+        var first = Endpoint.Left(Point.Included(1));
+        var second = Endpoint.Left(Point.Included(0));
 
         var actual = first.CompareTo(second);
 

@@ -29,7 +29,7 @@ public interface IGranularInterval<T> : IInterval<T> where T : IComparable<T>, I
 {
     IGranularInterval<T> Move(int granulesCount = 1);
 
-    IGranularInterval<T> ExpandRight(int granulesCount = 1);
-
     IGranularInterval<T> ExpandLeft(int granulesCount = 1);
+
+    IGranularInterval<T> ExpandRight(int granulesCount = 1);
 }

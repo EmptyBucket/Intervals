@@ -49,16 +49,16 @@ public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateT
             Right with { Value = Right.Value.AddMonths(totalGranulesCount) });
     }
 
-    public IGranularInterval<DateTime> ExpandRight(int granulesCount = 1)
-    {
-        var totalGranulesCount = GranulesCount * granulesCount;
-        return new MonthGranularInterval(Left, Right with { Value = Right.Value.AddMonths(totalGranulesCount) });
-    }
-
     public IGranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
     {
         var totalGranulesCount = GranulesCount * granulesCount;
         return new MonthGranularInterval(Left with { Value = Left.Value.AddMonths(-totalGranulesCount) }, Right);
+    }
+
+    public IGranularInterval<DateTime> ExpandRight(int granulesCount = 1)
+    {
+        var totalGranulesCount = GranulesCount * granulesCount;
+        return new MonthGranularInterval(Left, Right with { Value = Right.Value.AddMonths(totalGranulesCount) });
     }
 
     private static int ComputeGranulesCount(DateTime leftValue, DateTime rightValue) =>

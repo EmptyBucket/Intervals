@@ -25,12 +25,11 @@ using Intervals.Points;
 
 namespace Intervals.Intervals;
 
-public interface IInterval<T> : IComparable<IInterval<T>>, IEquatable<IInterval<T>>, IEnumerable<IInterval<T>>
-    where T : IComparable<T>, IEquatable<T>
+public static partial class IntervalExtensions
 {
-    Endpoint<T> Left { get; }
+    public static IInterval<T> ExpandLeft<T>(this IInterval<T> interval, Point<T> left)
+        where T : IComparable<T>, IEquatable<T> => new Interval<T>(left, interval.Right);
 
-    Endpoint<T> Right { get; }
-
-    IntervalInclusion Inclusion { get; }
+    public static IInterval<T> ExpandRight<T>(this IInterval<T> interval, Point<T> right)
+        where T : IComparable<T>, IEquatable<T> => new Interval<T>(interval.Left, right);
 }

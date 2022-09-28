@@ -62,10 +62,6 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 
     public IntervalInclusion Inclusion { get; }
 
-    public IInterval<T> ExpandLeft(Point<T> left) => new Interval<T>(left, Right);
-
-    public IInterval<T> ExpandRight(Point<T> right) => new Interval<T>(Left, right);
-
     public bool IsEmpty() =>
         Left.Value.CompareTo(Right.Value) is var compareTo &&
         Inclusion == IntervalInclusion.Closed ? compareTo > 0 : compareTo >= 0;

@@ -45,8 +45,8 @@ public class GranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
     {
         var totalGranulesSize = GranuleSize * granulesCount;
         return new GranularInterval(
-            new Point<DateTime>(Left.Value + totalGranulesSize, Right.Inclusion.Invert()),
-            new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
+            Left with { Value = Left.Value + totalGranulesSize },
+            Right with { Value = Right.Value + totalGranulesSize });
     }
 
     public IGranularInterval<DateTime> ExpandLeft(int granulesCount = 1)

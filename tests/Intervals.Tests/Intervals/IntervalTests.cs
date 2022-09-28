@@ -108,38 +108,6 @@ public class IntervalTests
     }
 
     [Test]
-    [TestCase(0, Inclusion.Excluded)]
-    [TestCase(0, Inclusion.Included)]
-    public void ExpandLeft_WhenGivenLeft_ReturnIntervalWithGivenLeft(int value, Inclusion inclusion)
-    {
-        var left = new Point<int>(value, inclusion);
-        var interval = new Interval<int>(5, 10);
-
-        var actual = interval.ExpandLeft(left);
-
-        actual.Left.Value.Should().Be(value);
-        actual.Left.Inclusion.Should().Be(inclusion);
-        actual.Right.Value.Should().Be(10);
-        actual.Right.Inclusion.Should().Be(Inclusion.Excluded);
-    }
-
-    [Test]
-    [TestCase(15, Inclusion.Excluded)]
-    [TestCase(15, Inclusion.Included)]
-    public void ExpandRight_WhenGivenRight_ReturnIntervalWithGivenRight(int value, Inclusion inclusion)
-    {
-        var right = new Point<int>(value, inclusion);
-        var interval = new Interval<int>(5, 10);
-
-        var actual = interval.ExpandRight(right);
-
-        actual.Left.Value.Should().Be(5);
-        actual.Left.Inclusion.Should().Be(Inclusion.Included);
-        actual.Right.Value.Should().Be(value);
-        actual.Right.Inclusion.Should().Be(inclusion);
-    }
-
-    [Test]
     [TestCase(IntervalInclusion.Opened)]
     [TestCase(IntervalInclusion.Closed)]
     [TestCase(IntervalInclusion.LeftOpened)]

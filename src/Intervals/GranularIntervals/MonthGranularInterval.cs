@@ -45,8 +45,8 @@ public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateT
     {
         var totalGranulesCount = GranulesCount * granulesCount;
         return new MonthGranularInterval(
-            new Point<DateTime>(Left.Value.AddMonths(totalGranulesCount), Right.Inclusion.Invert()),
-            new Point<DateTime>(Right.Value.AddMonths(totalGranulesCount), Left.Inclusion.Invert()));
+            Left with { Value = Left.Value.AddMonths(totalGranulesCount) },
+            Right with { Value = Right.Value.AddMonths(totalGranulesCount) });
     }
 
     public IGranularInterval<DateTime> ExpandRight(int granulesCount = 1)

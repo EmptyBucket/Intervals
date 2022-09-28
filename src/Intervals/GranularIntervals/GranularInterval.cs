@@ -62,17 +62,16 @@ public class GranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
             new Point<DateTime>(Right.Value + totalGranulesSize, Left.Inclusion.Invert()));
     }
 
-    public IGranularInterval<DateTime> AddRight(int granulesCount = 1)
-    {
-        var totalGranulesSize = _granuleSize * granulesCount;
-        return new GranularInterval(Left, Right with { Value = Right.Value + totalGranulesSize });
-    }
-
-    public IGranularInterval<DateTime> AddLeft(int granulesCount = 1)
+    public IGranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
     {
         var totalGranulesSize = _granuleSize * granulesCount;
         return new GranularInterval(Left with { Value = Left.Value - totalGranulesSize }, Right);
     }
 
+    public IGranularInterval<DateTime> ExpandRight(int granulesCount = 1)
+    {
+        var totalGranulesSize = _granuleSize * granulesCount;
+        return new GranularInterval(Left, Right with { Value = Right.Value + totalGranulesSize });
+    }
     private static TimeSpan ComputeGranuleSize(DateTime leftValue, DateTime rightValue) => rightValue - leftValue;
 }

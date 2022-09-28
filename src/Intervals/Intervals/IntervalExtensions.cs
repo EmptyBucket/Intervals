@@ -30,9 +30,7 @@ public static partial class IntervalExtensions
 {
     public static bool IsEmpty<T>(this IInterval<T> interval) where T : IComparable<T>, IEquatable<T> =>
         interval.Left.Value.CompareTo(interval.Right.Value) is var compareTo &&
-        (interval.Left.Inclusion & interval.Right.Inclusion) == Inclusion.Included
-            ? compareTo > 0
-            : compareTo >= 0;
+        (interval.Left.Inclusion & interval.Right.Inclusion) == Inclusion.Included ? compareTo > 0 : compareTo >= 0;
 
     public static bool IsOverlap<T>(this IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
         where T : IComparable<T>, IEquatable<T> => left.Overlap(right).Any();

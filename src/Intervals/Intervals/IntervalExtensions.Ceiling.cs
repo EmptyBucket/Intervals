@@ -27,10 +27,10 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
-    public static IInterval<DateTime> Ceiling(this IInterval<DateTime> interval, TimeSpan component)
+    public static IInterval<DateTime> Ceiling(this IInterval<DateTime> interval, TimeSpan granuleSize)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.Floor(component), rightVal.Ceiling(component), interval.Inclusion);
+        return new Interval<DateTime>(leftVal.Floor(granuleSize), rightVal.Ceiling(granuleSize), interval.Inclusion);
     }
 
     public static IInterval<DateTime> CeilingToMonth(this IInterval<DateTime> interval)

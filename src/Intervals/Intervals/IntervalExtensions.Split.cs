@@ -29,8 +29,8 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
-    public static IEnumerable<IInterval<DateTime>> SplitBy(this IInterval<DateTime> interval, TimeSpan timeSpan) =>
-        SplitBy(interval, l => new Interval<DateTime>(l, l.Add(timeSpan)));
+    public static IEnumerable<IInterval<DateTime>> SplitBy(this IInterval<DateTime> interval, TimeSpan granuleSize) =>
+        SplitBy(interval, l => new Interval<DateTime>(l, l.Add(granuleSize)));
 
     public static IEnumerable<IInterval<DateTime>> SplitBySeconds(this IInterval<DateTime> interval,
         int secondsCount = 1) =>

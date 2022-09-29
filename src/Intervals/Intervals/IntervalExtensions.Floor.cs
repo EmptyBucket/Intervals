@@ -21,33 +21,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Intervals.GranularIntervals;
 using Intervals.Utils;
 
 namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
-    public static IInterval<DateTime> Floor(this IInterval<DateTime> interval, TimeSpan component)
+    public static IGranularInterval<DateTime> Floor(this IInterval<DateTime> interval, TimeSpan granuleSize)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.Ceiling(component), rightVal.Floor(component), interval.Inclusion);
+        return new GranularInterval(leftVal.Ceiling(granuleSize), rightVal.Floor(granuleSize), interval.Inclusion);
     }
 
-    public static IInterval<DateTime> FloorToMonth(this IInterval<DateTime> interval)
+    public static IGranularInterval<DateTime> FloorToMonth(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.CeilingToMonth(), rightVal.FloorToMonth(), interval.Inclusion);
+        return new MonthGranularInterval(leftVal.CeilingToMonth(), rightVal.FloorToMonth(), interval.Inclusion);
     }
 
-    public static IInterval<DateTime> FloorToQuarter(this IInterval<DateTime> interval)
+    public static IGranularInterval<DateTime> FloorToQuarter(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.CeilingToQuarter(), rightVal.FloorToQuarter(), interval.Inclusion);
+        return new MonthGranularInterval(leftVal.CeilingToQuarter(), rightVal.FloorToQuarter(), interval.Inclusion);
     }
 
-    public static IInterval<DateTime> FloorToHalfYear(this IInterval<DateTime> interval)
+    public static IGranularInterval<DateTime> FloorToHalfYear(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.CeilingToHalfYear(), rightVal.FloorToHalfYear(), interval.Inclusion);
+        return new MonthGranularInterval(leftVal.CeilingToHalfYear(), rightVal.FloorToHalfYear(), interval.Inclusion);
     }
 }

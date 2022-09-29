@@ -25,16 +25,16 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
-public class HalfAYearInterval : MonthGranularInterval
+public class HalfYearInterval : MonthGranularInterval
 {
-    public HalfAYearInterval(int year, int halfAYear) : base(DateTimeHelper.GetStartOfHalfAYear(year, halfAYear),
-        DateTimeHelper.GetOpenedEndOfHalfAYear(year, halfAYear))
+    public HalfYearInterval(int year, int halfYear) : base(DateTimeHelper.GetHalfYearStart(year, halfYear),
+        DateTimeHelper.GetHalfYearOpenedEnd(year, halfYear))
     {
         Year = year;
-        HalfAYear = halfAYear;
+        HalfYear = halfYear;
     }
 
     public int Year { get; }
 
-    public int HalfAYear { get; }
+    public int HalfYear { get; }
 }

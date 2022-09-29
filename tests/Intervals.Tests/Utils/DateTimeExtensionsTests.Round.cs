@@ -27,7 +27,7 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Utils;
 
-public class DateTimeExtensionsTests
+public partial class DateTimeExtensionsTests
 {
     [Test]
     public void Round_WhenLessThanMidpoint_ReturnFloor()
@@ -65,66 +65,6 @@ public class DateTimeExtensionsTests
         var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
 
         var round = dateTime.Round(TimeSpan.FromDays(1), MidpointRounding.ToEven);
-
-        round.Should().Be(new DateTime(2022, 1, 2));
-    }
-
-    [Test]
-    public void Ceiling_WhenLessThanMidpoint_ReturnCeiling()
-    {
-        var dateTime = new DateTime(2022, 1, 2, 11, 0, 0);
-
-        var round = dateTime.Ceiling(TimeSpan.FromDays(1));
-
-        round.Should().Be(new DateTime(2022, 1, 3));
-    }
-
-    [Test]
-    public void Ceiling_WhenGreatThanMidpoint_ReturnCeiling()
-    {
-        var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
-
-        var round = dateTime.Ceiling(TimeSpan.FromDays(1));
-
-        round.Should().Be(new DateTime(2022, 1, 3));
-    }
-
-    [Test]
-    public void Ceiling_WhenEqualsMidpoint_ReturnCeiling()
-    {
-        var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
-
-        var round = dateTime.Ceiling(TimeSpan.FromDays(1));
-
-        round.Should().Be(new DateTime(2022, 1, 3));
-    }
-
-    [Test]
-    public void Floor_WhenLessThanMidpoint_ReturnFloor()
-    {
-        var dateTime = new DateTime(2022, 1, 2, 11, 0, 0);
-
-        var round = dateTime.Floor(TimeSpan.FromDays(1));
-
-        round.Should().Be(new DateTime(2022, 1, 2));
-    }
-
-    [Test]
-    public void Floor_WhenGreatThanMidpoint_ReturnFloor()
-    {
-        var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
-
-        var round = dateTime.Floor(TimeSpan.FromDays(1));
-
-        round.Should().Be(new DateTime(2022, 1, 2));
-    }
-
-    [Test]
-    public void Floor_WhenEqualsMidpoint_ReturnFloor()
-    {
-        var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
-
-        var round = dateTime.Floor(TimeSpan.FromDays(1));
 
         round.Should().Be(new DateTime(2022, 1, 2));
     }

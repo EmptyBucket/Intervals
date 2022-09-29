@@ -27,9 +27,9 @@ namespace Intervals.GranularIntervals;
 
 public class MinuteInterval : GranularInterval
 {
-    public MinuteInterval(int year, int month, int day, int hour, int minute) : base(
-        DateTimeHelper.GetStartOfMinute(year, month, day, hour, minute),
-        DateTimeHelper.GetOpenedEndOfMinute(year, month, day, hour, minute))
+    public MinuteInterval(int year, int month, int day, int hour, int minute)
+        : base(DateTimeHelper.GetMinuteStart(year, month, day, hour, minute),
+            DateTimeHelper.GetMinuteOpenedEnd(year, month, day, hour, minute))
     {
         Year = year;
         Month = month;

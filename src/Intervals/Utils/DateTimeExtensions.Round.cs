@@ -21,41 +21,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Utils;
+namespace Intervals.Utils;
 
-namespace Intervals.Intervals;
-
-public static partial class IntervalExtensions
+public static partial class DateTimeExtensions
 {
-    public static IInterval<DateTime> Round(this IInterval<DateTime> interval, TimeSpan component,
+    public static DateTime Round(this DateTime dateTime, TimeSpan component,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.Round(component, midpointRounding),
-            rightVal.Round(component, midpointRounding), interval.Inclusion);
+        var residue = new TimeSpan(dateTime.Ticks % component.Ticks);
+        var append = Math.Round(residue / component, midpointRounding) * component;
+        return dateTime - residue + append;
     }
 
-    public static IInterval<DateTime> RoundToMonth(this IInterval<DateTime> interval,
+    public static DateTime RoundToMonth(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.RoundToMonth(midpointRounding),
-            rightVal.RoundToMonth(midpointRounding), interval.Inclusion);
+        var (start, end) = DateTimeHelper.GetMonthOpenedEndBounds(dateTime.Year, dateTime.Month, dateTime.Kind);
+        return RoundTo(start, dateTime, end, midpointRounding);
     }
 
-    public static IInterval<DateTime> RoundToQuarter(this IInterval<DateTime> interval,
+    public static DateTime RoundToQuarter(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.RoundToQuarter(midpointRounding),
-            rightVal.RoundToQuarter(midpointRounding), interval.Inclusion);
+        var (start, end) = DateTimeHelper.GetQuarterOpenedEndBounds(dateTime.Year, dateTime.Month, dateTime.Kind);
+        return RoundTo(start, dateTime, end, midpointRounding);
     }
 
-    public static IInterval<DateTime> RoundToHalfYear(this IInterval<DateTime> interval,
+    public static DateTime RoundToHalfYear(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.RoundToHalfYear(midpointRounding),
-            rightVal.RoundToHalfYear(midpointRounding), interval.Inclusion);
+        var (start, end) = DateTimeHelper.GetHalfYearOpenedEndBounds(dateTime.Year, dateTime.Month, dateTime.Kind);
+        return RoundTo(start, dateTime, end, midpointRounding);
+    }
+
+    private static DateTime RoundTo(DateTime start, DateTime dateTime, DateTime end, MidpointRounding midpointRounding)
+    {
+        var pastSize = dateTime - start;
+        var totalSize = end - start;
+        var append = Math.Round(pastSize / totalSize, midpointRounding) * totalSize;
+        return start + append;
     }
 }

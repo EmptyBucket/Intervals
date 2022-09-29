@@ -21,20 +21,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using FluentAssertions;
 using Intervals.Utils;
+using NUnit.Framework;
 
-namespace Intervals.GranularIntervals;
+namespace Intervals.Tests.Utils;
 
-public class MonthInterval : MonthGranularInterval
+public partial class DateTimeExtensionsTests
 {
-    public MonthInterval(int year, int month) : base(DateTimeHelper.GetMonthStart(year, month),
-        DateTimeHelper.GetMonthOpenedEnd(year, month))
+    [Test]
+    public void Ceiling_WhenLessThanMidpoint_ReturnCeiling()
     {
-        Year = year;
-        Month = month;
+        var dateTime = new DateTime(2022, 1, 2, 11, 0, 0);
+
+        var round = dateTime.Ceiling(TimeSpan.FromDays(1));
+
+        round.Should().Be(new DateTime(2022, 1, 3));
     }
 
-    public int Year { get; }
+    [Test]
+    public void Ceiling_WhenGreatThanMidpoint_ReturnCeiling()
+    {
+        var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
 
-    public int Month { get; }
+        var round = dateTime.Ceiling(TimeSpan.FromDays(1));
+
+        round.Should().Be(new DateTime(2022, 1, 3));
+    }
+
+    [Test]
+    public void Ceiling_WhenEqualsMidpoint_ReturnCeiling()
+    {
+        var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
+
+        var round = dateTime.Ceiling(TimeSpan.FromDays(1));
+
+        round.Should().Be(new DateTime(2022, 1, 3));
+    }
 }

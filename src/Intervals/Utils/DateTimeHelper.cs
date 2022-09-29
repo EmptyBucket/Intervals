@@ -25,69 +25,94 @@ namespace Intervals.Utils;
 
 internal static class DateTimeHelper
 {
-    private const int QuarterLenInMonths = 3;
-    private const int HalfAYearLenInMonths = 6;
+    public const int QuarterLenInMonths = 3;
+    public const int HalfYearLenInMonths = 6;
 
-    public static int GetQuarter(this DateTime dateTime) =>
-        dateTime.GetIntervalNumberInYear(QuarterLenInMonths);
-
-    public static int GetHalfAYear(this DateTime dateTime) =>
-        dateTime.GetIntervalNumberInYear(HalfAYearLenInMonths);
-    
-    public static DateTime GetStartOfSecond(int year, int month, int day, int hour, int minute, int second,
+    public static DateTime GetSecondStart(int year, int month, int day, int hour, int minute, int second,
         DateTimeKind kind = DateTimeKind.Utc) =>
         new(year, month, day, hour, minute, second, kind);
 
-    public static DateTime GetOpenedEndOfSecond(int year, int month, int day, int hour, int minute, int second,
+    public static DateTime GetSecondOpenedEnd(int year, int month, int day, int hour, int minute, int second,
         DateTimeKind kind = DateTimeKind.Utc) =>
-        GetStartOfSecond(year, month, day, hour, minute, second, kind).AddSeconds(1);
-    
-    public static DateTime GetStartOfMinute(int year, int month, int day, int hour, int minute,
+        GetSecondStart(year, month, day, hour, minute, second, kind).AddSeconds(1);
+
+    public static (DateTime Start, DateTime End) GetSecondOpenedEndBounds(int year, int month, int day, int hour,
+        int minute, int second, DateTimeKind kind = DateTimeKind.Utc) =>
+        (GetSecondStart(year, month, day, hour, minute, second, kind),
+            GetSecondOpenedEnd(year, month, day, hour, minute, second, kind));
+
+    public static DateTime GetMinuteStart(int year, int month, int day, int hour, int minute,
         DateTimeKind kind = DateTimeKind.Utc) =>
         new(year, month, day, hour, minute, 0, kind);
 
-    public static DateTime GetOpenedEndOfMinute(int year, int month, int day, int hour, int minute,
+    public static DateTime GetMinuteOpenedEnd(int year, int month, int day, int hour, int minute,
         DateTimeKind kind = DateTimeKind.Utc) =>
-        GetStartOfMinute(year, month, day, hour, minute, kind).AddMinutes(1);
+        GetMinuteStart(year, month, day, hour, minute, kind).AddMinutes(1);
 
-    public static DateTime GetStartOfHour(int year, int month, int day, int hour,
+    public static (DateTime Start, DateTime End) GetMinuteOpenedEndBounds(int year, int month, int day, int hour,
+        int minute, DateTimeKind kind = DateTimeKind.Utc) =>
+        (GetMinuteStart(year, month, day, hour, minute, kind),
+            GetMinuteOpenedEnd(year, month, day, hour, minute, kind));
+
+    public static DateTime GetHourStart(int year, int month, int day, int hour,
         DateTimeKind kind = DateTimeKind.Utc) =>
         new(year, month, day, hour, 0, 0, kind);
 
-    public static DateTime GetOpenedEndOfHour(int year, int month, int day, int hour,
+    public static DateTime GetHourOpenedEnd(int year, int month, int day, int hour,
         DateTimeKind kind = DateTimeKind.Utc) =>
-        GetStartOfHour(year, month, day, hour, kind).AddHours(1);
+        GetHourStart(year, month, day, hour, kind).AddHours(1);
 
-    public static DateTime GetStartOfDay(int year, int month, int day, DateTimeKind kind = DateTimeKind.Utc) =>
+    public static (DateTime Start, DateTime End) GetHourOpenedEndBounds(int year, int month, int day, int hour,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        (GetHourStart(year, month, day, hour, kind), GetHourOpenedEnd(year, month, day, hour, kind));
+
+    public static DateTime GetDayStart(int year, int month, int day, DateTimeKind kind = DateTimeKind.Utc) =>
         new(year, month, day, 0, 0, 0, kind);
 
-    public static DateTime GetOpenedEndOfDay(int year, int month, int day, DateTimeKind kind = DateTimeKind.Utc) =>
-        GetStartOfDay(year, month, day, kind).AddDays(1);
+    public static DateTime GetDayOpenedEnd(int year, int month, int day, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetDayStart(year, month, day, kind).AddDays(1);
 
-    public static DateTime GetStartOfMonth(int year, int month, DateTimeKind kind = DateTimeKind.Utc) =>
+    public static (DateTime Start, DateTime End) GetDayOpenedEndBounds(int year, int month, int day,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        (GetDayStart(year, month, day, kind), GetDayOpenedEnd(year, month, day, kind));
+
+    public static DateTime GetMonthStart(int year, int month, DateTimeKind kind = DateTimeKind.Utc) =>
         new(year, month, 1, 0, 0, 0, kind);
 
-    public static DateTime GetOpenedEndOfMonth(int year, int month, DateTimeKind kind = DateTimeKind.Utc) =>
-        GetStartOfMonth(year, month, kind).AddMonths(1);
+    public static DateTime GetMonthOpenedEnd(int year, int month, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetMonthStart(year, month, kind).AddMonths(1);
 
-    public static DateTime GetStartOfQuarter(int year, int quarter, DateTimeKind kind = DateTimeKind.Utc) =>
-        GetStartOfMonth(year, (quarter - 1) * QuarterLenInMonths + 1, kind);
+    public static (DateTime Start, DateTime End) GetMonthOpenedEndBounds(int year, int month,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        (GetMonthStart(year, month, kind), GetMonthOpenedEnd(year, month, kind));
 
-    public static DateTime GetOpenedEndOfQuarter(int year, int quarter, DateTimeKind kind = DateTimeKind.Utc) =>
-        GetOpenedEndOfMonth(year, quarter * QuarterLenInMonths, kind);
+    public static DateTime GetQuarterStart(int year, int quarter, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetMonthStart(year, (quarter - 1) * QuarterLenInMonths + 1, kind);
 
-    public static DateTime GetStartOfHalfAYear(int year, int halfAYear, DateTimeKind kind = DateTimeKind.Utc) =>
-        GetStartOfMonth(year, (halfAYear - 1) * HalfAYearLenInMonths + 1, kind);
+    public static DateTime GetQuarterOpenedEnd(int year, int quarter, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetMonthOpenedEnd(year, quarter * QuarterLenInMonths, kind);
 
-    public static DateTime GetOpenedEndOfHalfAYear(int year, int halfAYear, DateTimeKind kind = DateTimeKind.Utc) =>
-        GetOpenedEndOfMonth(year, halfAYear * HalfAYearLenInMonths, kind);
+    public static (DateTime Start, DateTime End) GetQuarterOpenedEndBounds(int year, int quarter,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        (GetQuarterStart(year, quarter, kind), GetQuarterOpenedEnd(year, quarter, kind));
 
-    public static DateTime GetStartOfYear(int year, DateTimeKind kind = DateTimeKind.Utc) =>
-        GetStartOfMonth(year, 1, kind);
+    public static DateTime GetHalfYearStart(int year, int halfYear, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetMonthStart(year, (halfYear - 1) * HalfYearLenInMonths + 1, kind);
 
-    public static DateTime GetOpenedEndOfYear(int year, DateTimeKind kind = DateTimeKind.Utc) =>
-        GetOpenedEndOfMonth(year, 12, kind);
+    public static DateTime GetHalfYearOpenedEnd(int year, int halfYear, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetMonthOpenedEnd(year, halfYear * HalfYearLenInMonths, kind);
 
-    private static int GetIntervalNumberInYear(this DateTime dateTime, int intervalLen) =>
-        (dateTime.Month - 1) / intervalLen + 1;
+    public static (DateTime Start, DateTime End) GetHalfYearOpenedEndBounds(int year, int halfYear,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        (GetHalfYearStart(year, halfYear, kind), GetHalfYearOpenedEnd(year, halfYear, kind));
+
+    public static DateTime GetYearStart(int year, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetMonthStart(year, 1, kind);
+
+    public static DateTime GetYearOpenedEnd(int year, DateTimeKind kind = DateTimeKind.Utc) =>
+        GetYearStart(year, kind).AddYears(1);
+
+    public static (DateTime Start, DateTime End) GetYearOpenedEndBounds(int year,
+        DateTimeKind kind = DateTimeKind.Utc) =>
+        (GetYearStart(year, kind), GetYearOpenedEnd(year, kind));
 }

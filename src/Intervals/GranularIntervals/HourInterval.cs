@@ -28,8 +28,7 @@ namespace Intervals.GranularIntervals;
 public class HourInterval : GranularInterval
 {
     public HourInterval(int year, int month, int day, int hour) : base(
-        DateTimeHelper.GetStartOfHour(year, month, day, hour),
-        DateTimeHelper.GetOpenedEndOfHour(year, month, day, hour))
+        DateTimeHelper.GetHourStart(year, month, day, hour), DateTimeHelper.GetHourOpenedEnd(year, month, day, hour))
     {
         Year = year;
         Month = month;

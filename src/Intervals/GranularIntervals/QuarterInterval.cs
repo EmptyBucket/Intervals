@@ -27,8 +27,8 @@ namespace Intervals.GranularIntervals;
 
 public class QuarterInterval : MonthGranularInterval
 {
-    public QuarterInterval(int year, int quarter) : base(DateTimeHelper.GetStartOfQuarter(year, quarter),
-        DateTimeHelper.GetOpenedEndOfQuarter(year, quarter))
+    public QuarterInterval(int year, int quarter) : base(DateTimeHelper.GetQuarterStart(year, quarter),
+        DateTimeHelper.GetQuarterOpenedEnd(year, quarter))
     {
         Year = year;
         Quarter = quarter;

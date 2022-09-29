@@ -27,35 +27,27 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
-    public static IInterval<DateTime> Round(this IInterval<DateTime> interval, TimeSpan component,
-        MidpointRounding midpointRounding = MidpointRounding.ToEven)
+    public static IInterval<DateTime> Floor(this IInterval<DateTime> interval, TimeSpan component)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.Round(component, midpointRounding),
-            rightVal.Round(component, midpointRounding), interval.Inclusion);
+        return new Interval<DateTime>(leftVal.Ceiling(component), rightVal.Floor(component), interval.Inclusion);
     }
 
-    public static IInterval<DateTime> RoundToMonth(this IInterval<DateTime> interval,
-        MidpointRounding midpointRounding = MidpointRounding.ToEven)
+    public static IInterval<DateTime> FloorToMonth(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.RoundToMonth(midpointRounding),
-            rightVal.RoundToMonth(midpointRounding), interval.Inclusion);
+        return new Interval<DateTime>(leftVal.CeilingToMonth(), rightVal.FloorToMonth(), interval.Inclusion);
     }
 
-    public static IInterval<DateTime> RoundToQuarter(this IInterval<DateTime> interval,
-        MidpointRounding midpointRounding = MidpointRounding.ToEven)
+    public static IInterval<DateTime> FloorToQuarter(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.RoundToQuarter(midpointRounding),
-            rightVal.RoundToQuarter(midpointRounding), interval.Inclusion);
+        return new Interval<DateTime>(leftVal.CeilingToQuarter(), rightVal.FloorToQuarter(), interval.Inclusion);
     }
 
-    public static IInterval<DateTime> RoundToHalfYear(this IInterval<DateTime> interval,
-        MidpointRounding midpointRounding = MidpointRounding.ToEven)
+    public static IInterval<DateTime> FloorToHalfYear(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.RoundToHalfYear(midpointRounding),
-            rightVal.RoundToHalfYear(midpointRounding), interval.Inclusion);
+        return new Interval<DateTime>(leftVal.CeilingToHalfYear(), rightVal.FloorToHalfYear(), interval.Inclusion);
     }
 }

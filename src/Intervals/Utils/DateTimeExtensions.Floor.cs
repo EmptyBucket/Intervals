@@ -21,20 +21,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Utils;
+namespace Intervals.Utils;
 
-namespace Intervals.GranularIntervals;
-
-public class MonthInterval : MonthGranularInterval
+public static partial class DateTimeExtensions
 {
-    public MonthInterval(int year, int month) : base(DateTimeHelper.GetMonthStart(year, month),
-        DateTimeHelper.GetMonthOpenedEnd(year, month))
+    public static DateTime Floor(this DateTime dateTime, TimeSpan component)
     {
-        Year = year;
-        Month = month;
+        var residue = new TimeSpan(dateTime.Ticks % component.Ticks);
+        return dateTime - residue;
     }
 
-    public int Year { get; }
+    public static DateTime FloorToMonth(this DateTime dateTime) =>
+        DateTimeHelper.GetMonthStart(dateTime.Year, dateTime.Month, dateTime.Kind);
 
-    public int Month { get; }
+    public static DateTime FloorToQuarter(this DateTime dateTime) =>
+        DateTimeHelper.GetQuarterStart(dateTime.Year, dateTime.Month, dateTime.Kind);
+
+    public static DateTime FloorToHalfYear(this DateTime dateTime) =>
+        DateTimeHelper.GetHalfYearStart(dateTime.Year, dateTime.Month, dateTime.Kind);
 }

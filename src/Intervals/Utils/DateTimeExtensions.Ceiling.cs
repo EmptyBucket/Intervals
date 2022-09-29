@@ -25,12 +25,34 @@ namespace Intervals.Utils;
 
 public static partial class DateTimeExtensions
 {
-    public static int GetQuarterNumber(this DateTime dateTime) =>
-        dateTime.GetIntervalNumberInYear(DateTimeHelper.QuarterLenInMonths);
+    public static DateTime Ceiling(this DateTime dateTime, TimeSpan component)
+    {
+        var residue = new TimeSpan(dateTime.Ticks % component.Ticks);
+        var append = Convert.ToInt64(residue > TimeSpan.Zero) * component;
+        return dateTime - residue + append;
+    }
 
-    public static int GetHalfYearNumber(this DateTime dateTime) =>
-        dateTime.GetIntervalNumberInYear(DateTimeHelper.HalfYearLenInMonths);
+    public static DateTime CeilingToMonth(this DateTime dateTime)
+    {
+        var start = DateTimeHelper.GetMonthStart(dateTime.Year, dateTime.Month, dateTime.Kind);
+        return dateTime > start
+            ? DateTimeHelper.GetMonthOpenedEnd(dateTime.Year, dateTime.Month, dateTime.Kind)
+            : start;
+    }
 
-    private static int GetIntervalNumberInYear(this DateTime dateTime, int intervalLen) =>
-        (dateTime.Month - 1) / intervalLen + 1;
+    public static DateTime CeilingToQuarter(this DateTime dateTime)
+    {
+        var start = DateTimeHelper.GetQuarterStart(dateTime.Year, dateTime.Month, dateTime.Kind);
+        return dateTime > start
+            ? DateTimeHelper.GetQuarterOpenedEnd(dateTime.Year, dateTime.Month, dateTime.Kind)
+            : start;
+    }
+
+    public static DateTime CeilingToHalfYear(this DateTime dateTime)
+    {
+        var start = DateTimeHelper.GetHalfYearStart(dateTime.Year, dateTime.Month, dateTime.Kind);
+        return dateTime > start
+            ? DateTimeHelper.GetHalfYearOpenedEnd(dateTime.Year, dateTime.Month, dateTime.Kind)
+            : start;
+    }
 }

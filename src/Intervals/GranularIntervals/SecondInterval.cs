@@ -27,9 +27,9 @@ namespace Intervals.GranularIntervals;
 
 public class SecondInterval : GranularInterval
 {
-    public SecondInterval(int year, int month, int day, int hour, int minute, int second) : base(
-        DateTimeHelper.GetStartOfSecond(year, month, day, hour, minute, second),
-        DateTimeHelper.GetOpenedEndOfSecond(year, month, day, hour, minute, second))
+    public SecondInterval(int year, int month, int day, int hour, int minute, int second)
+        : base(DateTimeHelper.GetSecondStart(year, month, day, hour, minute, second),
+            DateTimeHelper.GetSecondOpenedEnd(year, month, day, hour, minute, second))
     {
         Year = year;
         Month = month;

@@ -30,7 +30,7 @@ namespace Intervals.Tests.Intervals;
 public partial class IntervalExtensionsTests
 {
     [Test]
-    public void Ceiling_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void Ceiling_WhenBothLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 11, 0, 0), new DateTime(2022, 2, 2, 11, 0, 0));
 
@@ -41,7 +41,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void Ceiling_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void Ceiling_WhenLeftLessThanMidpointAndRightGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 11, 0, 0), new DateTime(2022, 2, 2, 13, 0, 0));
 
@@ -52,7 +52,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void Ceiling_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void Ceiling_WhenLeftGreatThanMidpointAndRightLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 13, 0, 0), new DateTime(2022, 2, 2, 11, 0, 0));
 
@@ -63,7 +63,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void Ceiling_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void Ceiling_WhenBothGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 13, 0, 0), new DateTime(2022, 2, 2, 13, 0, 0));
 
@@ -74,7 +74,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToMonth_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToMonth_WhenBothLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
 
@@ -85,7 +85,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToMonth_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToMonth_WhenLeftLessThanMidpointAndRightGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
 
@@ -96,7 +96,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToMonth_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToMonth_WhenLeftGreatThanMidpointAndRightLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
 
@@ -107,7 +107,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToMonth_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToMonth_WhenBothGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
 
@@ -118,7 +118,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToQuarter_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToQuarter_WhenBothLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
 
@@ -129,7 +129,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToQuarter_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToQuarter_WhenLeftLessThanMidpointAndRightGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
 
@@ -140,7 +140,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToQuarter_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToQuarter_WhenLeftGreatThanMidpointAndRightLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
 
@@ -151,7 +151,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToQuarter_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToQuarter_WhenBothGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
 
@@ -162,7 +162,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToHalfYear_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToHalfYear_WhenBothLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 11, 0, 0), new DateTime(2022, 4, 1, 11, 0, 0));
 
@@ -173,7 +173,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToHalfYear_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToHalfYear_WhenLeftLessThanMidpointAndRightGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 11, 0, 0), new DateTime(2022, 4, 1, 13, 0, 0));
 
@@ -184,7 +184,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToHalfYear_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToHalfYear_WhenLeftGreatThanMidpointAndRightLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 13, 0, 0), new DateTime(2022, 4, 1, 11, 0, 0));
 
@@ -195,7 +195,7 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
-    public void CeilingToHalfYear_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void CeilingToHalfYear_WhenBothGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 13, 0, 0), new DateTime(2022, 4, 1, 13, 0, 0));
 

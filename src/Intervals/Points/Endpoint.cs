@@ -28,7 +28,7 @@ namespace Intervals.Points;
 public static class Endpoint
 {
     /// <summary>
-    /// Returns endpoint with specified <paramref name="point" /> and EndpointLocation.Left
+    /// Returns endpoint with specified <paramref name="point" /> and left location
     /// </summary>
     /// <param name="point"></param>
     /// <typeparam name="T"></typeparam>
@@ -37,7 +37,7 @@ public static class Endpoint
         new(point, EndpointLocation.Left);
 
     /// <summary>
-    /// Returns endpoint with specified <paramref name="point" /> and EndpointLocation.Right
+    /// Returns endpoint with specified <paramref name="point" /> and right location
     /// </summary>
     /// <param name="point"></param>
     /// <typeparam name="T"></typeparam>
@@ -67,6 +67,20 @@ public readonly record struct Endpoint<T>(T Value, Inclusion Inclusion, Endpoint
 
     public void Deconstruct(out Point<T> point, out EndpointLocation location) => (point, location) = (this, Location);
 
+    /// <summary>
+    /// Compares this instance to a specified endpoint and returns an indication of their relative values
+    /// First, instances are compared according to their values, then according to the rule:
+    /// ) less than (, ] less than(, ) less thank [, ] less than [, ) equal ), ( equal (, ] equal ], [ equal [, ) less than ], ( greater than [
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns>
+    /// <list type="table">
+    /// <listheader><term> Return Value</term><description> Description</description></listheader>
+    /// <item><term> Less than zero</term><description> This instance is less than <paramref name="other" />.</description></item>
+    /// <item><term> Zero</term><description> This instance is equal to <paramref name="other" />.</description></item>
+    /// <item><term> Greater than zero</term><description> This instance is greater than <paramref name="other" />.</description></item>
+    /// </list>
+    /// </returns>
     public int CompareTo(Endpoint<T> other)
     {
         var valueCompared = Value.CompareTo(other.Value);
@@ -90,6 +104,11 @@ public readonly record struct Endpoint<T>(T Value, Inclusion Inclusion, Endpoint
 
     public static implicit operator Point<T>(Endpoint<T> endpoint) => new(endpoint.Value, endpoint.Inclusion);
 
+    /// <summary>
+    /// Converts the value of this instance to "{[(,),[,]]}{Value}{[(,),[,]]}" format
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public override string ToString() => Location switch
     {
         EndpointLocation.Left => Inclusion switch

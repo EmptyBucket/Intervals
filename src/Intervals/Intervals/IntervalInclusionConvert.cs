@@ -27,9 +27,21 @@ namespace Intervals.Intervals;
 
 public static class IntervalInclusionConvert
 {
-    public static IntervalInclusion FromInclusions(Inclusion left, Inclusion right) =>
-        (IntervalInclusion)((int)left << (int)EndpointLocation.Left | (int)right << (int)EndpointLocation.Right);
+    /// <summary>
+    /// Returns the converted inclusion of the interval from the <paramref name="leftInclusion" /> and <paramref name="rightInclusion" /> of the point
+    /// </summary>
+    /// <param name="leftInclusion"></param>
+    /// <param name="rightInclusion"></param>
+    /// <returns></returns>
+    public static IntervalInclusion FromInclusions(Inclusion leftInclusion, Inclusion rightInclusion) =>
+        (IntervalInclusion)((int)leftInclusion << (int)EndpointLocation.Left |
+                            (int)rightInclusion << (int)EndpointLocation.Right);
 
+    /// <summary>
+    /// Returns the converted inclusion of the point from the <paramref name="intervalInclusion" /> of the interval
+    /// </summary>
+    /// <param name="intervalInclusion"></param>
+    /// <returns></returns>
     public static (Inclusion Left, Inclusion Right) ToInclusions(IntervalInclusion intervalInclusion) =>
         ((Inclusion)((int)intervalInclusion >> (int)EndpointLocation.Left & 1),
             (Inclusion)((int)intervalInclusion >> (int)EndpointLocation.Right & 1));

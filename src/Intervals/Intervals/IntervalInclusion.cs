@@ -27,11 +27,26 @@ using Intervals.Points;
 
 namespace Intervals.Intervals;
 
+/// <summary>
+/// Represents the inclusion of the interval
+/// </summary>
 [Flags]
 public enum IntervalInclusion
 {
+    /// <summary>
+    /// Both endpoints of the interval are excluded
+    /// </summary>
     Opened = Inclusion.Excluded << EndpointLocation.Left | Inclusion.Excluded << EndpointLocation.Right,
+    /// <summary>
+    /// Left endpoint is excluded and right endpoint of the interval is included
+    /// </summary>
     LeftOpened = Inclusion.Excluded << EndpointLocation.Left | Inclusion.Included << EndpointLocation.Right,
+    /// <summary>
+    /// Left endpoint is included and right endpoint of the interval is excluded
+    /// </summary>
     RightOpened = Inclusion.Included << EndpointLocation.Left | Inclusion.Excluded << EndpointLocation.Right,
+    /// <summary>
+    /// Both endpoints of the interval are included
+    /// </summary>
     Closed = Inclusion.Included << EndpointLocation.Left | Inclusion.Included << EndpointLocation.Right
 }

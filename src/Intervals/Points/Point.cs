@@ -50,5 +50,9 @@ public static class Point
 /// <typeparam name="T"></typeparam>
 public readonly record struct Point<T>(T Value, Inclusion Inclusion) where T : IEquatable<T>
 {
+    /// <summary>
+    /// Converts the value of this instance to "{Value}-{Inclusion}" format
+    /// </summary>
+    /// <returns></returns>
     public override string ToString() => $"{Value}-{Inclusion}";
 }

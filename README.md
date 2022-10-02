@@ -30,12 +30,11 @@ var enumerable = new[]
         .SymmetricDifference(new Interval<int>(20, 35, IntervalInclusion.Opened)))
     .Overlap(new Interval<int>(20, 25, IntervalInclusion.Opened))
     .ToArray();
-
-var result = new QuarterInterval(2022, 3)
-    .Move(-1)
-    .Combine(new MonthInterval(2022, 1).Move(1))
-    .SelectMany(i => i.SplitByMonths(2));
 ```
 | Combine | Overlap | Substract | SymmetricDifference |
 | --- | --- | --- | --- |
 | ![image](https://user-images.githubusercontent.com/8377311/170842990-f7fa9a86-93cb-4904-b0c1-d44e6402b9e8.png) | ![image](https://user-images.githubusercontent.com/8377311/170842996-4eeb830e-cb43-4403-9d0e-f3f6935c030c.png) | ![image](https://user-images.githubusercontent.com/8377311/170843001-518e926a-ff64-46cb-b88e-a12436ef43b0.png) | ![image](https://user-images.githubusercontent.com/8377311/170843011-a271a586-d46a-4dba-8648-40b91332d630.png) |
+
+```cssharp
+new QuarterInterval(2022, 3).Move(-3).ExpandRight(5).Round(TimeSpan.FromHours(3)).SplitByMonths(2);
+```

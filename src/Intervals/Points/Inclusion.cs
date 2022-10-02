@@ -23,6 +23,9 @@
 
 namespace Intervals.Points;
 
+/// <summary>
+/// Represents the inclusion of the point
+/// </summary>
 [Flags]
 public enum Inclusion
 {

@@ -27,16 +27,40 @@ namespace Intervals.Points;
 
 public static class Endpoint
 {
+    /// <summary>
+    /// Returns endpoint with specified <paramref name="point" /> and EndpointLocation.Left
+    /// </summary>
+    /// <param name="point"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static Endpoint<T> Left<T>(Point<T> point) where T : IEquatable<T>, IComparable<T> =>
         new(point, EndpointLocation.Left);
 
+    /// <summary>
+    /// Returns endpoint with specified <paramref name="point" /> and EndpointLocation.Right
+    /// </summary>
+    /// <param name="point"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static Endpoint<T> Right<T>(Point<T> point) where T : IEquatable<T>, IComparable<T> =>
         new(point, EndpointLocation.Right);
 }
 
+/// <summary>
+/// Represents an endpoint instance
+/// </summary>
+/// <param name="Value"></param>
+/// <param name="Inclusion"></param>
+/// <param name="Location"></param>
+/// <typeparam name="T"></typeparam>
 public readonly record struct Endpoint<T>(T Value, Inclusion Inclusion, EndpointLocation Location)
     : IComparable<Endpoint<T>> where T : IComparable<T>, IEquatable<T>
 {
+    /// <summary>
+    /// Returns endpoint with specified <paramref name="point" /> and <paramref name="location" />
+    /// </summary>
+    /// <param name="point"></param>
+    /// <param name="location"></param>
     public Endpoint(Point<T> point, EndpointLocation location) : this(point.Value, point.Inclusion, location)
     {
     }

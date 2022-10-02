@@ -25,6 +25,13 @@ namespace Intervals.Points;
 
 public static class PointExtensions
 {
+    /// <summary>
+    /// Returns true if there is a gap between the specified <paramref name="left" /> and <paramref name="right" /> points, otherwise returns false
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static bool HasGap<T>(this Point<T> left, Point<T> right) where T : IEquatable<T> =>
         !left.Value.Equals(right.Value) || (left.Inclusion | right.Inclusion) != Inclusion.Included;
 }

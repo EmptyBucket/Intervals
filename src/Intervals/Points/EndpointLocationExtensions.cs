@@ -25,5 +25,10 @@ namespace Intervals.Points;
 
 public static class EndpointLocationExtensions
 {
+    /// <summary>
+    /// Returns the opposite location of the endpoint of the specified <paramref name="location" />
+    /// </summary>
+    /// <param name="location"></param>
+    /// <returns></returns>
     public static EndpointLocation Invert(this EndpointLocation location) => (EndpointLocation)((int)location ^ 1);
 }

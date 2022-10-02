@@ -23,6 +23,9 @@
 
 namespace Intervals.Points;
 
+/// <summary>
+/// Represents the location of the endpoint
+/// </summary>
 [Flags]
 public enum EndpointLocation
 {

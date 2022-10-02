@@ -25,11 +25,29 @@ namespace Intervals.Points;
 
 public static class Point
 {
+    /// <summary>
+    /// Returns point with specified <paramref name="value" /> and Inclusion.Included
+    /// </summary>
+    /// <param name="value"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static Point<T> Included<T>(T value) where T : IEquatable<T> => new(value, Inclusion.Included);
 
+    /// <summary>
+    /// Returns point with specified <paramref name="value" /> and Inclusion.Excluded
+    /// </summary>
+    /// <param name="value"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static Point<T> Excluded<T>(T value) where T : IEquatable<T> => new(value, Inclusion.Excluded);
 }
 
+/// <summary>
+/// Represents an point instance
+/// </summary>
+/// <param name="Value"></param>
+/// <param name="Inclusion"></param>
+/// <typeparam name="T"></typeparam>
 public readonly record struct Point<T>(T Value, Inclusion Inclusion) where T : IEquatable<T>
 {
     public override string ToString() => $"{Value}-{Inclusion}";

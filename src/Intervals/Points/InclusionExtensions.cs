@@ -25,5 +25,10 @@ namespace Intervals.Points;
 
 public static class InclusionExtensions
 {
+	/// <summary>
+    /// Returns the opposite inclusion of the point of the specified <paramref name="inclusion" />
+	/// </summary>
+	/// <param name="inclusion"></param>
+	/// <returns></returns>
 	public static Inclusion Invert(this Inclusion inclusion) => (Inclusion)((int)inclusion ^ 1);
 }

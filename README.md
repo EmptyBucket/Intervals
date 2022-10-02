@@ -1,7 +1,7 @@
 # Intervals
 Library for working with generic intervals and granular time intervals (like a quarter, a week...). Intervals support different inclusions (Opened, LeftOpened, RightOpened, Closed). Operations have O(nlog) asymptotic complexity, even if you did some complex method chaining it would still be O(nlog) where each point would only be sorted once
 ### Documentation: 
-* https://github.com/EmptyBucket/Intervals/blob/master/readme/index.md
+* https://github.com/EmptyBucket/Intervals/blob/master/docs/index.md
 #### Nuget:
 * https://www.nuget.org/packages/ap.Intervals/
 ## Usage
@@ -38,5 +38,9 @@ var enumerable = new[]
 
 ### Second example
 ```csharp
-new QuarterInterval(2022, 3).Move(-3).ExpandRight(5).Round(TimeSpan.FromHours(3)).SplitByMonths(2);
+new QuarterInterval(2022, 3)
+    .Move(-3)
+    .ExpandRight(5)
+    .Round(TimeSpan.FromHours(3))
+    .SplitByMonths(2);
 ```

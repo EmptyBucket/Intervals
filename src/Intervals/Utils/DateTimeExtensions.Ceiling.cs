@@ -25,6 +25,12 @@ namespace Intervals.Utils;
 
 public static partial class DateTimeExtensions
 {
+    /// <summary>
+    /// Returns the smallest value aligned to <paramref name="granuleSize" /> that is greater than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="granuleSize"></param>
+    /// <returns></returns>
     public static DateTime Ceiling(this DateTime dateTime, TimeSpan granuleSize)
     {
         var residue = new TimeSpan(dateTime.Ticks % granuleSize.Ticks);
@@ -32,18 +38,33 @@ public static partial class DateTimeExtensions
         return dateTime - residue + append;
     }
 
+    /// <summary>
+    /// Returns the smallest value aligned to month that is greater than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
     public static DateTime CeilingToMonth(this DateTime dateTime)
     {
         var start = dateTime.FloorToMonth();
         return dateTime > start ? start.AddMonths(1) : start;
     }
 
+    /// <summary>
+    /// Returns the smallest value aligned to quarter that is greater than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
     public static DateTime CeilingToQuarter(this DateTime dateTime)
     {
         var start = dateTime.FloorToQuarter();
         return dateTime > start ? start.AddMonths(DateTimeHelper.MonthsInQuarter) : start;
     }
 
+    /// <summary>
+    /// Returns the smallest value aligned to half-year that is greater than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
     public static DateTime CeilingToHalfYear(this DateTime dateTime)
     {
         var start = dateTime.FloorToHalfYear();

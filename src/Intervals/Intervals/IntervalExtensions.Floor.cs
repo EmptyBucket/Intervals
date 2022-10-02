@@ -28,24 +28,45 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
+    /// <summary>
+    /// Returns the largest interval aligned to <paramref name="granuleSize" /> that is less than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="granuleSize"></param>
+    /// <returns></returns>
     public static IGranularInterval<DateTime> Floor(this IInterval<DateTime> interval, TimeSpan granuleSize)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new GranularInterval(leftVal.Ceiling(granuleSize), rightVal.Floor(granuleSize), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Returns the largest interval aligned to month that is less than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <returns></returns>
     public static IGranularInterval<DateTime> FloorToMonth(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new MonthGranularInterval(leftVal.CeilingToMonth(), rightVal.FloorToMonth(), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Returns the largest interval aligned to quarter that is less than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <returns></returns>
     public static IGranularInterval<DateTime> FloorToQuarter(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new MonthGranularInterval(leftVal.CeilingToQuarter(), rightVal.FloorToQuarter(), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Returns the largest interval aligned to half-year that is less than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <returns></returns>
     public static IGranularInterval<DateTime> FloorToHalfYear(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);

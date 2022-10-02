@@ -25,6 +25,13 @@ namespace Intervals.Utils;
 
 public static partial class DateTimeExtensions
 {
+    /// <summary>
+    /// Rounds a <paramref name="dateTime" /> to a value aligned to <paramref name="granuleSize" />, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="granuleSize"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
     public static DateTime Round(this DateTime dateTime, TimeSpan granuleSize,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
@@ -33,6 +40,12 @@ public static partial class DateTimeExtensions
         return dateTime - residue + append;
     }
 
+    /// <summary>
+    /// Rounds a <paramref name="dateTime" /> to a value aligned to month, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
     public static DateTime RoundToMonth(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
@@ -41,6 +54,12 @@ public static partial class DateTimeExtensions
         return RoundTo(start, dateTime, end, midpointRounding);
     }
 
+    /// <summary>
+    /// Rounds a <paramref name="dateTime" /> to a value aligned to quarter, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
     public static DateTime RoundToQuarter(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
@@ -49,6 +68,12 @@ public static partial class DateTimeExtensions
         return RoundTo(start, dateTime, end, midpointRounding);
     }
 
+    /// <summary>
+    /// Rounds a <paramref name="dateTime" /> to a value aligned to half-year, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
     public static DateTime RoundToHalfYear(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {

@@ -28,6 +28,13 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
+    /// <summary>
+    /// Rounds a <paramref name="interval" /> to a interval aligned to <paramref name="granuleSize" />, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="granuleSize"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
     public static IGranularInterval<DateTime> Round(this IInterval<DateTime> interval, TimeSpan granuleSize,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
@@ -36,6 +43,12 @@ public static partial class IntervalExtensions
             rightVal.Round(granuleSize, midpointRounding), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Rounds a <paramref name="interval" /> to a interval aligned to month, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
     public static IGranularInterval<DateTime> RoundToMonth(this IInterval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
@@ -44,6 +57,12 @@ public static partial class IntervalExtensions
             rightVal.RoundToMonth(midpointRounding), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Rounds a <paramref name="interval" /> to a interval aligned to quarter, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
     public static IGranularInterval<DateTime> RoundToQuarter(this IInterval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
@@ -52,6 +71,12 @@ public static partial class IntervalExtensions
             rightVal.RoundToQuarter(midpointRounding), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Rounds a <paramref name="interval" /> to a interval aligned to half-year, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
     public static IGranularInterval<DateTime> RoundToHalfYear(this IInterval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {

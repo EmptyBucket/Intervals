@@ -25,18 +25,39 @@ namespace Intervals.Utils;
 
 public static partial class DateTimeExtensions
 {
+    /// <summary>
+    /// Returns the largest value aligned to <paramref name="granuleSize" /> that is less than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="granuleSize"></param>
+    /// <returns></returns>
     public static DateTime Floor(this DateTime dateTime, TimeSpan granuleSize)
     {
         var residue = new TimeSpan(dateTime.Ticks % granuleSize.Ticks);
         return dateTime - residue;
     }
 
+    /// <summary>
+    /// Returns the largest value aligned to month that is less than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
     public static DateTime FloorToMonth(this DateTime dateTime) =>
         DateTimeHelper.New(dateTime.Year, dateTime.Month, 1, dateTime.Kind);
 
+    /// <summary>
+    /// Returns the largest value aligned to quarter that is less than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
     public static DateTime FloorToQuarter(this DateTime dateTime) =>
         DateTimeHelper.New(dateTime.Year, DateTimeHelper.QuarterToMonth(dateTime.GetQuarter()), 1, dateTime.Kind);
 
+    /// <summary>
+    /// Returns the largest value aligned to half-year that is less than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
     public static DateTime FloorToHalfYear(this DateTime dateTime) =>
         DateTimeHelper.New(dateTime.Year, DateTimeHelper.HalfYearToMonth(dateTime.GetHalfYear()), 1, dateTime.Kind);
 }

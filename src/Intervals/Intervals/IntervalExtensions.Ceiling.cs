@@ -27,24 +27,45 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
+    /// <summary>
+    /// Returns the smallest interval aligned to <paramref name="granuleSize" /> that is greater than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="granuleSize"></param>
+    /// <returns></returns>
     public static IInterval<DateTime> Ceiling(this IInterval<DateTime> interval, TimeSpan granuleSize)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new Interval<DateTime>(leftVal.Floor(granuleSize), rightVal.Ceiling(granuleSize), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Returns the smallest interval aligned to month that is greater than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <returns></returns>
     public static IInterval<DateTime> CeilingToMonth(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new Interval<DateTime>(leftVal.FloorToMonth(), rightVal.CeilingToMonth(), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Returns the smallest interval aligned to quarter that is greater than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <returns></returns>
     public static IInterval<DateTime> CeilingToQuarter(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new Interval<DateTime>(leftVal.FloorToQuarter(), rightVal.CeilingToQuarter(), interval.Inclusion);
     }
 
+    /// <summary>
+    /// Returns the smallest interval aligned to half-year that is greater than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <returns></returns>
     public static IInterval<DateTime> CeilingToHalfYear(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);

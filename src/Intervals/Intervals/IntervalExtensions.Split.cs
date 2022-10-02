@@ -29,42 +29,65 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
-    public static IEnumerable<IInterval<DateTime>> SplitBy(this IInterval<DateTime> interval, TimeSpan granuleSize) =>
-        SplitBy(interval, l => new Interval<DateTime>(l, l.Add(granuleSize)));
+    public static IEnumerable<IInterval<DateTime>> Split(this IInterval<DateTime> interval, TimeSpan granuleSize,
+        bool removeIncomplete = false)
+    {
+        IInterval<DateTime> ComputeInterval(DateTime left)
+        {
+            var granule = left.Ceiling(granuleSize);
 
-    public static IEnumerable<IInterval<DateTime>> SplitBySeconds(this IInterval<DateTime> interval,
-        int secondsCount = 1) =>
-        SplitBy(interval,
-            l => new SecondInterval(l.Year, l.Month, l.Day, l.Hour, l.Minute, l.Second).ExpandRight(secondsCount - 1));
+            return !removeIncomplete && left != granule
+                ? new Interval<DateTime>(left, granule)
+                : new Interval<DateTime>(granule, granule + granuleSize);
+        }
 
-    public static IEnumerable<IInterval<DateTime>> SplitByMinutes(this IInterval<DateTime> interval,
-        int minutesCount = 1) =>
-        SplitBy(interval,
-            l => new MinuteInterval(l.Year, l.Month, l.Day, l.Hour, l.Minute).ExpandRight(minutesCount - 1));
-
-    public static IEnumerable<IInterval<DateTime>> SplitByHours(this IInterval<DateTime> interval,
-        int hoursCount = 1) =>
-        SplitBy(interval, l => new HourInterval(l.Year, l.Month, l.Day, l.Hour).ExpandRight(hoursCount - 1));
-
-    public static IEnumerable<IInterval<DateTime>> SplitByDays(this IInterval<DateTime> interval,
-        int daysCount = 1) =>
-        SplitBy(interval, l => new DayInterval(l.Year, l.Month, l.Day).ExpandRight(daysCount - 1));
+        return SplitBy(interval, ComputeInterval);
+    }
 
     public static IEnumerable<IInterval<DateTime>> SplitByMonths(this IInterval<DateTime> interval,
-        int monthsCount = 1) =>
-        SplitBy(interval, l => new MonthInterval(l.Year, l.Month).ExpandRight(monthsCount - 1));
+        int monthsCount = 1, bool removeIncomplete = false)
+    {
+        IInterval<DateTime> ComputeInterval(DateTime left)
+        {
+            var month = left.CeilingToMonth();
+
+            return !removeIncomplete && left != month
+                ? new Interval<DateTime>(left, month)
+                : new MonthInterval(month.Year, month.Month).ExpandRight(monthsCount - 1);
+        }
+
+        return SplitBy(interval, ComputeInterval);
+    }
 
     public static IEnumerable<IInterval<DateTime>> SplitByQuarters(this IInterval<DateTime> interval,
-        int quartersCount = 1) =>
-        SplitBy(interval, l => new QuarterInterval(l.Year, l.GetQuarterNumber()).ExpandRight(quartersCount - 1));
+        int quartersCount = 1, bool removeIncomplete = false)
+    {
+        IInterval<DateTime> ComputeInterval(DateTime left)
+        {
+            var quarter = left.CeilingToQuarter();
+
+            return !removeIncomplete && left != quarter
+                ? new Interval<DateTime>(left, quarter)
+                : new QuarterInterval(quarter.Year, quarter.GetQuarterNumber()).ExpandRight(quartersCount - 1);
+        }
+
+        return SplitBy(interval, ComputeInterval);
+    }
 
     public static IEnumerable<IInterval<DateTime>> SplitByHalfYears(this IInterval<DateTime> interval,
-        int halfYearsCount = 1) =>
-        SplitBy(interval, l => new HalfYearInterval(l.Year, l.GetHalfYearNumber()).ExpandRight(halfYearsCount - 1));
+        int halfYearsCount = 1, bool removeIncomplete = false)
+    {
+        IInterval<DateTime> ComputeInterval(DateTime left)
+        {
+            var halfYear = left.CeilingToHalfYear();
 
-    public static IEnumerable<IInterval<DateTime>> SplitByYears(this IInterval<DateTime> interval,
-        int yearsCount = 1) =>
-        SplitBy(interval, l => new YearInterval(l.Year).ExpandRight(yearsCount - 1));
+            return !removeIncomplete && left != halfYear
+                ? new Interval<DateTime>(left, halfYear)
+                : new HalfYearInterval(halfYear.Year, halfYear.GetHalfYearNumber()).ExpandRight(halfYearsCount - 1);
+        }
+
+        return SplitBy(interval, ComputeInterval);
+    }
 
     private static IEnumerable<IInterval<DateTime>> SplitBy(IInterval<DateTime> interval,
         Func<DateTime, IInterval<DateTime>> computeInterval)
@@ -74,9 +97,7 @@ public static partial class IntervalExtensions
         while (left.CompareTo(right) < 0)
         {
             var curInterval = computeInterval(left.Value);
-            curInterval = new Interval<DateTime>(
-                curInterval.Left.CompareTo(left) > 0 ? curInterval.Left : left,
-                curInterval.Right.CompareTo(right) < 0 ? curInterval.Right : right);
+            curInterval = new Interval<DateTime>(curInterval.Left, GenericMath.Min(curInterval.Right, right));
             yield return curInterval;
             left = Endpoint.Left(new Point<DateTime>(curInterval.Right.Value, curInterval.Right.Inclusion.Invert()));
         }

@@ -30,46 +30,10 @@ namespace Intervals.Tests.Intervals;
 public partial class IntervalExtensionsTests
 {
     [Test]
-    [TestCaseSource(nameof(SplitBySeconds_Data))]
-    public void SplitBy_WhenByTwoSeconds(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
+    [TestCaseSource(nameof(Split_Data))]
+    public void Split_WhenByTwoSeconds(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
     {
-        var actual = interval.SplitBy(TimeSpan.FromSeconds(2)).ToArray();
-
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
-    }
-
-    [Test]
-    [TestCaseSource(nameof(SplitBySeconds_Data))]
-    public void SplitBySeconds_WhenByTwoSeconds(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
-    {
-        var actual = interval.SplitBySeconds(2).ToArray();
-
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
-    }
-
-    [Test]
-    [TestCaseSource(nameof(SplitByMinutes_Data))]
-    public void SplitByMinutes_WhenByTwoMinutes(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
-    {
-        var actual = interval.SplitByMinutes(2).ToArray();
-
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
-    }
-
-    [Test]
-    [TestCaseSource(nameof(SplitByHours_Data))]
-    public void SplitByHours_WhenByTwoHours(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
-    {
-        var actual = interval.SplitByHours(2).ToArray();
-
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
-    }
-
-    [Test]
-    [TestCaseSource(nameof(SplitByDays_Data))]
-    public void SplitByDays_WhenByTwoDays(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
-    {
-        var actual = interval.SplitByDays(2).ToArray();
+        var actual = interval.Split(TimeSpan.FromSeconds(2)).ToArray();
 
         actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
     }
@@ -97,15 +61,6 @@ public partial class IntervalExtensionsTests
     public void SplitByDays_WhenByTwoHalfYears(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
     {
         var actual = interval.SplitByHalfYears(2).ToArray();
-
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
-    }
-
-    [Test]
-    [TestCaseSource(nameof(SplitByYears_Data))]
-    public void SplitByDays_WhenByTwoYears(IInterval<DateTime> interval, IInterval<DateTime>[] expected)
-    {
-        var actual = interval.SplitByYears(2).ToArray();
 
         actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
     }

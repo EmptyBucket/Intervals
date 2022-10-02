@@ -25,11 +25,11 @@ namespace Intervals.Utils;
 
 public static partial class DateTimeExtensions
 {
-    public static DateTime Round(this DateTime dateTime, TimeSpan component,
+    public static DateTime Round(this DateTime dateTime, TimeSpan granuleSize,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var residue = new TimeSpan(dateTime.Ticks % component.Ticks);
-        var append = Math.Round(residue / component, midpointRounding) * component;
+        var residue = new TimeSpan(dateTime.Ticks % granuleSize.Ticks);
+        var append = Math.Round(residue / granuleSize, midpointRounding) * granuleSize;
         return dateTime - residue + append;
     }
 
@@ -43,14 +43,16 @@ public static partial class DateTimeExtensions
     public static DateTime RoundToQuarter(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (start, end) = DateTimeHelper.GetQuarterOpenedEndBounds(dateTime.Year, dateTime.Month, dateTime.Kind);
+        var (start, end) =
+            DateTimeHelper.GetQuarterOpenedEndBounds(dateTime.Year, dateTime.GetQuarterNumber(), dateTime.Kind);
         return RoundTo(start, dateTime, end, midpointRounding);
     }
 
     public static DateTime RoundToHalfYear(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (start, end) = DateTimeHelper.GetHalfYearOpenedEndBounds(dateTime.Year, dateTime.Month, dateTime.Kind);
+        var (start, end) =
+            DateTimeHelper.GetHalfYearOpenedEndBounds(dateTime.Year, dateTime.GetHalfYearNumber(), dateTime.Kind);
         return RoundTo(start, dateTime, end, midpointRounding);
     }
 

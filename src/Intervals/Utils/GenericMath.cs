@@ -23,20 +23,9 @@
 
 namespace Intervals.Utils;
 
-public static partial class DateTimeExtensions
+internal static class GenericMath
 {
-    public static DateTime Floor(this DateTime dateTime, TimeSpan granuleSize)
-    {
-        var residue = new TimeSpan(dateTime.Ticks % granuleSize.Ticks);
-        return dateTime - residue;
-    }
+    public static T Max<T>(T val1, T val2) where T : IComparable<T> => val1.CompareTo(val2) >= 0 ? val1 : val2;
 
-    public static DateTime FloorToMonth(this DateTime dateTime) =>
-        DateTimeHelper.GetMonthStart(dateTime.Year, dateTime.Month, dateTime.Kind);
-
-    public static DateTime FloorToQuarter(this DateTime dateTime) =>
-        DateTimeHelper.GetQuarterStart(dateTime.Year, dateTime.GetQuarterNumber(), dateTime.Kind);
-
-    public static DateTime FloorToHalfYear(this DateTime dateTime) =>
-        DateTimeHelper.GetHalfYearStart(dateTime.Year, dateTime.GetHalfYearNumber(), dateTime.Kind);
+    public static T Min<T>(T val1, T val2) where T : IComparable<T> => val1.CompareTo(val2) <= 0 ? val1 : val2;
 }

@@ -25,6 +25,9 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an day interval instance
+/// </summary>
 public class DayInterval : GranularInterval
 {
     public DayInterval(int year, int month, int day, DateTimeKind kind = DateTimeKind.Unspecified) : base(

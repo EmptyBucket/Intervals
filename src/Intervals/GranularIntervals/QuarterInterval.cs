@@ -25,6 +25,9 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an quarter interval instance
+/// </summary>
 public class QuarterInterval : MonthGranularInterval
 {
     public QuarterInterval(int year, int quarter, DateTimeKind kind = DateTimeKind.Unspecified) : base(

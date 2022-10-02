@@ -23,6 +23,9 @@
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an year interval instance
+/// </summary>
 public class YearInterval : MonthGranularInterval
 {
     public YearInterval(int year, DateTimeKind kind = DateTimeKind.Unspecified) : base(

@@ -52,7 +52,7 @@ public static partial class IntervalExtensions
     }
 
     /// <summary>
-    /// Returns the union of the specified <paramref name="left" /> intervals and <paramref name="right" /> intervals
+    /// Returns the union of the specified <paramref name="left" /> and <paramref name="right" /> intervals
     /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>
@@ -63,7 +63,7 @@ public static partial class IntervalExtensions
         CombineEnumerable<T>.Create(left, right);
 
     /// <summary>
-    /// Returns the intersection of the specified <paramref name="left" /> intervals and <paramref name="right" /> intervals
+    /// Returns the intersection of the specified <paramref name="left" /> and <paramref name="right" /> intervals
     /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>
@@ -74,7 +74,7 @@ public static partial class IntervalExtensions
         OverlapEnumerable<T>.Create(left, right);
 
     /// <summary>
-    /// Returns the difference between the specified <paramref name="left" /> intervals and <paramref name="right" /> intervals
+    /// Returns the difference between the specified <paramref name="left" /> and <paramref name="right" /> intervals
     /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>
@@ -85,7 +85,7 @@ public static partial class IntervalExtensions
         SubtractEnumerable<T>.Create(left, right);
 
     /// <summary>
-    /// Returns the symmetric difference between the specified <paramref name="left" /> intervals and <paramref name="right" /> intervals
+    /// Returns the symmetric difference between the specified <paramref name="left" /> and <paramref name="right" /> intervals
     /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>

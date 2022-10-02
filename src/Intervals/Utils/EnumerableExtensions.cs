@@ -25,6 +25,16 @@ namespace Intervals.Utils;
 
 internal static class EnumerableExtensions
 {
+    /// <summary>
+    /// Returns an ordered sequence of the specified ordered <paramref name="left" /> and ordered <paramref name="right" /> intervals
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <param name="selector"></param>
+    /// <param name="ascending"></param>
+    /// <typeparam name="TSource"></typeparam>
+    /// <typeparam name="TKey"></typeparam>
+    /// <returns></returns>
     public static IEnumerable<TSource> Merge<TSource, TKey>(this IEnumerable<TSource> left,
         IEnumerable<TSource> right, Func<TSource, TKey> selector, bool ascending = true)
         where TKey : IComparable<TKey>

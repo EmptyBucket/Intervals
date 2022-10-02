@@ -23,6 +23,9 @@
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an minute interval instance
+/// </summary>
 public class MinuteInterval : GranularInterval
 {
     public MinuteInterval(int year, int month, int day, int hour, int minute,

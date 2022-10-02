@@ -23,6 +23,9 @@
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an hour interval instance
+/// </summary>
 public class HourInterval : GranularInterval
 {
     public HourInterval(int year, int month, int day, int hour, DateTimeKind kind = DateTimeKind.Unspecified) : base(

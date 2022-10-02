@@ -25,6 +25,9 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an month interval instance
+/// </summary>
 public class MonthInterval : MonthGranularInterval
 {
     public MonthInterval(int year, int month, DateTimeKind kind = DateTimeKind.Unspecified) : base(

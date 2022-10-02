@@ -25,6 +25,9 @@ using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an half-year interval instance
+/// </summary>
 public class HalfYearInterval : MonthGranularInterval
 {
     public HalfYearInterval(int year, int halfYear, DateTimeKind kind = DateTimeKind.Unspecified) : base(

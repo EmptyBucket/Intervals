@@ -29,6 +29,15 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
+    /// <summary>
+    /// Splits the interval into sub-intervals of <paramref name="granuleSize" /> length and
+    /// the rest, which was less than <paramref name="granuleSize" /> in length,
+    /// if <paramref name="removeIncomplete" /> is false, otherwise removes it
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="granuleSize"></param>
+    /// <param name="removeIncomplete"></param>
+    /// <returns></returns>
     public static IEnumerable<IInterval<DateTime>> Split(this IInterval<DateTime> interval, TimeSpan granuleSize,
         bool removeIncomplete = false)
     {
@@ -44,6 +53,15 @@ public static partial class IntervalExtensions
         return SplitBy(interval, ComputeInterval);
     }
 
+    /// <summary>
+    /// Splits the interval into sub-intervals of <paramref name="monthsCount" /> length and
+    /// the rest, which was less than <paramref name="monthsCount" /> in length,
+    /// if <paramref name="removeIncomplete" /> is false, otherwise removes it
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="monthsCount"></param>
+    /// <param name="removeIncomplete"></param>
+    /// <returns></returns>
     public static IEnumerable<IInterval<DateTime>> SplitByMonths(this IInterval<DateTime> interval,
         int monthsCount = 1, bool removeIncomplete = false)
     {
@@ -59,6 +77,15 @@ public static partial class IntervalExtensions
         return SplitBy(interval, ComputeInterval);
     }
 
+    /// <summary>
+    /// Splits the interval into sub-intervals of <paramref name="quartersCount" /> length and
+    /// the rest, which was less than <paramref name="quartersCount" /> in length,
+    /// if <paramref name="removeIncomplete" /> is false, otherwise removes it
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="quartersCount"></param>
+    /// <param name="removeIncomplete"></param>
+    /// <returns></returns>
     public static IEnumerable<IInterval<DateTime>> SplitByQuarters(this IInterval<DateTime> interval,
         int quartersCount = 1, bool removeIncomplete = false)
     {
@@ -74,6 +101,15 @@ public static partial class IntervalExtensions
         return SplitBy(interval, ComputeInterval);
     }
 
+    /// <summary>
+    /// Splits the interval into sub-intervals of <paramref name="halfYearsCount" /> length and
+    /// the rest, which was less than <paramref name="halfYearsCount" /> in length,
+    /// if <paramref name="removeIncomplete" /> is false, otherwise removes it
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="halfYearsCount"></param>
+    /// <param name="removeIncomplete"></param>
+    /// <returns></returns>
     public static IEnumerable<IInterval<DateTime>> SplitByHalfYears(this IInterval<DateTime> interval,
         int halfYearsCount = 1, bool removeIncomplete = false)
     {

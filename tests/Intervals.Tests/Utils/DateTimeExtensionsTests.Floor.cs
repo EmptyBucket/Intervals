@@ -30,7 +30,7 @@ namespace Intervals.Tests.Utils;
 public partial class DateTimeExtensionsTests
 {
     [Test]
-    public void Floor_WhenHasNotRest_ReturnFloor()
+    public void Floor_WhenHasNotModulo_ReturnFloor()
     {
         var dateTime = new DateTime(2022, 1, 2, 0, 0, 0);
 
@@ -40,7 +40,7 @@ public partial class DateTimeExtensionsTests
     }
 
     [Test]
-    public void Floor_WhenHasRestWhichLessThanMidpoint_ReturnFloor()
+    public void Floor_WhenHasModuloWhichLessThanMidpoint_ReturnFloor()
     {
         var dateTime = new DateTime(2022, 1, 2, 11, 0, 0);
 
@@ -50,7 +50,7 @@ public partial class DateTimeExtensionsTests
     }
 
     [Test]
-    public void Floor_WhenHasRestWhichEqualsMidpoint_ReturnFloor()
+    public void Floor_WhenHasModuloWhichEqualsMidpoint_ReturnFloor()
     {
         var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
 
@@ -60,12 +60,122 @@ public partial class DateTimeExtensionsTests
     }
 
     [Test]
-    public void Floor_WhenHasRestWhichGreatThanMidpoint_ReturnFloor()
+    public void Floor_WhenHasModuloWhichGreatThanMidpoint_ReturnFloor()
     {
         var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
 
         var round = dateTime.Floor(TimeSpan.FromDays(1));
 
         round.Should().Be(new DateTime(2022, 1, 2));
+    }
+
+    [Test]
+    public void FloorToMonth_WhenHasNotModulo_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 1, 0, 0, 0);
+
+        var round = dateTime.FloorToMonth();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToMonth_WhenHasModuloWhichLessThanMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 15, 0, 0, 0);
+
+        var round = dateTime.FloorToMonth();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToMonth_WhenHasModuloWhichEqualsMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 16, 0, 0, 0);
+
+        var round = dateTime.FloorToMonth();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToMonth_WhenHasModuloWhichGreatThanMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 17, 0, 0, 0);
+
+        var round = dateTime.FloorToMonth();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToQuarter_WhenHasNotModulo_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 1, 0, 0, 0);
+
+        var round = dateTime.FloorToQuarter();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToQuarter_WhenHasModuloWhichLessThanMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 2, 0, 0, 0);
+
+        var round = dateTime.FloorToQuarter();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToQuarter_WhenHasModuloWhichEqualsMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 2, 1, 0, 0, 0);
+
+        var round = dateTime.FloorToQuarter();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToQuarter_WhenHasModuloWhichGreatThanMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 3, 1, 0, 0, 0);
+
+        var round = dateTime.FloorToQuarter();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToHalfYear_WhenHasNotModulo_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 1, 0, 0, 0);
+
+        var round = dateTime.FloorToHalfYear();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToHalfYear_WhenHasModuloWhichLessThanMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 3, 1, 0, 0, 0);
+
+        var round = dateTime.FloorToHalfYear();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToHalfYear_WhenHasModuloWhichGreatThanMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 4, 1, 0, 0, 0);
+
+        var round = dateTime.FloorToHalfYear();
+
+        round.Should().Be(new DateTime(2022, 1, 1));
     }
 }

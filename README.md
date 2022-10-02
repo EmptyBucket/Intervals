@@ -1,5 +1,7 @@
 # Intervals
 Library for working with generic intervals and granular time intervals (like a quarter, a week...). Intervals support different inclusions (Opened, LeftOpened, RightOpened, Closed). Operations have O(nlog) asymptotic complexity, even if you did some complex method chaining it would still be O(nlog) where each point would only be sorted once
+### Documentation: 
+* https://github.com/EmptyBucket/Intervals/blob/master/readme/index.md
 #### Nuget:
 * https://www.nuget.org/packages/ap.Intervals/
 ## Usage

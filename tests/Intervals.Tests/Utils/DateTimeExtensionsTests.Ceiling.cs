@@ -30,7 +30,17 @@ namespace Intervals.Tests.Utils;
 public partial class DateTimeExtensionsTests
 {
     [Test]
-    public void Ceiling_WhenLessThanMidpoint_ReturnCeiling()
+    public void Ceiling_WhenHasNotRest_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 2, 0, 0, 0);
+
+        var round = dateTime.Ceiling(TimeSpan.FromDays(1));
+
+        round.Should().Be(new DateTime(2022, 1, 2));
+    }
+
+    [Test]
+    public void Ceiling_WhenHasRestWhichLessThanMidpoint_ReturnCeiling()
     {
         var dateTime = new DateTime(2022, 1, 2, 11, 0, 0);
 
@@ -40,9 +50,9 @@ public partial class DateTimeExtensionsTests
     }
 
     [Test]
-    public void Ceiling_WhenGreatThanMidpoint_ReturnCeiling()
+    public void Ceiling_WhenHasRestWhichEqualsMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
+        var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
 
         var round = dateTime.Ceiling(TimeSpan.FromDays(1));
 
@@ -50,9 +60,9 @@ public partial class DateTimeExtensionsTests
     }
 
     [Test]
-    public void Ceiling_WhenEqualsMidpoint_ReturnCeiling()
+    public void Ceiling_WhenHasRestWhichGreatThanMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
+        var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
 
         var round = dateTime.Ceiling(TimeSpan.FromDays(1));
 

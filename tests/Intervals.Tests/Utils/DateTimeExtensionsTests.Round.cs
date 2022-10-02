@@ -30,7 +30,17 @@ namespace Intervals.Tests.Utils;
 public partial class DateTimeExtensionsTests
 {
     [Test]
-    public void Round_WhenLessThanMidpoint_ReturnFloor()
+    public void Round_WhenHasNotRest_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 2, 0, 0, 0);
+
+        var round = dateTime.Round(TimeSpan.FromDays(1));
+
+        round.Should().Be(new DateTime(2022, 1, 2));
+    }
+
+    [Test]
+    public void Round_WhenHasRestWhichLessThanMidpoint_ReturnFloor()
     {
         var dateTime = new DateTime(2022, 1, 2, 11, 0, 0);
 
@@ -40,17 +50,7 @@ public partial class DateTimeExtensionsTests
     }
 
     [Test]
-    public void Round_WhenGreatThanMidpoint_ReturnCeiling()
-    {
-        var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
-
-        var round = dateTime.Round(TimeSpan.FromDays(1));
-
-        round.Should().Be(new DateTime(2022, 1, 3));
-    }
-
-    [Test]
-    public void Round_WhenEqualsMidpointAndAwayFromZero_ReturnAwayFromZeroRound()
+    public void Round_WhenHasRestWhichEqualsMidpointAndAwayFromZero_ReturnAwayFromZeroRound()
     {
         var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
 
@@ -60,12 +60,22 @@ public partial class DateTimeExtensionsTests
     }
 
     [Test]
-    public void Round_WhenEqualsMidpointAndToEven_ReturnToEvenRound()
+    public void Round_WhenHasRestWhichEqualsMidpointAndToEven_ReturnToEvenRound()
     {
         var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
 
         var round = dateTime.Round(TimeSpan.FromDays(1), MidpointRounding.ToEven);
 
         round.Should().Be(new DateTime(2022, 1, 2));
+    }
+
+    [Test]
+    public void Round_WhenHasRestWhichGreatThanMidpoint_ReturnCeiling()
+    {
+        var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
+
+        var round = dateTime.Round(TimeSpan.FromDays(1));
+
+        round.Should().Be(new DateTime(2022, 1, 3));
     }
 }

@@ -21,15 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Utils;
-
 namespace Intervals.GranularIntervals;
 
 public class MinuteInterval : GranularInterval
 {
-    public MinuteInterval(int year, int month, int day, int hour, int minute)
-        : base(DateTimeHelper.GetMinuteStart(year, month, day, hour, minute),
-            DateTimeHelper.GetMinuteOpenedEnd(year, month, day, hour, minute))
+    public MinuteInterval(int year, int month, int day, int hour, int minute,
+        DateTimeKind kind = DateTimeKind.Unspecified) : base(
+        new DateTime(year, month, day, hour, minute, 0, kind),
+        new DateTime(year, month, day, hour, minute, 0, kind).AddMinutes(1))
     {
         Year = year;
         Month = month;

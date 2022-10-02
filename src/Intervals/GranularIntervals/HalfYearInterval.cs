@@ -27,8 +27,10 @@ namespace Intervals.GranularIntervals;
 
 public class HalfYearInterval : MonthGranularInterval
 {
-    public HalfYearInterval(int year, int halfYear) : base(DateTimeHelper.GetHalfYearStart(year, halfYear),
-        DateTimeHelper.GetHalfYearOpenedEnd(year, halfYear))
+    public HalfYearInterval(int year, int halfYear, DateTimeKind kind = DateTimeKind.Unspecified) : base(
+        DateTimeHelper.New(year, DateTimeHelper.HalfYearToMonth(halfYear), 1, kind),
+        DateTimeHelper.New(year, DateTimeHelper.HalfYearToMonth(halfYear), 1, kind)
+            .AddMonths(DateTimeHelper.MonthsInHalfYear))
     {
         Year = year;
         HalfYear = halfYear;

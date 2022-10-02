@@ -34,25 +34,19 @@ public static partial class DateTimeExtensions
 
     public static DateTime CeilingToMonth(this DateTime dateTime)
     {
-        var start = DateTimeHelper.GetMonthStart(dateTime.Year, dateTime.Month, dateTime.Kind);
-        return dateTime > start
-            ? DateTimeHelper.GetMonthOpenedEnd(dateTime.Year, dateTime.Month, dateTime.Kind)
-            : start;
+        var start = dateTime.FloorToMonth();
+        return dateTime > start ? start.AddMonths(1) : start;
     }
 
     public static DateTime CeilingToQuarter(this DateTime dateTime)
     {
-        var start = DateTimeHelper.GetQuarterStart(dateTime.Year, dateTime.GetQuarterNumber(), dateTime.Kind);
-        return dateTime > start
-            ? DateTimeHelper.GetQuarterOpenedEnd(dateTime.Year, dateTime.GetQuarterNumber(), dateTime.Kind)
-            : start;
+        var start = dateTime.FloorToQuarter();
+        return dateTime > start ? start.AddMonths(DateTimeHelper.MonthsInQuarter) : start;
     }
 
     public static DateTime CeilingToHalfYear(this DateTime dateTime)
     {
-        var start = DateTimeHelper.GetHalfYearStart(dateTime.Year, dateTime.GetHalfYearNumber(), dateTime.Kind);
-        return dateTime > start
-            ? DateTimeHelper.GetHalfYearOpenedEnd(dateTime.Year, dateTime.GetHalfYearNumber(), dateTime.Kind)
-            : start;
+        var start = dateTime.FloorToHalfYear();
+        return dateTime > start ? start.AddMonths(DateTimeHelper.MonthsInHalfYear) : start;
     }
 }

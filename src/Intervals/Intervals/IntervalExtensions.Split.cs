@@ -68,7 +68,7 @@ public static partial class IntervalExtensions
 
             return !removeIncomplete && left != quarter
                 ? new Interval<DateTime>(left, quarter)
-                : new QuarterInterval(quarter.Year, quarter.GetQuarterNumber()).ExpandRight(quartersCount - 1);
+                : new QuarterInterval(quarter.Year, quarter.GetQuarter()).ExpandRight(quartersCount - 1);
         }
 
         return SplitBy(interval, ComputeInterval);
@@ -83,7 +83,7 @@ public static partial class IntervalExtensions
 
             return !removeIncomplete && left != halfYear
                 ? new Interval<DateTime>(left, halfYear)
-                : new HalfYearInterval(halfYear.Year, halfYear.GetHalfYearNumber()).ExpandRight(halfYearsCount - 1);
+                : new HalfYearInterval(halfYear.Year, halfYear.GetHalfYear()).ExpandRight(halfYearsCount - 1);
         }
 
         return SplitBy(interval, ComputeInterval);

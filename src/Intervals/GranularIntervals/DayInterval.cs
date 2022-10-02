@@ -27,8 +27,9 @@ namespace Intervals.GranularIntervals;
 
 public class DayInterval : GranularInterval
 {
-    public DayInterval(int year, int month, int day) : base(DateTimeHelper.GetDayStart(year, month, day),
-        DateTimeHelper.GetDayOpenedEnd(year, month, day))
+    public DayInterval(int year, int month, int day, DateTimeKind kind = DateTimeKind.Unspecified) : base(
+        DateTimeHelper.New(year, month, day, kind),
+        DateTimeHelper.New(year, month, day, kind).AddDays(1))
     {
         Year = year;
         Month = month;

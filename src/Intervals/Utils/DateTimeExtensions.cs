@@ -25,12 +25,7 @@ namespace Intervals.Utils;
 
 public static partial class DateTimeExtensions
 {
-    public static int GetQuarterNumber(this DateTime dateTime) =>
-        dateTime.GetIntervalNumberInYear(DateTimeHelper.QuarterLenInMonths);
+    public static int GetQuarter(this DateTime dateTime) => (dateTime.Month - 1) / DateTimeHelper.MonthsInQuarter + 1;
 
-    public static int GetHalfYearNumber(this DateTime dateTime) =>
-        dateTime.GetIntervalNumberInYear(DateTimeHelper.HalfYearLenInMonths);
-
-    private static int GetIntervalNumberInYear(this DateTime dateTime, int intervalLen) =>
-        (dateTime.Month - 1) / intervalLen + 1;
+    public static int GetHalfYear(this DateTime dateTime) => (dateTime.Month - 1) / DateTimeHelper.MonthsInHalfYear + 1;
 }

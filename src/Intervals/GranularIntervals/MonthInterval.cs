@@ -27,8 +27,9 @@ namespace Intervals.GranularIntervals;
 
 public class MonthInterval : MonthGranularInterval
 {
-    public MonthInterval(int year, int month) : base(DateTimeHelper.GetMonthStart(year, month),
-        DateTimeHelper.GetMonthOpenedEnd(year, month))
+    public MonthInterval(int year, int month, DateTimeKind kind = DateTimeKind.Unspecified) : base(
+        DateTimeHelper.New(year, month, 1, kind),
+        DateTimeHelper.New(year, month, 1, kind).AddMonths(1))
     {
         Year = year;
         Month = month;

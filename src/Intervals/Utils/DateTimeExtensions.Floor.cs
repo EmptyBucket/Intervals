@@ -32,11 +32,11 @@ public static partial class DateTimeExtensions
     }
 
     public static DateTime FloorToMonth(this DateTime dateTime) =>
-        DateTimeHelper.GetMonthStart(dateTime.Year, dateTime.Month, dateTime.Kind);
+        DateTimeHelper.New(dateTime.Year, dateTime.Month, 1, dateTime.Kind);
 
     public static DateTime FloorToQuarter(this DateTime dateTime) =>
-        DateTimeHelper.GetQuarterStart(dateTime.Year, dateTime.GetQuarterNumber(), dateTime.Kind);
+        DateTimeHelper.New(dateTime.Year, DateTimeHelper.QuarterToMonth(dateTime.GetQuarter()), 1, dateTime.Kind);
 
     public static DateTime FloorToHalfYear(this DateTime dateTime) =>
-        DateTimeHelper.GetHalfYearStart(dateTime.Year, dateTime.GetHalfYearNumber(), dateTime.Kind);
+        DateTimeHelper.New(dateTime.Year, DateTimeHelper.HalfYearToMonth(dateTime.GetHalfYear()), 1, dateTime.Kind);
 }

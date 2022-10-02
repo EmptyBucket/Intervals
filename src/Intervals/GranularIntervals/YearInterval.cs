@@ -21,13 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Utils;
-
 namespace Intervals.GranularIntervals;
 
 public class YearInterval : MonthGranularInterval
 {
-    public YearInterval(int year) : base(DateTimeHelper.GetYearStart(year), DateTimeHelper.GetYearOpenedEnd(year))
+    public YearInterval(int year, DateTimeKind kind = DateTimeKind.Unspecified) : base(
+        new DateTime(year, 1, 1, 0, 0, 0, kind),
+        new DateTime(year, 1, 1, 0, 0, 0, kind).AddYears(1))
     {
         Year = year;
     }

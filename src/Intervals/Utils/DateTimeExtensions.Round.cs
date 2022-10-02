@@ -36,23 +36,24 @@ public static partial class DateTimeExtensions
     public static DateTime RoundToMonth(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (start, end) = DateTimeHelper.GetMonthOpenedEndBounds(dateTime.Year, dateTime.Month, dateTime.Kind);
+        var start = dateTime.FloorToMonth();
+        var end = start.AddMonths(1);
         return RoundTo(start, dateTime, end, midpointRounding);
     }
 
     public static DateTime RoundToQuarter(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (start, end) =
-            DateTimeHelper.GetQuarterOpenedEndBounds(dateTime.Year, dateTime.GetQuarterNumber(), dateTime.Kind);
+        var start = dateTime.FloorToQuarter();
+        var end = start.AddMonths(DateTimeHelper.MonthsInQuarter);
         return RoundTo(start, dateTime, end, midpointRounding);
     }
 
     public static DateTime RoundToHalfYear(this DateTime dateTime,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (start, end) =
-            DateTimeHelper.GetHalfYearOpenedEndBounds(dateTime.Year, dateTime.GetHalfYearNumber(), dateTime.Kind);
+        var start = dateTime.FloorToHalfYear();
+        var end = start.AddMonths(DateTimeHelper.MonthsInHalfYear);
         return RoundTo(start, dateTime, end, midpointRounding);
     }
 

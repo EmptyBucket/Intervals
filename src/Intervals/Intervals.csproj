@@ -13,6 +13,9 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\netstandard2.1\Intervals.xml</DocumentationFile>
+    </PropertyGroup>
 
     <ItemGroup>
         <None Remove="PeriodNet.csproj.DotSettings" />

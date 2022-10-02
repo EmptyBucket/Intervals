@@ -26,7 +26,7 @@ using Intervals.Utils;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an month interval instance
+/// Represents an month interval instance where the granule size is equal to a month
 /// </summary>
 public class MonthInterval : MonthGranularInterval
 {

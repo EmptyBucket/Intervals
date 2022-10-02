@@ -26,7 +26,7 @@ using Intervals.Utils;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an day interval instance
+/// Represents an day interval instance where the granule size is equal to a day
 /// </summary>
 public class DayInterval : GranularInterval
 {

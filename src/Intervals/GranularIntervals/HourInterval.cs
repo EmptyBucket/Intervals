@@ -24,7 +24,7 @@
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an hour interval instance
+/// Represents an hour interval instance where the granule size is equal to a hour
 /// </summary>
 public class HourInterval : GranularInterval
 {

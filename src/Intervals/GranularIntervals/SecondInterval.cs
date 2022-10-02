@@ -24,7 +24,7 @@
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an second interval instance
+/// Represents an second interval instance where the granule size is equal to a second
 /// </summary>
 public class SecondInterval : GranularInterval
 {

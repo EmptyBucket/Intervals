@@ -24,7 +24,7 @@
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an minute interval instance
+/// Represents an minute interval instance where the granule size is equal to a minute
 /// </summary>
 public class MinuteInterval : GranularInterval
 {

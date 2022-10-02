@@ -26,6 +26,9 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an granular interval instance where the granule size is determined by the length of the interval
+/// </summary>
 public class GranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
 {
     protected TimeSpan GranuleSize;
@@ -41,6 +44,12 @@ public class GranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
         GranuleSize = ComputeGranuleSize(leftValue, rightValue);
     }
 
+    /// <summary>
+    /// Returns a new interval moved by the specified <paramref name="granulesCount" />.
+    /// If the <paramref name="granulesCount" /> is positive, then move to the right, if negative, then move to the left
+    /// </summary>
+    /// <param name="granulesCount"></param>
+    /// <returns></returns>
     public IGranularInterval<DateTime> Move(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;
@@ -49,12 +58,22 @@ public class GranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
             Right with { Value = Right.Value + totalGranulesSize });
     }
 
+    /// <summary>
+    /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the right
+    /// </summary>
+    /// <param name="granulesCount"></param>
+    /// <returns></returns>
     public IGranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;
         return new GranularInterval(Left with { Value = Left.Value - totalGranulesSize }, Right);
     }
 
+    /// <summary>
+    /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the left
+    /// </summary>
+    /// <param name="granulesCount"></param>
+    /// <returns></returns>
     public IGranularInterval<DateTime> ExpandRight(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;

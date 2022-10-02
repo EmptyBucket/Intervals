@@ -26,7 +26,7 @@ using Intervals.Utils;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an half-year interval instance
+/// Represents an half-year interval instance where the granule size is equal to a half-year
 /// </summary>
 public class HalfYearInterval : MonthGranularInterval
 {

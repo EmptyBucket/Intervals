@@ -26,7 +26,7 @@ using Intervals.Utils;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an quarter interval instance
+/// Represents an quarter interval instance where the granule size is equal to a quarter
 /// </summary>
 public class QuarterInterval : MonthGranularInterval
 {

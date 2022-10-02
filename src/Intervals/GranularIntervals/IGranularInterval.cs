@@ -25,11 +25,30 @@ using Intervals.Intervals;
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an granular interval instance
+/// </summary>
 public interface IGranularInterval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
+    /// <summary>
+    /// Returns a new interval moved by the specified <paramref name="granulesCount" />.
+    /// If the <paramref name="granulesCount" /> is positive, then move to the right, if negative, then move to the left
+    /// </summary>
+    /// <param name="granulesCount"></param>
+    /// <returns></returns>
     IGranularInterval<T> Move(int granulesCount = 1);
 
+    /// <summary>
+    /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the right
+    /// </summary>
+    /// <param name="granulesCount"></param>
+    /// <returns></returns>
     IGranularInterval<T> ExpandLeft(int granulesCount = 1);
 
+    /// <summary>
+    /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the left
+    /// </summary>
+    /// <param name="granulesCount"></param>
+    /// <returns></returns>
     IGranularInterval<T> ExpandRight(int granulesCount = 1);
 }

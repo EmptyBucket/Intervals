@@ -72,41 +72,41 @@ public partial class DateTimeExtensionsTests
     [Test]
     public void CeilingToMonth_WhenHasNotModulo_ReturnFloor()
     {
-        var dateTime = new DateTime(2022, 1, 1, 0, 0, 0);
+        var dateTime = new DateTime(2022, 2, 1, 0, 0, 0);
 
         var round = dateTime.CeilingToMonth();
 
-        round.Should().Be(new DateTime(2022, 1, 1));
+        round.Should().Be(new DateTime(2022, 2, 1));
     }
 
     [Test]
     public void CeilingToMonth_WhenHasModuloWhichLessThanMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 1, 15, 0, 0, 0);
+        var dateTime = new DateTime(2022, 2, 14, 0, 0, 0);
 
         var round = dateTime.CeilingToMonth();
 
-        round.Should().Be(new DateTime(2022, 2, 1));
+        round.Should().Be(new DateTime(2022, 3, 1));
     }
 
     [Test]
     public void CeilingToMonth_WhenHasModuloWhichEqualsMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 1, 16, 0, 0, 0);
+        var dateTime = new DateTime(2022, 2, 15, 0, 0, 0);
 
         var round = dateTime.CeilingToMonth();
 
-        round.Should().Be(new DateTime(2022, 2, 1));
+        round.Should().Be(new DateTime(2022, 3, 1));
     }
 
     [Test]
     public void CeilingToMonth_WhenHasModuloWhichGreatThanMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 1, 17, 0, 0, 0);
+        var dateTime = new DateTime(2022, 2, 16, 0, 0, 0);
 
         var round = dateTime.CeilingToMonth();
 
-        round.Should().Be(new DateTime(2022, 2, 1));
+        round.Should().Be(new DateTime(2022, 3, 1));
     }
 
     [Test]
@@ -122,7 +122,7 @@ public partial class DateTimeExtensionsTests
     [Test]
     public void CeilingToQuarter_WhenHasModuloWhichLessThanMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 1, 2, 0, 0, 0);
+        var dateTime = new DateTime(2022, 2, 14, 0, 0, 0);
 
         var round = dateTime.CeilingToQuarter();
 
@@ -132,7 +132,7 @@ public partial class DateTimeExtensionsTests
     [Test]
     public void CeilingToQuarter_WhenHasModuloWhichEqualsMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 2, 1, 0, 0, 0);
+        var dateTime = new DateTime(2022, 2, 15, 0, 0, 0);
 
         var round = dateTime.CeilingToQuarter();
 
@@ -142,7 +142,7 @@ public partial class DateTimeExtensionsTests
     [Test]
     public void CeilingToQuarter_WhenHasModuloWhichGreatThanMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 3, 1, 0, 0, 0);
+        var dateTime = new DateTime(2022, 2, 16, 0, 0, 0);
 
         var round = dateTime.CeilingToQuarter();
 
@@ -162,7 +162,17 @@ public partial class DateTimeExtensionsTests
     [Test]
     public void CeilingToHalfYear_WhenHasModuloWhichLessThanMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 3, 1, 0, 0, 0);
+        var dateTime = new DateTime(2022, 4, 1, 11, 0, 0);
+
+        var round = dateTime.CeilingToHalfYear();
+
+        round.Should().Be(new DateTime(2022, 7, 1));
+    }
+
+    [Test]
+    public void CeilingToHalfYear_WhenHasModuloWhichEqualsMidpoint_ReturnCeiling()
+    {
+        var dateTime = new DateTime(2022, 4, 1, 12, 0, 0);
 
         var round = dateTime.CeilingToHalfYear();
 
@@ -172,7 +182,7 @@ public partial class DateTimeExtensionsTests
     [Test]
     public void CeilingToHalfYear_WhenHasModuloWhichGreatThanMidpoint_ReturnCeiling()
     {
-        var dateTime = new DateTime(2022, 4, 1, 0, 0, 0);
+        var dateTime = new DateTime(2022, 4, 1, 13, 0, 0);
 
         var round = dateTime.CeilingToHalfYear();
 

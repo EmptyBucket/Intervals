@@ -34,9 +34,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 1, 2, 0, 0, 0);
 
-        var round = dateTime.Round(TimeSpan.FromDays(1));
+        var actual = dateTime.Round(TimeSpan.FromDays(1));
 
-        round.Should().Be(new DateTime(2022, 1, 2));
+        actual.Should().Be(new DateTime(2022, 1, 2));
     }
 
     [Test]
@@ -44,9 +44,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 1, 2, 11, 0, 0);
 
-        var round = dateTime.Round(TimeSpan.FromDays(1));
+        var actual = dateTime.Round(TimeSpan.FromDays(1));
 
-        round.Should().Be(new DateTime(2022, 1, 2));
+        actual.Should().Be(new DateTime(2022, 1, 2));
     }
 
     [Test]
@@ -54,9 +54,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
 
-        var round = dateTime.Round(TimeSpan.FromDays(1), MidpointRounding.ToEven);
+        var actual = dateTime.Round(TimeSpan.FromDays(1), MidpointRounding.ToEven);
 
-        round.Should().Be(new DateTime(2022, 1, 2));
+        actual.Should().Be(new DateTime(2022, 1, 2));
     }
 
     [Test]
@@ -64,9 +64,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 1, 2, 12, 0, 0);
 
-        var round = dateTime.Round(TimeSpan.FromDays(1), MidpointRounding.AwayFromZero);
+        var actual = dateTime.Round(TimeSpan.FromDays(1), MidpointRounding.AwayFromZero);
 
-        round.Should().Be(new DateTime(2022, 1, 3));
+        actual.Should().Be(new DateTime(2022, 1, 3));
     }
 
     [Test]
@@ -74,9 +74,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 1, 2, 13, 0, 0);
 
-        var round = dateTime.Round(TimeSpan.FromDays(1));
+        var actual = dateTime.Round(TimeSpan.FromDays(1));
 
-        round.Should().Be(new DateTime(2022, 1, 3));
+        actual.Should().Be(new DateTime(2022, 1, 3));
     }
 
     [Test]
@@ -84,9 +84,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 1, 0, 0, 0);
 
-        var round = dateTime.RoundToMonth();
+        var actual = dateTime.RoundToMonth();
 
-        round.Should().Be(new DateTime(2022, 2, 1));
+        actual.Should().Be(new DateTime(2022, 2, 1));
     }
 
     [Test]
@@ -94,9 +94,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 14, 0, 0, 0);
 
-        var round = dateTime.RoundToMonth();
+        var actual = dateTime.RoundToMonth();
 
-        round.Should().Be(new DateTime(2022, 2, 1));
+        actual.Should().Be(new DateTime(2022, 2, 1));
     }
 
     [Test]
@@ -104,9 +104,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 15, 0, 0, 0);
 
-        var round = dateTime.RoundToMonth(MidpointRounding.ToEven);
+        var actual = dateTime.RoundToMonth(MidpointRounding.ToEven);
 
-        round.Should().Be(new DateTime(2022, 2, 1));
+        actual.Should().Be(new DateTime(2022, 2, 1));
     }
 
     [Test]
@@ -114,9 +114,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 15, 0, 0, 0);
 
-        var round = dateTime.RoundToMonth(MidpointRounding.AwayFromZero);
+        var actual = dateTime.RoundToMonth(MidpointRounding.AwayFromZero);
 
-        round.Should().Be(new DateTime(2022, 3, 1));
+        actual.Should().Be(new DateTime(2022, 3, 1));
     }
 
     [Test]
@@ -124,9 +124,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 16, 0, 0, 0);
 
-        var round = dateTime.RoundToMonth();
+        var actual = dateTime.RoundToMonth();
 
-        round.Should().Be(new DateTime(2022, 3, 1));
+        actual.Should().Be(new DateTime(2022, 3, 1));
     }
 
     [Test]
@@ -134,9 +134,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 1, 1, 0, 0, 0);
 
-        var round = dateTime.RoundToQuarter();
+        var actual = dateTime.RoundToQuarter();
 
-        round.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2022, 1, 1));
     }
 
     [Test]
@@ -144,9 +144,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 14, 0, 0, 0);
 
-        var round = dateTime.RoundToQuarter();
+        var actual = dateTime.RoundToQuarter();
 
-        round.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2022, 1, 1));
     }
 
     [Test]
@@ -154,9 +154,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 15, 0, 0, 0);
 
-        var round = dateTime.RoundToQuarter(MidpointRounding.ToEven);
+        var actual = dateTime.RoundToQuarter(MidpointRounding.ToEven);
 
-        round.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2022, 1, 1));
     }
 
     [Test]
@@ -164,9 +164,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 15, 0, 0, 0);
 
-        var round = dateTime.RoundToQuarter(MidpointRounding.AwayFromZero);
+        var actual = dateTime.RoundToQuarter(MidpointRounding.AwayFromZero);
 
-        round.Should().Be(new DateTime(2022, 4, 1));
+        actual.Should().Be(new DateTime(2022, 4, 1));
     }
 
     [Test]
@@ -174,9 +174,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 2, 16, 0, 0, 0);
 
-        var round = dateTime.RoundToQuarter();
+        var actual = dateTime.RoundToQuarter();
 
-        round.Should().Be(new DateTime(2022, 4, 1));
+        actual.Should().Be(new DateTime(2022, 4, 1));
     }
 
     [Test]
@@ -184,9 +184,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 1, 1, 0, 0, 0);
 
-        var round = dateTime.RoundToHalfYear();
+        var actual = dateTime.RoundToHalfYear();
 
-        round.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2022, 1, 1));
     }
 
     [Test]
@@ -194,9 +194,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 4, 1, 11, 0, 0);
 
-        var round = dateTime.RoundToHalfYear();
+        var actual = dateTime.RoundToHalfYear();
 
-        round.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2022, 1, 1));
     }
 
     [Test]
@@ -204,9 +204,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 4, 1, 12, 0, 0);
 
-        var round = dateTime.RoundToHalfYear(MidpointRounding.ToEven);
+        var actual = dateTime.RoundToHalfYear(MidpointRounding.ToEven);
 
-        round.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2022, 1, 1));
     }
 
     [Test]
@@ -214,9 +214,9 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 4, 1, 12, 0, 0);
 
-        var round = dateTime.RoundToHalfYear(MidpointRounding.AwayFromZero);
+        var actual = dateTime.RoundToHalfYear(MidpointRounding.AwayFromZero);
 
-        round.Should().Be(new DateTime(2022, 7, 1));
+        actual.Should().Be(new DateTime(2022, 7, 1));
     }
 
     [Test]
@@ -224,8 +224,8 @@ public partial class DateTimeExtensionsTests
     {
         var dateTime = new DateTime(2022, 4, 1, 13, 0, 0);
 
-        var round = dateTime.CeilingToHalfYear();
+        var actual = dateTime.CeilingToHalfYear();
 
-        round.Should().Be(new DateTime(2022, 7, 1));
+        actual.Should().Be(new DateTime(2022, 7, 1));
     }
 }

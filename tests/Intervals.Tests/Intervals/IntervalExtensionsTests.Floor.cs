@@ -30,178 +30,178 @@ namespace Intervals.Tests.Intervals;
 public partial class IntervalExtensionsTests
 {
     [Test]
-    public void Round_WhenLeftLessMidpointAndRightLessMidpoint_ReturnBothFloor()
+    public void Floor_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 11, 0, 0), new DateTime(2022, 2, 2, 11, 0, 0));
 
-        var actual = interval.Round(TimeSpan.FromDays(1));
+        var actual = interval.Floor(TimeSpan.FromDays(1));
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 2, 0, 0, 0));
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
     }
 
     [Test]
-    public void Round_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void Floor_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 11, 0, 0), new DateTime(2022, 2, 2, 13, 0, 0));
 
-        var actual = interval.Round(TimeSpan.FromDays(1));
-
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 2, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 3, 0, 0, 0));
-    }
-
-    [Test]
-    public void Round_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
-    {
-        var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 13, 0, 0), new DateTime(2022, 2, 2, 11, 0, 0));
-
-        var actual = interval.Round(TimeSpan.FromDays(1));
+        var actual = interval.Floor(TimeSpan.FromDays(1));
 
         actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
     }
 
     [Test]
-    public void Round_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnBothCeiling()
+    public void Floor_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 13, 0, 0), new DateTime(2022, 2, 2, 11, 0, 0));
+
+        var actual = interval.Floor(TimeSpan.FromDays(1));
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
+    }
+
+    [Test]
+    public void Floor_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 13, 0, 0), new DateTime(2022, 2, 2, 13, 0, 0));
 
-        var actual = interval.Round(TimeSpan.FromDays(1));
+        var actual = interval.Floor(TimeSpan.FromDays(1));
 
         actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 3, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
     }
 
     [Test]
-    public void RoundToMonth_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightFloor()
+    public void FloorToMonth_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
 
-        var actual = interval.RoundToMonth();
-
-        actual.Left.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
-    }
-
-    [Test]
-    public void RoundToMonth_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
-    {
-        var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
-
-        var actual = interval.RoundToMonth();
-
-        actual.Left.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
-    }
-
-    [Test]
-    public void RoundToMonth_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
-    {
-        var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
-
-        var actual = interval.RoundToMonth();
+        var actual = interval.FloorToMonth();
 
         actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
     }
 
     [Test]
-    public void RoundToMonth_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightCeiling()
-    {
-        var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
-
-        var actual = interval.RoundToMonth();
-
-        actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
-    }
-
-    [Test]
-    public void RoundToQuarter_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightFloor()
-    {
-        var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
-
-        var actual = interval.RoundToQuarter();
-
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
-    }
-
-    [Test]
-    public void RoundToQuarter_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void FloorToMonth_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
 
-        var actual = interval.RoundToQuarter();
+        var actual = interval.FloorToMonth();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
+        actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
     }
 
     [Test]
-    public void RoundToQuarter_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
+    public void FloorToMonth_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
 
-        var actual = interval.RoundToQuarter();
+        var actual = interval.FloorToMonth();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void FloorToMonth_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightFloor()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
+
+        var actual = interval.FloorToMonth();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void FloorToQuarter_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
+
+        var actual = interval.FloorToQuarter();
 
         actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
-    public void RoundToQuarter_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightCeiling()
+    public void FloorToQuarter_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightFloor()
     {
-        var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
+        var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
 
-        var actual = interval.RoundToQuarter();
+        var actual = interval.FloorToQuarter();
 
         actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
-    public void RoundToHalfYear_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftFloorAndRightFloor()
+    public void FloorToQuarter_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
+
+        var actual = interval.FloorToQuarter();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void FloorToQuarter_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightFloor()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 2, 16, 0, 0, 0), new DateTime(2022, 2, 16, 0, 0, 0));
+
+        var actual = interval.FloorToQuarter();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void FloorToHalfYear_WhenLeftLessMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 11, 0, 0), new DateTime(2022, 4, 1, 11, 0, 0));
 
-        var actual = interval.RoundToHalfYear();
+        var actual = interval.FloorToHalfYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.Left.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
-    public void RoundToHalfYear_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftFloorAndRightCeiling()
+    public void FloorToHalfYear_WhenLeftLessMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 11, 0, 0), new DateTime(2022, 4, 1, 13, 0, 0));
 
-        var actual = interval.RoundToHalfYear();
-
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
-    }
-
-    [Test]
-    public void RoundToHalfYear_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
-    {
-        var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 13, 0, 0), new DateTime(2022, 4, 1, 11, 0, 0));
-
-        var actual = interval.RoundToHalfYear();
+        var actual = interval.FloorToHalfYear();
 
         actual.Left.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
-    public void RoundToHalfYear_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightCeiling()
+    public void FloorToHalfYear_WhenLeftGreatMidpointAndRightLessMidpoint_ReturnLeftCeilingAndRightFloor()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 13, 0, 0), new DateTime(2022, 4, 1, 11, 0, 0));
+
+        var actual = interval.FloorToHalfYear();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void FloorToHalfYear_WhenLeftGreatMidpointAndRightGreatMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 13, 0, 0), new DateTime(2022, 4, 1, 13, 0, 0));
 
-        var actual = interval.RoundToHalfYear();
+        var actual = interval.FloorToHalfYear();
 
         actual.Left.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 }

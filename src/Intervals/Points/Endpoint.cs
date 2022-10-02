@@ -68,7 +68,7 @@ public readonly record struct Endpoint<T>(T Value, Inclusion Inclusion, Endpoint
     public void Deconstruct(out Point<T> point, out EndpointLocation location) => (point, location) = (this, Location);
 
     /// <summary>
-    /// Compares this instance to a specified endpoint and returns an indication of their relative values
+    /// Compares this instance to a specified <paramref name="other" /> and returns an indication of their relative values
     /// First, instances are compared according to their values, then according to the rule:
     /// ) less than (, ] less than(, ) less thank [, ] less than [, ) equal ), ( equal (, ] equal ], [ equal [, ) less than ], ( greater than [
     /// </summary>

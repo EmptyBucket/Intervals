@@ -25,14 +25,30 @@ using Intervals.Points;
 
 namespace Intervals.Intervals;
 
+/// <summary>
+/// Represents the interface of an interval instance
+/// </summary>
 public interface IInterval<T> : IComparable<IInterval<T>>, IEquatable<IInterval<T>>, IEnumerable<IInterval<T>>
     where T : IComparable<T>, IEquatable<T>
 {
+    /// <summary>
+    /// Left endpoint of the interval
+    /// </summary>
     Endpoint<T> Left { get; }
 
+    /// <summary>
+    /// Right endpoint of the interval
+    /// </summary>
     Endpoint<T> Right { get; }
 
+    /// <summary>
+    /// Inclusion of the interval
+    /// </summary>
     IntervalInclusion Inclusion { get; }
 
+    /// <summary>
+    /// Returns true if interval is empty, otherwise returns false
+    /// </summary>
+    /// <returns></returns>
     bool IsEmpty();
 }

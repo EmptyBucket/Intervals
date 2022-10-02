@@ -26,6 +26,9 @@ using Intervals.Points;
 
 namespace Intervals.Intervals;
 
+/// <summary>
+/// Represents an interval instance
+/// </summary>
 public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
     public Interval(Point<T> leftPoint, Point<T> rightPoint)
@@ -56,19 +59,43 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
         inclusion = Inclusion;
     }
 
+    /// <summary>
+    /// Left endpoint of the interval
+    /// </summary>
     public Endpoint<T> Left { get; }
 
+    /// <summary>
+    /// Right endpoint of the interval
+    /// </summary>
     public Endpoint<T> Right { get; }
 
+    /// <summary>
+    /// Inclusion of the interval
+    /// </summary>
     public IntervalInclusion Inclusion { get; }
 
+    /// <summary>
+    /// Returns true if interval is empty, otherwise returns false
+    /// </summary>
+    /// <returns></returns>
     public bool IsEmpty() =>
         Left.Value.CompareTo(Right.Value) is var compareTo &&
         Inclusion == IntervalInclusion.Closed ? compareTo > 0 : compareTo >= 0;
 
-    public bool Equals(IInterval<T>? other) =>
+    /// <summary>
+    /// Returns a value indicating whether this instance is equal to a specified <paramref name="other" /> value
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool Equals(IInterval<T>? other) => 
         other is Interval<T> otherInterval && Left == otherInterval.Left && Right == otherInterval.Right;
 
+    /// <summary>
+    /// Compares this instance to a specified <paramref name="other" /> and returns an indication of their relative values
+    /// First, the instances are compared on the left endpoints, then, if they are equal, on the right
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
     public int CompareTo(IInterval<T>? other)
     {
         if (other == null) return 1;
@@ -87,5 +114,9 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+    /// <summary>
+    /// Converts the value of this instance to "{[(,),[,]]}{Left.Value}, {Right.Value}{[(,),[,]]}" format
+    /// </summary>
+    /// <returns></returns>
     public override string ToString() => $"{Left}, {Right}";
 }

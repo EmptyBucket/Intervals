@@ -21,27 +21,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Intervals.Utils;
+using FluentAssertions;
+using Intervals.Utils;
+using NUnit.Framework;
 
-internal static class DateTimeHelper
+namespace Intervals.Tests.Utils;
+
+public partial class DateTimeExtensionsTests
 {
-    public const int MonthsInQuarter = 3;
-    public const int MonthsInHalfYear = 6;
-
-    public static int QuarterToMonth(int quarter)
+    [Test]
+    [TestCase(1, 1)]
+    [TestCase(3, 1)]
+    [TestCase(4, 2)]
+    [TestCase(6, 2)]
+    [TestCase(7, 3)]
+    [TestCase(9, 3)]
+    [TestCase(10, 4)]
+    [TestCase(12, 4)]
+    public void GetQuarter_WhenGivenMonth_ReturnExpectedQuarter(int month, int quarter)
     {
-        if (quarter is < 1 or > 4) throw new ArgumentException($"{quarter} must be more than zero and less than four");
-        
-        return (quarter - 1) * MonthsInQuarter + 1;
+        var dateTime = new DateTime(2022, month, 1);
+
+        var actual = dateTime.GetQuarter();
+
+        actual.Should().Be(quarter);
     }
 
-    public static int HalfYearToMonth(int halfYear)
+    [Test]
+    [TestCase(1, 1)]
+    [TestCase(6, 1)]
+    [TestCase(7, 2)]
+    [TestCase(12, 2)]
+    public void GetHalfYear_WhenGivenMonth_ReturnExpectedHalfYear(int month, int halfYear)
     {
-        if (halfYear is < 1 or > 2) throw new ArgumentException($"{halfYear} must be more than zero and less than two");
-        
-        return (halfYear - 1) * MonthsInHalfYear + 1;
-    }
+        var dateTime = new DateTime(2022, month, 1);
 
-    public static DateTime New(int year, int month, int day, DateTimeKind kind = DateTimeKind.Unspecified) =>
-        new(year, month, day, 0, 0, 0, kind);
+        var actual = dateTime.GetHalfYear();
+
+        actual.Should().Be(halfYear);
+    }
 }

@@ -26,6 +26,10 @@ using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
+/// <summary>
+/// Represents an part of the granular interval instance where the granule size is determined by the number of months and explicitly specified.
+/// That is, the granule size on the basis of which operations are executed can be larger or smaller than the interval itself
+/// </summary>
 public class PartOfMonthGranularInterval : MonthGranularInterval
 {
     public PartOfMonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, int granulesCount)

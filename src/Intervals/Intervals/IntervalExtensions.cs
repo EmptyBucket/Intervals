@@ -27,9 +27,23 @@ namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
 {
+    /// <summary>
+    /// Returns true if the specified <paramref name="left" /> and <paramref name="right" /> intervals intersect, otherwise returns false
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static bool IsOverlap<T>(this IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
         where T : IComparable<T>, IEquatable<T> => left.Overlap(right).Any();
 
+    /// <summary>
+    /// Returns true if the specified <paramref name="left" /> intervals include <paramref name="right" /> intervals, otherwise returns false
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static bool IsInclude<T>(this IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
         where T : IComparable<T>, IEquatable<T>
     {
@@ -37,18 +51,46 @@ public static partial class IntervalExtensions
         return new HashSet<IInterval<T>>(included).SetEquals(left.Overlap(included));
     }
 
+    /// <summary>
+    /// Returns the union of the specified <paramref name="left" /> intervals and <paramref name="right" /> intervals
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static IEnumerable<IInterval<T>> Combine<T>(this IEnumerable<IInterval<T>> left,
         IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
         CombineEnumerable<T>.Create(left, right);
 
+    /// <summary>
+    /// Returns the intersection of the specified <paramref name="left" /> intervals and <paramref name="right" /> intervals
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static IEnumerable<IInterval<T>> Overlap<T>(this IEnumerable<IInterval<T>> left,
         IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
         OverlapEnumerable<T>.Create(left, right);
 
+    /// <summary>
+    /// Returns the difference between the specified <paramref name="left" /> intervals and <paramref name="right" /> intervals
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static IEnumerable<IInterval<T>> Subtract<T>(this IEnumerable<IInterval<T>> left,
         IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
         SubtractEnumerable<T>.Create(left, right);
 
+    /// <summary>
+    /// Returns the symmetric difference between the specified <paramref name="left" /> intervals and <paramref name="right" /> intervals
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
     public static IEnumerable<IInterval<T>> SymmetricDifference<T>(this IEnumerable<IInterval<T>> left,
         IEnumerable<IInterval<T>> right) where T : IComparable<T>, IEquatable<T> =>
         SymmetricDifferenceEnumerable<T>.Create(left, right);

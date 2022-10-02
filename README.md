@@ -38,5 +38,9 @@ var enumerable = new[]
 
 ### Second example
 ```csharp
-new QuarterInterval(2022, 3).Move(-3).ExpandRight(5).Round(TimeSpan.FromHours(3)).SplitByMonths(2);
+new QuarterInterval(2022, 3)
+    .Move(-3)
+    .ExpandRight(5)
+    .Round(TimeSpan.FromHours(3))
+    .SplitByMonths(2);
 ```

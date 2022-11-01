@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # IntervalInclusionConvert
 
 Namespace: Intervals.Intervals
@@ -6,7 +10,7 @@ Namespace: Intervals.Intervals
 public static class IntervalInclusionConvert
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [IntervalInclusionConvert](./intervals.intervals.intervalinclusionconvert.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [IntervalInclusionConvert](intervals.intervals.intervalinclusionconvert)
 
 ## Methods
 
@@ -20,13 +24,13 @@ public static IntervalInclusion FromInclusions(Inclusion leftInclusion, Inclusio
 
 #### Parameters
 
-`leftInclusion` [Inclusion](./intervals.points.inclusion.md)<br>
+`leftInclusion` [Inclusion](intervals.points.inclusion)<br>
 
-`rightInclusion` [Inclusion](./intervals.points.inclusion.md)<br>
+`rightInclusion` [Inclusion](intervals.points.inclusion)<br>
 
 #### Returns
 
-[IntervalInclusion](./intervals.intervals.intervalinclusion.md)<br>
+[IntervalInclusion](intervals.intervals.intervalinclusion)<br>
 
 ### **ToInclusions(IntervalInclusion)**
 
@@ -38,8 +42,12 @@ public static ValueTuple<Inclusion, Inclusion> ToInclusions(IntervalInclusion in
 
 #### Parameters
 
-`intervalInclusion` [IntervalInclusion](./intervals.intervals.intervalinclusion.md)<br>
+`intervalInclusion` [IntervalInclusion](intervals.intervals.intervalinclusion)<br>
 
 #### Returns
 
 [ValueTuple&lt;Inclusion, Inclusion&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.valuetuple-2)<br>
+
+---
+
+[`< Back`](./)

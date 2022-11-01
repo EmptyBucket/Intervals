@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # PointExtensions
 
 Namespace: Intervals.Points
@@ -6,7 +10,7 @@ Namespace: Intervals.Points
 public static class PointExtensions
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [PointExtensions](./intervals.points.pointextensions.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [PointExtensions](intervals.points.pointextensions)
 
 ## Methods
 
@@ -31,3 +35,7 @@ public static bool HasGap<T>(Point<T> left, Point<T> right)
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
+
+---
+
+[`< Back`](./)

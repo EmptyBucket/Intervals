@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # InclusionExtensions
 
 Namespace: Intervals.Points
@@ -6,7 +10,7 @@ Namespace: Intervals.Points
 public static class InclusionExtensions
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [InclusionExtensions](./intervals.points.inclusionextensions.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [InclusionExtensions](intervals.points.inclusionextensions)
 
 ## Methods
 
@@ -20,8 +24,12 @@ public static Inclusion Invert(Inclusion inclusion)
 
 #### Parameters
 
-`inclusion` [Inclusion](./intervals.points.inclusion.md)<br>
+`inclusion` [Inclusion](intervals.points.inclusion)<br>
 
 #### Returns
 
-[Inclusion](./intervals.points.inclusion.md)<br>
+[Inclusion](intervals.points.inclusion)<br>
+
+---
+
+[`< Back`](./)

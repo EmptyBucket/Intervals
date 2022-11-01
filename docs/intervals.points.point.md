@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # Point
 
 Namespace: Intervals.Points
@@ -6,7 +10,7 @@ Namespace: Intervals.Points
 public static class Point
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [Point](./intervals.points.point.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [Point](intervals.points.point)
 
 ## Methods
 
@@ -49,3 +53,7 @@ public static Point<T> Excluded<T>(T value)
 #### Returns
 
 Point&lt;T&gt;<br>
+
+---
+
+[`< Back`](./)

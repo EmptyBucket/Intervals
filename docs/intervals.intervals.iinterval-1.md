@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # IInterval&lt;T&gt;
 
 Namespace: Intervals.Intervals
@@ -50,7 +54,7 @@ public abstract IntervalInclusion Inclusion { get; }
 
 #### Property Value
 
-[IntervalInclusion](./intervals.intervals.intervalinclusion.md)<br>
+[IntervalInclusion](intervals.intervals.intervalinclusion)<br>
 
 ## Methods
 
@@ -65,3 +69,7 @@ bool IsEmpty()
 #### Returns
 
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/system.boolean)<br>
+
+---
+
+[`< Back`](./)

@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # EndpointLocationExtensions
 
 Namespace: Intervals.Points
@@ -6,7 +10,7 @@ Namespace: Intervals.Points
 public static class EndpointLocationExtensions
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [EndpointLocationExtensions](./intervals.points.endpointlocationextensions.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [EndpointLocationExtensions](intervals.points.endpointlocationextensions)
 
 ## Methods
 
@@ -20,8 +24,12 @@ public static EndpointLocation Invert(EndpointLocation location)
 
 #### Parameters
 
-`location` [EndpointLocation](./intervals.points.endpointlocation.md)<br>
+`location` [EndpointLocation](intervals.points.endpointlocation)<br>
 
 #### Returns
 
-[EndpointLocation](./intervals.points.endpointlocation.md)<br>
+[EndpointLocation](intervals.points.endpointlocation)<br>
+
+---
+
+[`< Back`](./)

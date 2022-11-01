@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # IGranularInterval&lt;T&gt;
 
 Namespace: Intervals.GranularIntervals
@@ -31,7 +35,7 @@ IGranularInterval<T> Move(int granulesCount)
 
 #### Returns
 
-[IGranularInterval&lt;T&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;T&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **ExpandLeft(Int32)**
 
@@ -47,7 +51,7 @@ IGranularInterval<T> ExpandLeft(int granulesCount)
 
 #### Returns
 
-[IGranularInterval&lt;T&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;T&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **ExpandRight(Int32)**
 
@@ -63,4 +67,8 @@ IGranularInterval<T> ExpandRight(int granulesCount)
 
 #### Returns
 
-[IGranularInterval&lt;T&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;T&gt;](intervals.granularintervals.igranularinterval-1)<br>
+
+---
+
+[`< Back`](./)

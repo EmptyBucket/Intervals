@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # QuarterInterval
 
 Namespace: Intervals.GranularIntervals
@@ -8,8 +12,8 @@ Represents an quarter interval instance where the granule size is equal to a qua
 public class QuarterInterval : MonthGranularInterval, Intervals.Intervals.IInterval`1[[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.IComparable`1[[Intervals.Intervals.IInterval`1[[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Intervals, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null]], System.IEquatable`1[[Intervals.Intervals.IInterval`1[[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Intervals, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null]], System.Collections.Generic.IEnumerable`1[[Intervals.Intervals.IInterval`1[[System.DateTime, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], Intervals, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null]], System.Collections.IEnumerable, IGranularInterval`1
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [Interval&lt;DateTime&gt;](./intervals.intervals.interval-1.md) → [MonthGranularInterval](./intervals.granularintervals.monthgranularinterval.md) → [QuarterInterval](./intervals.granularintervals.quarterinterval.md)<br>
-Implements [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md), [IComparable&lt;IInterval&lt;DateTime&gt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1), [IEquatable&lt;IInterval&lt;DateTime&gt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1), [IEnumerable&lt;IInterval&lt;DateTime&gt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1), [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.ienumerable), [IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [Interval&lt;DateTime&gt;](intervals.intervals.interval-1) → [MonthGranularInterval](intervals.granularintervals.monthgranularinterval) → [QuarterInterval](intervals.granularintervals.quarterinterval)<br>
+Implements [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1), [IComparable&lt;IInterval&lt;DateTime&gt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.icomparable-1), [IEquatable&lt;IInterval&lt;DateTime&gt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.iequatable-1), [IEnumerable&lt;IInterval&lt;DateTime&gt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1), [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.ienumerable), [IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)
 
 ## Properties
 
@@ -43,7 +47,7 @@ public Endpoint<DateTime> Left { get; }
 
 #### Property Value
 
-[Endpoint&lt;DateTime&gt;](./intervals.points.endpoint-1.md)<br>
+[Endpoint&lt;DateTime&gt;](intervals.points.endpoint-1)<br>
 
 ### **Right**
 
@@ -55,7 +59,7 @@ public Endpoint<DateTime> Right { get; }
 
 #### Property Value
 
-[Endpoint&lt;DateTime&gt;](./intervals.points.endpoint-1.md)<br>
+[Endpoint&lt;DateTime&gt;](intervals.points.endpoint-1)<br>
 
 ### **Inclusion**
 
@@ -67,7 +71,7 @@ public IntervalInclusion Inclusion { get; }
 
 #### Property Value
 
-[IntervalInclusion](./intervals.intervals.intervalinclusion.md)<br>
+[IntervalInclusion](intervals.intervals.intervalinclusion)<br>
 
 ## Constructors
 
@@ -84,3 +88,7 @@ public QuarterInterval(int year, int quarter, DateTimeKind kind)
 `quarter` [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)<br>
 
 `kind` [DateTimeKind](https://docs.microsoft.com/en-us/dotnet/api/system.datetimekind)<br>
+
+---
+
+[`< Back`](./)

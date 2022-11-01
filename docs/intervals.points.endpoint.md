@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # Endpoint
 
 Namespace: Intervals.Points
@@ -6,7 +10,7 @@ Namespace: Intervals.Points
 public static class Endpoint
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [Endpoint](./intervals.points.endpoint.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [Endpoint](intervals.points.endpoint)
 
 ## Methods
 
@@ -49,3 +53,7 @@ public static Endpoint<T> Right<T>(Point<T> point)
 #### Returns
 
 Endpoint&lt;T&gt;<br>
+
+---
+
+[`< Back`](./)

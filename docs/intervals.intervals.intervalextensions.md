@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # IntervalExtensions
 
 Namespace: Intervals.Intervals
@@ -6,7 +10,7 @@ Namespace: Intervals.Intervals
 public static class IntervalExtensions
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [IntervalExtensions](./intervals.intervals.intervalextensions.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [IntervalExtensions](intervals.intervals.intervalextensions)
 
 ## Methods
 
@@ -20,13 +24,13 @@ public static IInterval<DateTime> Ceiling(IInterval<DateTime> interval, TimeSpan
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `granuleSize` [TimeSpan](https://docs.microsoft.com/en-us/dotnet/api/system.timespan)<br>
 
 #### Returns
 
-[IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+[IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 ### **CeilingToMonth(IInterval&lt;DateTime&gt;)**
 
@@ -38,11 +42,11 @@ public static IInterval<DateTime> CeilingToMonth(IInterval<DateTime> interval)
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 #### Returns
 
-[IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+[IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 ### **CeilingToQuarter(IInterval&lt;DateTime&gt;)**
 
@@ -54,11 +58,11 @@ public static IInterval<DateTime> CeilingToQuarter(IInterval<DateTime> interval)
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 #### Returns
 
-[IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+[IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 ### **CeilingToHalfYear(IInterval&lt;DateTime&gt;)**
 
@@ -70,11 +74,11 @@ public static IInterval<DateTime> CeilingToHalfYear(IInterval<DateTime> interval
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 #### Returns
 
-[IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+[IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 ### **IsOverlap&lt;T&gt;(IEnumerable&lt;IInterval&lt;T&gt;&gt;, IEnumerable&lt;IInterval&lt;T&gt;&gt;)**
 
@@ -218,13 +222,13 @@ public static IGranularInterval<DateTime> Floor(IInterval<DateTime> interval, Ti
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `granuleSize` [TimeSpan](https://docs.microsoft.com/en-us/dotnet/api/system.timespan)<br>
 
 #### Returns
 
-[IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **FloorToMonth(IInterval&lt;DateTime&gt;)**
 
@@ -236,11 +240,11 @@ public static IGranularInterval<DateTime> FloorToMonth(IInterval<DateTime> inter
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 #### Returns
 
-[IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **FloorToQuarter(IInterval&lt;DateTime&gt;)**
 
@@ -252,11 +256,11 @@ public static IGranularInterval<DateTime> FloorToQuarter(IInterval<DateTime> int
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 #### Returns
 
-[IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **FloorToHalfYear(IInterval&lt;DateTime&gt;)**
 
@@ -268,11 +272,11 @@ public static IGranularInterval<DateTime> FloorToHalfYear(IInterval<DateTime> in
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 #### Returns
 
-[IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **Round(IInterval&lt;DateTime&gt;, TimeSpan, MidpointRounding)**
 
@@ -284,7 +288,7 @@ public static IGranularInterval<DateTime> Round(IInterval<DateTime> interval, Ti
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `granuleSize` [TimeSpan](https://docs.microsoft.com/en-us/dotnet/api/system.timespan)<br>
 
@@ -292,7 +296,7 @@ public static IGranularInterval<DateTime> Round(IInterval<DateTime> interval, Ti
 
 #### Returns
 
-[IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **RoundToMonth(IInterval&lt;DateTime&gt;, MidpointRounding)**
 
@@ -304,13 +308,13 @@ public static IGranularInterval<DateTime> RoundToMonth(IInterval<DateTime> inter
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `midpointRounding` [MidpointRounding](https://docs.microsoft.com/en-us/dotnet/api/system.midpointrounding)<br>
 
 #### Returns
 
-[IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **RoundToQuarter(IInterval&lt;DateTime&gt;, MidpointRounding)**
 
@@ -322,13 +326,13 @@ public static IGranularInterval<DateTime> RoundToQuarter(IInterval<DateTime> int
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `midpointRounding` [MidpointRounding](https://docs.microsoft.com/en-us/dotnet/api/system.midpointrounding)<br>
 
 #### Returns
 
-[IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **RoundToHalfYear(IInterval&lt;DateTime&gt;, MidpointRounding)**
 
@@ -340,13 +344,13 @@ public static IGranularInterval<DateTime> RoundToHalfYear(IInterval<DateTime> in
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `midpointRounding` [MidpointRounding](https://docs.microsoft.com/en-us/dotnet/api/system.midpointrounding)<br>
 
 #### Returns
 
-[IGranularInterval&lt;DateTime&gt;](./intervals.granularintervals.igranularinterval-1.md)<br>
+[IGranularInterval&lt;DateTime&gt;](intervals.granularintervals.igranularinterval-1)<br>
 
 ### **Split(IInterval&lt;DateTime&gt;, TimeSpan, Boolean)**
 
@@ -360,7 +364,7 @@ public static IEnumerable<IInterval<DateTime>> Split(IInterval<DateTime> interva
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `granuleSize` [TimeSpan](https://docs.microsoft.com/en-us/dotnet/api/system.timespan)<br>
 
@@ -382,7 +386,7 @@ public static IEnumerable<IInterval<DateTime>> SplitByMonths(IInterval<DateTime>
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `monthsCount` [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)<br>
 
@@ -404,7 +408,7 @@ public static IEnumerable<IInterval<DateTime>> SplitByQuarters(IInterval<DateTim
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `quartersCount` [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)<br>
 
@@ -426,7 +430,7 @@ public static IEnumerable<IInterval<DateTime>> SplitByHalfYears(IInterval<DateTi
 
 #### Parameters
 
-`interval` [IInterval&lt;DateTime&gt;](./intervals.intervals.iinterval-1.md)<br>
+`interval` [IInterval&lt;DateTime&gt;](intervals.intervals.iinterval-1)<br>
 
 `halfYearsCount` [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)<br>
 
@@ -435,3 +439,7 @@ public static IEnumerable<IInterval<DateTime>> SplitByHalfYears(IInterval<DateTi
 #### Returns
 
 [IEnumerable&lt;IInterval&lt;DateTime&gt;&gt;](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)<br>
+
+---
+
+[`< Back`](./)

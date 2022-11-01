@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # Endpoint&lt;T&gt;
 
 Namespace: Intervals.Points
@@ -12,7 +16,7 @@ public struct Endpoint<T>
 
 `T`<br>
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) → [Endpoint&lt;T&gt;](./intervals.points.endpoint-1.md)<br>
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) → [Endpoint&lt;T&gt;](intervals.points.endpoint-1)<br>
 Implements IComparable&lt;Endpoint&lt;T&gt;&gt;, IEquatable&lt;Endpoint&lt;T&gt;&gt;
 
 ## Properties
@@ -35,7 +39,7 @@ public Inclusion Inclusion { get; set; }
 
 #### Property Value
 
-[Inclusion](./intervals.points.inclusion.md)<br>
+[Inclusion](intervals.points.inclusion)<br>
 
 ### **Location**
 
@@ -45,7 +49,7 @@ public EndpointLocation Location { get; set; }
 
 #### Property Value
 
-[EndpointLocation](./intervals.points.endpointlocation.md)<br>
+[EndpointLocation](intervals.points.endpointlocation)<br>
 
 ## Constructors
 
@@ -61,9 +65,9 @@ Endpoint(T Value, Inclusion Inclusion, EndpointLocation Location)
 
 `Value` T<br>
 
-`Inclusion` [Inclusion](./intervals.points.inclusion.md)<br>
+`Inclusion` [Inclusion](intervals.points.inclusion)<br>
 
-`Location` [EndpointLocation](./intervals.points.endpointlocation.md)<br>
+`Location` [EndpointLocation](intervals.points.endpointlocation)<br>
 
 ### **Endpoint(Point&lt;T&gt;, EndpointLocation)**
 
@@ -77,7 +81,7 @@ Endpoint(Point<T> point, EndpointLocation location)
 
 `point` Point&lt;T&gt;<br>
 
-`location` [EndpointLocation](./intervals.points.endpointlocation.md)<br>
+`location` [EndpointLocation](intervals.points.endpointlocation)<br>
 
 ## Methods
 
@@ -91,7 +95,7 @@ void Deconstruct(Point`1& point, EndpointLocation& location)
 
 `point` Point`1&<br>
 
-`location` [EndpointLocation&](./intervals.points.endpointlocation&.md)<br>
+`location` [EndpointLocation&](intervals.points.endpointlocation&)<br>
 
 ### **CompareTo(Endpoint&lt;T&gt;)**
 
@@ -105,7 +109,7 @@ int CompareTo(Endpoint<T> other)
 
 #### Parameters
 
-`other` [Endpoint&lt;T&gt;](./intervals.points.endpoint-1.md)<br>
+`other` [Endpoint&lt;T&gt;](intervals.points.endpoint-1)<br>
 
 #### Returns
 
@@ -160,7 +164,7 @@ bool Equals(Endpoint<T> other)
 
 #### Parameters
 
-`other` [Endpoint&lt;T&gt;](./intervals.points.endpoint-1.md)<br>
+`other` [Endpoint&lt;T&gt;](intervals.points.endpoint-1)<br>
 
 #### Returns
 
@@ -176,6 +180,10 @@ void Deconstruct(T& Value, Inclusion& Inclusion, EndpointLocation& Location)
 
 `Value` T&<br>
 
-`Inclusion` [Inclusion&](./intervals.points.inclusion&.md)<br>
+`Inclusion` [Inclusion&](intervals.points.inclusion&)<br>
 
-`Location` [EndpointLocation&](./intervals.points.endpointlocation&.md)<br>
+`Location` [EndpointLocation&](intervals.points.endpointlocation&)<br>
+
+---
+
+[`< Back`](./)

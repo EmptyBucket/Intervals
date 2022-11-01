@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # Interval&lt;T&gt;
 
 Namespace: Intervals.Intervals
@@ -12,7 +16,7 @@ public class Interval<T> : IInterval`1, , , , System.Collections.IEnumerable
 
 `T`<br>
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [Interval&lt;T&gt;](./intervals.intervals.interval-1.md)<br>
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [Interval&lt;T&gt;](intervals.intervals.interval-1)<br>
 Implements IInterval&lt;T&gt;, IComparable&lt;IInterval&lt;T&gt;&gt;, IEquatable&lt;IInterval&lt;T&gt;&gt;, IEnumerable&lt;IInterval&lt;T&gt;&gt;, [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.ienumerable)
 
 ## Properties
@@ -51,7 +55,7 @@ public IntervalInclusion Inclusion { get; }
 
 #### Property Value
 
-[IntervalInclusion](./intervals.intervals.intervalinclusion.md)<br>
+[IntervalInclusion](intervals.intervals.intervalinclusion)<br>
 
 ## Constructors
 
@@ -79,7 +83,7 @@ public Interval(T leftValue, T rightValue, IntervalInclusion inclusion)
 
 `rightValue` T<br>
 
-`inclusion` [IntervalInclusion](./intervals.intervals.intervalinclusion.md)<br>
+`inclusion` [IntervalInclusion](intervals.intervals.intervalinclusion)<br>
 
 ## Methods
 
@@ -107,7 +111,7 @@ public void Deconstruct(T& left, T& right, IntervalInclusion& inclusion)
 
 `right` T&<br>
 
-`inclusion` [IntervalInclusion&](./intervals.intervals.intervalinclusion&.md)<br>
+`inclusion` [IntervalInclusion&](intervals.intervals.intervalinclusion&)<br>
 
 ### **IsEmpty()**
 
@@ -185,3 +189,7 @@ public string ToString()
 #### Returns
 
 [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)<br>
+
+---
+
+[`< Back`](./)

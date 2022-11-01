@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # Point&lt;T&gt;
 
 Namespace: Intervals.Points
@@ -12,7 +16,7 @@ public struct Point<T>
 
 `T`<br>
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) → [Point&lt;T&gt;](./intervals.points.point-1.md)<br>
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [ValueType](https://docs.microsoft.com/en-us/dotnet/api/system.valuetype) → [Point&lt;T&gt;](intervals.points.point-1)<br>
 Implements IEquatable&lt;Point&lt;T&gt;&gt;
 
 ## Properties
@@ -35,7 +39,7 @@ public Inclusion Inclusion { get; set; }
 
 #### Property Value
 
-[Inclusion](./intervals.points.inclusion.md)<br>
+[Inclusion](intervals.points.inclusion)<br>
 
 ## Constructors
 
@@ -51,7 +55,7 @@ Point(T Value, Inclusion Inclusion)
 
 `Value` T<br>
 
-`Inclusion` [Inclusion](./intervals.points.inclusion.md)<br>
+`Inclusion` [Inclusion](intervals.points.inclusion)<br>
 
 ## Methods
 
@@ -99,7 +103,7 @@ bool Equals(Point<T> other)
 
 #### Parameters
 
-`other` [Point&lt;T&gt;](./intervals.points.point-1.md)<br>
+`other` [Point&lt;T&gt;](intervals.points.point-1)<br>
 
 #### Returns
 
@@ -115,4 +119,8 @@ void Deconstruct(T& Value, Inclusion& Inclusion)
 
 `Value` T&<br>
 
-`Inclusion` [Inclusion&](./intervals.points.inclusion&.md)<br>
+`Inclusion` [Inclusion&](intervals.points.inclusion&)<br>
+
+---
+
+[`< Back`](./)

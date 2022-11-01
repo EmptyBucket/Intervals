@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # DateTimeExtensions
 
 Namespace: Intervals.Utils
@@ -6,7 +10,7 @@ Namespace: Intervals.Utils
 public static class DateTimeExtensions
 ```
 
-Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [DateTimeExtensions](./intervals.utils.datetimeextensions.md)
+Inheritance [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) → [DateTimeExtensions](intervals.utils.datetimeextensions)
 
 ## Methods
 
@@ -249,3 +253,7 @@ public static DateTime RoundToHalfYear(DateTime dateTime, MidpointRounding midpo
 #### Returns
 
 [DateTime](https://docs.microsoft.com/en-us/dotnet/api/system.datetime)<br>
+
+---
+
+[`< Back`](./)

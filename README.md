@@ -194,3 +194,10 @@ var result5 = new PartOfGranularInterval(new DateTime(2022, 1, 1), new DateTime(
 var result6 = new PartOfGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
     .Move(1);
 ```
+
+### Helper methods that you might find useful
+
+https://github.com/EmptyBucket/Intervals/wiki/intervals.utils.datetimeextensions
+https://github.com/EmptyBucket/Intervals/wiki/intervals.points.pointextensions
+https://github.com/EmptyBucket/Intervals/wiki/intervals.points.inclusionextensions
+https://github.com/EmptyBucket/Intervals/wiki/intervals.points.endpointlocationextensions

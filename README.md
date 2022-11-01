@@ -1,11 +1,10 @@
 # Intervals
 
-Library for working with generic intervals and granular time intervals (like a quarter, a week...). Intervals support
-different inclusions (Opened, LeftOpened, RightOpened, Closed)
+Library for working with generic intervals and granular time intervals (like a quarter, a week...). Intervals support different inclusions (Opened, LeftOpened, RightOpened, Closed)
 
 ### Documentation:
 
-* https://github.com/EmptyBucket/Intervals/blob/master/docs/index.md
+* https://github.com/EmptyBucket/Intervals/wiki/
 
 #### Nuget:
 

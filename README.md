@@ -166,11 +166,11 @@ var result7 = new HalfYearInterval(2022, 1);
 // [2022-01-01, 2023-01-01)
 var result8 = new YearInterval(2022);
 // [2022-01-01, 2022-01-02)
-var result9 = new GranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+var result9 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
 // [2022-01-01, 2022-02-01)
 var result10 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1));
 // [2022-01-01, 2022-01-02), but the step size is 3 days
-var result11 = new PartOfGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3));
+var result11 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3));
 // [2022-01-01, 2022-02-01), but the step size is 3 months
 var result12 = new PartOfMonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 3);
 ```
@@ -179,19 +179,19 @@ var result12 = new PartOfMonthGranularInterval(new DateTime(2022, 1, 1), new Dat
 
 ```csharp
 // [2021-12-31, 2022-01-02)
-var result1 = new GranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).ExpandLeft(1);
+var result1 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).ExpandLeft(1);
 // [2022-01-01, 2022-01-03)
-var result2 = new GranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).ExpandRight(1);
+var result2 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).ExpandRight(1);
 // [2022-01-02, 2022-01-03)
-var result3 = new GranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).Move(1);
+var result3 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).Move(1);
 // [2021-12-29, 2022-01-02)
-var result4 = new PartOfGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
+var result4 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
     .ExpandLeft(1);
 // [2022-01-01, 2022-01-05)
-var result5 = new PartOfGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
+var result5 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
     .ExpandRight(1);
 // [2022-01-04, 2022-01-05)
-var result6 = new PartOfGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
+var result6 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
     .Move(1);
 ```
 

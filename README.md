@@ -14,6 +14,8 @@ Library for working with generic intervals and granular time intervals (like a q
 
 ### Interval initialization
 
+If you do not explicitly specify inclusion, then the interval will be `IntervalInclusion.RightOpened`, i.e. `[x, y)`. `IntervalInclusion.RightOpened` and `IntervalInclusion.LeftOpened` are preferred because for them the result of operations is always obvious. But when choosing this type of interval, you must keep in mind that in client code you must use pair of non-strict and strict inequality, e.g. `x <= {you-variable} && {you-variable} < y` for `IntervalInclusion.RightOpened`
+
 ```csharp
 // [0, 10]
 var result1 = new Interval<int>(0, 10, IntervalInclusion.Closed);
@@ -35,7 +37,7 @@ var result8 = new Interval<int>(Point.Included(0), Point.Excluded(10));
 
 ### Multi-interval operations
 
-Operations have O(nlog) asymptotic complexity, even if you did some complex method chaining it would still be O(nlog)
+Operations have `O(nlog)` asymptotic complexity, even if you did some complex method chaining it would still be `O(nlog)`
 where each point would only be sorted once
 
 ```csharp

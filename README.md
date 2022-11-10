@@ -210,6 +210,8 @@ var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(202
 
 ### Split interval operations
 
+`Split` can return incomplete chunks when there is not enough space for the next chunk, e.g. `new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 2, 15)).SplitByMonths(1)` will return `[2022-01-01, 2022-02-01), [2022-02 -01, 2022-02-15)`. If you want whole chunks you can use the `Floor`, `Ceiling`, `Round` operations to align interval and then use `Split`
+
 ```csharp
 // [2022-01-10, 2022-03-27), [2022-03-27, 2022-07-25), [2022-07-25, 2022-08-15)
 var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))

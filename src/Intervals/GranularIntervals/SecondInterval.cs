@@ -26,8 +26,20 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an second interval instance where the granule size is equal to a second
 /// </summary>
-public class SecondInterval : GranularInterval
+public class SecondInterval : TimeGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.SecondInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="month" />, <paramref name="day" />,
+    /// <paramref name="hour" />, <paramref name="minute" />, <paramref name="second" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="month"></param>
+    /// <param name="day"></param>
+    /// <param name="hour"></param>
+    /// <param name="minute"></param>
+    /// <param name="second"></param>
+    /// <param name="kind"></param>
     public SecondInterval(int year, int month, int day, int hour, int minute, int second,
         DateTimeKind kind = DateTimeKind.Unspecified) : base(
         new DateTime(year, month, day, hour, minute, second, kind),
@@ -41,15 +53,33 @@ public class SecondInterval : GranularInterval
         Second = second;
     }
 
+    /// <summary>
+    /// Year
+    /// </summary>
     public int Year { get; }
 
+    /// <summary>
+    /// Month
+    /// </summary>
     public int Month { get; }
 
+    /// <summary>
+    /// Day
+    /// </summary>
     public int Day { get; }
 
+    /// <summary>
+    /// Hour
+    /// </summary>
     public int Hour { get; }
 
+    /// <summary>
+    /// Minute
+    /// </summary>
     public int Minute { get; }
 
+    /// <summary>
+    /// Second
+    /// </summary>
     public int Second { get; }
 }

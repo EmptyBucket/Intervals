@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using Intervals.GranularIntervals;
 using Intervals.Utils;
 
 namespace Intervals.Intervals;
@@ -33,10 +34,10 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="granuleSize"></param>
     /// <returns></returns>
-    public static IInterval<DateTime> Ceiling(this IInterval<DateTime> interval, TimeSpan granuleSize)
+    public static IGranularInterval<DateTime> Ceiling(this IInterval<DateTime> interval, TimeSpan granuleSize)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.Floor(granuleSize), rightVal.Ceiling(granuleSize), interval.Inclusion);
+        return new TimeGranularInterval(leftVal.Floor(granuleSize), rightVal.Ceiling(granuleSize), interval.Inclusion);
     }
 
     /// <summary>
@@ -44,10 +45,10 @@ public static partial class IntervalExtensions
     /// </summary>
     /// <param name="interval"></param>
     /// <returns></returns>
-    public static IInterval<DateTime> CeilingToMonth(this IInterval<DateTime> interval)
+    public static IGranularInterval<DateTime> CeilingToMonth(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.FloorToMonth(), rightVal.CeilingToMonth(), interval.Inclusion);
+        return new MonthGranularInterval(leftVal.FloorToMonth(), rightVal.CeilingToMonth(), interval.Inclusion);
     }
 
     /// <summary>
@@ -55,10 +56,10 @@ public static partial class IntervalExtensions
     /// </summary>
     /// <param name="interval"></param>
     /// <returns></returns>
-    public static IInterval<DateTime> CeilingToQuarter(this IInterval<DateTime> interval)
+    public static IGranularInterval<DateTime> CeilingToQuarter(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.FloorToQuarter(), rightVal.CeilingToQuarter(), interval.Inclusion);
+        return new MonthGranularInterval(leftVal.FloorToQuarter(), rightVal.CeilingToQuarter(), interval.Inclusion);
     }
 
     /// <summary>
@@ -66,9 +67,9 @@ public static partial class IntervalExtensions
     /// </summary>
     /// <param name="interval"></param>
     /// <returns></returns>
-    public static IInterval<DateTime> CeilingToHalfYear(this IInterval<DateTime> interval)
+    public static IGranularInterval<DateTime> CeilingToHalfYear(this IInterval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new Interval<DateTime>(leftVal.FloorToHalfYear(), rightVal.CeilingToHalfYear(), interval.Inclusion);
+        return new MonthGranularInterval(leftVal.FloorToHalfYear(), rightVal.CeilingToHalfYear(), interval.Inclusion);
     }
 }

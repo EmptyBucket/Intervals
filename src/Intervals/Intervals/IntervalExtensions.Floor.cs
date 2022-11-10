@@ -37,7 +37,7 @@ public static partial class IntervalExtensions
     public static IGranularInterval<DateTime> Floor(this IInterval<DateTime> interval, TimeSpan granuleSize)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new GranularInterval(leftVal.Ceiling(granuleSize), rightVal.Floor(granuleSize), interval.Inclusion);
+        return new TimeGranularInterval(leftVal.Ceiling(granuleSize), rightVal.Floor(granuleSize), interval.Inclusion);
     }
 
     /// <summary>

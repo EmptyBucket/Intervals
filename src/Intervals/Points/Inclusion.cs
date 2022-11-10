@@ -29,6 +29,12 @@ namespace Intervals.Points;
 [Flags]
 public enum Inclusion
 {
+    /// <summary>
+    /// Excluded
+    /// </summary>
     Excluded = 0,
+    /// <summary>
+    /// Included
+    /// </summary>
     Included = 1
 }

@@ -35,7 +35,7 @@ public class GranularIntervalTests
     {
         var left = Point.Included(new DateTime(2021, 1, 1, 1, 1, 1));
         var right = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
-        var interval = new GranularInterval(left, right);
+        var interval = new TimeGranularInterval(left, right);
 
         var actual = interval.Move(1);
 
@@ -48,7 +48,7 @@ public class GranularIntervalTests
     {
         var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
         var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new GranularInterval(left, right);
+        var interval = new TimeGranularInterval(left, right);
 
         var actual = interval.Move(-1);
 
@@ -61,7 +61,7 @@ public class GranularIntervalTests
     {
         var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
         var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new GranularInterval(left, right);
+        var interval = new TimeGranularInterval(left, right);
 
         var actual = interval.ExpandLeft(1);
 
@@ -74,7 +74,7 @@ public class GranularIntervalTests
     {
         var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
         var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new GranularInterval(left, right);
+        var interval = new TimeGranularInterval(left, right);
 
         var actual = interval.ExpandLeft(-1);
 
@@ -87,7 +87,7 @@ public class GranularIntervalTests
     {
         var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
         var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new GranularInterval(left, right);
+        var interval = new TimeGranularInterval(left, right);
 
         var actual = interval.ExpandRight(1);
 
@@ -100,7 +100,7 @@ public class GranularIntervalTests
     {
         var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
         var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new GranularInterval(left, right);
+        var interval = new TimeGranularInterval(left, right);
 
         var actual = interval.ExpandRight(-1);
 

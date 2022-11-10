@@ -39,7 +39,7 @@ public static partial class IntervalExtensions
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
-        return new GranularInterval(leftVal.Round(granuleSize, midpointRounding),
+        return new TimeGranularInterval(leftVal.Round(granuleSize, midpointRounding),
             rightVal.Round(granuleSize, midpointRounding), interval.Inclusion);
     }
 

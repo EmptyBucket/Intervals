@@ -28,6 +28,16 @@ namespace Intervals.Points;
 public static class Endpoint
 {
     /// <summary>
+    /// Returns endpoint with specified <paramref name="value" />, <paramref name="inclusion" /> and left location
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="inclusion"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static Endpoint<T> Left<T>(T value, Inclusion inclusion) where T : IEquatable<T>, IComparable<T> =>
+        new(value, inclusion, EndpointLocation.Left);
+
+    /// <summary>
     /// Returns endpoint with specified <paramref name="point" /> and left location
     /// </summary>
     /// <param name="point"></param>
@@ -36,6 +46,16 @@ public static class Endpoint
     public static Endpoint<T> Left<T>(Point<T> point) where T : IEquatable<T>, IComparable<T> =>
         new(point, EndpointLocation.Left);
 
+    /// <summary>
+    /// Returns endpoint with specified <paramref name="value" />, <paramref name="inclusion" /> and right location
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="inclusion"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static Endpoint<T> Right<T>(T value, Inclusion inclusion) where T : IEquatable<T>, IComparable<T> =>
+        new(value, inclusion, EndpointLocation.Right);
+    
     /// <summary>
     /// Returns endpoint with specified <paramref name="point" /> and right location
     /// </summary>
@@ -57,7 +77,8 @@ public readonly record struct Endpoint<T>(T Value, Inclusion Inclusion, Endpoint
     : IComparable<Endpoint<T>> where T : IComparable<T>, IEquatable<T>
 {
     /// <summary>
-    /// Returns endpoint with specified <paramref name="point" /> and <paramref name="location" />
+    /// Initializes a new instance of the <see cref="T:Intervals.Points.Endpoint"/>
+    /// with specified <paramref name="point" /> and <paramref name="location" />
     /// </summary>
     /// <param name="point"></param>
     /// <param name="location"></param>
@@ -65,6 +86,11 @@ public readonly record struct Endpoint<T>(T Value, Inclusion Inclusion, Endpoint
     {
     }
 
+    /// <summary>
+    /// Deconstructs instance into the specified <paramref name="point" /> and <paramref name="location" />
+    /// </summary>
+    /// <param name="point"></param>
+    /// <param name="location"></param>
     public void Deconstruct(out Point<T> point, out EndpointLocation location) => (point, location) = (this, Location);
 
     /// <summary>

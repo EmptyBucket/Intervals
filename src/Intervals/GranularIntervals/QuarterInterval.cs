@@ -30,6 +30,13 @@ namespace Intervals.GranularIntervals;
 /// </summary>
 public class QuarterInterval : MonthGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="quarter" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="quarter"></param>
+    /// <param name="kind"></param>
     public QuarterInterval(int year, int quarter, DateTimeKind kind = DateTimeKind.Unspecified) : base(
         DateTimeHelper.New(year, DateTimeHelper.QuarterToMonth(quarter), 1, kind),
         DateTimeHelper.New(year, DateTimeHelper.QuarterToMonth(quarter), 1, kind)
@@ -39,7 +46,13 @@ public class QuarterInterval : MonthGranularInterval
         Quarter = quarter;
     }
 
+    /// <summary>
+    /// Year
+    /// </summary>
     public int Year { get; }
 
+    /// <summary>
+    /// Quarter
+    /// </summary>
     public int Quarter { get; }
 }

@@ -29,6 +29,12 @@ namespace Intervals.Points;
 [Flags]
 public enum EndpointLocation
 {
+	/// <summary>
+	/// Left endpoint location
+	/// </summary>
 	Left = 1,
+	/// <summary>
+	/// Right endpoint location
+	/// </summary>
 	Right = 0
 }

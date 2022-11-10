@@ -26,8 +26,19 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an minute interval instance where the granule size is equal to a minute
 /// </summary>
-public class MinuteInterval : GranularInterval
+public class MinuteInterval : TimeGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HourInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="month" />, <paramref name="day" />,
+    /// <paramref name="hour" />, <paramref name="minute" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="month"></param>
+    /// <param name="day"></param>
+    /// <param name="hour"></param>
+    /// <param name="minute"></param>
+    /// <param name="kind"></param>
     public MinuteInterval(int year, int month, int day, int hour, int minute,
         DateTimeKind kind = DateTimeKind.Unspecified) : base(
         new DateTime(year, month, day, hour, minute, 0, kind),
@@ -40,13 +51,28 @@ public class MinuteInterval : GranularInterval
         Minute = minute;
     }
 
+    /// <summary>
+    /// Year
+    /// </summary>
     public int Year { get; }
 
+    /// <summary>
+    /// Month
+    /// </summary>
     public int Month { get; }
 
+    /// <summary>
+    /// Day
+    /// </summary>
     public int Day { get; }
 
+    /// <summary>
+    /// Hour
+    /// </summary>
     public int Hour { get; }
 
+    /// <summary>
+    /// Minute
+    /// </summary>
     public int Minute { get; }
 }

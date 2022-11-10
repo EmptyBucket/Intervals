@@ -26,8 +26,18 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an hour interval instance where the granule size is equal to a hour
 /// </summary>
-public class HourInterval : GranularInterval
+public class HourInterval : TimeGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HourInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="month" />, <paramref name="day" />,
+    /// <paramref name="hour" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="month"></param>
+    /// <param name="day"></param>
+    /// <param name="hour"></param>
+    /// <param name="kind"></param>
     public HourInterval(int year, int month, int day, int hour, DateTimeKind kind = DateTimeKind.Unspecified) : base(
         new DateTime(year, month, day, hour, 0, 0, kind),
         new DateTime(year, month, day, hour, 0, 0, kind).AddHours(1))

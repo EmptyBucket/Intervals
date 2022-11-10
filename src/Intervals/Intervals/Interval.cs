@@ -31,6 +31,12 @@ namespace Intervals.Intervals;
 /// </summary>
 public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.Intervals.Interval"/>
+    /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
+    /// </summary>
+    /// <param name="leftPoint"></param>
+    /// <param name="rightPoint"></param>
     public Interval(Point<T> leftPoint, Point<T> rightPoint)
     {
         Left = Endpoint.Left(leftPoint);
@@ -38,20 +44,38 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
         Inclusion = IntervalInclusionConvert.FromInclusions(leftPoint.Inclusion, rightPoint.Inclusion);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.Intervals.Interval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="rightValue"></param>
+    /// <param name="inclusion"></param>
     public Interval(T leftValue, T rightValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
     {
         var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(inclusion);
-        Left = Endpoint.Left(new Point<T>(leftValue, leftInclusion));
-        Right = Endpoint.Right(new Point<T>(rightValue, rightInclusion));
+        Left = Endpoint.Left(leftValue, leftInclusion);
+        Right = Endpoint.Right(rightValue, rightInclusion);
         Inclusion = inclusion;
     }
 
+    /// <summary>
+    /// Deconstructs instance into the specified <paramref name="left" /> and <paramref name="right" />
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
     public void Deconstruct(out Point<T> left, out Point<T> right)
     {
         left = Left;
         right = Right;
     }
 
+    /// <summary>
+    /// Deconstructs instance into the specified <paramref name="left" />, <paramref name="right" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <param name="inclusion"></param>
     public void Deconstruct(out T left, out T right, out IntervalInclusion inclusion)
     {
         left = Left.Value;
@@ -80,14 +104,16 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
     /// <returns></returns>
     public bool IsEmpty() =>
         Left.Value.CompareTo(Right.Value) is var compareTo &&
-        Inclusion == IntervalInclusion.Closed ? compareTo > 0 : compareTo >= 0;
+        Inclusion == IntervalInclusion.Closed
+            ? compareTo > 0
+            : compareTo >= 0;
 
     /// <summary>
     /// Returns a value indicating whether this instance is equal to a specified <paramref name="other" /> value
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    public bool Equals(IInterval<T>? other) => 
+    public bool Equals(IInterval<T>? other) =>
         other is Interval<T> otherInterval && Left == otherInterval.Left && Right == otherInterval.Right;
 
     /// <summary>

@@ -31,111 +31,75 @@ public static partial class IntervalExtensions
 {
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="granuleSize" /> length and
-    /// the rest, which was less than <paramref name="granuleSize" /> in length,
-    /// if <paramref name="removeIncomplete" /> is false, otherwise removes it
+    /// the rest, which was less than <paramref name="granuleSize" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="granuleSize"></param>
-    /// <param name="removeIncomplete"></param>
     /// <returns></returns>
-    public static IEnumerable<IInterval<DateTime>> Split(this IInterval<DateTime> interval, TimeSpan granuleSize,
-        bool removeIncomplete = false)
+    public static IEnumerable<IGranularInterval<DateTime>> Split(this IInterval<DateTime> interval,
+        TimeSpan granuleSize)
     {
-        IInterval<DateTime> ComputeInterval(DateTime left)
+        var (left, right) = (interval.Left, interval.Right);
+
+        while (left.CompareTo(right) <= 0)
         {
-            var granule = left.Ceiling(granuleSize);
-
-            return !removeIncomplete && left != granule
-                ? new Interval<DateTime>(left, granule)
-                : new Interval<DateTime>(granule, granule + granuleSize);
+            var curInterval = new TimeGranularInterval(left.Value, left.Value + granuleSize);
+            curInterval = new TimeGranularInterval(
+                GenericMath.Max(curInterval.Left, interval.Left),
+                GenericMath.Min(curInterval.Right, interval.Right));
+            yield return curInterval;
+            left = Endpoint.Left(curInterval.Right.Value, curInterval.Right.Inclusion.Invert());
         }
-
-        return SplitBy(interval, ComputeInterval);
     }
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="monthsCount" /> length and
-    /// the rest, which was less than <paramref name="monthsCount" /> in length,
-    /// if <paramref name="removeIncomplete" /> is false, otherwise removes it
+    /// the rest, which was less than <paramref name="monthsCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="monthsCount"></param>
-    /// <param name="removeIncomplete"></param>
     /// <returns></returns>
-    public static IEnumerable<IInterval<DateTime>> SplitByMonths(this IInterval<DateTime> interval,
-        int monthsCount = 1, bool removeIncomplete = false)
-    {
-        IInterval<DateTime> ComputeInterval(DateTime left)
-        {
-            var month = left.CeilingToMonth();
-
-            return !removeIncomplete && left != month
-                ? new Interval<DateTime>(left, month)
-                : new MonthInterval(month.Year, month.Month).ExpandRight(monthsCount - 1);
-        }
-
-        return SplitBy(interval, ComputeInterval);
-    }
+    public static IEnumerable<IGranularInterval<DateTime>> SplitByMonths(this IInterval<DateTime> interval,
+        int monthsCount = 1) =>
+        SplitByMonths(interval, l => new MonthInterval(l.Year, l.Month).ExpandRight(monthsCount - 1));
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="quartersCount" /> length and
-    /// the rest, which was less than <paramref name="quartersCount" /> in length,
-    /// if <paramref name="removeIncomplete" /> is false, otherwise removes it
+    /// the rest, which was less than <paramref name="quartersCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="quartersCount"></param>
-    /// <param name="removeIncomplete"></param>
     /// <returns></returns>
-    public static IEnumerable<IInterval<DateTime>> SplitByQuarters(this IInterval<DateTime> interval,
-        int quartersCount = 1, bool removeIncomplete = false)
-    {
-        IInterval<DateTime> ComputeInterval(DateTime left)
-        {
-            var quarter = left.CeilingToQuarter();
-
-            return !removeIncomplete && left != quarter
-                ? new Interval<DateTime>(left, quarter)
-                : new QuarterInterval(quarter.Year, quarter.GetQuarter()).ExpandRight(quartersCount - 1);
-        }
-
-        return SplitBy(interval, ComputeInterval);
-    }
+    public static IEnumerable<IGranularInterval<DateTime>> SplitByQuarters(this IInterval<DateTime> interval,
+        int quartersCount = 1) =>
+        SplitByMonths(interval, l => new QuarterInterval(l.Year, l.GetQuarter()).ExpandRight(quartersCount - 1));
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="halfYearsCount" /> length and
-    /// the rest, which was less than <paramref name="halfYearsCount" /> in length,
-    /// if <paramref name="removeIncomplete" /> is false, otherwise removes it
+    /// the rest, which was less than <paramref name="halfYearsCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="halfYearsCount"></param>
-    /// <param name="removeIncomplete"></param>
     /// <returns></returns>
-    public static IEnumerable<IInterval<DateTime>> SplitByHalfYears(this IInterval<DateTime> interval,
-        int halfYearsCount = 1, bool removeIncomplete = false)
-    {
-        IInterval<DateTime> ComputeInterval(DateTime left)
-        {
-            var halfYear = left.CeilingToHalfYear();
+    public static IEnumerable<IGranularInterval<DateTime>> SplitByHalfYears(this IInterval<DateTime> interval,
+        int halfYearsCount = 1) =>
+        SplitByMonths(interval, l => new HalfYearInterval(l.Year, l.GetHalfYear()).ExpandRight(halfYearsCount - 1));
 
-            return !removeIncomplete && left != halfYear
-                ? new Interval<DateTime>(left, halfYear)
-                : new HalfYearInterval(halfYear.Year, halfYear.GetHalfYear()).ExpandRight(halfYearsCount - 1);
-        }
-
-        return SplitBy(interval, ComputeInterval);
-    }
-
-    private static IEnumerable<IInterval<DateTime>> SplitBy(IInterval<DateTime> interval,
-        Func<DateTime, IInterval<DateTime>> computeInterval)
+    private static IEnumerable<IGranularInterval<DateTime>> SplitByMonths(IInterval<DateTime> interval,
+        ComputeNext computeNext)
     {
         var (left, right) = (interval.Left, interval.Right);
 
-        while (left.CompareTo(right) < 0)
+        while (left.CompareTo(right) <= 0)
         {
-            var curInterval = computeInterval(left.Value);
-            curInterval = new Interval<DateTime>(curInterval.Left, GenericMath.Min(curInterval.Right, right));
+            var curInterval = computeNext(left.Value);
+            curInterval = new MonthGranularInterval(
+                GenericMath.Max(curInterval.Left, interval.Left),
+                GenericMath.Min(curInterval.Right, interval.Right));
             yield return curInterval;
-            left = Endpoint.Left(new Point<DateTime>(curInterval.Right.Value, curInterval.Right.Inclusion.Invert()));
+            left = Endpoint.Left(curInterval.Right.Value, curInterval.Right.Inclusion.Invert());
         }
     }
+
+    private delegate IGranularInterval<DateTime> ComputeNext(DateTime left);
 }

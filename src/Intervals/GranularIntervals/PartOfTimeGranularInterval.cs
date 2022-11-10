@@ -30,15 +30,15 @@ namespace Intervals.GranularIntervals;
 /// Represents an part of the granular interval instance where the granule size is explicitly specified.
 /// That is, the granule size on the basis of which operations are executed can be larger or smaller than the interval itself
 /// </summary>
-public class PartOfGranularInterval : GranularInterval
+public class PartOfTimeGranularInterval : TimeGranularInterval
 {
-    public PartOfGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleSize)
+    public PartOfTimeGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleSize)
         : base(leftPoint, rightPoint)
     {
         GranuleSize = granuleSize;
     }
 
-    public PartOfGranularInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleSize,
+    public PartOfTimeGranularInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleSize,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, rightValue, inclusion)
     {

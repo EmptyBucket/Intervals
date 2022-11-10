@@ -31,13 +31,29 @@ namespace Intervals.GranularIntervals;
 /// </summary>
 public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
 {
+    /// <summary>
+    /// Granules count
+    /// </summary>
     protected int GranulesCount;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthGranularInterval"/>
+    /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
+    /// </summary>
+    /// <param name="leftPoint"></param>
+    /// <param name="rightPoint"></param>
     public MonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
     {
         GranulesCount = ComputeGranulesCount(leftPoint.Value, rightPoint.Value);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthGranularInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="rightValue"></param>
+    /// <param name="inclusion"></param>
     public MonthGranularInterval(DateTime leftValue, DateTime rightValue,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened) : base(leftValue, rightValue, inclusion)
     {

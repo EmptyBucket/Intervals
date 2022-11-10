@@ -30,6 +30,13 @@ namespace Intervals.GranularIntervals;
 /// </summary>
 public class MonthInterval : MonthGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="month" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="month"></param>
+    /// <param name="kind"></param>
     public MonthInterval(int year, int month, DateTimeKind kind = DateTimeKind.Unspecified) : base(
         DateTimeHelper.New(year, month, 1, kind),
         DateTimeHelper.New(year, month, 1, kind).AddMonths(1))
@@ -38,7 +45,13 @@ public class MonthInterval : MonthGranularInterval
         Month = month;
     }
 
+    /// <summary>
+    /// Year
+    /// </summary>
     public int Year { get; }
 
+    /// <summary>
+    /// Month
+    /// </summary>
     public int Month { get; }
 }

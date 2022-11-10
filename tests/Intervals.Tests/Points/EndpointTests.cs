@@ -30,7 +30,7 @@ namespace Intervals.Tests.Points;
 public partial class EndpointTests
 {
     [Test]
-    public void Left__ReturnLeftEndpoint()
+    public void Left_WhenGivenPoint_ReturnLeftEndpoint()
     {
         var point = Point.Excluded(0);
 
@@ -42,7 +42,20 @@ public partial class EndpointTests
     }
 
     [Test]
-    public void Right__ReturnRightEndpoint()
+    public void Left_WhenGivenValueAndInclusion_ReturnLeftEndpoint()
+    {
+        const int value = 0;
+        const Inclusion inclusion = Inclusion.Excluded;
+
+        var endpoint = Endpoint.Left(value, inclusion);
+
+        endpoint.Value.Should().Be(value);
+        endpoint.Inclusion.Should().Be(inclusion);
+        endpoint.Location.Should().Be(EndpointLocation.Left);
+    }
+
+    [Test]
+    public void Right_WhenGivenPoint_ReturnRightEndpoint()
     {
         var point = Point.Excluded(0);
 
@@ -50,6 +63,19 @@ public partial class EndpointTests
 
         endpoint.Value.Should().Be(point.Value);
         endpoint.Inclusion.Should().Be(point.Inclusion);
+        endpoint.Location.Should().Be(EndpointLocation.Right);
+    }
+
+    [Test]
+    public void Right_WhenGivenValueAndInclusion_ReturnRightEndpoint()
+    {
+        const int value = 0;
+        const Inclusion inclusion = Inclusion.Excluded;
+
+        var endpoint = Endpoint.Right(value, inclusion);
+
+        endpoint.Value.Should().Be(value);
+        endpoint.Inclusion.Should().Be(inclusion);
         endpoint.Location.Should().Be(EndpointLocation.Right);
     }
 

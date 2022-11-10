@@ -28,8 +28,17 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an day interval instance where the granule size is equal to a day
 /// </summary>
-public class DayInterval : GranularInterval
+public class DayInterval : TimeGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.DayInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="month" />, <paramref name="day" /> and
+    /// <paramref name="kind" />
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="month"></param>
+    /// <param name="day"></param>
+    /// <param name="kind"></param>
     public DayInterval(int year, int month, int day, DateTimeKind kind = DateTimeKind.Unspecified) : base(
         DateTimeHelper.New(year, month, day, kind),
         DateTimeHelper.New(year, month, day, kind).AddDays(1))
@@ -39,9 +48,18 @@ public class DayInterval : GranularInterval
         Day = day;
     }
 
+    /// <summary>
+    /// Year
+    /// </summary>
     public int Year { get; }
 
+    /// <summary>
+    /// Month
+    /// </summary>
     public int Month { get; }
 
+    /// <summary>
+    /// Day
+    /// </summary>
     public int Day { get; }
 }

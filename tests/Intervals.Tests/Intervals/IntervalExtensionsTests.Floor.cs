@@ -22,6 +22,7 @@
 // SOFTWARE.
 
 using FluentAssertions;
+using Intervals.GranularIntervals;
 using Intervals.Intervals;
 using NUnit.Framework;
 
@@ -29,6 +30,16 @@ namespace Intervals.Tests.Intervals;
 
 public partial class IntervalExtensionsTests
 {
+    [Test]
+    public void Floor__ReturnTimeGranularInterval()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 11, 0, 0), new DateTime(2022, 2, 2, 11, 0, 0));
+
+        var actual = interval.Floor(TimeSpan.FromDays(1));
+
+        ((IComparable<IInterval<DateTime>>)actual).Should().BeOfType<TimeGranularInterval>();
+    }
+
     [Test]
     public void Floor_WhenBothLessThanMidpoint_ReturnLeftCeilingAndRightFloor()
     {
@@ -71,6 +82,16 @@ public partial class IntervalExtensionsTests
 
         actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
+    }
+
+    [Test]
+    public void FloorToMonth__ReturnMonthGranularInterval()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
+
+        var actual = interval.FloorToMonth();
+
+        ((IComparable<IInterval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
     }
 
     [Test]
@@ -118,6 +139,16 @@ public partial class IntervalExtensionsTests
     }
 
     [Test]
+    public void FloorToQuarter__ReturnMonthGranularInterval()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
+
+        var actual = interval.FloorToQuarter();
+
+        ((IComparable<IInterval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
+    }
+
+    [Test]
     public void FloorToQuarter_WhenBothLessThanMidpoint_ReturnLeftCeilingAndRightFloor()
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 2, 14, 0, 0, 0), new DateTime(2022, 2, 14, 0, 0, 0));
@@ -159,6 +190,16 @@ public partial class IntervalExtensionsTests
 
         actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void FloorToHalfYear__ReturnMonthGranularInterval()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 4, 1, 11, 0, 0), new DateTime(2022, 4, 1, 11, 0, 0));
+
+        var actual = interval.FloorToHalfYear();
+
+        ((IComparable<IInterval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
     }
 
     [Test]

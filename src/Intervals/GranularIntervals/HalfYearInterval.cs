@@ -30,6 +30,13 @@ namespace Intervals.GranularIntervals;
 /// </summary>
 public class HalfYearInterval : MonthGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HalfYearInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="halfYear" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="halfYear"></param>
+    /// <param name="kind"></param>
     public HalfYearInterval(int year, int halfYear, DateTimeKind kind = DateTimeKind.Unspecified) : base(
         DateTimeHelper.New(year, DateTimeHelper.HalfYearToMonth(halfYear), 1, kind),
         DateTimeHelper.New(year, DateTimeHelper.HalfYearToMonth(halfYear), 1, kind)

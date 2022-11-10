@@ -25,15 +25,15 @@ using System.Collections.Immutable;
 
 namespace Intervals.Intervals.Enumerable;
 
-internal class SymmetricDifferenceEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
+internal class SubtractWithEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> enumerable) =>
-        enumerable as SymmetricDifferenceEnumerable<T>
-        ?? new SymmetricDifferenceEnumerable<T>(ImmutableList.Create(enumerable));
+    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) =>
+        new SubtractWithEnumerable<T>(ImmutableList.Create(left, right));
 
-    private SymmetricDifferenceEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+    private SubtractWithEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
     {
     }
 
-    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances[0] == 1;
+    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) =>
+        batchBalances[0] > 0 && batchBalances.Skip(1).All(b => b == 0);
 }

@@ -45,8 +45,29 @@ using Intervals.Points;
 }
 
 {
-    // [2022-01-01, 2022-01-15), [2022-01-20, 2022-01-31)
-    var result = new[]
+    // [2022-01-01, 2022-01-25)
+    var result1 = new[]
+        {
+            new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 15)),
+            new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 1, 25)),
+        }
+        .Combine();
+    // [2022-01-10, 2022-01-15)
+    var result2 = new[]
+        {
+            new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 15)),
+            new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 1, 25)),
+        }
+        .Overlap();
+    // [2022-01-01, 2022-01-10), [2022-01-15, 2022-01-25)
+    var result3 = new[]
+        {
+            new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 15)),
+            new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 1, 25)),
+        }
+        .SymmetricDifference();
+    // [2022-01-01, 2022-01-31)
+    var result4 = new[]
         {
             new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 5)),
             new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 1, 15)),
@@ -57,16 +78,21 @@ using Intervals.Points;
             new Interval<DateTime>(new DateTime(2022, 1, 5), new DateTime(2022, 1, 10)),
             new Interval<DateTime>(new DateTime(2022, 1, 15), new DateTime(2022, 1, 20)),
             new Interval<DateTime>(new DateTime(2022, 1, 25), new DateTime(2022, 1, 31)),
-        })
+        });
+    // [2022-01-05, 2022-01-10), [2022-01-15, 2022-01-20), [2022-01-25, 2022-01-31)
+    var result5 = result4
         .Subtract(new[]
         {
             new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 5)),
             new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 1, 15)),
             new Interval<DateTime>(new DateTime(2022, 1, 20), new DateTime(2022, 1, 25)),
-        })
-        .Overlap(new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 1, 25)))
-        .SymmetricDifference(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 31)))
-        .ToArray();
+        });
+    // [2022-01-15, 2022-01-20)
+    var result6 = result5
+        .Overlap(new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 1, 25)));
+    // [2022-01-01, 2022-01-15), [2022-01-20, 2022-01-31)
+    var result7 = result6
+        .SymmetricDifference(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 1, 31)));
 }
 
 {

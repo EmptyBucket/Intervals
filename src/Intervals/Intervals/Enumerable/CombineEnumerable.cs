@@ -27,22 +27,12 @@ namespace Intervals.Intervals.Enumerable;
 
 internal class CombineEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
-    {
-        var builder = ImmutableList.CreateBuilder<IEnumerable<IInterval<T>>>();
-
-        if (left is CombineEnumerable<T> l) builder.AddRange(l.Batches);
-        else builder.Add(left);
-
-        if (right is CombineEnumerable<T> r) builder.AddRange(r.Batches);
-        else builder.Add(right);
-
-        return new CombineEnumerable<T>(builder.ToImmutable());
-    }
+    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> enumerable) =>
+        enumerable as CombineEnumerable<T> ?? new CombineEnumerable<T>(ImmutableList.Create(enumerable));
 
     private CombineEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
     {
     }
 
-    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances.Any(b => b > 0);
+    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances[0] > 0;
 }

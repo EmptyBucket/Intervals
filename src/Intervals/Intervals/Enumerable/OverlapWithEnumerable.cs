@@ -25,15 +25,24 @@ using System.Collections.Immutable;
 
 namespace Intervals.Intervals.Enumerable;
 
-internal class SubtractEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
+internal class OverlapWithEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) =>
-        new SubtractEnumerable<T>(ImmutableList.Create(left, right));
+    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
+    {
+        var builder = ImmutableList.CreateBuilder<IEnumerable<IInterval<T>>>();
 
-    private SubtractEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+        if (left is OverlapWithEnumerable<T> l) builder.AddRange(l.Batches);
+        else builder.Add(left);
+
+        if (right is OverlapWithEnumerable<T> r) builder.AddRange(r.Batches);
+        else builder.Add(right);
+
+        return new OverlapWithEnumerable<T>(builder.ToImmutable());
+    }
+
+    private OverlapWithEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
     {
     }
 
-    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) =>
-        batchBalances[0] > 0 && batchBalances.Skip(1).All(b => b == 0);
+    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances.All(b => b > 0);
 }

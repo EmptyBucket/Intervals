@@ -25,15 +25,24 @@ using System.Collections.Immutable;
 
 namespace Intervals.Intervals.Enumerable;
 
-internal class SymmetricDifferenceEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
+internal class SymmetricDifferenceWithEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> enumerable) =>
-        enumerable as SymmetricDifferenceEnumerable<T>
-        ?? new SymmetricDifferenceEnumerable<T>(ImmutableList.Create(enumerable));
+    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
+    {
+        var builder = ImmutableList.CreateBuilder<IEnumerable<IInterval<T>>>();
 
-    private SymmetricDifferenceEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+        if (left is SymmetricDifferenceWithEnumerable<T> l) builder.AddRange(l.Batches);
+        else builder.Add(left);
+
+        if (right is SymmetricDifferenceWithEnumerable<T> r) builder.AddRange(r.Batches);
+        else builder.Add(right);
+
+        return new SymmetricDifferenceWithEnumerable<T>(builder.ToImmutable());
+    }
+
+    private SymmetricDifferenceWithEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
     {
     }
 
-    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances[0] == 1;
+    protected override bool HasDeviation(IReadOnlyList<int> batchBalances) => batchBalances.Count(b => b > 0) == 1;
 }

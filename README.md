@@ -106,6 +106,57 @@ var result2 = new Interval<string>("abc", "abe").IsOverlap(new Interval<string>(
 var result3 = new Interval<string>("abc", "abz").IsInclude(new Interval<string>("abd", "abe"));
 ```
 
+### Granular interval initialization
+
+You should keep in mind that each month has a different number of days, so intervals derived from a month also have a different lengths. Therefore, later on you will see special method overloads for working with intervals derived from the month, which usually use `IntervalInclusion.RightOpened`, e.g. `Move [2022-01-01, 2022-02-01) -> [2022-02-01, 2022 -03-01)` as you can see it is always deterministic
+
+```csharp
+// [2022-01-01T01:01:01, 2022-01-01T01:01:02)
+var result1 = new SecondInterval(2022, 1, 1, 1, 1, 1);
+// [2022-01-01T01:01:00, 2022-01-01T01:02:00)
+var result2 = new MinuteInterval(2022, 1, 1, 1, 1);
+// [2022-01-01T01:00:00, 2022-01-01T02:00:00)
+var result3 = new HourInterval(2022, 1, 1, 1);
+// [2022-01-01, 2022-01-02)
+var result4 = new DayInterval(2022, 1, 1);
+// [2022-01-01, 2022-02-01)
+var result5 = new MonthInterval(2022, 1);
+// [2022-01-01, 2022-04-01)
+var result6 = new QuarterInterval(2022, 1);
+// [2022-01-01, 2022-07-01)
+var result7 = new HalfYearInterval(2022, 1);
+// [2022-01-01, 2023-01-01)
+var result8 = new YearInterval(2022);
+// [2022-01-01, 2022-01-02)
+var result9 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
+// [2022-01-01, 2022-02-01)
+var result10 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1));
+// [2022-01-01, 2022-01-02), but the step size is 3 days
+var result11 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3));
+// [2022-01-01, 2022-02-01), but the step size is 3 months
+var result12 = new PartOfMonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 3);
+```
+
+### Granular interval operations
+
+```csharp
+// [2021-12-31, 2022-01-02)
+var result1 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).ExpandLeft(1);
+// [2022-01-01, 2022-01-03)
+var result2 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).ExpandRight(1);
+// [2022-01-02, 2022-01-03)
+var result3 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).Move(1);
+// [2021-12-29, 2022-01-02)
+var result4 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
+    .ExpandLeft(1);
+// [2022-01-01, 2022-01-05)
+var result5 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
+    .ExpandRight(1);
+// [2022-01-04, 2022-01-05)
+var result6 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
+    .Move(1);
+```
+
 ### Ceiling interval operations
 
 ```csharp
@@ -172,55 +223,6 @@ var result3 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(202
 // [2022-01-10, 2022-07-01), [2022-07-01, 2022-08-15)
 var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
     .SplitByHalfYears(1);
-```
-
-### Granular interval initialization
-
-```csharp
-// [2022-01-01T01:01:01, 2022-01-01T01:01:02)
-var result1 = new SecondInterval(2022, 1, 1, 1, 1, 1);
-// [2022-01-01T01:01:00, 2022-01-01T01:02:00)
-var result2 = new MinuteInterval(2022, 1, 1, 1, 1);
-// [2022-01-01T01:00:00, 2022-01-01T02:00:00)
-var result3 = new HourInterval(2022, 1, 1, 1);
-// [2022-01-01, 2022-01-02)
-var result4 = new DayInterval(2022, 1, 1);
-// [2022-01-01, 2022-02-01)
-var result5 = new MonthInterval(2022, 1);
-// [2022-01-01, 2022-04-01)
-var result6 = new QuarterInterval(2022, 1);
-// [2022-01-01, 2022-07-01)
-var result7 = new HalfYearInterval(2022, 1);
-// [2022-01-01, 2023-01-01)
-var result8 = new YearInterval(2022);
-// [2022-01-01, 2022-01-02)
-var result9 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2));
-// [2022-01-01, 2022-02-01)
-var result10 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1));
-// [2022-01-01, 2022-01-02), but the step size is 3 days
-var result11 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3));
-// [2022-01-01, 2022-02-01), but the step size is 3 months
-var result12 = new PartOfMonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 3);
-```
-
-### Granular interval operations
-
-```csharp
-// [2021-12-31, 2022-01-02)
-var result1 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).ExpandLeft(1);
-// [2022-01-01, 2022-01-03)
-var result2 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).ExpandRight(1);
-// [2022-01-02, 2022-01-03)
-var result3 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2)).Move(1);
-// [2021-12-29, 2022-01-02)
-var result4 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
-    .ExpandLeft(1);
-// [2022-01-01, 2022-01-05)
-var result5 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
-    .ExpandRight(1);
-// [2022-01-04, 2022-01-05)
-var result6 = new PartOfTimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3))
-    .Move(1);
 ```
 
 ### Helper methods that you might find useful

@@ -188,4 +188,44 @@ public partial class DateTimeExtensionsTests
 
         actual.Should().Be(new DateTime(2022, 1, 1));
     }
+
+    [Test]
+    public void FloorToYear_WhenHasNotModulo_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 1, 0, 0, 0);
+
+        var actual = dateTime.FloorToYear();
+
+        actual.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToYear_WhenHasModuloWhichLessThanMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 7, 2, 11, 0, 0);
+
+        var actual = dateTime.FloorToYear();
+
+        actual.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToYear_WhenHasModuloWhichEqualsMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 7, 2, 12, 0, 0);
+
+        var actual = dateTime.FloorToYear();
+
+        actual.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void FloorToYear_WhenHasModuloWhichGreatThanMidpoint_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 7, 2, 13, 0, 0);
+
+        var actual = dateTime.FloorToYear();
+
+        actual.Should().Be(new DateTime(2022, 1, 1));
+    }
 }

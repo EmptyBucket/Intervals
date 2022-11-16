@@ -245,4 +245,58 @@ public partial class IntervalExtensionsTests
         actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
         actual.Right.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
     }
+
+    [Test]
+    public void CeilingToYear__ReturnMonthGranularInterval()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 7, 2, 11, 0, 0), new DateTime(2022, 7, 2, 11, 0, 0));
+
+        var actual = interval.CeilingToYear();
+
+        actual.Should().BeOfType<MonthGranularInterval>();
+    }
+
+    [Test]
+    public void CeilingToYear_WhenBothLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 7, 2, 11, 0, 0), new DateTime(2022, 7, 2, 11, 0, 0));
+
+        var actual = interval.CeilingToYear();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void CeilingToYear_WhenLeftLessThanMidpointAndRightGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 7, 2, 11, 0, 0), new DateTime(2022, 7, 2, 13, 0, 0));
+
+        var actual = interval.CeilingToYear();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void CeilingToYear_WhenLeftGreatThanMidpointAndRightLessThanMidpoint_ReturnLeftFloorAndRightCeiling()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 7, 2, 13, 0, 0), new DateTime(2022, 7, 2, 11, 0, 0));
+
+        var actual = interval.CeilingToYear();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
+    }
+
+    [Test]
+    public void CeilingToYear_WhenBothGreatThanMidpoint_ReturnLeftFloorAndRightCeiling()
+    {
+        var interval = new Interval<DateTime>(new DateTime(2022, 7, 2, 13, 0, 0), new DateTime(2022, 7, 2, 13, 0, 0));
+
+        var actual = interval.CeilingToYear();
+
+        actual.Left.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.Right.Value.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
+    }
 }

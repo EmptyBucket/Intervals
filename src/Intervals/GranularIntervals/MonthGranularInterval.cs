@@ -23,6 +23,7 @@
 
 using Intervals.Intervals;
 using Intervals.Points;
+using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
@@ -97,5 +98,5 @@ public record class MonthGranularInterval : GranularInterval<DateTime>
     }
 
     private static int ComputeGranulesCount(DateTime leftValue, DateTime rightValue) =>
-        (rightValue.Year - leftValue.Year) * 12 + (rightValue.Month - leftValue.Month);
+        (rightValue.Year - leftValue.Year) * DateTimeHelper.MonthsInYear + (rightValue.Month - leftValue.Month);
 }

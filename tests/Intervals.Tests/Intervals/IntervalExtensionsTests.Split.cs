@@ -40,7 +40,7 @@ public partial class IntervalExtensionsTests
 
     [Test]
     [TestCaseSource(nameof(SplitByMonths_Data))]
-    public void SplitByDays_WhenByTwoMonths(Interval<DateTime> interval, Interval<DateTime>[] expected)
+    public void SplitByMonths_WhenByTwoMonths(Interval<DateTime> interval, Interval<DateTime>[] expected)
     {
         var actual = interval.SplitByMonths(2).ToArray();
 
@@ -49,7 +49,7 @@ public partial class IntervalExtensionsTests
 
     [Test]
     [TestCaseSource(nameof(SplitByQuarters_Data))]
-    public void SplitByDays_WhenByTwoQuarters(Interval<DateTime> interval, Interval<DateTime>[] expected)
+    public void SplitByQuarters_WhenByTwoQuarters(Interval<DateTime> interval, Interval<DateTime>[] expected)
     {
         var actual = interval.SplitByQuarters(2).ToArray();
 
@@ -58,9 +58,18 @@ public partial class IntervalExtensionsTests
 
     [Test]
     [TestCaseSource(nameof(SplitByHalfYears_Data))]
-    public void SplitByDays_WhenByTwoHalfYears(Interval<DateTime> interval, Interval<DateTime>[] expected)
+    public void SplitByHalfYears_WhenByTwoHalfYears(Interval<DateTime> interval, Interval<DateTime>[] expected)
     {
         var actual = interval.SplitByHalfYears(2).ToArray();
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Test]
+    [TestCaseSource(nameof(SplitByYears_Data))]
+    public void SplitByYears_WhenByTwoYears(Interval<DateTime> interval, Interval<DateTime>[] expected)
+    {
+        var actual = interval.SplitByYears(2).ToArray();
 
         actual.Should().BeEquivalentTo(expected);
     }

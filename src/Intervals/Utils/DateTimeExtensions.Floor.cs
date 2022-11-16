@@ -60,4 +60,12 @@ public static partial class DateTimeExtensions
     /// <returns></returns>
     public static DateTime FloorToHalfYear(this DateTime dateTime) =>
         DateTimeHelper.New(dateTime.Year, DateTimeHelper.HalfYearToMonth(dateTime.GetHalfYear()), 1, dateTime.Kind);
+
+    /// <summary>
+    /// Returns the largest value aligned to year that is less than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
+    public static DateTime FloorToYear(this DateTime dateTime) =>
+        DateTimeHelper.New(dateTime.Year, 1, 1, dateTime.Kind);
 }

@@ -84,4 +84,18 @@ public static partial class IntervalExtensions
         return new MonthGranularInterval(leftVal.RoundToHalfYear(midpointRounding),
             rightVal.RoundToHalfYear(midpointRounding), interval.Inclusion);
     }
+
+    /// <summary>
+    /// Rounds a <paramref name="interval" /> to a interval aligned to year, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
+    public static GranularInterval<DateTime> RoundToYear(this Interval<DateTime> interval,
+        MidpointRounding midpointRounding = MidpointRounding.ToEven)
+    {
+        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
+        return new MonthGranularInterval(leftVal.RoundToYear(midpointRounding),
+            rightVal.RoundToYear(midpointRounding), interval.Inclusion);
+    }
 }

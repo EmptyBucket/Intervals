@@ -70,4 +70,15 @@ public static partial class DateTimeExtensions
         var start = dateTime.FloorToHalfYear();
         return dateTime > start ? start.AddMonths(DateTimeHelper.MonthsInHalfYear) : start;
     }
+
+    /// <summary>
+    /// Returns the smallest value aligned to year that is greater than or equal to the specified <paramref name="dateTime" />
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns></returns>
+    public static DateTime CeilingToYear(this DateTime dateTime)
+    {
+        var start = dateTime.FloorToYear();
+        return dateTime > start ? start.AddMonths(DateTimeHelper.MonthsInYear) : start;
+    }
 }

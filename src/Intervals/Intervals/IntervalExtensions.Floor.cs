@@ -72,4 +72,15 @@ public static partial class IntervalExtensions
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new MonthGranularInterval(leftVal.CeilingToHalfYear(), rightVal.FloorToHalfYear(), interval.Inclusion);
     }
+
+    /// <summary>
+    /// Returns the largest interval aligned to year that is less than or equal to the specified <paramref name="interval" />
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <returns></returns>
+    public static GranularInterval<DateTime> FloorToYear(this Interval<DateTime> interval)
+    {
+        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
+        return new MonthGranularInterval(leftVal.CeilingToYear(), rightVal.FloorToYear(), interval.Inclusion);
+    }
 }

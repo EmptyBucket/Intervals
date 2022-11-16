@@ -188,4 +188,44 @@ public partial class DateTimeExtensionsTests
 
         actual.Should().Be(new DateTime(2022, 7, 1));
     }
+
+    [Test]
+    public void CeilingToYear_WhenHasNotModulo_ReturnFloor()
+    {
+        var dateTime = new DateTime(2022, 1, 1, 0, 0, 0);
+
+        var actual = dateTime.CeilingToYear();
+
+        actual.Should().Be(new DateTime(2022, 1, 1));
+    }
+
+    [Test]
+    public void CeilingToYear_WhenHasModuloWhichLessThanMidpoint_ReturnCeiling()
+    {
+        var dateTime = new DateTime(2022, 7, 2, 11, 0, 0);
+
+        var actual = dateTime.CeilingToYear();
+
+        actual.Should().Be(new DateTime(2023, 1, 1));
+    }
+
+    [Test]
+    public void CeilingToYear_WhenHasModuloWhichEqualsMidpoint_ReturnCeiling()
+    {
+        var dateTime = new DateTime(2022, 7, 2, 12, 0, 0);
+
+        var actual = dateTime.CeilingToYear();
+
+        actual.Should().Be(new DateTime(2023, 1, 1));
+    }
+
+    [Test]
+    public void CeilingToYear_WhenHasModuloWhichGreatThanMidpoint_ReturnCeiling()
+    {
+        var dateTime = new DateTime(2022, 7, 2, 13, 0, 0);
+
+        var actual = dateTime.CeilingToYear();
+
+        actual.Should().Be(new DateTime(2023, 1, 1));
+    }
 }

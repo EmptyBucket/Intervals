@@ -82,6 +82,20 @@ public static partial class DateTimeExtensions
         return RoundTo(start, dateTime, end, midpointRounding);
     }
 
+    /// <summary>
+    /// Rounds a <paramref name="dateTime" /> to a value aligned to year, and uses the specified rounding convention for midpoint values.
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="midpointRounding"></param>
+    /// <returns></returns>
+    public static DateTime RoundToYear(this DateTime dateTime,
+        MidpointRounding midpointRounding = MidpointRounding.ToEven)
+    {
+        var start = dateTime.FloorToYear();
+        var end = start.AddMonths(DateTimeHelper.MonthsInYear);
+        return RoundTo(start, dateTime, end, midpointRounding);
+    }
+
     private static DateTime RoundTo(DateTime start, DateTime dateTime, DateTime end, MidpointRounding midpointRounding)
     {
         var pastSize = dateTime - start;

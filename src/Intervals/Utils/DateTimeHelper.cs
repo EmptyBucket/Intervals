@@ -27,6 +27,7 @@ internal static class DateTimeHelper
 {
     public const int MonthsInQuarter = 3;
     public const int MonthsInHalfYear = 6;
+    public const int MonthsInYear = 12;
 
     public static int QuarterToMonth(int quarter)
     {

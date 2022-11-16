@@ -85,6 +85,18 @@ public static partial class IntervalExtensions
         int halfYearsCount = 1) =>
         SplitByMonths(interval, l => new HalfYearInterval(l.Year, l.GetHalfYear()).ExpandRight(halfYearsCount - 1));
 
+    /// <summary>
+    /// Splits the interval into sub-intervals of <paramref name="yearsCount" /> length and
+    /// the rest, which was less than <paramref name="yearsCount" /> in length
+    /// </summary>
+    /// <param name="interval"></param>
+    /// <param name="yearsCount"></param>
+    /// <returns></returns>
+    public static IEnumerable<GranularInterval<DateTime>> SplitByYears(this Interval<DateTime> interval,
+        int yearsCount = 1) =>
+        SplitByMonths(interval, l => new YearInterval(l.Year).ExpandRight(yearsCount - 1));
+
+
     private static IEnumerable<GranularInterval<DateTime>> SplitByMonths(Interval<DateTime> interval,
         ComputeNext computeNext)
     {

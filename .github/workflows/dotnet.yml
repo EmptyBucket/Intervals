@@ -15,26 +15,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish:
-
+  pack:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v2.1.0
-
     - name: Create Release NuGet package
       run: |
         dotnet pack -c Release -o packages src/Intervals
-      
+  publish-github:
+    runs-on: ubuntu-latest
+    needs: pack
+    steps:
     - name: Push to GitHub Feed
       run: |
         for f in ./packages/*.nupkg
         do
           dotnet nuget push $f -s $GITHUB_FEED -k $GITHUB_KEY --skip-duplicate
         done
-        
+  publish-nuget:
+    runs-on: ubuntu-latest
+    needs: pack
+    steps:
     - name: Push to Nuget Feed
       run: |
         for f in ./packages/*.nupkg

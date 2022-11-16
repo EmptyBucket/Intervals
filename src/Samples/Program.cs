@@ -105,48 +105,57 @@ using Intervals.Points;
 }
 
 {
-    // [2022-01-10, 2022-08-16)
-    var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10, 1, 0, 0), new DateTime(2022, 8, 15, 1, 0, 0))
+    // [2022-01-10, 2023-08-16)
+    var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10, 1, 0, 0), new DateTime(2023, 8, 15, 1, 0, 0))
         .Ceiling(TimeSpan.FromDays(1));
-    // [2022-01-01, 2022-09-01)
-    var result2 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-01-01, 2023-09-01)
+    var result2 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .CeilingToMonth();
-    // [2022-01-01, 2022-10-01)
-    var result3 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-01-01, 2023-10-01)
+    var result3 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .CeilingToQuarter();
-    // [2022-01-01, 2023-01-01)
-    var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-01-01, 2024-01-01)
+    var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .CeilingToHalfYear();
+    // [2022-01-01, 2024-01-01)
+    var result5 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
+        .CeilingToYear();
 }
 
 {
-    // [2022-01-11, 2022-08-15)
-    var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10, 1, 0, 0), new DateTime(2022, 8, 15, 1, 0, 0))
+    // [2022-01-11, 2023-08-15)
+    var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10, 1, 0, 0), new DateTime(2023, 8, 15, 1, 0, 0))
         .Floor(TimeSpan.FromDays(1));
-    // [2022-02-01, 2022-08-01)
-    var result2 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-02-01, 2023-08-01)
+    var result2 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .FloorToMonth();
-    // [2022-04-01, 2022-07-01)
-    var result3 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-04-01, 2023-07-01)
+    var result3 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .FloorToQuarter();
-    // [2022-07-01, 2022-07-01)
-    var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-07-01, 2023-07-01)
+    var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .FloorToHalfYear();
+    // [2023-01-01, 2023-01-01)
+    var result5 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
+        .FloorToYear();
 }
 
 {
-    // [2022-01-10, 2022-08-15)
-    var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10, 1, 0, 0), new DateTime(2022, 8, 15, 1, 0, 0))
+    // [2022-01-10, 2023-08-15)
+    var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10, 1, 0, 0), new DateTime(2023, 8, 15, 1, 0, 0))
         .Round(TimeSpan.FromHours(1));
-    // [2022-01-01, 2022-08-01)
-    var result2 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-01-01, 2023-08-01)
+    var result2 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .RoundToMonth();
-    // [2022-01-01, 2022-07-01)
-    var result3 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-01-01, 2023-07-01)
+    var result3 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .RoundToQuarter();
-    // [2022-01-01, 2022-07-01)
-    var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+    // [2022-01-01, 2023-07-01)
+    var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
         .RoundToHalfYear();
+    // [2022-01-01, 2024-01-01)
+    var result5 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2023, 8, 15))
+        .RoundToYear();
 }
 
 {
@@ -162,6 +171,9 @@ using Intervals.Points;
     // [2022-01-10, 2022-07-01), [2022-07-01, 2022-08-15)
     var result4 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
         .SplitByHalfYears(1);
+    // [2022-01-10, 2022-08-15)
+    var result5 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
+        .SplitByYears(1);
 }
 
 {

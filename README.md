@@ -14,7 +14,7 @@ Library for working with generic intervals and granular time intervals (like a q
 
 ### Interval initialization
 
-If you do not explicitly specify inclusion, then the interval will be `IntervalInclusion.RightOpened`, i.e. `[x, y)`. `IntervalInclusion.RightOpened` and `IntervalInclusion.LeftOpened` are preferred because for them the result of operations is always obvious. But when choosing this type of interval, you must keep in mind that in client code you must use pair of non-strict and strict inequality, e.g. `x <= {you-variable} && {you-variable} < y` for `IntervalInclusion.RightOpened`
+If you do not explicitly specify inclusion, then the interval will be `IntervalInclusion.RightOpened`, i.e. `[x, y)`. `IntervalInclusion.RightOpened` and `IntervalInclusion.LeftOpened` are preferred because for them the result of operations is always obvious. But when choosing this type of interval, you must keep in mind that in client code you must use pair of non-strict and strict comparison operators, e.g. `x <= {you-variable} && {you-variable} < y` for `IntervalInclusion.RightOpened`
 
 ```csharp
 // [0, 10]

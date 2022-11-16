@@ -21,7 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Collections;
 using Intervals.Points;
 
 namespace Intervals.Intervals;
@@ -29,7 +28,7 @@ namespace Intervals.Intervals;
 /// <summary>
 /// Represents an interval instance
 /// </summary>
-public record class Interval<T> : IComparable<Interval<T>>, IEnumerable<Interval<T>>
+public record class Interval<T> : IComparable<Interval<T>>
     where T : IComparable<T>, IEquatable<T>
 {
     /// <summary>
@@ -127,14 +126,6 @@ public record class Interval<T> : IComparable<Interval<T>>, IEnumerable<Interval
     /// <param name="other"></param>
     /// <returns></returns>
     public virtual bool Equals(Interval<T>? other) => other is not null && Left == other.Left && Right == other.Right;
-
-    /// <inheritdoc />
-    public IEnumerator<Interval<T>> GetEnumerator()
-    {
-        yield return this;
-    }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <inheritdoc />
     public override int GetHashCode() => HashCode.Combine(Left, Right);

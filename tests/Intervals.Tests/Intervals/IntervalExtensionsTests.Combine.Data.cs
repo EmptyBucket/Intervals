@@ -27,7 +27,7 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Intervals;
 
-public partial class CombineEnumerableTests
+public partial class IntervalExtensionsTests
 {
     public static IEnumerable Combine_WhenTwoIntervals_Data()
     {

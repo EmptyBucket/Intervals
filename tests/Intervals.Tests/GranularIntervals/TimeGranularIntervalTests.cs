@@ -28,7 +28,7 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.GranularIntervals;
 
-public class GranularIntervalTests
+public class TimeGranularIntervalTests
 {
     [Test]
     public void Move_WhenOne_ReturnNext()

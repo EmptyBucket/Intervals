@@ -27,21 +27,27 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Intervals;
 
-public partial class SubtractEnumerableTests
+public partial class IntervalExtensionsTests
 {
-    [TestCaseSource(nameof(Subtract_WhenTwoIntervals_Data))]
-    public void Subtract_WhenTwoIntervals(Interval<int> first, Interval<int> second, Interval<int>[] result)
+    [TestCaseSource(nameof(SymmetricDifference_WhenTwoIntervals_Data))]
+    public void SymmetricDifference_WhenTwoIntervals(Interval<int> first, Interval<int> second,
+        Interval<int>[] result)
     {
-        var actual = first.Subtract(second);
+        var actual1 = first.SymmetricDifference(second);
+        var actual2 = second.SymmetricDifference(first);
 
-        actual.Should().Equal(result);
+        actual1.Should().Equal(result);
+        actual2.Should().Equal(result);
     }
 
-    [TestCaseSource(nameof(Subtract_WhenManyIntervals_Data))]
-    public void Subtract_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second, Interval<int>[] result)
+    [TestCaseSource(nameof(SymmetricDifference_WhenManyIntervals_Data))]
+    public void SymmetricDifference_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second,
+        Interval<int>[] result)
     {
-        var actual = first.Subtract(second);
+        var actual1 = first.SymmetricDifference(second);
+        var actual2 = second.SymmetricDifference(first);
 
-        actual.Should().Equal(result);
+        actual1.Should().Equal(result);
+        actual2.Should().Equal(result);
     }
 }

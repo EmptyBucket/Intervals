@@ -27,7 +27,7 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Intervals;
 
-public partial class OverlapEnumerableTests
+public partial class IntervalExtensionsTests
 {
     public static IEnumerable Overlap_WhenTwoIntervals_Data()
     {

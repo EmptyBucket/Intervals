@@ -27,23 +27,23 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Intervals;
 
-public partial class OverlapEnumerableTests
+public partial class IntervalExtensionsTests
 {
-    [TestCaseSource(nameof(Overlap_WhenTwoIntervals_Data))]
-    public void Overlap_WhenTwoIntervals(Interval<int> first, Interval<int> second, Interval<int>[] result)
+    [TestCaseSource(nameof(Combine_WhenTwoIntervals_Data))]
+    public void Combine_WhenTwoIntervals(Interval<int> first, Interval<int> second, Interval<int>[] result)
     {
-        var actual1 = first.Overlap(second);
-        var actual2 = second.Overlap(first);
+        var actual1 = first.Combine(second);
+        var actual2 = second.Combine(first);
 
         actual1.Should().Equal(result);
         actual2.Should().Equal(result);
     }
 
-    [TestCaseSource(nameof(Overlap_WhenManyIntervals_Data))]
-    public void Overlap_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second, Interval<int>[] result)
+    [TestCaseSource(nameof(Combine_WhenManyIntervals_Data))]
+    public void Combine_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second, Interval<int>[] result)
     {
-        var actual1 = first.Overlap(second);
-        var actual2 = second.Overlap(first);
+        var actual1 = first.Combine(second);
+        var actual2 = second.Combine(first);
 
         actual1.Should().Equal(result);
         actual2.Should().Equal(result);

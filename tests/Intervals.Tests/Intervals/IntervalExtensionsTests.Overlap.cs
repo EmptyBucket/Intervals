@@ -27,25 +27,23 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Intervals;
 
-public partial class SymmetricDifferenceEnumerableTests
+public partial class IntervalExtensionsTests
 {
-    [TestCaseSource(nameof(SymmetricDifference_WhenTwoIntervals_Data))]
-    public void SymmetricDifference_WhenTwoIntervals(Interval<int> first, Interval<int> second,
-        Interval<int>[] result)
+    [TestCaseSource(nameof(Overlap_WhenTwoIntervals_Data))]
+    public void Overlap_WhenTwoIntervals(Interval<int> first, Interval<int> second, Interval<int>[] result)
     {
-        var actual1 = first.SymmetricDifference(second);
-        var actual2 = second.SymmetricDifference(first);
+        var actual1 = first.Overlap(second);
+        var actual2 = second.Overlap(first);
 
         actual1.Should().Equal(result);
         actual2.Should().Equal(result);
     }
 
-    [TestCaseSource(nameof(SymmetricDifference_WhenManyIntervals_Data))]
-    public void SymmetricDifference_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second,
-        Interval<int>[] result)
+    [TestCaseSource(nameof(Overlap_WhenManyIntervals_Data))]
+    public void Overlap_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second, Interval<int>[] result)
     {
-        var actual1 = first.SymmetricDifference(second);
-        var actual2 = second.SymmetricDifference(first);
+        var actual1 = first.Overlap(second);
+        var actual2 = second.Overlap(first);
 
         actual1.Should().Equal(result);
         actual2.Should().Equal(result);

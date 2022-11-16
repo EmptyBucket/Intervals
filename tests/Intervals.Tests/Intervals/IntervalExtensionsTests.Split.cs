@@ -35,7 +35,7 @@ public partial class IntervalExtensionsTests
     {
         var actual = interval.Split(TimeSpan.FromSeconds(2)).ToArray();
 
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+        actual.Should().BeEquivalentTo(expected);
     }
 
     [Test]
@@ -44,7 +44,7 @@ public partial class IntervalExtensionsTests
     {
         var actual = interval.SplitByMonths(2).ToArray();
 
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+        actual.Should().BeEquivalentTo(expected);
     }
 
     [Test]
@@ -53,7 +53,7 @@ public partial class IntervalExtensionsTests
     {
         var actual = interval.SplitByQuarters(2).ToArray();
 
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+        actual.Should().BeEquivalentTo(expected);
     }
 
     [Test]
@@ -62,6 +62,6 @@ public partial class IntervalExtensionsTests
     {
         var actual = interval.SplitByHalfYears(2).ToArray();
 
-        actual.Should().BeEquivalentTo(expected, o => o.IgnoringCyclicReferences());
+        actual.Should().BeEquivalentTo(expected);
     }
 }

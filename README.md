@@ -112,7 +112,7 @@ var result3 = new Interval<string>("abc", "abz").IsInclude(new Interval<string>(
 
 ### Granular interval initialization
 
-You should keep in mind that each month has a different number of days, so intervals derived from a month also have a different lengths. Therefore, later on you will see special method overloads for working with intervals derived from the month, which usually use `IntervalInclusion.RightOpened`, e.g. `Move [2022-01-01, 2022-02-01) -> [2022-02-01, 2022 -03-01)` as you can see it is always deterministic
+You should keep in mind that each month has a different number of days, so intervals derived from a month also have a different lengths. Therefore, later on you will see special method overloads for working with intervals derived from the month, which usually use `IntervalInclusion.RightOpened`, e.g. `Move [2022-01-01, 2022-02-01) -> [2022-02-01, 2022-03-01)` as you can see it is always deterministic
 
 ```csharp
 // [2022-01-01T01:01:01, 2022-01-01T01:01:02)

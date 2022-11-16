@@ -31,7 +31,7 @@ namespace Intervals.Tests.GranularIntervals;
 public partial class MonthGranularIntervalTests
 {
     [TestCaseSource(nameof(Move_WhenForward_Data))]
-    public void MoveForward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
+    public void Move_WhenForward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
         DateTime expectedRightValue)
     {
         var left = Point.Included(leftValue);
@@ -45,7 +45,7 @@ public partial class MonthGranularIntervalTests
     }
 
     [TestCaseSource(nameof(Move_WhenBackward_Data))]
-    public void MoveBackward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
+    public void Move_WhenBackward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
         DateTime expectedRightValue)
     {
         var left = Point.Included(leftValue);

@@ -22,33 +22,56 @@
 // SOFTWARE.
 
 using Intervals.Intervals;
+using Intervals.Points;
 
 namespace Intervals.GranularIntervals;
 
 /// <summary>
 /// Represents an granular interval instance
 /// </summary>
-public interface IGranularInterval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
+public abstract record class GranularInterval<T> : Interval<T> where T : IComparable<T>, IEquatable<T>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.GranularInterval"/>
+    /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
+    /// </summary>
+    /// <param name="leftPoint"></param>
+    /// <param name="rightPoint"></param>
+    protected GranularInterval(Point<T> leftPoint, Point<T> rightPoint) : base(leftPoint, rightPoint)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.GranularInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="rightValue"></param>
+    /// <param name="inclusion"></param>
+    protected GranularInterval(T leftValue, T rightValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, rightValue, inclusion)
+    {
+    }
+
     /// <summary>
     /// Returns a new interval moved by the specified <paramref name="granulesCount" />.
     /// If the <paramref name="granulesCount" /> is positive, then move to the right, if negative, then move to the left
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    IGranularInterval<T> Move(int granulesCount = 1);
+    public abstract GranularInterval<T> Move(int granulesCount = 1);
 
     /// <summary>
     /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the right
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    IGranularInterval<T> ExpandLeft(int granulesCount = 1);
+    public abstract GranularInterval<T> ExpandLeft(int granulesCount = 1);
 
     /// <summary>
     /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the left
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    IGranularInterval<T> ExpandRight(int granulesCount = 1);
+    public abstract GranularInterval<T> ExpandRight(int granulesCount = 1);
 }

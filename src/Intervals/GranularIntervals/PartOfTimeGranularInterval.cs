@@ -30,14 +30,29 @@ namespace Intervals.GranularIntervals;
 /// Represents an part of the granular interval instance where the granule size is explicitly specified.
 /// That is, the granule size on the basis of which operations are executed can be larger or smaller than the interval itself
 /// </summary>
-public class PartOfTimeGranularInterval : TimeGranularInterval
+public record class PartOfTimeGranularInterval : TimeGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfTimeGranularInterval"/>
+    /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
+    /// </summary>
+    /// <param name="leftPoint"></param>
+    /// <param name="rightPoint"></param>
+    /// <param name="granuleSize"></param>
     public PartOfTimeGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleSize)
         : base(leftPoint, rightPoint)
     {
         GranuleSize = granuleSize;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfTimeGranularInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="rightValue"></param>
+    /// <param name="granuleSize"></param>
+    /// <param name="inclusion"></param>
     public PartOfTimeGranularInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleSize,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, rightValue, inclusion)

@@ -27,9 +27,9 @@ namespace Intervals.Intervals.Enumerable;
 
 internal class SymmetricDifferenceWithEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
+    public static IEnumerable<Interval<T>> Create(IEnumerable<Interval<T>> left, IEnumerable<Interval<T>> right)
     {
-        var builder = ImmutableList.CreateBuilder<IEnumerable<IInterval<T>>>();
+        var builder = ImmutableList.CreateBuilder<IEnumerable<Interval<T>>>();
 
         if (left is SymmetricDifferenceWithEnumerable<T> l) builder.AddRange(l.Batches);
         else builder.Add(left);
@@ -40,7 +40,7 @@ internal class SymmetricDifferenceWithEnumerable<T> : MergeEnumerable<T> where T
         return new SymmetricDifferenceWithEnumerable<T>(builder.ToImmutable());
     }
 
-    private SymmetricDifferenceWithEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+    private SymmetricDifferenceWithEnumerable(IImmutableList<IEnumerable<Interval<T>>> batches) : base(batches)
     {
     }
 

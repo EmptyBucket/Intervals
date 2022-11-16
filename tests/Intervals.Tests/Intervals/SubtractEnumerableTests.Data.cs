@@ -34,7 +34,7 @@ public partial class SubtractEnumerableTests
         yield return new TestCaseData(
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
                 new Interval<int>(0, -1, IntervalInclusion.Closed),
-                Array.Empty<IInterval<int>>())
+                Array.Empty<Interval<int>>())
             .SetName("WhenTwoIntervalsAndBothAreEmpty_ReturnEmpty");
         yield return new TestCaseData(
                 new Interval<int>(0, 1, IntervalInclusion.Closed),

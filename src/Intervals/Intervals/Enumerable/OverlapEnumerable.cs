@@ -27,10 +27,10 @@ namespace Intervals.Intervals.Enumerable;
 
 internal class OverlapEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> enumerable) =>
+    public static IEnumerable<Interval<T>> Create(IEnumerable<Interval<T>> enumerable) =>
         enumerable as OverlapEnumerable<T> ?? new OverlapEnumerable<T>(ImmutableList.Create(enumerable));
 
-    private OverlapEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+    private OverlapEnumerable(IImmutableList<IEnumerable<Interval<T>>> batches) : base(batches)
     {
     }
 

@@ -28,7 +28,7 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an half-year interval instance where the granule size is equal to a half-year
 /// </summary>
-public class HalfYearInterval : MonthGranularInterval
+public record class HalfYearInterval : MonthGranularInterval
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HalfYearInterval"/>

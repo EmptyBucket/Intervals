@@ -26,7 +26,7 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an hour interval instance where the granule size is equal to a hour
 /// </summary>
-public class HourInterval : TimeGranularInterval
+public record class HourInterval : TimeGranularInterval
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HourInterval"/>

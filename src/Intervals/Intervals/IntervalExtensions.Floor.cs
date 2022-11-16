@@ -34,7 +34,7 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="granuleSize"></param>
     /// <returns></returns>
-    public static IGranularInterval<DateTime> Floor(this IInterval<DateTime> interval, TimeSpan granuleSize)
+    public static GranularInterval<DateTime> Floor(this Interval<DateTime> interval, TimeSpan granuleSize)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new TimeGranularInterval(leftVal.Ceiling(granuleSize), rightVal.Floor(granuleSize), interval.Inclusion);
@@ -45,7 +45,7 @@ public static partial class IntervalExtensions
     /// </summary>
     /// <param name="interval"></param>
     /// <returns></returns>
-    public static IGranularInterval<DateTime> FloorToMonth(this IInterval<DateTime> interval)
+    public static GranularInterval<DateTime> FloorToMonth(this Interval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new MonthGranularInterval(leftVal.CeilingToMonth(), rightVal.FloorToMonth(), interval.Inclusion);
@@ -56,7 +56,7 @@ public static partial class IntervalExtensions
     /// </summary>
     /// <param name="interval"></param>
     /// <returns></returns>
-    public static IGranularInterval<DateTime> FloorToQuarter(this IInterval<DateTime> interval)
+    public static GranularInterval<DateTime> FloorToQuarter(this Interval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new MonthGranularInterval(leftVal.CeilingToQuarter(), rightVal.FloorToQuarter(), interval.Inclusion);
@@ -67,7 +67,7 @@ public static partial class IntervalExtensions
     /// </summary>
     /// <param name="interval"></param>
     /// <returns></returns>
-    public static IGranularInterval<DateTime> FloorToHalfYear(this IInterval<DateTime> interval)
+    public static GranularInterval<DateTime> FloorToHalfYear(this Interval<DateTime> interval)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
         return new MonthGranularInterval(leftVal.CeilingToHalfYear(), rightVal.FloorToHalfYear(), interval.Inclusion);

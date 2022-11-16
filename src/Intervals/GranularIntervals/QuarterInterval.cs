@@ -28,7 +28,7 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an quarter interval instance where the granule size is equal to a quarter
 /// </summary>
-public class QuarterInterval : MonthGranularInterval
+public record class QuarterInterval : MonthGranularInterval
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterInterval"/>

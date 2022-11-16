@@ -29,7 +29,7 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an granular interval instance where the granule size is determined by the number of months in the interval
 /// </summary>
-public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
+public record class MonthGranularInterval : GranularInterval<DateTime>
 {
     /// <summary>
     /// Granules count
@@ -66,7 +66,7 @@ public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateT
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    public IGranularInterval<DateTime> Move(int granulesCount = 1)
+    public override GranularInterval<DateTime> Move(int granulesCount = 1)
     {
         var totalGranulesCount = GranulesCount * granulesCount;
         return new MonthGranularInterval(
@@ -79,7 +79,7 @@ public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateT
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    public IGranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
+    public override GranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
     {
         var totalGranulesCount = GranulesCount * granulesCount;
         return new MonthGranularInterval(Left with { Value = Left.Value.AddMonths(-totalGranulesCount) }, Right);
@@ -90,7 +90,7 @@ public class MonthGranularInterval : Interval<DateTime>, IGranularInterval<DateT
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    public IGranularInterval<DateTime> ExpandRight(int granulesCount = 1)
+    public override GranularInterval<DateTime> ExpandRight(int granulesCount = 1)
     {
         var totalGranulesCount = GranulesCount * granulesCount;
         return new MonthGranularInterval(Left, Right with { Value = Right.Value.AddMonths(totalGranulesCount) });

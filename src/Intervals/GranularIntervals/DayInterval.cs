@@ -28,7 +28,7 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an day interval instance where the granule size is equal to a day
 /// </summary>
-public class DayInterval : TimeGranularInterval
+public record class DayInterval : TimeGranularInterval
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.DayInterval"/>

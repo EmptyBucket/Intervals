@@ -28,7 +28,7 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an month interval instance where the granule size is equal to a month
 /// </summary>
-public class MonthInterval : MonthGranularInterval
+public record class MonthInterval : MonthGranularInterval
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthInterval"/>

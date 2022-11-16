@@ -27,9 +27,9 @@ namespace Intervals.Intervals.Enumerable;
 
 internal class CombineWithEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
+    public static IEnumerable<Interval<T>> Create(IEnumerable<Interval<T>> left, IEnumerable<Interval<T>> right)
     {
-        var builder = ImmutableList.CreateBuilder<IEnumerable<IInterval<T>>>();
+        var builder = ImmutableList.CreateBuilder<IEnumerable<Interval<T>>>();
 
         if (left is CombineWithEnumerable<T> l) builder.AddRange(l.Batches);
         else builder.Add(left);
@@ -40,7 +40,7 @@ internal class CombineWithEnumerable<T> : MergeEnumerable<T> where T : IEquatabl
         return new CombineWithEnumerable<T>(builder.ToImmutable());
     }
 
-    private CombineWithEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+    private CombineWithEnumerable(IImmutableList<IEnumerable<Interval<T>>> batches) : base(batches)
     {
     }
 

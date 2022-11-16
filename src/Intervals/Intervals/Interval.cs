@@ -29,7 +29,8 @@ namespace Intervals.Intervals;
 /// <summary>
 /// Represents an interval instance
 /// </summary>
-public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
+public record class Interval<T> : IComparable<Interval<T>>, IEnumerable<Interval<T>>
+    where T : IComparable<T>, IEquatable<T>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.Intervals.Interval"/>
@@ -102,19 +103,8 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
     /// Returns true if interval is empty, otherwise returns false
     /// </summary>
     /// <returns></returns>
-    public bool IsEmpty() =>
-        Left.Value.CompareTo(Right.Value) is var compareTo &&
-        Inclusion == IntervalInclusion.Closed
-            ? compareTo > 0
-            : compareTo >= 0;
-
-    /// <summary>
-    /// Returns a value indicating whether this instance is equal to a specified <paramref name="other" /> value
-    /// </summary>
-    /// <param name="other"></param>
-    /// <returns></returns>
-    public bool Equals(IInterval<T>? other) =>
-        other is Interval<T> otherInterval && Left == otherInterval.Left && Right == otherInterval.Right;
+    public bool IsEmpty() => Left.Value.CompareTo(Right.Value) is var compareTo &&
+                             (Inclusion == IntervalInclusion.Closed ? compareTo > 0 : compareTo >= 0);
 
     /// <summary>
     /// Compares this instance to a specified <paramref name="other" /> and returns an indication of their relative values
@@ -122,7 +112,7 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-    public int CompareTo(IInterval<T>? other)
+    public int CompareTo(Interval<T>? other)
     {
         if (other == null) return 1;
 
@@ -131,14 +121,23 @@ public class Interval<T> : IInterval<T> where T : IComparable<T>, IEquatable<T>
             : Right.CompareTo(other.Right);
     }
 
-    public override int GetHashCode() => HashCode.Combine(Left, Right);
+    /// <summary>
+    /// Returns a value indicating whether this instance is equal to a specified <paramref name="other" /> value
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public virtual bool Equals(Interval<T>? other) => other is not null && Left == other.Left && Right == other.Right;
 
-    public IEnumerator<IInterval<T>> GetEnumerator()
+    /// <inheritdoc />
+    public IEnumerator<Interval<T>> GetEnumerator()
     {
         yield return this;
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <inheritdoc />
+    public override int GetHashCode() => HashCode.Combine(Left, Right);
 
     /// <summary>
     /// Converts the value of this instance to "{[(,),[,]]}{Left.Value}, {Right.Value}{[(,),[,]]}" format

@@ -30,7 +30,7 @@ namespace Intervals.Tests.Intervals;
 public partial class SubtractEnumerableTests
 {
     [TestCaseSource(nameof(Subtract_WhenTwoIntervals_Data))]
-    public void Subtract_WhenTwoIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
+    public void Subtract_WhenTwoIntervals(Interval<int> first, Interval<int> second, Interval<int>[] result)
     {
         var actual = first.Subtract(second);
 
@@ -38,7 +38,7 @@ public partial class SubtractEnumerableTests
     }
 
     [TestCaseSource(nameof(Subtract_WhenManyIntervals_Data))]
-    public void Subtract_WhenManyIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
+    public void Subtract_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second, Interval<int>[] result)
     {
         var actual = first.Subtract(second);
 

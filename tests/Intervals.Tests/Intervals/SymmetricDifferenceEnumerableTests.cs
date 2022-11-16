@@ -30,8 +30,8 @@ namespace Intervals.Tests.Intervals;
 public partial class SymmetricDifferenceEnumerableTests
 {
     [TestCaseSource(nameof(SymmetricDifference_WhenTwoIntervals_Data))]
-    public void SymmetricDifference_WhenTwoIntervals(IInterval<int> first, IInterval<int> second,
-        IInterval<int>[] result)
+    public void SymmetricDifference_WhenTwoIntervals(Interval<int> first, Interval<int> second,
+        Interval<int>[] result)
     {
         var actual1 = first.SymmetricDifference(second);
         var actual2 = second.SymmetricDifference(first);
@@ -41,8 +41,8 @@ public partial class SymmetricDifferenceEnumerableTests
     }
 
     [TestCaseSource(nameof(SymmetricDifference_WhenManyIntervals_Data))]
-    public void SymmetricDifference_WhenManyIntervals(IInterval<int>[] first, IInterval<int>[] second,
-        IInterval<int>[] result)
+    public void SymmetricDifference_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second,
+        Interval<int>[] result)
     {
         var actual1 = first.SymmetricDifference(second);
         var actual2 = second.SymmetricDifference(first);

@@ -28,17 +28,17 @@ using Intervals.Utils;
 
 namespace Intervals.Intervals.Enumerable;
 
-internal abstract class MergeEnumerable<T> : IEnumerable<IInterval<T>>
+internal abstract class MergeEnumerable<T> : IEnumerable<Interval<T>>
     where T : IEquatable<T>, IComparable<T>
 {
-    protected MergeEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches)
+    protected MergeEnumerable(IImmutableList<IEnumerable<Interval<T>>> batches)
     {
         Batches = batches;
     }
 
-    public IImmutableList<IEnumerable<IInterval<T>>> Batches { get; }
+    public IImmutableList<IEnumerable<Interval<T>>> Batches { get; }
 
-    public IEnumerator<IInterval<T>> GetEnumerator()
+    public IEnumerator<Interval<T>> GetEnumerator()
     {
         var endpoints = Batches
             .Select((b, bIdx) =>
@@ -50,7 +50,7 @@ internal abstract class MergeEnumerable<T> : IEnumerable<IInterval<T>>
         var batchBalances = new int[Batches.Count];
 
         var deviation = false;
-        IInterval<T>? interval = null;
+        Interval<T>? interval = null;
         Endpoint<T>? left = null;
 
         foreach (var endpoint in endpoints)
@@ -80,9 +80,9 @@ internal abstract class MergeEnumerable<T> : IEnumerable<IInterval<T>>
 
     private static int GetBalance(Endpoint<T> endpoint) => (int)endpoint.Location * 2 - 1;
 
-    private static bool IsNullOrEmpty(IInterval<T>? interval) => interval is null || interval.IsEmpty();
+    private static bool IsNullOrEmpty(Interval<T>? interval) => interval is null || interval.IsEmpty();
 
-    private static IInterval<T> CreateInterval(Endpoint<T> leftEndpoint, Endpoint<T> rightEndpoint)
+    private static Interval<T> CreateInterval(Endpoint<T> leftEndpoint, Endpoint<T> rightEndpoint)
     {
         var (lValue, lInclusion, lLocation) = leftEndpoint;
         var (rValue, rInclusion, rLocation) = rightEndpoint;
@@ -91,7 +91,7 @@ internal abstract class MergeEnumerable<T> : IEnumerable<IInterval<T>>
         return new Interval<T>(lPoint, rPoint);
     }
 
-    private static IEnumerable<EndpointContext> GetEndpoints(IInterval<T> interval, int batchIndex)
+    private static IEnumerable<EndpointContext> GetEndpoints(Interval<T> interval, int batchIndex)
     {
         yield return new EndpointContext(interval.Left, batchIndex);
         yield return new EndpointContext(interval.Right, batchIndex);

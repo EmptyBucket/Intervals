@@ -29,7 +29,7 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an granular interval instance where the granule size is determined by the length of the interval
 /// </summary>
-public class TimeGranularInterval : Interval<DateTime>, IGranularInterval<DateTime>
+public record class TimeGranularInterval : GranularInterval<DateTime>
 {
     /// <summary>
     /// Granule size
@@ -66,7 +66,7 @@ public class TimeGranularInterval : Interval<DateTime>, IGranularInterval<DateTi
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    public IGranularInterval<DateTime> Move(int granulesCount = 1)
+    public override GranularInterval<DateTime> Move(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;
         return new TimeGranularInterval(
@@ -79,7 +79,7 @@ public class TimeGranularInterval : Interval<DateTime>, IGranularInterval<DateTi
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    public IGranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
+    public override GranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;
         return new TimeGranularInterval(Left with { Value = Left.Value - totalGranulesSize }, Right);
@@ -90,7 +90,7 @@ public class TimeGranularInterval : Interval<DateTime>, IGranularInterval<DateTi
     /// </summary>
     /// <param name="granulesCount"></param>
     /// <returns></returns>
-    public IGranularInterval<DateTime> ExpandRight(int granulesCount = 1)
+    public override GranularInterval<DateTime> ExpandRight(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;
         return new TimeGranularInterval(Left, Right with { Value = Right.Value + totalGranulesSize });

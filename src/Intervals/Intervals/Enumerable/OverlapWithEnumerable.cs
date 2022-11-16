@@ -27,9 +27,9 @@ namespace Intervals.Intervals.Enumerable;
 
 internal class OverlapWithEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right)
+    public static IEnumerable<Interval<T>> Create(IEnumerable<Interval<T>> left, IEnumerable<Interval<T>> right)
     {
-        var builder = ImmutableList.CreateBuilder<IEnumerable<IInterval<T>>>();
+        var builder = ImmutableList.CreateBuilder<IEnumerable<Interval<T>>>();
 
         if (left is OverlapWithEnumerable<T> l) builder.AddRange(l.Batches);
         else builder.Add(left);
@@ -40,7 +40,7 @@ internal class OverlapWithEnumerable<T> : MergeEnumerable<T> where T : IEquatabl
         return new OverlapWithEnumerable<T>(builder.ToImmutable());
     }
 
-    private OverlapWithEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+    private OverlapWithEnumerable(IImmutableList<IEnumerable<Interval<T>>> batches) : base(batches)
     {
     }
 

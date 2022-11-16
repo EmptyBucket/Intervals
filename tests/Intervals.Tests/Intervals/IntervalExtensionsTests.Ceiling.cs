@@ -37,7 +37,7 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.Ceiling(TimeSpan.FromDays(1));
 
-        ((IComparable<IInterval<DateTime>>)actual).Should().BeOfType<TimeGranularInterval>();
+        ((IComparable<Interval<DateTime>>)actual).Should().BeOfType<TimeGranularInterval>();
     }
 
     [Test]
@@ -91,7 +91,7 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.CeilingToMonth();
 
-        ((IComparable<IInterval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
+        ((IComparable<Interval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
     }
 
     [Test]
@@ -145,7 +145,7 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.CeilingToQuarter();
 
-        ((IComparable<IInterval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
+        ((IComparable<Interval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
     }
 
     [Test]
@@ -199,7 +199,7 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.CeilingToHalfYear();
 
-        ((IComparable<IInterval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
+        ((IComparable<Interval<DateTime>>)actual).Should().BeOfType<MonthGranularInterval>();
     }
 
     [Test]

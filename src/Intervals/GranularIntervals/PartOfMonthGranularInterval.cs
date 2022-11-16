@@ -30,14 +30,29 @@ namespace Intervals.GranularIntervals;
 /// Represents an part of the granular interval instance where the granule size is determined by the number of months and explicitly specified.
 /// That is, the granule size on the basis of which operations are executed can be larger or smaller than the interval itself
 /// </summary>
-public class PartOfMonthGranularInterval : MonthGranularInterval
+public record class PartOfMonthGranularInterval : MonthGranularInterval
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfMonthGranularInterval"/>
+    /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
+    /// </summary>
+    /// <param name="leftPoint"></param>
+    /// <param name="rightPoint"></param>
+    /// <param name="granulesCount"></param>
     public PartOfMonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, int granulesCount)
         : base(leftPoint, rightPoint)
     {
         GranulesCount = granulesCount;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfMonthGranularInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="rightValue"></param>
+    /// <param name="granulesCount"></param>
+    /// <param name="inclusion"></param>
     public PartOfMonthGranularInterval(DateTime leftValue, DateTime rightValue, int granulesCount,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, rightValue, inclusion)

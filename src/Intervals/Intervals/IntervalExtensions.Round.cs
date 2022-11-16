@@ -35,7 +35,7 @@ public static partial class IntervalExtensions
     /// <param name="granuleSize"></param>
     /// <param name="midpointRounding"></param>
     /// <returns></returns>
-    public static IGranularInterval<DateTime> Round(this IInterval<DateTime> interval, TimeSpan granuleSize,
+    public static GranularInterval<DateTime> Round(this Interval<DateTime> interval, TimeSpan granuleSize,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
@@ -49,7 +49,7 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="midpointRounding"></param>
     /// <returns></returns>
-    public static IGranularInterval<DateTime> RoundToMonth(this IInterval<DateTime> interval,
+    public static GranularInterval<DateTime> RoundToMonth(this Interval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
@@ -63,7 +63,7 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="midpointRounding"></param>
     /// <returns></returns>
-    public static IGranularInterval<DateTime> RoundToQuarter(this IInterval<DateTime> interval,
+    public static GranularInterval<DateTime> RoundToQuarter(this Interval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
@@ -77,7 +77,7 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="midpointRounding"></param>
     /// <returns></returns>
-    public static IGranularInterval<DateTime> RoundToHalfYear(this IInterval<DateTime> interval,
+    public static GranularInterval<DateTime> RoundToHalfYear(this Interval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
         var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);

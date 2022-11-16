@@ -30,7 +30,7 @@ namespace Intervals.Tests.Intervals;
 public partial class OverlapEnumerableTests
 {
     [TestCaseSource(nameof(Overlap_WhenTwoIntervals_Data))]
-    public void Overlap_WhenTwoIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
+    public void Overlap_WhenTwoIntervals(Interval<int> first, Interval<int> second, Interval<int>[] result)
     {
         var actual1 = first.Overlap(second);
         var actual2 = second.Overlap(first);
@@ -40,7 +40,7 @@ public partial class OverlapEnumerableTests
     }
 
     [TestCaseSource(nameof(Overlap_WhenManyIntervals_Data))]
-    public void Overlap_WhenManyIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
+    public void Overlap_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second, Interval<int>[] result)
     {
         var actual1 = first.Overlap(second);
         var actual2 = second.Overlap(first);

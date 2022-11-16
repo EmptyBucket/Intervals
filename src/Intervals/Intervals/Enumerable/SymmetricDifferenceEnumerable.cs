@@ -27,11 +27,11 @@ namespace Intervals.Intervals.Enumerable;
 
 internal class SymmetricDifferenceEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> enumerable) =>
+    public static IEnumerable<Interval<T>> Create(IEnumerable<Interval<T>> enumerable) =>
         enumerable as SymmetricDifferenceEnumerable<T>
         ?? new SymmetricDifferenceEnumerable<T>(ImmutableList.Create(enumerable));
 
-    private SymmetricDifferenceEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+    private SymmetricDifferenceEnumerable(IImmutableList<IEnumerable<Interval<T>>> batches) : base(batches)
     {
     }
 

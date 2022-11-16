@@ -30,7 +30,7 @@ namespace Intervals.Tests.Intervals;
 public partial class CombineEnumerableTests
 {
     [TestCaseSource(nameof(Combine_WhenTwoIntervals_Data))]
-    public void Combine_WhenTwoIntervals(IInterval<int> first, IInterval<int> second, IInterval<int>[] result)
+    public void Combine_WhenTwoIntervals(Interval<int> first, Interval<int> second, Interval<int>[] result)
     {
         var actual1 = first.Combine(second);
         var actual2 = second.Combine(first);
@@ -40,7 +40,7 @@ public partial class CombineEnumerableTests
     }
 
     [TestCaseSource(nameof(Combine_WhenManyIntervals_Data))]
-    public void Combine_WhenManyIntervals(IInterval<int>[] first, IInterval<int>[] second, IInterval<int>[] result)
+    public void Combine_WhenManyIntervals(Interval<int>[] first, Interval<int>[] second, Interval<int>[] result)
     {
         var actual1 = first.Combine(second);
         var actual2 = second.Combine(first);

@@ -27,10 +27,10 @@ namespace Intervals.Intervals.Enumerable;
 
 internal class SubtractWithEnumerable<T> : MergeEnumerable<T> where T : IEquatable<T>, IComparable<T>
 {
-    public static IEnumerable<IInterval<T>> Create(IEnumerable<IInterval<T>> left, IEnumerable<IInterval<T>> right) =>
+    public static IEnumerable<Interval<T>> Create(IEnumerable<Interval<T>> left, IEnumerable<Interval<T>> right) =>
         new SubtractWithEnumerable<T>(ImmutableList.Create(left, right));
 
-    private SubtractWithEnumerable(IImmutableList<IEnumerable<IInterval<T>>> batches) : base(batches)
+    private SubtractWithEnumerable(IImmutableList<IEnumerable<Interval<T>>> batches) : base(batches)
     {
     }
 

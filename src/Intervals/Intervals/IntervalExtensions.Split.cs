@@ -45,8 +45,7 @@ public static partial class IntervalExtensions
         {
             var curInterval = new TimeGranularInterval(left.Value, left.Value + granuleSize);
             curInterval = new TimeGranularInterval(
-                GenericMath.Max(curInterval.Left, interval.Left),
-                GenericMath.Min(curInterval.Right, interval.Right));
+                GenericMath.Max(curInterval.Left, interval.Left), GenericMath.Min(curInterval.Right, interval.Right));
             yield return curInterval;
             left = Endpoint.Left(curInterval.Right.Value, curInterval.Right.Inclusion.Invert());
         }
@@ -106,8 +105,7 @@ public static partial class IntervalExtensions
         {
             var curInterval = computeNext(left.Value);
             curInterval = new MonthGranularInterval(
-                GenericMath.Max(curInterval.Left, interval.Left),
-                GenericMath.Min(curInterval.Right, interval.Right));
+                GenericMath.Max(curInterval.Left, interval.Left), GenericMath.Min(curInterval.Right, interval.Right));
             yield return curInterval;
             left = Endpoint.Left(curInterval.Right.Value, curInterval.Right.Inclusion.Invert());
         }

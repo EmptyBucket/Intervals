@@ -71,7 +71,7 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// <param name="right"></param>
     /// <param name="inclusion"></param>
     public void Deconstruct(out T left, out T right, out IntervalInclusion inclusion) =>
-        (left, right, inclusion) = (Left.Value, Right.Value, Inclusion);
+        (left, right, inclusion) = (LeftValue, RightValue, Inclusion);
 
     /// <summary>
     /// Left value of the interval
@@ -119,7 +119,7 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// Returns true if interval is empty, otherwise returns false
     /// </summary>
     /// <returns></returns>
-    public bool IsEmpty() => Left.Value.CompareTo(Right.Value) is var compareTo &&
+    public bool IsEmpty() => LeftValue.CompareTo(RightValue) is var compareTo &&
                              (Inclusion == IntervalInclusion.Closed ? compareTo > 0 : compareTo >= 0);
 
     /// <summary>

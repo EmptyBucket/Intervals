@@ -69,9 +69,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime>
     public override GranularInterval<DateTime> Move(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;
-        return new TimeGranularInterval(
-            Left with { Value = Left.Value + totalGranulesSize },
-            Right with { Value = Right.Value + totalGranulesSize });
+        return this with { LeftValue = LeftValue + totalGranulesSize, RightValue = RightValue + totalGranulesSize };
     }
 
     /// <summary>
@@ -82,7 +80,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime>
     public override GranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;
-        return new TimeGranularInterval(Left with { Value = Left.Value - totalGranulesSize }, Right);
+        return this with { LeftValue = LeftValue - totalGranulesSize };
     }
 
     /// <summary>
@@ -93,7 +91,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime>
     public override GranularInterval<DateTime> ExpandRight(int granulesCount = 1)
     {
         var totalGranulesSize = GranuleSize * granulesCount;
-        return new TimeGranularInterval(Left, Right with { Value = Right.Value + totalGranulesSize });
+        return this with { RightValue = RightValue + totalGranulesSize };
     }
 
     private static TimeSpan ComputeGranuleSize(DateTime leftValue, DateTime rightValue) => rightValue - leftValue;

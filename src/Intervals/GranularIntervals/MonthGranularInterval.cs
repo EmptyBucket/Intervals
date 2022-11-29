@@ -70,9 +70,10 @@ public record class MonthGranularInterval : GranularInterval<DateTime>
     public override GranularInterval<DateTime> Move(int granulesCount = 1)
     {
         var totalGranulesCount = GranulesCount * granulesCount;
-        return new MonthGranularInterval(
-            Left with { Value = Left.Value.AddMonths(totalGranulesCount) },
-            Right with { Value = Right.Value.AddMonths(totalGranulesCount) });
+        return this with
+        {
+            LeftValue = LeftValue.AddMonths(totalGranulesCount), RightValue = RightValue.AddMonths(totalGranulesCount)
+        };
     }
 
     /// <summary>
@@ -83,7 +84,7 @@ public record class MonthGranularInterval : GranularInterval<DateTime>
     public override GranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
     {
         var totalGranulesCount = GranulesCount * granulesCount;
-        return new MonthGranularInterval(Left with { Value = Left.Value.AddMonths(-totalGranulesCount) }, Right);
+        return this with { LeftValue = LeftValue.AddMonths(-totalGranulesCount) };
     }
 
     /// <summary>
@@ -94,7 +95,7 @@ public record class MonthGranularInterval : GranularInterval<DateTime>
     public override GranularInterval<DateTime> ExpandRight(int granulesCount = 1)
     {
         var totalGranulesCount = GranulesCount * granulesCount;
-        return new MonthGranularInterval(Left, Right with { Value = Right.Value.AddMonths(totalGranulesCount) });
+        return this with { RightValue = RightValue.AddMonths(totalGranulesCount) };
     }
 
     private static int ComputeGranulesCount(DateTime leftValue, DateTime rightValue) =>

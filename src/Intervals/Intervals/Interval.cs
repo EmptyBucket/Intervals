@@ -64,7 +64,7 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>
-    public void Deconstruct(out Point<T> left, out Point<T> right)
+    public void Deconstruct(out Endpoint<T> left, out Endpoint<T> right)
     {
         left = Left;
         right = Right;

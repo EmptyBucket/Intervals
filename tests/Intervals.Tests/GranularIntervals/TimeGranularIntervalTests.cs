@@ -39,8 +39,8 @@ public class TimeGranularIntervalTests
 
         var actual = interval.Move(1);
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
     }
 
     [Test]
@@ -52,8 +52,8 @@ public class TimeGranularIntervalTests
 
         var actual = interval.Move(-1);
 
-        actual.Left.Value.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.LeftValue.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
     }
 
     [Test]
@@ -65,8 +65,8 @@ public class TimeGranularIntervalTests
 
         var actual = interval.ExpandLeft(1);
 
-        actual.Left.Value.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
-        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        actual.LeftValue.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
+        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
     }
 
     [Test]
@@ -78,8 +78,8 @@ public class TimeGranularIntervalTests
 
         var actual = interval.ExpandLeft(-1);
 
-        actual.Left.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
-        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        actual.LeftValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
     }
 
     [Test]
@@ -91,8 +91,8 @@ public class TimeGranularIntervalTests
 
         var actual = interval.ExpandRight(1);
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2024, 1, 10, 13, 16, 19));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.RightValue.Should().Be(new DateTime(2024, 1, 10, 13, 16, 19));
     }
 
     [Test]
@@ -104,7 +104,7 @@ public class TimeGranularIntervalTests
 
         var actual = interval.ExpandRight(-1);
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
     }
 }

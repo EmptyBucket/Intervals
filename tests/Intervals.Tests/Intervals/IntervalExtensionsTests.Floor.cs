@@ -47,8 +47,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.Floor(TimeSpan.FromDays(1));
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
     }
 
     [Test]
@@ -58,8 +58,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.Floor(TimeSpan.FromDays(1));
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
     }
 
     [Test]
@@ -69,8 +69,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.Floor(TimeSpan.FromDays(1));
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
     }
 
     [Test]
@@ -80,8 +80,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.Floor(TimeSpan.FromDays(1));
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 3, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 2, 2, 0, 0, 0));
     }
 
     [Test]
@@ -101,8 +101,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToMonth();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
     }
 
     [Test]
@@ -112,8 +112,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToMonth();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
     }
 
     [Test]
@@ -123,8 +123,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToMonth();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
     }
 
     [Test]
@@ -134,8 +134,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToMonth();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 3, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 2, 1, 0, 0, 0));
     }
 
     [Test]
@@ -155,8 +155,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToQuarter();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -166,8 +166,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToQuarter();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -177,8 +177,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToQuarter();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -188,8 +188,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToQuarter();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 4, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -209,8 +209,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToHalfYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -220,8 +220,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToHalfYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -231,8 +231,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToHalfYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -242,8 +242,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToHalfYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2022, 7, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -263,8 +263,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -274,8 +274,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -285,8 +285,8 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 
     [Test]
@@ -296,7 +296,7 @@ public partial class IntervalExtensionsTests
 
         var actual = interval.FloorToYear();
 
-        actual.Left.Value.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
+        actual.LeftValue.Should().Be(new DateTime(2023, 1, 1, 0, 0, 0));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 1, 0, 0, 0));
     }
 }

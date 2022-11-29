@@ -40,8 +40,8 @@ public partial class MonthGranularIntervalTests
 
         var actual = interval.Move();
 
-        actual.Left.Value.Should().Be(expectedLeftValue);
-        actual.Right.Value.Should().Be(expectedRightValue);
+        actual.LeftValue.Should().Be(expectedLeftValue);
+        actual.RightValue.Should().Be(expectedRightValue);
     }
 
     [TestCaseSource(nameof(Move_WhenBackward_Data))]
@@ -54,8 +54,8 @@ public partial class MonthGranularIntervalTests
 
         var actual = interval.Move(-1);
 
-        actual.Left.Value.Should().Be(expectedLeftValue);
-        actual.Right.Value.Should().Be(expectedRightValue);
+        actual.LeftValue.Should().Be(expectedLeftValue);
+        actual.RightValue.Should().Be(expectedRightValue);
     }
 
     [Test]
@@ -67,8 +67,8 @@ public partial class MonthGranularIntervalTests
 
         var actual = interval.ExpandLeft(1);
 
-        actual.Left.Value.Should().Be(new DateTime(2021, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        actual.LeftValue.Should().Be(new DateTime(2021, 1, 4, 5, 6, 7));
+        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
     }
 
     [Test]
@@ -80,8 +80,8 @@ public partial class MonthGranularIntervalTests
 
         var actual = interval.ExpandLeft(-1);
 
-        actual.Left.Value.Should().Be(new DateTime(2023, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        actual.LeftValue.Should().Be(new DateTime(2023, 1, 4, 5, 6, 7));
+        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
     }
 
     [Test]
@@ -93,8 +93,8 @@ public partial class MonthGranularIntervalTests
 
         var actual = interval.ExpandRight(1);
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2024, 1, 7, 9, 11, 13));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.RightValue.Should().Be(new DateTime(2024, 1, 7, 9, 11, 13));
     }
 
     [Test]
@@ -106,7 +106,7 @@ public partial class MonthGranularIntervalTests
 
         var actual = interval.ExpandRight(-1);
 
-        actual.Left.Value.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.Right.Value.Should().Be(new DateTime(2022, 1, 7, 9, 11, 13));
+        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        actual.RightValue.Should().Be(new DateTime(2022, 1, 7, 9, 11, 13));
     }
 }

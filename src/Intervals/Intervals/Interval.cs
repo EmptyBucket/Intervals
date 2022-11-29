@@ -92,16 +92,6 @@ public record class Interval<T> : IComparable<Interval<T>>
     }
 
     /// <summary>
-    /// Left endpoint of the interval
-    /// </summary>
-    public Endpoint<T> Left { get; private init; }
-
-    /// <summary>
-    /// Right endpoint of the interval
-    /// </summary>
-    public Endpoint<T> Right { get; private init; }
-
-    /// <summary>
     /// Inclusion of the interval
     /// </summary>
     public IntervalInclusion Inclusion
@@ -114,6 +104,16 @@ public record class Interval<T> : IComparable<Interval<T>>
             Right = Right with { Inclusion = rightInclusion };
         }
     }
+
+    /// <summary>
+    /// Left endpoint of the interval
+    /// </summary>
+    public Endpoint<T> Left { get; private init; }
+
+    /// <summary>
+    /// Right endpoint of the interval
+    /// </summary>
+    public Endpoint<T> Right { get; private init; }
 
     /// <summary>
     /// Returns true if interval is empty, otherwise returns false

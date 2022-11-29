@@ -16,25 +16,21 @@ on:
 
 jobs:
   publish:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v2.1.0
-
     - name: Create Release NuGet package
       run: |
         dotnet pack -c Release -o packages src/Intervals
-      
     - name: Push to GitHub Feed
+      continue-on-error: true
       run: |
         for f in ./packages/*.nupkg
         do
           dotnet nuget push $f -s $GITHUB_FEED -k $GITHUB_KEY --skip-duplicate
         done
-        
     - name: Push to Nuget Feed
       run: |
         for f in ./packages/*.nupkg

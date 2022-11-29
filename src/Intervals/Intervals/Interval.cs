@@ -64,11 +64,7 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// </summary>
     /// <param name="left"></param>
     /// <param name="right"></param>
-    public void Deconstruct(out Endpoint<T> left, out Endpoint<T> right)
-    {
-        left = Left;
-        right = Right;
-    }
+    public void Deconstruct(out Endpoint<T> left, out Endpoint<T> right) => (left, right) = (Left, Right);
 
     /// <summary>
     /// Deconstructs instance into the specified <paramref name="left" />, <paramref name="right" /> and <paramref name="inclusion" />
@@ -76,12 +72,8 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <param name="inclusion"></param>
-    public void Deconstruct(out T left, out T right, out IntervalInclusion inclusion)
-    {
-        left = Left.Value;
-        right = Right.Value;
-        inclusion = Inclusion;
-    }
+    public void Deconstruct(out T left, out T right, out IntervalInclusion inclusion) =>
+        (left, right, inclusion) = (Left.Value, Right.Value, Inclusion);
 
     /// <summary>
     /// Left endpoint of the interval

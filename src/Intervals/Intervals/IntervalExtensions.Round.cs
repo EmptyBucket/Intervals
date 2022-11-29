@@ -38,7 +38,7 @@ public static partial class IntervalExtensions
     public static GranularInterval<DateTime> Round(this Interval<DateTime> interval, TimeSpan granuleSize,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
+        var (leftVal, rightVal, _) = interval;
         return new TimeGranularInterval(leftVal.Round(granuleSize, midpointRounding),
             rightVal.Round(granuleSize, midpointRounding), interval.Inclusion);
     }
@@ -52,7 +52,7 @@ public static partial class IntervalExtensions
     public static GranularInterval<DateTime> RoundToMonth(this Interval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
+        var (leftVal, rightVal, _) = interval;
         return new MonthGranularInterval(leftVal.RoundToMonth(midpointRounding),
             rightVal.RoundToMonth(midpointRounding), interval.Inclusion);
     }
@@ -66,7 +66,7 @@ public static partial class IntervalExtensions
     public static GranularInterval<DateTime> RoundToQuarter(this Interval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
+        var (leftVal, rightVal, _) = interval;
         return new MonthGranularInterval(leftVal.RoundToQuarter(midpointRounding),
             rightVal.RoundToQuarter(midpointRounding), interval.Inclusion);
     }
@@ -80,7 +80,7 @@ public static partial class IntervalExtensions
     public static GranularInterval<DateTime> RoundToHalfYear(this Interval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
+        var (leftVal, rightVal, _) = interval;
         return new MonthGranularInterval(leftVal.RoundToHalfYear(midpointRounding),
             rightVal.RoundToHalfYear(midpointRounding), interval.Inclusion);
     }
@@ -94,7 +94,7 @@ public static partial class IntervalExtensions
     public static GranularInterval<DateTime> RoundToYear(this Interval<DateTime> interval,
         MidpointRounding midpointRounding = MidpointRounding.ToEven)
     {
-        var (leftVal, rightVal) = (interval.Left.Value, interval.Right.Value);
+        var (leftVal, rightVal, _) = interval;
         return new MonthGranularInterval(leftVal.RoundToYear(midpointRounding),
             rightVal.RoundToYear(midpointRounding), interval.Inclusion);
     }

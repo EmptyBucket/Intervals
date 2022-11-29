@@ -39,7 +39,7 @@ public static partial class IntervalExtensions
     public static IEnumerable<GranularInterval<DateTime>> Split(this Interval<DateTime> interval,
         TimeSpan granuleSize)
     {
-        var (left, right) = (interval.Left, interval.Right);
+        var (left, right) = interval;
 
         while (left.CompareTo(right) <= 0)
         {
@@ -100,7 +100,7 @@ public static partial class IntervalExtensions
     private static IEnumerable<GranularInterval<DateTime>> SplitByMonths(Interval<DateTime> interval,
         ComputeNext computeNext)
     {
-        var (left, right) = (interval.Left, interval.Right);
+        var (left, right) = interval;
 
         while (left.CompareTo(right) <= 0)
         {

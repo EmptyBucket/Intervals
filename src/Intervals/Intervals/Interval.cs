@@ -41,7 +41,6 @@ public record class Interval<T> : IComparable<Interval<T>>
     {
         Left = Endpoint.Left(leftPoint);
         Right = Endpoint.Right(rightPoint);
-        Inclusion = IntervalInclusionConvert.FromInclusions(leftPoint.Inclusion, rightPoint.Inclusion);
     }
 
     /// <summary>
@@ -56,7 +55,6 @@ public record class Interval<T> : IComparable<Interval<T>>
         var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(inclusion);
         Left = Endpoint.Left(leftValue, leftInclusion);
         Right = Endpoint.Right(rightValue, rightInclusion);
-        Inclusion = inclusion;
     }
 
     /// <summary>
@@ -76,19 +74,46 @@ public record class Interval<T> : IComparable<Interval<T>>
         (left, right, inclusion) = (Left.Value, Right.Value, Inclusion);
 
     /// <summary>
+    /// Left value of the interval
+    /// </summary>
+    public T LeftValue
+    {
+        get => Left.Value;
+        init => Left = Left with { Value = value };
+    }
+
+    /// <summary>
+    /// Right value of the interval
+    /// </summary>
+    public T RightValue
+    {
+        get => Right.Value;
+        init => Right = Right with { Value = value };
+    }
+
+    /// <summary>
     /// Left endpoint of the interval
     /// </summary>
-    public Endpoint<T> Left { get; }
+    public Endpoint<T> Left { get; private init; }
 
     /// <summary>
     /// Right endpoint of the interval
     /// </summary>
-    public Endpoint<T> Right { get; }
+    public Endpoint<T> Right { get; private init; }
 
     /// <summary>
     /// Inclusion of the interval
     /// </summary>
-    public IntervalInclusion Inclusion { get; }
+    public IntervalInclusion Inclusion
+    {
+        get => IntervalInclusionConvert.FromInclusions(Left.Inclusion, Right.Inclusion);
+        init
+        {
+            var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(value);
+            Left = Left with { Inclusion = leftInclusion };
+            Right = Right with { Inclusion = rightInclusion };
+        }
+    }
 
     /// <summary>
     /// Returns true if interval is empty, otherwise returns false

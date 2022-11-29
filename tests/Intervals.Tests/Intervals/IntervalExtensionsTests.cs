@@ -29,126 +29,184 @@ namespace Intervals.Tests.Intervals;
 
 public partial class IntervalExtensionsTests
 {
-	[Test]
-	public void IsOverlap_WhenIntervalsNotIntersect_ReturnFalse()
-	{
-		var first = new Interval<int>(0, 1, IntervalInclusion.Closed);
-		var second = new Interval<int>(2, 3, IntervalInclusion.Closed);
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    public void IsOverlap_WhenFirstToLeftOfSecond_ReturnFalse(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 1, firstIntervalInclusion);
+        var second = new Interval<int>(2, 3, secondIntervalInclusion);
 
-		var actual1 = first.IsOverlap(second);
-		var actual2 = second.IsOverlap(first);
+        var actual = first.IsOverlap(second);
 
-		actual1.Should().BeFalse();
-		actual2.Should().BeFalse();
-	}
+        actual.Should().BeFalse();
+    }
 
-	[Test]
-	public void IsOverlap_WhenOpenedIntervalsHaveSameEndpointWithDifferentLocation_ReturnFalse()
-	{
-		var first = new Interval<int>(0, 1, IntervalInclusion.Opened);
-		var second = new Interval<int>(1, 2, IntervalInclusion.Opened);
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    public void IsOverlap_WhenHaveSameValueAndAnyOfThemOpened_ReturnFalse(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 1, firstIntervalInclusion);
+        var second = new Interval<int>(1, 2, secondIntervalInclusion);
 
-		var actual1 = first.IsOverlap(second);
-		var actual2 = second.IsOverlap(first);
+        var actual = first.IsOverlap(second);
 
-		actual1.Should().BeFalse();
-		actual2.Should().BeFalse();
-	}
+        actual.Should().BeFalse();
+    }
 
-	[Test]
-	public void IsOverlap_WhenClosedIntervalsHaveSameEndpointWithDifferentLocation_ReturnTrue()
-	{
-		var first = new Interval<int>(0, 1, IntervalInclusion.Closed);
-		var second = new Interval<int>(1, 2, IntervalInclusion.Closed);
+    [Test]
+    public void IsOverlap_WhenHaveSameValueAndBothClosed_ReturnTrue()
+    {
+        var first = new Interval<int>(0, 1, IntervalInclusion.Closed);
+        var second = new Interval<int>(1, 2, IntervalInclusion.Closed);
 
-		var actual1 = first.IsOverlap(second);
-		var actual2 = second.IsOverlap(first);
+        var actual = first.IsOverlap(second);
 
-		actual1.Should().BeTrue();
-		actual2.Should().BeTrue();
-	}
+        actual.Should().BeTrue();
+    }
 
-	[Test]
-	public void IsOverlap_WhenIntervalsIntersect_ReturnTrue()
-	{
-		var first = new Interval<int>(0, 2, IntervalInclusion.Closed);
-		var second = new Interval<int>(1, 3, IntervalInclusion.Closed);
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    public void IsOverlap_WhenHaveSameValues_ReturnTrue(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 1, firstIntervalInclusion);
+        var second = new Interval<int>(0, 1, secondIntervalInclusion);
 
-		var actual1 = first.IsOverlap(second);
-		var actual2 = second.IsOverlap(first);
+        var actual = first.IsOverlap(second);
 
-		actual1.Should().BeTrue();
-		actual2.Should().BeTrue();
-	}
+        actual.Should().BeTrue();
+    }
 
-	[Test]
-	public void IsInclude_WhenIntervalsNotIntersect_ReturnFalse()
-	{
-		var first = new Interval<int>(0, 1, IntervalInclusion.Closed);
-		var second = new Interval<int>(2, 3, IntervalInclusion.Closed);
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    public void IsOverlap_WhenAnyOfThemHasMiddleValue_ReturnTrue(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 2, firstIntervalInclusion);
+        var second = new Interval<int>(1, 3, secondIntervalInclusion);
 
-		var actual = first.IsInclude(second);
+        var actual = first.IsOverlap(second);
 
-		actual.Should().BeFalse();
-	}
+        actual.Should().BeTrue();
+    }
 
-	[Test]
-	public void IsInclude_WhenIntervalsIntersectButNotContain_ReturnFalse()
-	{
-		var first = new Interval<int>(0, 2, IntervalInclusion.Closed);
-		var second = new Interval<int>(1, 3, IntervalInclusion.Closed);
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    public void IsOverlap_WhenSecondHasMiddleValues_ReturnTrue(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 3, firstIntervalInclusion);
+        var second = new Interval<int>(1, 2, secondIntervalInclusion);
 
-		var actual = first.IsInclude(second);
+        var actual = first.IsOverlap(second);
 
-		actual.Should().BeFalse();
-	}
+        actual.Should().BeTrue();
+    }
 
-	[Test]
-	[TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
-	[TestCase(IntervalInclusion.Opened, IntervalInclusion.LeftOpened)]
-	[TestCase(IntervalInclusion.Opened, IntervalInclusion.RightOpened)]
-	[TestCase(IntervalInclusion.LeftOpened, IntervalInclusion.Closed)]
-	[TestCase(IntervalInclusion.LeftOpened, IntervalInclusion.RightOpened)]
-	[TestCase(IntervalInclusion.RightOpened, IntervalInclusion.Closed)]
-	[TestCase(IntervalInclusion.RightOpened, IntervalInclusion.LeftOpened)]
-	public void IsInclude_WhenNotContainEndpoints_ReturnFalse(IntervalInclusion outerInclusion, IntervalInclusion innerInclusion)
-	{
-		var outer = new Interval<int>(0, 1, outerInclusion);
-		var inner = new Interval<int>(0, 1, innerInclusion);
 
-		var actual = outer.IsInclude(inner);
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    public void IsInclude_WhenFirstToLeftOfSecond_ReturnFalse(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 1, firstIntervalInclusion);
+        var second = new Interval<int>(2, 3, secondIntervalInclusion);
 
-		actual.Should().BeFalse();
-	}
+        var actual = first.IsInclude(second);
 
-	[Test]
-	[TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
-	[TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
-	[TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
-	[TestCase(IntervalInclusion.Closed, IntervalInclusion.LeftOpened)]
-	[TestCase(IntervalInclusion.Closed, IntervalInclusion.RightOpened)]
-	[TestCase(IntervalInclusion.LeftOpened, IntervalInclusion.Opened)]
-	[TestCase(IntervalInclusion.LeftOpened, IntervalInclusion.LeftOpened)]
-	[TestCase(IntervalInclusion.RightOpened, IntervalInclusion.Opened)]
-	[TestCase(IntervalInclusion.RightOpened, IntervalInclusion.RightOpened)]
-	public void IsInclude_WhenContainEndpoints_ReturnTrue(IntervalInclusion outerInclusion, IntervalInclusion innerInclusion)
-	{
-		var outer = new Interval<int>(0, 1, outerInclusion);
-		var inner = new Interval<int>(0, 1, innerInclusion);
+        actual.Should().BeFalse();
+    }
 
-		var actual = outer.IsInclude(inner);
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    public void IsInclude_WhenHaveSameValue_ReturnFalse(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 1, firstIntervalInclusion);
+        var second = new Interval<int>(1, 2, secondIntervalInclusion);
 
-		actual.Should().BeTrue();
-	}
+        var actual = first.IsInclude(second);
 
-	[Test]
-	public void IsInclude_WhenOuterIsBigger_ReturnTrue()
-	{
-		var outer = new Interval<int>(0, 5, IntervalInclusion.Closed);
-		var inner = new Interval<int>(1, 2, IntervalInclusion.Closed);
+        actual.Should().BeFalse();
+    }
 
-		var actual = outer.IsInclude(inner);
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    public void IsInclude_WhenHaveSameValuesAndFirstNotOpened_ReturnTrue(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 1, firstIntervalInclusion);
+        var second = new Interval<int>(0, 1, secondIntervalInclusion);
 
-		actual.Should().BeTrue();
-	}
+        var actual = first.IsInclude(second);
+
+        actual.Should().BeTrue();
+    }
+
+    [Test]
+    public void IsInclude_WhenHaveSameValuesAndFirstOpenedAndSecondClosed_ReturnFalse()
+    {
+        var first = new Interval<int>(0, 1, IntervalInclusion.Opened);
+        var second = new Interval<int>(0, 1, IntervalInclusion.Closed);
+
+        var actual = first.IsInclude(second);
+
+        actual.Should().BeFalse();
+    }
+
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    public void IsInclude_WhenAnyOfThemHasMiddleValue_ReturnFalse(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 2, firstIntervalInclusion);
+        var second = new Interval<int>(1, 3, secondIntervalInclusion);
+
+        var actual = first.IsInclude(second);
+
+        actual.Should().BeFalse();
+    }
+
+    [Test]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Closed)]
+    [TestCase(IntervalInclusion.Opened, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Opened)]
+    [TestCase(IntervalInclusion.Closed, IntervalInclusion.Closed)]
+    public void IsInclude_WhenSecondHasMiddleValues_ReturnTrue(IntervalInclusion firstIntervalInclusion,
+        IntervalInclusion secondIntervalInclusion)
+    {
+        var first = new Interval<int>(0, 3, firstIntervalInclusion);
+        var second = new Interval<int>(1, 2, secondIntervalInclusion);
+
+        var actual = first.IsOverlap(second);
+
+        actual.Should().BeTrue();
+    }
 }

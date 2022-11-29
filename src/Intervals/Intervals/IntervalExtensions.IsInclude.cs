@@ -21,8 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Intervals.Enumerable;
-
 namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
@@ -35,11 +33,8 @@ public static partial class IntervalExtensions
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public static bool IsInclude<T>(this IEnumerable<Interval<T>> outer, IEnumerable<Interval<T>> inner)
-        where T : IComparable<T>, IEquatable<T>
-    {
-        var innerArray = inner as Interval<T>[] ?? inner.ToArray();
-        return new HashSet<Interval<T>>(innerArray).SetEquals(outer.Overlap(innerArray));
-    }
+        where T : IComparable<T>, IEquatable<T> =>
+        !inner.Subtract(outer).Any();
 
     /// <summary>
     /// Returns true if the specified <paramref name="outer" /> intervals include <paramref name="inner" /> intervals, otherwise returns false
@@ -49,11 +44,8 @@ public static partial class IntervalExtensions
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public static bool IsInclude<T>(this IEnumerable<Interval<T>> outer, Interval<T> inner)
-        where T : IComparable<T>, IEquatable<T>
-    {
-        var innerArray = new IntervalEnumerable<T>(inner);
-        return new HashSet<Interval<T>>(innerArray).SetEquals(outer.Overlap(innerArray));
-    }
+        where T : IComparable<T>, IEquatable<T> =>
+        outer.Combine().Any(i => i.IsInclude(inner));
 
     /// <summary>
     /// Returns true if the specified <paramref name="outer" /> intervals include <paramref name="inner" /> intervals, otherwise returns false
@@ -63,11 +55,8 @@ public static partial class IntervalExtensions
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public static bool IsInclude<T>(this Interval<T> outer, IEnumerable<Interval<T>> inner)
-        where T : IComparable<T>, IEquatable<T>
-    {
-        var innerArray = inner as Interval<T>[] ?? inner.ToArray();
-        return new HashSet<Interval<T>>(innerArray).SetEquals(new IntervalEnumerable<T>(outer).Overlap(innerArray));
-    }
+        where T : IComparable<T>, IEquatable<T> =>
+        inner.All(outer.IsInclude);
 
     /// <summary>
     /// Returns true if the specified <paramref name="outer" /> intervals include <paramref name="inner" /> intervals, otherwise returns false
@@ -77,9 +66,6 @@ public static partial class IntervalExtensions
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public static bool IsInclude<T>(this Interval<T> outer, Interval<T> inner)
-        where T : IComparable<T>, IEquatable<T>
-    {
-        var innerArray = new IntervalEnumerable<T>(inner);
-        return new HashSet<Interval<T>>(innerArray).SetEquals(new IntervalEnumerable<T>(outer).Overlap(innerArray));
-    }
+        where T : IComparable<T>, IEquatable<T> =>
+        outer.Left.CompareTo(inner.Left) <= 0 && outer.Right.CompareTo(inner.Right) >= 0;
 }

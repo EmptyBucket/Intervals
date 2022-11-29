@@ -21,8 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using Intervals.Intervals.Enumerable;
-
 namespace Intervals.Intervals;
 
 public static partial class IntervalExtensions
@@ -47,7 +45,7 @@ public static partial class IntervalExtensions
     /// <returns></returns>
     public static bool IsOverlap<T>(this IEnumerable<Interval<T>> left, Interval<T> right)
         where T : IComparable<T>, IEquatable<T> =>
-        left.Overlap(new IntervalEnumerable<T>(right)).Any();
+        left.Any(right.IsOverlap);
 
     /// <summary>
     /// Returns true if the specified <paramref name="left" /> and <paramref name="right" /> intervals intersect, otherwise returns false
@@ -58,7 +56,7 @@ public static partial class IntervalExtensions
     /// <returns></returns>
     public static bool IsOverlap<T>(this Interval<T> left, IEnumerable<Interval<T>> right)
         where T : IComparable<T>, IEquatable<T> =>
-        new IntervalEnumerable<T>(left).Overlap(right).Any();
+        right.Any(left.IsOverlap);
 
     /// <summary>
     /// Returns true if the specified <paramref name="left" /> and <paramref name="right" /> intervals intersect, otherwise returns false
@@ -69,5 +67,5 @@ public static partial class IntervalExtensions
     /// <returns></returns>
     public static bool IsOverlap<T>(this Interval<T> left, Interval<T> right)
         where T : IComparable<T>, IEquatable<T> =>
-        new IntervalEnumerable<T>(left).Overlap(new IntervalEnumerable<T>(right)).Any();
+        left.Left.CompareTo(right.Right) <= 0 && right.Left.CompareTo(left.Right) <= 0;
 }

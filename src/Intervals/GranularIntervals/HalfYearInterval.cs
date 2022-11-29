@@ -46,7 +46,13 @@ public record class HalfYearInterval : MonthGranularInterval
         HalfYear = halfYear;
     }
 
+    /// <summary>
+    /// Year
+    /// </summary>
     public int Year { get; }
 
+    /// <summary>
+    /// Half year
+    /// </summary>
     public int HalfYear { get; }
 }

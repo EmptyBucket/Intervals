@@ -48,11 +48,23 @@ public record class HourInterval : TimeGranularInterval
         Hour = hour;
     }
 
+    /// <summary>
+    /// Year
+    /// </summary>
     public int Year { get; }
 
+    /// <summary>
+    /// Month
+    /// </summary>
     public int Month { get; }
 
+    /// <summary>
+    /// Day
+    /// </summary>
     public int Day { get; }
 
+    /// <summary>
+    /// Hour
+    /// </summary>
     public int Hour { get; }
 }

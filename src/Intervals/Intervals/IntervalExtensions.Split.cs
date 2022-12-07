@@ -60,7 +60,7 @@ public static partial class IntervalExtensions
     /// <returns></returns>
     public static IEnumerable<GranularInterval<DateTime>> SplitByMonths(this Interval<DateTime> interval,
         int monthsCount = 1) =>
-        SplitByMonths(interval, l => new MonthInterval(l.Year, l.Month).ExpandRight(monthsCount - 1));
+        SplitByMonths(interval, l => new MonthInterval(l.Year, l.Month, l.Kind).ExpandRight(monthsCount - 1));
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="quartersCount" /> length and
@@ -71,7 +71,8 @@ public static partial class IntervalExtensions
     /// <returns></returns>
     public static IEnumerable<GranularInterval<DateTime>> SplitByQuarters(this Interval<DateTime> interval,
         int quartersCount = 1) =>
-        SplitByMonths(interval, l => new QuarterInterval(l.Year, l.GetQuarter()).ExpandRight(quartersCount - 1));
+        SplitByMonths(interval,
+            l => new QuarterInterval(l.Year, l.GetQuarter(), l.Kind).ExpandRight(quartersCount - 1));
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="halfYearsCount" /> length and
@@ -82,7 +83,8 @@ public static partial class IntervalExtensions
     /// <returns></returns>
     public static IEnumerable<GranularInterval<DateTime>> SplitByHalfYears(this Interval<DateTime> interval,
         int halfYearsCount = 1) =>
-        SplitByMonths(interval, l => new HalfYearInterval(l.Year, l.GetHalfYear()).ExpandRight(halfYearsCount - 1));
+        SplitByMonths(interval,
+            l => new HalfYearInterval(l.Year, l.GetHalfYear(), l.Kind).ExpandRight(halfYearsCount - 1));
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="yearsCount" /> length and
@@ -93,7 +95,7 @@ public static partial class IntervalExtensions
     /// <returns></returns>
     public static IEnumerable<GranularInterval<DateTime>> SplitByYears(this Interval<DateTime> interval,
         int yearsCount = 1) =>
-        SplitByMonths(interval, l => new YearInterval(l.Year).ExpandRight(yearsCount - 1));
+        SplitByMonths(interval, l => new YearInterval(l.Year, l.Kind).ExpandRight(yearsCount - 1));
 
 
     private static IEnumerable<GranularInterval<DateTime>> SplitByMonths(Interval<DateTime> interval,

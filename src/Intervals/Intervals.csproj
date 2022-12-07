@@ -6,7 +6,7 @@
         <LangVersion>10</LangVersion>
 
         <PackageId>ap.Intervals</PackageId>
-        <Version>1.4.1</Version>
+        <Version>1.4.2</Version>
         <Authors>Alexey Politov, Yevgeny Khoroshavin</Authors>
         <PackageDescription>Library for working with generic intervals and granular time intervals (like a quarter, a week...). Intervals support different inclusions (Opened, LeftOpened, RightOpened, Closed)</PackageDescription>
         <RepositoryUrl>https://github.com/EmptyBucket/Intervals</RepositoryUrl>

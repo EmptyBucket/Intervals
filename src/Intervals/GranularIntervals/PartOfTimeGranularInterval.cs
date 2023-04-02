@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Text.Json.Serialization;
 using Intervals.Intervals;
 using Intervals.Points;
 
@@ -30,6 +31,7 @@ namespace Intervals.GranularIntervals;
 /// Represents an part of the granular interval instance where the granule size is explicitly specified.
 /// That is, the granule size on the basis of which operations are executed can be larger or smaller than the interval itself
 /// </summary>
+[Serializable]
 public record class PartOfTimeGranularInterval : TimeGranularInterval
 {
     /// <summary>
@@ -53,6 +55,8 @@ public record class PartOfTimeGranularInterval : TimeGranularInterval
     /// <param name="rightValue"></param>
     /// <param name="granuleSize"></param>
     /// <param name="inclusion"></param>
+    [JsonConstructor]
+    [Newtonsoft.Json.JsonConstructor]
     public PartOfTimeGranularInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleSize,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, rightValue, inclusion)

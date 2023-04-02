@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Text.Json.Serialization;
 using Intervals.Points;
 
 namespace Intervals.Intervals;
@@ -28,6 +29,7 @@ namespace Intervals.Intervals;
 /// <summary>
 /// Represents an interval instance
 /// </summary>
+[Serializable]
 public record class Interval<T> : IComparable<Interval<T>>
     where T : IComparable<T>, IEquatable<T>
 {
@@ -50,6 +52,8 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// <param name="leftValue"></param>
     /// <param name="rightValue"></param>
     /// <param name="inclusion"></param>
+    [JsonConstructor]
+    [Newtonsoft.Json.JsonConstructor]
     public Interval(T leftValue, T rightValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
     {
         var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(inclusion);
@@ -108,11 +112,15 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// <summary>
     /// Left endpoint of the interval
     /// </summary>
+    [JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
     public Endpoint<T> Left { get; private init; }
 
     /// <summary>
     /// Right endpoint of the interval
     /// </summary>
+    [JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
     public Endpoint<T> Right { get; private init; }
 
     /// <summary>

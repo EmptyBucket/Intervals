@@ -24,7 +24,9 @@
 using FluentAssertions;
 using Intervals.Intervals;
 using Intervals.Points;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Intervals.Tests.Intervals;
 
@@ -156,5 +158,45 @@ public class IntervalTests
         var actual = interval.IsEmpty();
 
         actual.Should().BeFalse();
+    }
+
+    [Test]
+    public void Serialize_WhenSystemTextJson_ShouldNotThrowException()
+    {
+        var interval = new Interval<int>(0, 1);
+
+        var action = new Action(() => JsonSerializer.Serialize(interval));
+
+        action.Should().NotThrow();
+    }
+
+    [Test]
+    public void Deserialize_WhenSystemTextJson_ShouldNotThrowException()
+    {
+        const string str = "{\"LeftValue\":0,\"RightValue\":1,\"Inclusion\":2}";
+
+        var action = new Action(() => JsonSerializer.Deserialize<Interval<int>>(str));
+
+        action.Should().NotThrow();
+    }
+
+    [Test]
+    public void Serialize_WhenNewtonsoftJson_ShouldNotThrowException()
+    {
+        var interval = new Interval<int>(0, 1);
+
+        var action = new Action(() => JsonConvert.SerializeObject(interval));
+
+        action.Should().NotThrow();
+    }
+
+    [Test]
+    public void Deserialize_WhenNewtonsoftJson_ShouldNotThrowException()
+    {
+        const string str = "{\"LeftValue\":0,\"RightValue\":1,\"Inclusion\":2}";
+
+        var action = new Action(() => JsonConvert.DeserializeObject<Interval<int>>(str));
+
+        action.Should().NotThrow();
     }
 }

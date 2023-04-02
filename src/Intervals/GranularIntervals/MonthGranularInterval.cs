@@ -21,6 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+using System.Text.Json.Serialization;
 using Intervals.Intervals;
 using Intervals.Points;
 using Intervals.Utils;
@@ -30,13 +31,9 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an granular interval instance where the granule size is determined by the number of months in the interval
 /// </summary>
+[Serializable]
 public record class MonthGranularInterval : GranularInterval<DateTime>
 {
-    /// <summary>
-    /// Granules count
-    /// </summary>
-    protected int GranulesCount;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthGranularInterval"/>
     /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
@@ -55,11 +52,18 @@ public record class MonthGranularInterval : GranularInterval<DateTime>
     /// <param name="leftValue"></param>
     /// <param name="rightValue"></param>
     /// <param name="inclusion"></param>
+    [JsonConstructor]
+    [Newtonsoft.Json.JsonConstructor]
     public MonthGranularInterval(DateTime leftValue, DateTime rightValue,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened) : base(leftValue, rightValue, inclusion)
     {
         GranulesCount = ComputeGranulesCount(leftValue, rightValue);
     }
+
+    /// <summary>
+    /// Granules count
+    /// </summary>
+    public int GranulesCount { get; protected set; }
 
     /// <summary>
     /// Returns a new interval moved by the specified <paramref name="granulesCount" />.

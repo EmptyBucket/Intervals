@@ -46,6 +46,16 @@ public record class Interval<T> : IComparable<Interval<T>>
     }
 
     /// <summary>
+    /// Initialize a new instance of the <see cref="T:Intervals.Intervals.Interval"/> with from point value
+    /// </summary>
+    /// <param name="value"></param>
+    public Interval(T value)
+    {
+        Left = Endpoint.Left(value, Points.Inclusion.Included);
+        Right = Endpoint.Right(value, Points.Inclusion.Included);
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.Intervals.Interval"/>
     /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
     /// </summary>

@@ -43,42 +43,29 @@ public static partial class DateTimeExtensions
     /// </summary>
     /// <param name="dateTime"></param>
     /// <returns></returns>
-    public static DateTime CeilingToMonth(this DateTime dateTime)
-    {
-        var start = dateTime.FloorToMonth();
-        return dateTime > start ? start.AddMonths(1) : start;
-    }
+    public static DateTime CeilingToMonth(this DateTime dateTime) => dateTime.FloorToMonth().AddMonths(1);
 
     /// <summary>
     /// Returns the smallest value aligned to quarter that is greater than or equal to the specified <paramref name="dateTime" />
     /// </summary>
     /// <param name="dateTime"></param>
     /// <returns></returns>
-    public static DateTime CeilingToQuarter(this DateTime dateTime)
-    {
-        var start = dateTime.FloorToQuarter();
-        return dateTime > start ? start.AddMonths(DateTimeHelper.MonthsInQuarter) : start;
-    }
+    public static DateTime CeilingToQuarter(this DateTime dateTime) =>
+        dateTime.FloorToQuarter().AddMonths(DateTimeHelper.MonthsInQuarter);
 
     /// <summary>
     /// Returns the smallest value aligned to half-year that is greater than or equal to the specified <paramref name="dateTime" />
     /// </summary>
     /// <param name="dateTime"></param>
     /// <returns></returns>
-    public static DateTime CeilingToHalfYear(this DateTime dateTime)
-    {
-        var start = dateTime.FloorToHalfYear();
-        return dateTime > start ? start.AddMonths(DateTimeHelper.MonthsInHalfYear) : start;
-    }
+    public static DateTime CeilingToHalfYear(this DateTime dateTime) =>
+        dateTime.FloorToHalfYear().AddMonths(DateTimeHelper.MonthsInHalfYear);
 
     /// <summary>
     /// Returns the smallest value aligned to year that is greater than or equal to the specified <paramref name="dateTime" />
     /// </summary>
     /// <param name="dateTime"></param>
     /// <returns></returns>
-    public static DateTime CeilingToYear(this DateTime dateTime)
-    {
-        var start = dateTime.FloorToYear();
-        return dateTime > start ? start.AddMonths(DateTimeHelper.MonthsInYear) : start;
-    }
+    public static DateTime CeilingToYear(this DateTime dateTime) =>
+        dateTime.FloorToYear().AddMonths(DateTimeHelper.MonthsInYear);
 }

@@ -76,7 +76,7 @@ public partial class DateTimeExtensionsTests
 
         var actual = dateTime.CeilingToMonth();
 
-        actual.Should().Be(new DateTime(2022, 2, 1));
+        actual.Should().Be(new DateTime(2022, 3, 1));
     }
 
     [Test]
@@ -116,7 +116,7 @@ public partial class DateTimeExtensionsTests
 
         var actual = dateTime.CeilingToQuarter();
 
-        actual.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2022, 4, 1));
     }
 
     [Test]
@@ -156,7 +156,7 @@ public partial class DateTimeExtensionsTests
 
         var actual = dateTime.CeilingToHalfYear();
 
-        actual.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2022, 7, 1));
     }
 
     [Test]
@@ -196,7 +196,7 @@ public partial class DateTimeExtensionsTests
 
         var actual = dateTime.CeilingToYear();
 
-        actual.Should().Be(new DateTime(2022, 1, 1));
+        actual.Should().Be(new DateTime(2023, 1, 1));
     }
 
     [Test]

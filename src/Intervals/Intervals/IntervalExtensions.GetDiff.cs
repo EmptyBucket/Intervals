@@ -29,13 +29,13 @@ public static partial class IntervalExtensions
 {
 #if NET7_0_OR_GREATER
     /// <summary>
-    /// Calculates length of interval
+    /// Calculates difference of the interval endpoints
     /// </summary>
     /// <param name="interval"></param>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TResult">Type representing difference of two <see cref="T"/></typeparam>
     /// <returns></returns>
-    public static TResult GetLength<T, TResult>(this Interval<T> interval)
+    public static TResult GetDiff<T, TResult>(this Interval<T> interval)
         where T : IComparable<T>, IEquatable<T>, ISubtractionOperators<T, T, TResult>
         where TResult : INumberBase<TResult>
     {
@@ -47,11 +47,11 @@ public static partial class IntervalExtensions
 #endif
 
     /// <summary>
-    /// Calculates length of DateTime interval
+    /// Calculates difference of the <see cref="DateTime"/> interval endpoints
     /// </summary>
     /// <param name="interval"></param>
     /// <returns></returns>
-    public static TimeSpan GetLength(this Interval<DateTime> interval)
+    public static TimeSpan GetDiff(this Interval<DateTime> interval)
     {
         if (interval.IsEmpty()) return TimeSpan.Zero;
 

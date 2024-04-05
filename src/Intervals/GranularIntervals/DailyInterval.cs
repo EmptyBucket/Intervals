@@ -28,39 +28,47 @@ using Intervals.Points;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an part of the granular interval instance where the granule size is explicitly specified.
-/// That is, the granule size on the basis of which operations are executed can be larger or smaller than the interval itself
+/// Represents an daily interval instance where the granule size is day
 /// </summary>
 [Serializable]
-public record class PartOfTimeGranularInterval : TimeGranularInterval
+public record class DailyInterval : TimeGranularInterval
 {
+    private new static readonly TimeSpan GranuleLength = TimeSpan.FromDays(1);
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfTimeGranularInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.DailyInterval"/>
     /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
     /// </summary>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    /// <param name="granuleSize"></param>
-    public PartOfTimeGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleSize)
-        : base(leftPoint, rightPoint)
+    public DailyInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
+        : base(leftPoint, rightPoint, GranuleLength)
     {
-        GranuleSize = granuleSize;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfTimeGranularInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.DailyInterval"/>
     /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
     /// <param name="rightValue"></param>
-    /// <param name="granuleSize"></param>
     /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public PartOfTimeGranularInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleSize,
+    public DailyInterval(DateTime leftValue, DateTime rightValue,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, rightValue, inclusion)
+        : base(leftValue, rightValue, GranuleLength, inclusion)
     {
-        GranuleSize = granuleSize;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.DailyInterval"/>
+    /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="inclusion"></param>
+    public DailyInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleLength, inclusion)
+    {
     }
 }

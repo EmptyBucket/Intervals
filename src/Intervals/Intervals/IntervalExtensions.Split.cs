@@ -22,7 +22,6 @@
 // SOFTWARE.
 
 using Intervals.GranularIntervals;
-using Intervals.Points;
 using Intervals.Utils;
 
 namespace Intervals.Intervals;
@@ -30,25 +29,16 @@ namespace Intervals.Intervals;
 public static partial class IntervalExtensions
 {
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="granuleSize" /> length and
-    /// the rest, which was less than <paramref name="granuleSize" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleLength" /> and
+    /// the rest, which was less than <paramref name="granuleLength" />
     /// </summary>
     /// <param name="interval"></param>
-    /// <param name="granuleSize"></param>
+    /// <param name="granuleLength"></param>
     /// <returns></returns>
-    public static IEnumerable<GranularInterval<DateTime>> Split(this Interval<DateTime> interval,
-        TimeSpan granuleSize)
+    public static IEnumerable<Interval<DateTime>> Split(this Interval<DateTime> interval, TimeSpan granuleLength)
     {
-        var (left, right) = interval;
-
-        while (left.CompareTo(right) <= 0)
-        {
-            var curInterval = new TimeGranularInterval(left.Value, left.Value + granuleSize);
-            curInterval = new TimeGranularInterval(
-                GenericMath.Max(curInterval.Left, interval.Left), GenericMath.Min(curInterval.Right, interval.Right));
-            yield return curInterval;
-            left = Endpoint.Left(curInterval.Right.Value, curInterval.Right.Inclusion.Invert());
-        }
+        var (leftValue, _, inclusion) = interval;
+        return Split(interval, new TimeGranularInterval(leftValue, granuleLength, inclusion));
     }
 
     /// <summary>
@@ -58,9 +48,11 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="monthsCount"></param>
     /// <returns></returns>
-    public static IEnumerable<GranularInterval<DateTime>> SplitByMonths(this Interval<DateTime> interval,
-        int monthsCount = 1) =>
-        SplitByMonths(interval, l => new MonthInterval(l.Year, l.Month, l.Kind).ExpandRight(monthsCount - 1));
+    public static IEnumerable<Interval<DateTime>> SplitByMonths(this Interval<DateTime> interval, int monthsCount = 1)
+    {
+        var (leftValue, _, inclusion) = interval;
+        return Split(interval, new MonthGranularInterval(leftValue, monthsCount, inclusion));
+    }
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="quartersCount" /> length and
@@ -69,10 +61,8 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="quartersCount"></param>
     /// <returns></returns>
-    public static IEnumerable<GranularInterval<DateTime>> SplitByQuarters(this Interval<DateTime> interval,
-        int quartersCount = 1) =>
-        SplitByMonths(interval,
-            l => new QuarterInterval(l.Year, l.GetQuarter(), l.Kind).ExpandRight(quartersCount - 1));
+    public static IEnumerable<Interval<DateTime>> SplitByQuarters(this Interval<DateTime> interval,
+        int quartersCount = 1) => interval.SplitByMonths(quartersCount * DateTimeHelper.MonthsInQuarter);
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="halfYearsCount" /> length and
@@ -81,10 +71,8 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="halfYearsCount"></param>
     /// <returns></returns>
-    public static IEnumerable<GranularInterval<DateTime>> SplitByHalfYears(this Interval<DateTime> interval,
-        int halfYearsCount = 1) =>
-        SplitByMonths(interval,
-            l => new HalfYearInterval(l.Year, l.GetHalfYear(), l.Kind).ExpandRight(halfYearsCount - 1));
+    public static IEnumerable<Interval<DateTime>> SplitByHalfYears(this Interval<DateTime> interval,
+        int halfYearsCount = 1) => interval.SplitByMonths(halfYearsCount * DateTimeHelper.MonthsInHalfYear);
 
     /// <summary>
     /// Splits the interval into sub-intervals of <paramref name="yearsCount" /> length and
@@ -93,25 +81,19 @@ public static partial class IntervalExtensions
     /// <param name="interval"></param>
     /// <param name="yearsCount"></param>
     /// <returns></returns>
-    public static IEnumerable<GranularInterval<DateTime>> SplitByYears(this Interval<DateTime> interval,
-        int yearsCount = 1) =>
-        SplitByMonths(interval, l => new YearInterval(l.Year, l.Kind).ExpandRight(yearsCount - 1));
+    public static IEnumerable<Interval<DateTime>> SplitByYears(this Interval<DateTime> interval,
+        int yearsCount = 1) => interval.SplitByMonths(yearsCount * DateTimeHelper.MonthsInYear);
 
-
-    private static IEnumerable<GranularInterval<DateTime>> SplitByMonths(Interval<DateTime> interval,
-        ComputeNext computeNext)
+    private static IEnumerable<Interval<DateTime>> Split(Interval<DateTime> originInterval,
+        GranularInterval<DateTime, TimeSpan> granularInterval)
     {
-        var (left, right) = interval;
-
-        while (left.CompareTo(right) <= 0)
+        while (true)
         {
-            var curInterval = computeNext(left.Value);
-            curInterval = new MonthGranularInterval(
-                GenericMath.Max(curInterval.Left, interval.Left), GenericMath.Min(curInterval.Right, interval.Right));
-            yield return curInterval;
-            left = Endpoint.Left(curInterval.Right.Value, curInterval.Right.Inclusion.Invert());
+            var nextInterval = new Interval<DateTime>(granularInterval.Left,
+                GenericMath.Min(granularInterval.Right, originInterval.Right));
+            if (nextInterval.IsEmpty()) break;
+            yield return nextInterval;
+            granularInterval = granularInterval.MoveByGranule();
         }
     }
-
-    private delegate GranularInterval<DateTime> ComputeNext(DateTime left);
 }

@@ -23,7 +23,6 @@
 
 using FluentAssertions;
 using Intervals.GranularIntervals;
-using Intervals.Points;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -36,11 +35,9 @@ public partial class MonthGranularIntervalTests
     public void Move_WhenForward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
         DateTime expectedRightValue)
     {
-        var left = Point.Included(leftValue);
-        var right = Point.Excluded(rightValue);
-        var interval = new MonthGranularInterval(left, right);
+        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
 
-        var actual = interval.Move();
+        var actual = interval.MoveByLength();
 
         actual.LeftValue.Should().Be(expectedLeftValue);
         actual.RightValue.Should().Be(expectedRightValue);
@@ -50,11 +47,9 @@ public partial class MonthGranularIntervalTests
     public void Move_WhenBackward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
         DateTime expectedRightValue)
     {
-        var left = Point.Included(leftValue);
-        var right = Point.Excluded(rightValue);
-        var interval = new MonthGranularInterval(left, right);
+        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
 
-        var actual = interval.Move(-1);
+        var actual = interval.MoveByLength(-1);
 
         actual.LeftValue.Should().Be(expectedLeftValue);
         actual.RightValue.Should().Be(expectedRightValue);
@@ -63,11 +58,11 @@ public partial class MonthGranularIntervalTests
     [Test]
     public void ExpandLeft_WhenOne_ReturnIntervalWithLeftAddition()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new MonthGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 4, 5, 6, 7);
+        var rightValue = new DateTime(2023, 1, 7, 9, 11, 13);
+        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
 
-        var actual = interval.ExpandLeft(1);
+        var actual = interval.MoveByGranule(1);
 
         actual.LeftValue.Should().Be(new DateTime(2021, 1, 4, 5, 6, 7));
         actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
@@ -76,11 +71,11 @@ public partial class MonthGranularIntervalTests
     [Test]
     public void ExpandLeft_WhenNegativeOne_ReturnEmpty()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new MonthGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 4, 5, 6, 7);
+        var rightValue = new DateTime(2023, 1, 7, 9, 11, 13);
+        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
 
-        var actual = interval.ExpandLeft(-1);
+        var actual = interval.MoveLeft(-1);
 
         actual.LeftValue.Should().Be(new DateTime(2023, 1, 4, 5, 6, 7));
         actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
@@ -89,11 +84,11 @@ public partial class MonthGranularIntervalTests
     [Test]
     public void ExpandRight_WhenOne_ReturnIntervalWithRightAddition()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new MonthGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 4, 5, 6, 7);
+        var rightValue = new DateTime(2023, 1, 7, 9, 11, 13);
+        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
 
-        var actual = interval.ExpandRight(1);
+        var actual = interval.MoveByGranule(1);
 
         actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
         actual.RightValue.Should().Be(new DateTime(2024, 1, 7, 9, 11, 13));
@@ -102,11 +97,11 @@ public partial class MonthGranularIntervalTests
     [Test]
     public void ExpandRight_WhenNegativeOne_ReturnEmpty()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new MonthGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 4, 5, 6, 7);
+        var rightValue = new DateTime(2023, 1, 7, 9, 11, 13);
+        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
 
-        var actual = interval.ExpandRight(-1);
+        var actual = interval.MoveByGranule(-1);
 
         actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
         actual.RightValue.Should().Be(new DateTime(2022, 1, 7, 9, 11, 13));
@@ -115,7 +110,7 @@ public partial class MonthGranularIntervalTests
     [Test]
     public void Serialize_WhenSystemTextJson_ShouldNotThrowException()
     {
-        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1));
+        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1), 1);
 
         var action = new Action(() => JsonSerializer.Serialize(interval));
 
@@ -136,7 +131,7 @@ public partial class MonthGranularIntervalTests
     [Test]
     public void Serialize_WhenNewtonsoftJson_ShouldNotThrowException()
     {
-        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1));
+        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1), 1);
 
         var action = new Action(() => JsonConvert.SerializeObject(interval));
 
@@ -148,6 +143,48 @@ public partial class MonthGranularIntervalTests
     {
         const string str =
             "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"Inclusion\":2}";
+
+        var action = new Action(() => JsonConvert.DeserializeObject<MonthGranularInterval>(str));
+
+        action.Should().NotThrow();
+    }
+    
+    [Test]
+    public void Serialize_WhenSystemTextJsonAndExplicitGranulesCount_ShouldNotThrowException()
+    {
+        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1), 3);
+
+        var action = new Action(() => JsonSerializer.Serialize(interval));
+
+        action.Should().NotThrow();
+    }
+
+    [Test]
+    public void Deserialize_WhenSystemTextJsonAndExplicitGranulesCount_ShouldNotThrowException()
+    {
+        const string str =
+            "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"GranulesCount\":1,\"Inclusion\":2}";
+
+        var action = new Action(() => JsonSerializer.Deserialize<MonthGranularInterval>(str));
+
+        action.Should().NotThrow();
+    }
+
+    [Test]
+    public void Serialize_WhenNewtonsoftJsonAndExplicitGranulesCount_ShouldNotThrowException()
+    {
+        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1), 3);
+
+        var action = new Action(() => JsonConvert.SerializeObject(interval));
+
+        action.Should().NotThrow();
+    }
+
+    [Test]
+    public void Deserialize_WhenNewtonsoftJsonAndExplicitGranulesCount_ShouldNotThrowException()
+    {
+        const string str =
+            "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"GranulesCount\":1,\"Inclusion\":2}";
 
         var action = new Action(() => JsonConvert.DeserializeObject<MonthGranularInterval>(str));
 

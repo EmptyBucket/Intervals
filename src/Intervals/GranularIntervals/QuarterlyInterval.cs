@@ -24,43 +24,64 @@
 using System.Text.Json.Serialization;
 using Intervals.Intervals;
 using Intervals.Points;
+using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an part of the granular interval instance where the granule size is determined by the number of months and explicitly specified.
-/// That is, the granule size on the basis of which operations are executed can be larger or smaller than the interval itself
+/// Represents an quarter interval instance where the granule size is quarter
 /// </summary>
 [Serializable]
-public record class PartOfMonthGranularInterval : MonthGranularInterval
+public record class QuarterlyInterval : MonthGranularInterval
 {
+    private new const int GranuleMonthsCount = DateTimeHelper.MonthsInQuarter;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfMonthGranularInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterlyInterval"/>
     /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
     /// </summary>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    /// <param name="granulesCount"></param>
-    public PartOfMonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, int granulesCount)
-        : base(leftPoint, rightPoint)
+    public QuarterlyInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
+        : base(leftPoint, rightPoint, GranuleMonthsCount)
     {
-        GranulesCount = granulesCount;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfMonthGranularInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterlyInterval"/>
     /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
     /// <param name="rightValue"></param>
-    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public PartOfMonthGranularInterval(DateTime leftValue, DateTime rightValue, int granulesCount,
+    public QuarterlyInterval(DateTime leftValue, DateTime rightValue,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, rightValue, inclusion)
+        : base(leftValue, rightValue, GranuleMonthsCount, inclusion)
     {
-        GranulesCount = granulesCount;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterlyInterval"/>
+    /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="inclusion"></param>
+    public QuarterlyInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleMonthsCount, inclusion)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="quarter" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="year"></param>
+    /// <param name="quarter"></param>
+    /// <param name="kind"></param>
+    public QuarterlyInterval(int year, int quarter, DateTimeKind kind = DateTimeKind.Unspecified)
+        : base(DateTimeHelper.New(year, DateTimeHelper.QuarterToMonth(quarter), 1, kind), GranuleMonthsCount)
+    {
     }
 }

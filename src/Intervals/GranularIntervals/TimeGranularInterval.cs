@@ -24,79 +24,120 @@
 using System.Text.Json.Serialization;
 using Intervals.Intervals;
 using Intervals.Points;
+using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an granular interval instance where the granule size is determined by the length of the interval
+/// Represents an time granular interval instance
 /// </summary>
 [Serializable]
-public record class TimeGranularInterval : GranularInterval<DateTime>
+public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TimeGranularInterval"/>
-    /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
+    /// with specified <paramref name="leftPoint" />, <paramref name="rightPoint" /> and
+    /// <paramref name="granuleLength" />
     /// </summary>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    public TimeGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint) : base(leftPoint, rightPoint)
+    /// <param name="granuleLength"></param>
+    public TimeGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleLength)
+        : base(leftPoint, rightPoint)
     {
-        GranuleSize = ComputeGranuleSize(leftPoint.Value, rightPoint.Value);
+        ThrowIfNotValid(leftPoint.Value, rightPoint.Value, granuleLength);
+
+        GranuleLength = granuleLength;
+        Length = GetLength(leftPoint.Value, rightPoint.Value, granuleLength, Inclusion);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TimeGranularInterval"/>
-    /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="rightValue" />,
+    /// <paramref name="granuleLength" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
     /// <param name="rightValue"></param>
+    /// <param name="granuleLength"></param>
     /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public TimeGranularInterval(DateTime leftValue, DateTime rightValue,
-        IntervalInclusion inclusion = IntervalInclusion.RightOpened) : base(leftValue, rightValue, inclusion)
+    public TimeGranularInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, rightValue, inclusion)
     {
-        GranuleSize = ComputeGranuleSize(leftValue, rightValue);
+        ThrowIfNotValid(leftValue, rightValue, granuleLength);
+
+        GranuleLength = granuleLength;
+        Length = GetLength(leftValue, rightValue, granuleLength, inclusion);
     }
 
     /// <summary>
-    /// Granule size
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TimeGranularInterval"/>
+    /// with specified <paramref name="leftValue" /> and <paramref name="granuleLength" />
     /// </summary>
-    public TimeSpan GranuleSize { get; protected set; }
-
-    /// <summary>
-    /// Returns a new interval moved by the specified <paramref name="granulesCount" />.
-    /// If the <paramref name="granulesCount" /> is positive, then move to the right, if negative, then move to the left
-    /// </summary>
-    /// <param name="granulesCount"></param>
-    /// <returns></returns>
-    public override GranularInterval<DateTime> Move(int granulesCount = 1)
+    /// <param name="leftValue"></param>
+    /// <param name="granuleLength"></param>
+    /// <param name="inclusion"></param>
+    public TimeGranularInterval(DateTime leftValue, TimeSpan granuleLength,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : this(leftValue, GetRight(leftValue, granuleLength, inclusion), granuleLength, inclusion)
     {
-        var totalGranulesSize = GranuleSize * granulesCount;
-        return this with { LeftValue = LeftValue + totalGranulesSize, RightValue = RightValue + totalGranulesSize };
     }
 
     /// <summary>
-    /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the right
+    /// Length of the granule
     /// </summary>
-    /// <param name="granulesCount"></param>
-    /// <returns></returns>
-    public override GranularInterval<DateTime> ExpandLeft(int granulesCount = 1)
+    public TimeSpan GranuleLength { get; }
+
+    /// <inheritdoc />
+    public override TimeSpan Length { get; }
+
+    /// <inheritdoc />
+    public override GranularInterval<DateTime, TimeSpan> MoveByGranule(int leftMultiplier, int rightMultiplier) =>
+        this with
+        {
+            LeftValue = LeftValue + GranuleLength * leftMultiplier,
+            RightValue = RightValue + GranuleLength * rightMultiplier
+        };
+
+    /// <inheritdoc />
+    public override GranularInterval<DateTime, TimeSpan> MoveByLength(int leftMultiplier, int rightMultiplier) =>
+        this with
+        {
+            LeftValue = LeftValue + Length * leftMultiplier,
+            RightValue = RightValue + Length * rightMultiplier
+        };
+
+    private static TimeSpan GetLength(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength,
+        IntervalInclusion inclusion)
     {
-        var totalGranulesSize = GranuleSize * granulesCount;
-        return this with { LeftValue = LeftValue - totalGranulesSize };
+        var (leftAddition, rightAddition) = inclusion switch
+        {
+            IntervalInclusion.Opened => (granuleLength, TimeSpan.Zero),
+            IntervalInclusion.Closed => (TimeSpan.Zero, granuleLength),
+            _ => (TimeSpan.Zero, TimeSpan.Zero)
+        };
+        return GenericMath.Max((rightValue + rightAddition) - (leftValue + leftAddition), TimeSpan.Zero);
     }
 
-    /// <summary>
-    /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the left
-    /// </summary>
-    /// <param name="granulesCount"></param>
-    /// <returns></returns>
-    public override GranularInterval<DateTime> ExpandRight(int granulesCount = 1)
+    private static DateTime GetRight(DateTime leftValue, TimeSpan granuleLength, IntervalInclusion inclusion)
     {
-        var totalGranulesSize = GranuleSize * granulesCount;
-        return this with { RightValue = RightValue + totalGranulesSize };
+        var addition = inclusion switch
+        {
+            IntervalInclusion.Opened => granuleLength,
+            IntervalInclusion.Closed => -granuleLength,
+            _ => TimeSpan.Zero
+        };
+        return leftValue + granuleLength + addition;
     }
 
-    private static TimeSpan ComputeGranuleSize(DateTime leftValue, DateTime rightValue) => rightValue - leftValue;
+    private static void ThrowIfNotValid(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength)
+    {
+        if (granuleLength == TimeSpan.Zero) throw new ArgumentException($"The {granuleLength} must not be zero");
+
+        if (leftValue.Ticks % granuleLength.Ticks != rightValue.Ticks % granuleLength.Ticks)
+            throw new ArgumentException(
+                $"The {nameof(leftValue)} and {nameof(rightValue)} must be aligned to the {nameof(granuleLength)}");
+    }
 }

@@ -50,9 +50,8 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// </summary>
     /// <param name="value"></param>
     public Interval(T value)
+        : this(Endpoint.Left(value, Points.Inclusion.Included), Endpoint.Right(value, Points.Inclusion.Included))
     {
-        Left = Endpoint.Left(value, Points.Inclusion.Included);
-        Right = Endpoint.Right(value, Points.Inclusion.Included);
     }
 
     /// <summary>

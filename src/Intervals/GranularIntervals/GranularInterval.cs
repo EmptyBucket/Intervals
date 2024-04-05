@@ -29,7 +29,7 @@ namespace Intervals.GranularIntervals;
 /// <summary>
 /// Represents an granular interval instance
 /// </summary>
-public abstract record class GranularInterval<T> : Interval<T> where T : IComparable<T>, IEquatable<T>
+public abstract record class GranularInterval<T, TLength> : Interval<T> where T : IComparable<T>, IEquatable<T>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.GranularInterval"/>
@@ -54,24 +54,46 @@ public abstract record class GranularInterval<T> : Interval<T> where T : ICompar
     }
 
     /// <summary>
-    /// Returns a new interval moved by the specified <paramref name="granulesCount" />.
-    /// If the <paramref name="granulesCount" /> is positive, then move to the right, if negative, then move to the left
+    /// Length of the interval
     /// </summary>
-    /// <param name="granulesCount"></param>
     /// <returns></returns>
-    public abstract GranularInterval<T> Move(int granulesCount = 1);
+    public abstract TLength Length { get; }
 
     /// <summary>
-    /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the right
+    /// Move the left point of the interval by the number of granules multiplied
+    /// by the specified <paramref name="leftMultiplier" /> and
+    /// the right point of the interval by the number of granules multiplied
+    /// by the specified <paramref name="rightMultiplier" />
     /// </summary>
-    /// <param name="granulesCount"></param>
+    /// <param name="leftMultiplier"></param>
+    /// <param name="rightMultiplier"></param>
     /// <returns></returns>
-    public abstract GranularInterval<T> ExpandLeft(int granulesCount = 1);
+    public abstract GranularInterval<T, TLength> MoveByGranule(int leftMultiplier, int rightMultiplier);
 
     /// <summary>
-    /// Returns a new interval expanded by the specified <paramref name="granulesCount" /> to the left
+    /// Move the left point and right point of the interval by the number of granules
+    /// multiplied by the specified <paramref name="multiplier" />
     /// </summary>
-    /// <param name="granulesCount"></param>
+    /// <param name="multiplier"></param>
     /// <returns></returns>
-    public abstract GranularInterval<T> ExpandRight(int granulesCount = 1);
+    public GranularInterval<T, TLength> MoveByGranule(int multiplier = 1) => MoveByGranule(multiplier, multiplier);
+
+    /// <summary>
+    /// Move the left point of the interval by the length of the interval multiplied
+    /// by the specified <paramref name="leftMultiplier" /> and
+    /// the right point of the interval by the length of the interval multiplied
+    /// by the specified <paramref name="rightMultiplier" />
+    /// </summary>
+    /// <param name="leftMultiplier"></param>
+    /// <param name="rightMultiplier"></param>
+    /// <returns></returns>
+    public abstract GranularInterval<T, TLength> MoveByLength(int leftMultiplier, int rightMultiplier);
+
+    /// <summary>
+    /// Move the left point and right point of the interval by the length of the interval multiplied
+    /// by the specified <paramref name="multiplier" />
+    /// </summary>
+    /// <param name="multiplier"></param>
+    /// <returns></returns>
+    public GranularInterval<T, TLength> MoveByLength(int multiplier = 1) => MoveByLength(multiplier, multiplier);
 }

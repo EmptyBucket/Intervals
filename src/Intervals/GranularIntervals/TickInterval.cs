@@ -28,26 +28,26 @@ using Intervals.Points;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an second interval instance where the granule size is second
+/// Represents an tick interval instance where the granule size is tick
 /// </summary>
 [Serializable]
-public record class SecondInterval : TimeGranularInterval
+public record class TickInterval : TimeGranularInterval
 {
-    private new static readonly TimeSpan GranuleLength = TimeSpan.FromSeconds(1);
+    private new static readonly TimeSpan GranuleLength = TimeSpan.FromTicks(1);
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.SecondInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TickInterval"/>
     /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
     /// </summary>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    public SecondInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
+    public TickInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
         : base(leftPoint, rightPoint, GranuleLength)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.SecondInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TickInterval"/>
     /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
@@ -55,19 +55,19 @@ public record class SecondInterval : TimeGranularInterval
     /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public SecondInterval(DateTime leftValue, DateTime rightValue,
+    public TickInterval(DateTime leftValue, DateTime rightValue,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, rightValue, GranuleLength, inclusion)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.SecondInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TickInterval"/>
     /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
     /// <param name="inclusion"></param>
-    public SecondInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+    public TickInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, GranuleLength, inclusion)
     {
     }

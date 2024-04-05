@@ -25,7 +25,7 @@ using Intervals.Points;
 
 namespace Intervals.Intervals;
 
-public static class IntervalInclusionConvert
+public static class IntervalInclusionConverter
 {
     /// <summary>
     /// Returns the converted inclusion of the interval from the <paramref name="leftInclusion" /> and <paramref name="rightInclusion" /> of the point

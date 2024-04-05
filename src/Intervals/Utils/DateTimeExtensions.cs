@@ -23,7 +23,7 @@
 
 namespace Intervals.Utils;
 
-public static partial class DateTimeExtensions
+public static class DateTimeExtensions
 {
     /// <summary>
     /// Returns the quarter number for the specified <paramref name="dateTime" />

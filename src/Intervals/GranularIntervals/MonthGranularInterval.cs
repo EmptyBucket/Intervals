@@ -34,7 +34,7 @@ namespace Intervals.GranularIntervals;
 [Serializable]
 public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
 {
-    private static TimeSpan _essentialGranuleSize = TimeSpan.FromDays(1);
+    private static TimeSpan _essentialGranuleLength = TimeSpan.FromDays(1);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthGranularInterval"/>
@@ -125,12 +125,28 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
     public override GranularInterval<DateTime, TimeSpan> MoveByLength(int leftMultiplier, int rightMultiplier) =>
         MoveByGranule(GranulesCount * leftMultiplier, GranulesCount * rightMultiplier);
 
+    /// <inheritdoc />
+    public override GranularInterval<DateTime, TimeSpan> Convert(IntervalInclusion inclusion)
+    {
+        var (leftInclusion, rightInclusion) = IntervalInclusionConverter.ToInclusions(inclusion);
+        var leftAddition = Left.Inclusion != leftInclusion
+            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Included) * _essentialGranuleLength
+            : TimeSpan.Zero;
+        var rightAddition = Right.Inclusion != rightInclusion
+            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Excluded) * _essentialGranuleLength
+            : TimeSpan.Zero;
+        return this with
+        {
+            LeftValue = LeftValue + leftAddition, RightValue = RightValue + rightAddition, Inclusion = inclusion
+        };
+    }
+
     private static TimeSpan GetLength(DateTime leftValue, DateTime rightValue, IntervalInclusion inclusion)
     {
         var (leftAddition, rightAddition) = inclusion switch
         {
-            IntervalInclusion.Opened => (_essentialGranuleSize, TimeSpan.Zero),
-            IntervalInclusion.Closed => (TimeSpan.Zero, _essentialGranuleSize),
+            IntervalInclusion.Opened => (_essentialGranuleLength, TimeSpan.Zero),
+            IntervalInclusion.Closed => (TimeSpan.Zero, _essentialGranuleLength),
             _ => (TimeSpan.Zero, TimeSpan.Zero)
         };
         return GenericMath.Max((rightValue + rightAddition) - (leftValue + leftAddition), TimeSpan.Zero);
@@ -140,8 +156,8 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
     {
         var addition = inclusion switch
         {
-            IntervalInclusion.Opened => _essentialGranuleSize,
-            IntervalInclusion.Closed => -_essentialGranuleSize,
+            IntervalInclusion.Opened => _essentialGranuleLength,
+            IntervalInclusion.Closed => -_essentialGranuleLength,
             _ => TimeSpan.Zero
         };
         return leftValue.AddMonths(granuleMonthsCount) + addition;
@@ -156,11 +172,11 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
         if (granuleMonthsCount <= 0)
             throw new ArgumentException($"The {granuleMonthsCount} must not be less or equal zero");
 
-        if (leftValue.Ticks % _essentialGranuleSize.Ticks != rightValue.Ticks % _essentialGranuleSize.Ticks)
+        if (leftValue.Ticks % _essentialGranuleLength.Ticks != rightValue.Ticks % _essentialGranuleLength.Ticks)
             throw new ArgumentException(
                 $"The {nameof(leftValue)} and {nameof(rightValue)} must be aligned to the time of day");
 
-        var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(inclusion);
+        var (leftInclusion, rightInclusion) = IntervalInclusionConverter.ToInclusions(inclusion);
 
         if (leftInclusion == Points.Inclusion.Excluded &&
             leftValue.Day != DateTime.DaysInMonth(leftValue.Year, leftValue.Month) ||

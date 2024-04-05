@@ -27,7 +27,7 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Utils;
 
-public partial class DateTimeExtensionsTests
+public class DateTimeExtensionsTests
 {
     [Test]
     [TestCase(1, 1)]

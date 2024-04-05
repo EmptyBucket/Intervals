@@ -105,9 +105,24 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
     public override GranularInterval<DateTime, TimeSpan> MoveByLength(int leftMultiplier, int rightMultiplier) =>
         this with
         {
-            LeftValue = LeftValue + Length * leftMultiplier,
-            RightValue = RightValue + Length * rightMultiplier
+            LeftValue = LeftValue + Length * leftMultiplier, RightValue = RightValue + Length * rightMultiplier
         };
+
+    /// <inheritdoc />
+    public override GranularInterval<DateTime, TimeSpan> Convert(IntervalInclusion inclusion)
+    {
+        var (leftInclusion, rightInclusion) = IntervalInclusionConverter.ToInclusions(inclusion);
+        var leftAddition = Left.Inclusion != leftInclusion
+            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Included) * GranuleLength
+            : TimeSpan.Zero;
+        var rightAddition = Right.Inclusion != rightInclusion
+            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Excluded) * GranuleLength
+            : TimeSpan.Zero;
+        return this with
+        {
+            LeftValue = LeftValue + leftAddition, RightValue = RightValue + rightAddition, Inclusion = inclusion
+        };
+    }
 
     private static TimeSpan GetLength(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength,
         IntervalInclusion inclusion)

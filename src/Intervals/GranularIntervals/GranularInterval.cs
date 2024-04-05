@@ -96,4 +96,11 @@ public abstract record class GranularInterval<T, TLength> : Interval<T> where T 
     /// <param name="multiplier"></param>
     /// <returns></returns>
     public GranularInterval<T, TLength> MoveByLength(int multiplier = 1) => MoveByLength(multiplier, multiplier);
+
+    /// <summary>
+    /// Convert to granular interval with specified <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="inclusion"></param>
+    /// <returns></returns>
+    public abstract GranularInterval<T, TLength> Convert(IntervalInclusion inclusion);
 }

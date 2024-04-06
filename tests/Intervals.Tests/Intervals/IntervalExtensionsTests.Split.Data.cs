@@ -33,274 +33,202 @@ public partial class IntervalExtensionsTests
     public static IEnumerable Split_Data()
     {
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 1)), new[]
-                {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 0, 0, 0)),
-                        Point.Excluded(new DateTime(2022, 1, 1, 0, 0, 1)))
-                })
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 1)) })
             .SetName("WhenAlignedOneSecondByTwoSeconds_ReturnAlignedOneSecond");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 2)), new[]
-                {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 0, 0, 0)),
-                        Point.Excluded(new DateTime(2022, 1, 1, 0, 0, 2)))
-                })
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 2)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 2)) })
             .SetName("WhenAlignedTwoSecondsByTwoSeconds_ReturnAlignedTwoSeconds");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 3)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 3)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 0, 0, 0)),
-                        Point.Excluded(new DateTime(2022, 1, 1, 0, 0, 2))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 0, 0, 2)),
-                        Point.Excluded(new DateTime(2022, 1, 1, 0, 0, 3)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0), new DateTime(2022, 1, 1, 0, 0, 2)),
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 2), new DateTime(2022, 1, 1, 0, 0, 3))
                 })
             .SetName("WhenAlignedThreeSecondsByTwoSeconds_ReturnAlignedTwoAndOneSecond");
-
         yield return new TestCaseData(
                 new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0, 500), new DateTime(2022, 1, 1, 0, 0, 1, 500)),
                 new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 0, 0, 0, 500)),
-                        Point.Excluded(new DateTime(2022, 1, 1, 0, 0, 1, 500)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0, 500),
+                        new DateTime(2022, 1, 1, 0, 0, 1, 500))
                 })
             .SetName("WhenOneSecondByTwoSeconds_ReturnOneSecond");
         yield return new TestCaseData(
                 new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0, 500), new DateTime(2022, 1, 1, 0, 0, 2, 500)),
                 new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 0, 0, 0, 500)),
-                        Point.Excluded(new DateTime(2022, 1, 1, 0, 0, 2, 500)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0, 500),
+                        new DateTime(2022, 1, 1, 0, 0, 2, 500))
                 })
             .SetName("WhenTwoSecondsByTwoSeconds_ReturnTwoSeconds");
         yield return new TestCaseData(
                 new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0, 500), new DateTime(2022, 1, 1, 0, 0, 3, 500)),
                 new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 0, 0, 0, 500)),
-                        Point.Excluded(new DateTime(2022, 1, 1, 0, 0, 2, 500))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 0, 0, 2, 500)),
-                        Point.Excluded(new DateTime(2022, 1, 1, 0, 0, 3, 500)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 0, 500),
+                        new DateTime(2022, 1, 1, 0, 0, 2, 500)),
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 0, 0, 2, 500),
+                        new DateTime(2022, 1, 1, 0, 0, 3, 500))
                 })
             .SetName("WhenThreeSecondsByTwoSeconds_ReturnTwoAndOneSecond");
     }
 
     public static IEnumerable SplitByMonths_Data()
     {
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2022, 2, 1)))
-            })
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1)) })
             .SetName("WhenAlignedOneMonthByTwoMonths_ReturnAlignedOneMonth");
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2022, 3, 1)))
-            })
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1)) })
             .SetName("WhenAlignedTwoMonthsByTwoMonths_ReturnAlignedTwoMonths");
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 4, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2022, 3, 1))),
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 3, 1)), Point.Excluded(new DateTime(2022, 4, 1)))
-            })
-            .SetName("WhenAlignedThreeMonthsByTwoMonths_ReturnAlignedTwoAndOneMonth");
-
-        yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 2, 1, 12, 0, 0)), new[]
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 4, 1)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)),
-                        Point.Excluded(new DateTime(2022, 2, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1)),
+                    new Interval<DateTime>(new DateTime(2022, 3, 1), new DateTime(2022, 4, 1))
+                })
+            .SetName("WhenAlignedThreeMonthsByTwoMonths_ReturnAlignedTwoAndOneMonth");
+        yield return new TestCaseData(
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 2, 1, 12, 0, 0)),
+                new[]
+                {
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 2, 1, 12, 0, 0))
                 })
             .SetName("WhenOneMonthByTwoMonths_ReturnOneMonth");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 3, 1, 12, 0, 0)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 3, 1, 12, 0, 0)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)), Point.Excluded(new DateTime(2022, 3, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 3, 1)), Point.Excluded(new DateTime(2022, 3, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 3, 1, 12, 0, 0))
                 })
-            .SetName("WhenTwoMonthsByTwoMonths_ReturnTwoPartsOfTwoMonths");
+            .SetName("WhenTwoMonthsByTwoMonths_ReturnTwoMonths");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 5, 1, 12, 0, 0)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 4, 1, 12, 0, 0)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)), Point.Excluded(new DateTime(2022, 3, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 3, 1)), Point.Excluded(new DateTime(2022, 5, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 5, 1)), Point.Excluded(new DateTime(2022, 5, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 3, 1, 12, 0, 0)),
+                    new Interval<DateTime>(new DateTime(2022, 3, 1, 12, 0, 0), new DateTime(2022, 4, 1, 12, 0, 0))
                 })
-            .SetName("WhenFourMonthsByTwoMonths_ReturnTwoPartsOfTwoMonthsAndTwoMonths");
+            .SetName("WhenThreeMonthsByTwoMonths_ReturnPartOfTwoMonthAndTwoMonth");
     }
 
     public static IEnumerable SplitByQuarters_Data()
     {
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 4, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2022, 4, 1)))
-            })
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 4, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 4, 1)) })
             .SetName("WhenAlignedOneQuarterByTwoQuarters_ReturnAlignedOneQuarter");
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 7, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2022, 7, 1)))
-            })
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 7, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 7, 1)) })
             .SetName("WhenAlignedTwoQuartersByTwoQuarters_ReturnAlignedTwoQuarters");
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 10, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2022, 7, 1))),
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 7, 1)), Point.Excluded(new DateTime(2022, 10, 1)))
-            })
-            .SetName("WhenAlignedThreeQuartersByTwoQuarters_ReturnAlignedTwoAndOneQuarter");
-
-        yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 4, 1, 12, 0, 0)), new[]
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 10, 1)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)),
-                        Point.Excluded(new DateTime(2022, 4, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 7, 1)),
+                    new Interval<DateTime>(new DateTime(2022, 7, 1), new DateTime(2022, 10, 1))
+                })
+            .SetName("WhenAlignedThreeQuartersByTwoQuarters_ReturnAlignedTwoAndOneQuarter");
+        yield return new TestCaseData(
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 4, 1, 12, 0, 0)),
+                new[]
+                {
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 4, 1, 12, 0, 0))
                 })
             .SetName("WhenOneQuarterByTwoQuarters_ReturnOneQuarter");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 7, 1, 12, 0, 0)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 7, 1, 12, 0, 0)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)), Point.Excluded(new DateTime(2022, 7, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 7, 1)), Point.Excluded(new DateTime(2022, 7, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 7, 1, 12, 0, 0))
                 })
-            .SetName("WhenTwoQuartersByTwoQuarters_ReturnTwoPartsOfTwoQuarters");
+            .SetName("WhenTwoQuartersByTwoQuarters_ReturnTwoQuarters");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 1, 1, 12, 0, 0)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 10, 1, 12, 0, 0)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)), Point.Excluded(new DateTime(2022, 7, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 7, 1)), Point.Excluded(new DateTime(2023, 1, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2023, 1, 1)), Point.Excluded(new DateTime(2023, 1, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 7, 1, 12, 0, 0)),
+                    new Interval<DateTime>(new DateTime(2022, 7, 1, 12, 0, 0), new DateTime(2022, 10, 1, 12, 0, 0)),
                 })
-            .SetName("WhenFourQuartersByTwoQuarters_ReturnTwoPartsOfTwoQuartersAndTwoQuarters");
+            .SetName("WhenThreeQuartersByTwoQuarters_ReturnPartOfTwoQuartersAndTwoQuarters");
     }
 
     public static IEnumerable SplitByHalfYears_Data()
     {
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 7, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2022, 7, 1)))
-            })
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 7, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 7, 1)) })
             .SetName("WhenAlignedOneHalfYearByTwoHalfYears_ReturnAlignedOneHalfYear");
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2023, 1, 1)))
-            })
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1)) })
             .SetName("WhenAlignedTwoHalfYearsByTwoHalfYears_ReturnAlignedTwoHalfYears");
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 7, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2023, 1, 1))),
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2023, 1, 1)), Point.Excluded(new DateTime(2023, 7, 1)))
-            })
-            .SetName("WhenAlignedThreeHalfYearsByTwoHalfYears_ReturnAlignedTwoAndOneHalfYear");
-
-        yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 7, 1, 12, 0, 0)), new[]
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 7, 1)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)),
-                        Point.Excluded(new DateTime(2022, 7, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1)),
+                    new Interval<DateTime>(new DateTime(2023, 1, 1), new DateTime(2023, 7, 1))
+                })
+            .SetName("WhenAlignedThreeHalfYearsByTwoHalfYears_ReturnAlignedTwoAndOneHalfYear");
+        yield return new TestCaseData(
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 7, 1, 12, 0, 0)),
+                new[]
+                {
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2022, 7, 1, 12, 0, 0))
                 })
             .SetName("WhenOneHalfYearByTwoHalfYears_ReturnOneHalfYear");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 1, 1, 12, 0, 0)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 1, 1, 12, 0, 0)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)), Point.Excluded(new DateTime(2023, 1, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2023, 1, 1)), Point.Excluded(new DateTime(2023, 1, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 1, 1, 12, 0, 0))
                 })
-            .SetName("WhenTwoHalfYearsByTwoHalfYears_ReturnTwoPartsOfTwoHalfYears");
+            .SetName("WhenTwoHalfYearsByTwoHalfYears_ReturnTwoHalfYears");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2024, 1, 1, 12, 0, 0)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 7, 1, 12, 0, 0)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)), Point.Excluded(new DateTime(2023, 1, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2023, 1, 1)), Point.Excluded(new DateTime(2024, 1, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2024, 1, 1)), Point.Excluded(new DateTime(2024, 1, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 1, 1, 12, 0, 0)),
+                    new Interval<DateTime>(new DateTime(2023, 1, 1, 12, 0, 0), new DateTime(2023, 7, 1, 12, 0, 0))
                 })
-            .SetName("WhenFourHalfYearsByTwoHalfYears_ReturnTwoPartsOfTwoHalfYearsAndTwoHalfYears");
+            .SetName("WhenThreeHalfYearsByTwoHalfYears_ReturnPartOfTwoHalfYearsAndTwoHalfYears");
     }
 
     public static IEnumerable SplitByYears_Data()
     {
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2023, 1, 1)))
-            })
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1)) })
             .SetName("WhenAlignedOneYearByTwoYears_ReturnAlignedOneYear");
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2024, 1, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2024, 1, 1)))
-            })
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2024, 1, 1)),
+                new[] { new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2024, 1, 1)) })
             .SetName("WhenAlignedTwoYearsByTwoYears_ReturnAlignedTwoYears");
-        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2025, 1, 1)), new[]
-            {
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2022, 1, 1)), Point.Excluded(new DateTime(2024, 1, 1))),
-                new Interval<DateTime>(
-                    Point.Included(new DateTime(2024, 1, 1)), Point.Excluded(new DateTime(2025, 1, 1)))
-            })
-            .SetName("WhenAlignedThreeYearsByTwoYears_ReturnAlignedTwoAndOneYear");
-
-        yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 1, 1, 12, 0, 0)), new[]
+        yield return new TestCaseData(new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2025, 1, 1)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)),
-                        Point.Excluded(new DateTime(2023, 1, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2024, 1, 1)),
+                    new Interval<DateTime>(new DateTime(2024, 1, 1), new DateTime(2025, 1, 1))
+                })
+            .SetName("WhenAlignedThreeYearsByTwoYears_ReturnAlignedTwoAndOneYear");
+        yield return new TestCaseData(
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 1, 1, 12, 0, 0)),
+                new[]
+                {
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2023, 1, 1, 12, 0, 0))
                 })
             .SetName("WhenOneYearByTwoYears_ReturnOneYear");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2024, 1, 1, 12, 0, 0)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2024, 1, 1, 12, 0, 0)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)), Point.Excluded(new DateTime(2024, 1, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2024, 1, 1)), Point.Excluded(new DateTime(2024, 1, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2024, 1, 1, 12, 0, 0))
                 })
-            .SetName("WhenTwoYearsByTwoYears_ReturnTwoPartsOfTwoYears");
+            .SetName("WhenTwoYearsByTwoYears_ReturnTwoYears");
         yield return new TestCaseData(
-                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2026, 1, 1, 12, 0, 0)), new[]
+                new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2025, 1, 1, 12, 0, 0)),
+                new[]
                 {
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2022, 1, 1, 12, 0, 0)), Point.Excluded(new DateTime(2024, 1, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2024, 1, 1)), Point.Excluded(new DateTime(2026, 1, 1))),
-                    new Interval<DateTime>(
-                        Point.Included(new DateTime(2026, 1, 1)), Point.Excluded(new DateTime(2026, 1, 1, 12, 0, 0)))
+                    new Interval<DateTime>(new DateTime(2022, 1, 1, 12, 0, 0), new DateTime(2024, 1, 1, 12, 0, 0)),
+                    new Interval<DateTime>(new DateTime(2024, 1, 1, 12, 0, 0), new DateTime(2025, 1, 1, 12, 0, 0))
                 })
-            .SetName("WhenFourYearsByTwoYears_ReturnTwoPartsOfTwoYearsAndTwoYears");
+            .SetName("WhenThreeYearsByTwoYears_ReturnPartOfTwoYearsAndTwoYears");
     }
 }

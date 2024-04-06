@@ -130,10 +130,10 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
     {
         var (leftInclusion, rightInclusion) = IntervalInclusionConverter.ToInclusions(inclusion);
         var leftAddition = Left.Inclusion != leftInclusion
-            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Included) * _essentialGranuleLength
+            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Excluded) * _essentialGranuleLength
             : TimeSpan.Zero;
         var rightAddition = Right.Inclusion != rightInclusion
-            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Excluded) * _essentialGranuleLength
+            ? BitHelper.ToSign(rightInclusion == Points.Inclusion.Included) * _essentialGranuleLength
             : TimeSpan.Zero;
         return this with
         {

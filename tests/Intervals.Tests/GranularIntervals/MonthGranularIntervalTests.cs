@@ -23,171 +23,135 @@
 
 using FluentAssertions;
 using Intervals.GranularIntervals;
-using Newtonsoft.Json;
+using Intervals.Intervals;
 using NUnit.Framework;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Intervals.Tests.GranularIntervals;
 
 public partial class MonthGranularIntervalTests
 {
-    [TestCaseSource(nameof(Move_WhenForward_Data))]
-    public void Move_WhenForward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-        DateTime expectedRightValue)
+    [Test]
+    public void New_WhenNegativeOneGranuleMonthsCount_ThrowArgumentException()
     {
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
+        var leftValue = new DateTime(2022, 1, 1);
+        var rightValue = new DateTime(2022, 2, 1);
 
-        var actual = interval.MoveByLength();
+        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, -1));
 
-        actual.LeftValue.Should().Be(expectedLeftValue);
-        actual.RightValue.Should().Be(expectedRightValue);
-    }
-
-    [TestCaseSource(nameof(Move_WhenBackward_Data))]
-    public void Move_WhenBackward(DateTime leftValue, DateTime rightValue, DateTime expectedLeftValue,
-        DateTime expectedRightValue)
-    {
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
-
-        var actual = interval.MoveByLength(-1);
-
-        actual.LeftValue.Should().Be(expectedLeftValue);
-        actual.RightValue.Should().Be(expectedRightValue);
+        action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must not be less or equal zero");
     }
 
     [Test]
-    public void ExpandLeft_WhenOne_ReturnIntervalWithLeftAddition()
+    public void New_WhenZeroGranuleMonthsCount_ThrowArgumentException()
     {
-        var leftValue = new DateTime(2022, 1, 4, 5, 6, 7);
-        var rightValue = new DateTime(2023, 1, 7, 9, 11, 13);
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
+        var leftValue = new DateTime(2022, 1, 1);
+        var rightValue = new DateTime(2022, 2, 1);
 
-        var actual = interval.MoveByGranule(1);
+        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, 0));
 
-        actual.LeftValue.Should().Be(new DateTime(2021, 1, 4, 5, 6, 7));
-        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must not be less or equal zero");
     }
 
     [Test]
-    public void ExpandLeft_WhenNegativeOne_ReturnEmpty()
+    public void New_WhenNotAlignedToGranuleLength_ThrowArgumentException()
     {
-        var leftValue = new DateTime(2022, 1, 4, 5, 6, 7);
-        var rightValue = new DateTime(2023, 1, 7, 9, 11, 13);
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
+        var leftValue = new DateTime(2022, 1, 1);
+        var rightValue = new DateTime(2022, 2, 1, 1, 1, 1);
 
-        var actual = interval.MoveLeft(-1);
+        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, 1));
 
-        actual.LeftValue.Should().Be(new DateTime(2023, 1, 4, 5, 6, 7));
-        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must be aligned");
     }
 
     [Test]
-    public void ExpandRight_WhenOne_ReturnIntervalWithRightAddition()
+    public void New_WhenLeftOpenedAndLeftIsFirstDayOfMonth_ThrowArgumentException()
     {
-        var leftValue = new DateTime(2022, 1, 4, 5, 6, 7);
-        var rightValue = new DateTime(2023, 1, 7, 9, 11, 13);
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
+        var leftValue = new DateTime(2022, 1, 1);
+        var rightValue = new DateTime(2022, 2, 1);
 
-        var actual = interval.MoveByGranule(1);
+        var action = new Action(() =>
+            new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.LeftOpened));
 
-        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.RightValue.Should().Be(new DateTime(2024, 1, 7, 9, 11, 13));
+        action.Should().Throw<ArgumentException>().And.Message.Should()
+            .ContainAny("must be first day of month", "must be last day of month");
     }
 
     [Test]
-    public void ExpandRight_WhenNegativeOne_ReturnEmpty()
+    public void New_WhenLeftOpenedAndRightIsFirstDayOfMonth_ThrowArgumentException()
     {
-        var leftValue = new DateTime(2022, 1, 4, 5, 6, 7);
-        var rightValue = new DateTime(2023, 1, 7, 9, 11, 13);
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1);
+        var leftValue = new DateTime(2021, 12, 31);
+        var rightValue = new DateTime(2022, 2, 1);
 
-        var actual = interval.MoveByGranule(-1);
+        var action = new Action(() =>
+            new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.LeftOpened));
 
-        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.RightValue.Should().Be(new DateTime(2022, 1, 7, 9, 11, 13));
+        action.Should().Throw<ArgumentException>().And.Message.Should()
+            .ContainAny("must be first day of month", "must be last day of month");
     }
 
     [Test]
-    public void Serialize_WhenSystemTextJson_ShouldNotThrowException()
+    public void New_WhenRightOpenedAndRightIsLastDayOfMonth_ThrowArgumentException()
     {
-        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1), 1);
+        var leftValue = new DateTime(2022, 1, 1);
+        var rightValue = new DateTime(2022, 1, 31);
 
-        var action = new Action(() => JsonSerializer.Serialize(interval));
+        var action = new Action(() =>
+            new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.RightOpened));
 
-        action.Should().NotThrow();
+        action.Should().Throw<ArgumentException>().And.Message.Should()
+            .ContainAny("must be first day of month", "must be last day of month");
     }
 
     [Test]
-    public void Deserialize_WhenSystemTextJson_ShouldNotThrowException()
+    public void New_WhenRightOpenedAndLeftIsLastDayOfMonth_ThrowArgumentException()
     {
-        const string str =
-            "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"Inclusion\":2}";
+        var leftValue = new DateTime(2021, 12, 31);
+        var rightValue = new DateTime(2022, 2, 1);
 
-        var action = new Action(() => JsonSerializer.Deserialize<MonthGranularInterval>(str));
+        var action = new Action(() =>
+            new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.RightOpened));
 
-        action.Should().NotThrow();
+        action.Should().Throw<ArgumentException>().And.Message.Should()
+            .ContainAny("must be first day of month", "must be last day of month");
     }
 
     [Test]
-    public void Serialize_WhenNewtonsoftJson_ShouldNotThrowException()
+    public void New_WhenOpened_ReturnIntervalWithGranularRight()
     {
-        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1), 1);
+        var leftValue = new DateTime(2021, 12, 31);
 
-        var action = new Action(() => JsonConvert.SerializeObject(interval));
+        var interval = new MonthGranularInterval(leftValue, 1, IntervalInclusion.Opened);
 
-        action.Should().NotThrow();
+        interval.RightValue.Should().Be(new DateTime(2022, 2, 1));
     }
 
     [Test]
-    public void Deserialize_WhenNewtonsoftJson_ShouldNotThrowException()
+    public void New_WhenLeftOpened_ReturnIntervalWithGranularRight()
     {
-        const string str =
-            "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"Inclusion\":2}";
+        var leftValue = new DateTime(2021, 12, 31);
 
-        var action = new Action(() => JsonConvert.DeserializeObject<MonthGranularInterval>(str));
+        var interval = new MonthGranularInterval(leftValue, 1, IntervalInclusion.LeftOpened);
 
-        action.Should().NotThrow();
-    }
-    
-    [Test]
-    public void Serialize_WhenSystemTextJsonAndExplicitGranulesCount_ShouldNotThrowException()
-    {
-        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1), 3);
-
-        var action = new Action(() => JsonSerializer.Serialize(interval));
-
-        action.Should().NotThrow();
+        interval.RightValue.Should().Be(new DateTime(2022, 1, 31));
     }
 
     [Test]
-    public void Deserialize_WhenSystemTextJsonAndExplicitGranulesCount_ShouldNotThrowException()
+    public void New_WhenRightOpened_ReturnIntervalWithGranularRight()
     {
-        const string str =
-            "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"GranulesCount\":1,\"Inclusion\":2}";
+        var leftValue = new DateTime(2022, 1, 1);
 
-        var action = new Action(() => JsonSerializer.Deserialize<MonthGranularInterval>(str));
+        var interval = new MonthGranularInterval(leftValue, 1, IntervalInclusion.RightOpened);
 
-        action.Should().NotThrow();
+        interval.RightValue.Should().Be(new DateTime(2022, 2, 1));
     }
 
     [Test]
-    public void Serialize_WhenNewtonsoftJsonAndExplicitGranulesCount_ShouldNotThrowException()
+    public void New_WhenClosed_ReturnIntervalWithGranularRight()
     {
-        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1), 3);
+        var leftValue = new DateTime(2022, 1, 1);
 
-        var action = new Action(() => JsonConvert.SerializeObject(interval));
+        var interval = new MonthGranularInterval(leftValue, 1, IntervalInclusion.Closed);
 
-        action.Should().NotThrow();
-    }
-
-    [Test]
-    public void Deserialize_WhenNewtonsoftJsonAndExplicitGranulesCount_ShouldNotThrowException()
-    {
-        const string str =
-            "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"GranulesCount\":1,\"Inclusion\":2}";
-
-        var action = new Action(() => JsonConvert.DeserializeObject<MonthGranularInterval>(str));
-
-        action.Should().NotThrow();
+        interval.RightValue.Should().Be(new DateTime(2022, 1, 31));
     }
 }

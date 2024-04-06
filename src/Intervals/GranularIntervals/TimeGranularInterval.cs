@@ -113,10 +113,10 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
     {
         var (leftInclusion, rightInclusion) = IntervalInclusionConverter.ToInclusions(inclusion);
         var leftAddition = Left.Inclusion != leftInclusion
-            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Included) * GranuleLength
+            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Excluded) * GranuleLength
             : TimeSpan.Zero;
         var rightAddition = Right.Inclusion != rightInclusion
-            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Excluded) * GranuleLength
+            ? BitHelper.ToSign(rightInclusion == Points.Inclusion.Included) * GranuleLength
             : TimeSpan.Zero;
         return this with
         {
@@ -149,7 +149,8 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
 
     private static void ThrowIfNotValid(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength)
     {
-        if (granuleLength == TimeSpan.Zero) throw new ArgumentException($"The {granuleLength} must not be zero");
+        if (granuleLength <= TimeSpan.Zero)
+            throw new ArgumentException($"The {granuleLength} must not be less or equal zero");
 
         if (leftValue.Ticks % granuleLength.Ticks != rightValue.Ticks % granuleLength.Ticks)
             throw new ArgumentException(

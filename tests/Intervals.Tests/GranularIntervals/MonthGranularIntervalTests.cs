@@ -120,7 +120,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
 
-        var interval = new MonthGranularInterval(leftValue, 1, IntervalInclusion.Opened);
+        var interval = new MonthGranularInterval(leftValue, 1, 1, IntervalInclusion.Opened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 2, 1));
     }
@@ -130,7 +130,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
 
-        var interval = new MonthGranularInterval(leftValue, 1, IntervalInclusion.LeftOpened);
+        var interval = new MonthGranularInterval(leftValue, 1, 1, IntervalInclusion.LeftOpened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 1, 31));
     }
@@ -140,7 +140,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
 
-        var interval = new MonthGranularInterval(leftValue, 1, IntervalInclusion.RightOpened);
+        var interval = new MonthGranularInterval(leftValue, 1, 1, IntervalInclusion.RightOpened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 2, 1));
     }
@@ -150,7 +150,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
 
-        var interval = new MonthGranularInterval(leftValue, 1, IntervalInclusion.Closed);
+        var interval = new MonthGranularInterval(leftValue, 1, 1, IntervalInclusion.Closed);
 
         interval.RightValue.Should().Be(new DateTime(2022, 1, 31));
     }

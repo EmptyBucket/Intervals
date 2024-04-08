@@ -64,24 +64,29 @@ public record class HalfYearlyInterval : MonthGranularInterval
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HalfYearlyInterval"/>
-    /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public HalfYearlyInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, GranuleMonthsCount, inclusion)
+    public HalfYearlyInterval(DateTime leftValue, int granulesCount = 1,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleMonthsCount, granulesCount, inclusion)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HalfYearInterval"/>
-    /// with specified <paramref name="year" />, <paramref name="halfYear" /> and <paramref name="kind" />
+    /// with specified <paramref name="year" />, <paramref name="halfYear" />, <paramref name="kind" /> and
+    /// <paramref name="granulesCount" />
     /// </summary>
     /// <param name="year"></param>
     /// <param name="halfYear"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="kind"></param>
-    public HalfYearlyInterval(int year, int halfYear, DateTimeKind kind = DateTimeKind.Unspecified)
-        : base(DateTimeHelper.New(year, DateTimeHelper.HalfYearToMonth(halfYear), 1, kind), GranuleMonthsCount)
+    public HalfYearlyInterval(int year, int halfYear, DateTimeKind kind = DateTimeKind.Unspecified,
+        int granulesCount = 1)
+        : this(DateTimeHelper.New(year, DateTimeHelper.HalfYearToMonth(halfYear), 1, kind), granulesCount)
     {
     }
 }

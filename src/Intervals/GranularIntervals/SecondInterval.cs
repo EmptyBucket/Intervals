@@ -63,12 +63,14 @@ public record class SecondInterval : TimeGranularInterval
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.SecondInterval"/>
-    /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public SecondInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, GranuleLength, inclusion)
+    public SecondInterval(DateTime leftValue, int granulesCount = 1,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleLength, granulesCount, inclusion)
     {
     }
 }

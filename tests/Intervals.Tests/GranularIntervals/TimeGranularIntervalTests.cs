@@ -68,7 +68,7 @@ public partial class TimeGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
 
-        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
+        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.Opened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 1, 3));
     }
@@ -78,7 +78,7 @@ public partial class TimeGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
 
-        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), IntervalInclusion.LeftOpened);
+        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.LeftOpened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 1, 2));
     }
@@ -88,7 +88,7 @@ public partial class TimeGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
 
-        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), IntervalInclusion.RightOpened);
+        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.RightOpened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 1, 2));
     }
@@ -98,7 +98,7 @@ public partial class TimeGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
 
-        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
+        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.Closed);
 
         interval.RightValue.Should().Be(new DateTime(2022, 1, 1));
     }

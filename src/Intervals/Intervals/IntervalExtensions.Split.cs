@@ -29,27 +29,30 @@ namespace Intervals.Intervals;
 public static partial class IntervalExtensions
 {
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="granuleLength" /> and
-    /// the rest, which was less than <paramref name="granuleLength" />
+    /// Splits the interval into sub-intervals of <paramref name="granuleLength" /> * <paramref name="granulesCount" /> length and
+    /// the rest, which was less than <paramref name="granuleLength" /> * <paramref name="granulesCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="granuleLength"></param>
+    /// <param name="granulesCount"></param>
     /// <returns></returns>
-    public static IEnumerable<Interval<DateTime>> Split(this Interval<DateTime> interval, TimeSpan granuleLength)
+    public static IEnumerable<Interval<DateTime>> Split(this Interval<DateTime> interval, TimeSpan granuleLength,
+        int granulesCount = 1)
     {
         var (leftValue, _, inclusion) = interval;
-        return Split(interval, new TimeGranularInterval(leftValue, granuleLength, inclusion));
+        return Split(interval, new TimeGranularInterval(leftValue, granuleLength, granulesCount, inclusion));
     }
 
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="granuleMonthsCount" /> length and
-    /// the rest, which was less than <paramref name="granuleMonthsCount" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleMonthsCount" /> * <paramref name="granulesCount" /> length and
+    /// the rest, which was less than <paramref name="granuleMonthsCount" /> * <paramref name="granulesCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="granuleMonthsCount"></param>
+    /// <param name="granulesCount"></param>
     /// <returns></returns>
     public static IEnumerable<Interval<DateTime>> SplitByMonths(this Interval<DateTime> interval,
-        int granuleMonthsCount = 1)
+        int granuleMonthsCount = 1, int granulesCount = 1)
     {
         var (leftValue, _, inclusion) = interval;
         var firstDayOfMonth = leftValue.AddDays(1 - leftValue.Day);
@@ -57,35 +60,40 @@ public static partial class IntervalExtensions
     }
 
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="granuleQuartersCount" /> length and
-    /// the rest, which was less than <paramref name="granuleQuartersCount" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleQuartersCount" /> * <paramref name="granulesCount" /> length and
+    /// the rest, which was less than <paramref name="granuleQuartersCount" /> * <paramref name="granulesCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="granuleQuartersCount"></param>
+    /// <param name="granulesCount"></param>
     /// <returns></returns>
     public static IEnumerable<Interval<DateTime>> SplitByQuarters(this Interval<DateTime> interval,
-        int granuleQuartersCount = 1) => interval.SplitByMonths(granuleQuartersCount * DateTimeHelper.MonthsInQuarter);
+        int granuleQuartersCount = 1, int granulesCount = 1) =>
+        interval.SplitByMonths(granuleQuartersCount * DateTimeHelper.MonthsInQuarter);
 
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="granuleHalfYearsCount" /> length and
-    /// the rest, which was less than <paramref name="granuleHalfYearsCount" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleHalfYearsCount" /> * <paramref name="granulesCount" /> length and
+    /// the rest, which was less than <paramref name="granuleHalfYearsCount" /> * <paramref name="granulesCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="granuleHalfYearsCount"></param>
+    /// <param name="granulesCount"></param>
     /// <returns></returns>
     public static IEnumerable<Interval<DateTime>> SplitByHalfYears(this Interval<DateTime> interval,
-        int granuleHalfYearsCount = 1) =>
+        int granuleHalfYearsCount = 1, int granulesCount = 1) =>
         interval.SplitByMonths(granuleHalfYearsCount * DateTimeHelper.MonthsInHalfYear);
 
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="granuleYearsCount" /> length and
-    /// the rest, which was less than <paramref name="granuleYearsCount" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleYearsCount" /> * <paramref name="granulesCount" /> length and
+    /// the rest, which was less than <paramref name="granuleYearsCount" /> * <paramref name="granulesCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
     /// <param name="granuleYearsCount"></param>
+    /// <param name="granulesCount"></param>
     /// <returns></returns>
     public static IEnumerable<Interval<DateTime>> SplitByYears(this Interval<DateTime> interval,
-        int granuleYearsCount = 1) => interval.SplitByMonths(granuleYearsCount * DateTimeHelper.MonthsInYear);
+        int granuleYearsCount = 1, int granulesCount = 1) =>
+        interval.SplitByMonths(granuleYearsCount * DateTimeHelper.MonthsInYear);
 
     private static IEnumerable<Interval<DateTime>> Split(Interval<DateTime> originInterval,
         GranularInterval<DateTime, TimeSpan> granularInterval)
@@ -96,7 +104,7 @@ public static partial class IntervalExtensions
                 GenericMath.Min(granularInterval.Right, originInterval.Right));
             if (nextInterval.IsEmpty()) break;
             yield return nextInterval;
-            granularInterval = granularInterval.MoveByGranule();
+            granularInterval = granularInterval.MoveByLength();
         }
     }
 }

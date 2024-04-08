@@ -74,14 +74,16 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TimeGranularInterval"/>
-    /// with specified <paramref name="leftValue" /> and <paramref name="granuleLength" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" />,
+    /// <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
     /// <param name="granuleLength"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public TimeGranularInterval(DateTime leftValue, TimeSpan granuleLength,
+    public TimeGranularInterval(DateTime leftValue, TimeSpan granuleLength, int granulesCount = 1,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : this(leftValue, GetRight(leftValue, granuleLength, inclusion), granuleLength, inclusion)
+        : this(leftValue, GetRight(leftValue, granuleLength, granulesCount, inclusion), granuleLength, inclusion)
     {
     }
 
@@ -136,7 +138,8 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
         return GenericMath.Max((rightValue + rightAddition) - (leftValue + leftAddition), TimeSpan.Zero);
     }
 
-    private static DateTime GetRight(DateTime leftValue, TimeSpan granuleLength, IntervalInclusion inclusion)
+    private static DateTime GetRight(DateTime leftValue, TimeSpan granuleLength, int granulesCount,
+        IntervalInclusion inclusion)
     {
         var addition = inclusion switch
         {
@@ -144,7 +147,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
             IntervalInclusion.Closed => -granuleLength,
             _ => TimeSpan.Zero
         };
-        return leftValue + granuleLength + addition;
+        return leftValue + granuleLength * granulesCount + addition;
     }
 
     private static void ThrowIfNotValid(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength)

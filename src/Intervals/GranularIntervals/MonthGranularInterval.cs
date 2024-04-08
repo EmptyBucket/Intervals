@@ -78,15 +78,17 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthGranularInterval"/>
-    /// with specified <paramref name="leftValue" />, <paramref name="granuleMonthsCount" /> and
-    /// <paramref name="granuleMonthsCount" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granuleMonthsCount" />,
+    /// <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
     /// <param name="granuleMonthsCount"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public MonthGranularInterval(DateTime leftValue, int granuleMonthsCount,
+    public MonthGranularInterval(DateTime leftValue, int granuleMonthsCount, int granulesCount,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : this(leftValue, GetRight(leftValue, granuleMonthsCount, inclusion), granuleMonthsCount, inclusion)
+        : this(leftValue, GetRight(leftValue, granuleMonthsCount, granulesCount, inclusion), granuleMonthsCount,
+            inclusion)
     {
     }
 
@@ -152,7 +154,8 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
         return GenericMath.Max((rightValue + rightAddition) - (leftValue + leftAddition), TimeSpan.Zero);
     }
 
-    private static DateTime GetRight(DateTime leftValue, int granuleMonthsCount, IntervalInclusion inclusion)
+    private static DateTime GetRight(DateTime leftValue, int granuleMonthsCount, int granulesCount,
+        IntervalInclusion inclusion)
     {
         var addition = inclusion switch
         {
@@ -160,7 +163,7 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
             IntervalInclusion.Closed => -_essentialGranuleLength,
             _ => TimeSpan.Zero
         };
-        return leftValue.AddMonths(granuleMonthsCount) + addition;
+        return leftValue.AddMonths(granuleMonthsCount * granulesCount) + addition;
     }
 
     private static int GetMonthsCount(DateTime leftValue, DateTime rightValue) =>

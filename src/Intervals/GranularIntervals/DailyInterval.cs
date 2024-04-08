@@ -63,12 +63,14 @@ public record class DailyInterval : TimeGranularInterval
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.DailyInterval"/>
-    /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public DailyInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, GranuleLength, inclusion)
+    public DailyInterval(DateTime leftValue, int granulesCount = 1,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleLength, granulesCount, inclusion)
     {
     }
 }

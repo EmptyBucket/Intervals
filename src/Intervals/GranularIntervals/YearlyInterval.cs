@@ -64,23 +64,26 @@ public record class YearlyInterval : MonthGranularInterval
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.YearlyInterval"/>
-    /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public YearlyInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, GranuleMonthsCount, inclusion)
+    public YearlyInterval(DateTime leftValue, int granulesCount = 1,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleMonthsCount, granulesCount, inclusion)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.YearInterval"/>
-    /// with specified <paramref name="year" /> and <paramref name="kind" />
+    /// with specified <paramref name="year" />, <paramref name="kind" /> and <paramref name="granulesCount" />
     /// </summary>
     /// <param name="year"></param>
     /// <param name="kind"></param>
-    public YearlyInterval(int year, DateTimeKind kind = DateTimeKind.Unspecified)
-        : base(DateTimeHelper.New(year, 1, 1, kind), GranuleMonthsCount)
+    /// <param name="granulesCount"></param>
+    public YearlyInterval(int year, DateTimeKind kind = DateTimeKind.Unspecified, int granulesCount = 1)
+        : base(DateTimeHelper.New(year, 1, 1, kind), GranuleMonthsCount, granulesCount)
     {
     }
 }

@@ -64,24 +64,29 @@ public record class QuarterlyInterval : MonthGranularInterval
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterlyInterval"/>
-    /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public QuarterlyInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, GranuleMonthsCount, inclusion)
+    public QuarterlyInterval(DateTime leftValue, int granulesCount = 1,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleMonthsCount, granulesCount, inclusion)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterInterval"/>
-    /// with specified <paramref name="year" />, <paramref name="quarter" /> and <paramref name="kind" />
+    /// with specified <paramref name="year" />, <paramref name="quarter" />, <paramref name="kind" /> and
+    /// <paramref name="granulesCount" />
     /// </summary>
     /// <param name="year"></param>
     /// <param name="quarter"></param>
     /// <param name="kind"></param>
-    public QuarterlyInterval(int year, int quarter, DateTimeKind kind = DateTimeKind.Unspecified)
-        : base(DateTimeHelper.New(year, DateTimeHelper.QuarterToMonth(quarter), 1, kind), GranuleMonthsCount)
+    /// <param name="granulesCount"></param>
+    public QuarterlyInterval(int year, int quarter, DateTimeKind kind = DateTimeKind.Unspecified, int granulesCount = 1)
+        : base(DateTimeHelper.New(year, DateTimeHelper.QuarterToMonth(quarter), 1, kind), GranuleMonthsCount,
+            granulesCount)
     {
     }
 }

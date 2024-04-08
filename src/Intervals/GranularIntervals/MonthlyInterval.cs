@@ -41,24 +41,28 @@ public record class MonthlyInterval : MonthGranularInterval
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthlyInterval"/>
-    /// with specified <paramref name="leftValue" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
+    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public MonthlyInterval(DateTime leftValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, GranuleMonthsCount, inclusion)
+    public MonthlyInterval(DateTime leftValue, int granulesCount = 1,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleMonthsCount, granulesCount, inclusion)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthInterval"/>
-    /// with specified <paramref name="year" />, <paramref name="month" /> and <paramref name="kind" />
+    /// with specified <paramref name="year" />, <paramref name="month" />, <paramref name="kind" /> and
+    /// <paramref name="granulesCount" />
     /// </summary>
     /// <param name="year"></param>
     /// <param name="month"></param>
     /// <param name="kind"></param>
-    public MonthlyInterval(int year, int month, DateTimeKind kind = DateTimeKind.Unspecified)
-        : base(DateTimeHelper.New(year, month, 1, kind), GranuleMonthsCount)
+    /// <param name="granulesCount"></param>
+    public MonthlyInterval(int year, int month, DateTimeKind kind = DateTimeKind.Unspecified, int granulesCount = 1)
+        : base(DateTimeHelper.New(year, month, 1, kind), GranuleMonthsCount, granulesCount)
     {
     }
 }

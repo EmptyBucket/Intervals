@@ -26,22 +26,25 @@ using Intervals.Intervals;
 using Intervals.Points;
 
 {
-    // [0, 10]
-    var result1 = new Interval<int>(0, 10, IntervalInclusion.Closed);
     // (0, 10)
-    var result2 = new Interval<int>(0, 10, IntervalInclusion.Opened);
+    var result1 = new Interval<int>(0, 10, IntervalInclusion.Opened);
     // (0, 10]
-    var result3 = new Interval<int>(0, 10, IntervalInclusion.LeftOpened);
+    var result2 = new Interval<int>(0, 10, IntervalInclusion.LeftOpened);
     // [0, 10)
-    var result4 = new Interval<int>(0, 10, IntervalInclusion.RightOpened);
+    var result3 = new Interval<int>(0, 10, IntervalInclusion.RightOpened);
     // [0, 10]
-    var result5 = new Interval<int>(Point.Included(0), Point.Included(10));
+    var result4 = new Interval<int>(0, 10, IntervalInclusion.Closed);
+}
+
+{
     // (0, 10)
-    var result6 = new Interval<int>(Point.Excluded(0), Point.Excluded(10));
+    var result1 = new Interval<int>(Point.Excluded(0), Point.Excluded(10));
     // (0, 10]
-    var result7 = new Interval<int>(Point.Excluded(0), Point.Included(10));
+    var result2 = new Interval<int>(Point.Excluded(0), Point.Included(10));
     // [0, 10)
-    var result8 = new Interval<int>(Point.Included(0), Point.Excluded(10));
+    var result3 = new Interval<int>(Point.Included(0), Point.Excluded(10));
+    // [0, 10]
+    var result4 = new Interval<int>(Point.Included(0), Point.Included(10));
 }
 
 {
@@ -105,10 +108,10 @@ using Intervals.Points;
 }
 
 {
-    // [2022-01-10, 2022-03-27), [2022-03-27, 2022-07-25), [2022-07-25, 2022-08-15)
+    // [2022-01-10, 2022-05-10), [2022-05-10, 2022-08-15)
     var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
         .Split(TimeSpan.FromDays(120));
-    // [2022-01-10, 2022-02-01), [2022-02-01, 2022-06-01), [2022-06-01, 2022-08-15)
+    // [2022-01-10, 2022-05-01), [2022-05-01, 2022-08-15)
     var result2 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 8, 15))
         .SplitByMonths(4);
     // [2022-01-10, 2022-04-01), [2022-04-01, 2022-07-01), [2022-07-01, 2022-08-15)
@@ -141,8 +144,8 @@ using Intervals.Points;
     var result8 = new HalfYearlyInterval(2022, 1);
     // [2022-01-01, 2023-01-01)
     var result9 = new YearlyInterval(2022);
-    // [2022-01-01, 2022-01-02) with custom granule size
-    var result12 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 2), TimeSpan.FromDays(3));
+    // [2022-01-01, 2022-01-04) with custom granule length
+    var result12 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 4), TimeSpan.FromDays(3));
     // [2022-01-01, 2022-02-01) with custom granule months count
     var result13 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 3);
 }
@@ -165,23 +168,38 @@ using Intervals.Points;
         .MoveByLength(0, 1);
     // [2022-01-03, 2022-01-05)
     var result6 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 3), TimeSpan.FromDays(2))
-       .MoveByLength(1);
-     // [2021-12-01, 2022-02-01)
-     var result7 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 1)
-         .MoveByGranule(-1, 0);
-     // [2022-01-01, 2022-03-01)
-     var result8 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 1)
-         .MoveByGranule(0, 1);
-     // [2022-02-01, 2022-03-01)
-     var result9 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 1)
-         .MoveByGranule(1);
-     // [2021-11-01, 2022-03-01)
-     var result10 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1), 2)
-         .MoveByLength(-1, 0);
-     // [2022-01-01, 2022-05-01)
-     var result11 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1), 2)
-         .MoveByLength(0, 1);
-     // [2022-03-01, 2022-05-01)
-     var result12 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1), 2)
-         .MoveByLength(1);
+        .MoveByLength(1);
+    // [2021-12-01, 2022-02-01)
+    var result7 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 1)
+        .MoveByGranule(-1, 0);
+    // [2022-01-01, 2022-03-01)
+    var result8 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 1)
+        .MoveByGranule(0, 1);
+    // [2022-02-01, 2022-03-01)
+    var result9 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 1), 1)
+        .MoveByGranule(1);
+    // [2021-11-01, 2022-03-01)
+    var result10 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1), 2)
+        .MoveByLength(-1, 0);
+    // [2022-01-01, 2022-05-01)
+    var result11 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1), 2)
+        .MoveByLength(0, 1);
+    // [2022-03-01, 2022-05-01)
+    var result12 = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 3, 1), 2)
+        .MoveByLength(1);
+    // 10
+    var result13 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 12), TimeSpan.FromDays(1),
+            IntervalInclusion.Opened).Length;
+    // 10
+    var result14 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 11), TimeSpan.FromDays(1),
+            IntervalInclusion.LeftOpened).Length;
+    // 10
+    var result15 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 11), TimeSpan.FromDays(1),
+            IntervalInclusion.RightOpened).Length;
+    // 10
+    var result16 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 10), TimeSpan.FromDays(1),
+            IntervalInclusion.Closed).Length;
+    // (2021-12-31, 2022-01-11)
+    var result17 = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 10), TimeSpan.FromDays(1),
+        IntervalInclusion.Closed).Convert(IntervalInclusion.Opened);
 }

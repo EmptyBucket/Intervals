@@ -80,7 +80,7 @@ public record class YearlyInterval : MonthGranularInterval
     /// <param name="year"></param>
     /// <param name="kind"></param>
     public YearlyInterval(int year, DateTimeKind kind = DateTimeKind.Unspecified)
-        : base(new DateTime(year, 1, 1, 0, 0, 0, kind), GranuleMonthsCount)
+        : base(DateTimeHelper.New(year, 1, 1, kind), GranuleMonthsCount)
     {
     }
 }

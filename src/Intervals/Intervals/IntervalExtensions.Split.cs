@@ -51,7 +51,8 @@ public static partial class IntervalExtensions
     public static IEnumerable<Interval<DateTime>> SplitByMonths(this Interval<DateTime> interval, int monthsCount = 1)
     {
         var (leftValue, _, inclusion) = interval;
-        return Split(interval, new MonthGranularInterval(leftValue, monthsCount, inclusion));
+        var firstDayOfMonth = leftValue.AddDays(1 - leftValue.Day);
+        return Split(interval, new MonthGranularInterval(firstDayOfMonth, monthsCount, inclusion));
     }
 
     /// <summary>
@@ -89,7 +90,7 @@ public static partial class IntervalExtensions
     {
         while (true)
         {
-            var nextInterval = new Interval<DateTime>(granularInterval.Left,
+            var nextInterval = new Interval<DateTime>(GenericMath.Max(granularInterval.Left, originInterval.Left),
                 GenericMath.Min(granularInterval.Right, originInterval.Right));
             if (nextInterval.IsEmpty()) break;
             yield return nextInterval;

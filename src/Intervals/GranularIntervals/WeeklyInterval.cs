@@ -5,7 +5,7 @@ using Intervals.Points;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an weekly interval instance where the granule size is 7 day
+/// Represents an weekly interval instance where the granule length is 7 day
 /// </summary>
 [Serializable]
 public record class WeeklyInterval : TimeGranularInterval

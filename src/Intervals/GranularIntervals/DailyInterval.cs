@@ -28,7 +28,7 @@ using Intervals.Points;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an daily interval instance where the granule size is day
+/// Represents an daily interval instance where the granule length is day
 /// </summary>
 [Serializable]
 public record class DailyInterval : TimeGranularInterval

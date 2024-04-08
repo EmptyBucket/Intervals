@@ -28,7 +28,7 @@ using Intervals.Points;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an hourly interval instance where the granule size is hour
+/// Represents an hourly interval instance where the granule length is hour
 /// </summary>
 [Serializable]
 public record class HourlyInterval : TimeGranularInterval

@@ -28,7 +28,7 @@ using Intervals.Points;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an second interval instance where the granule size is second
+/// Represents an second interval instance where the granule length is second
 /// </summary>
 [Serializable]
 public record class SecondInterval : TimeGranularInterval

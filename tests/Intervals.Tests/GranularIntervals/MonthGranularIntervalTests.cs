@@ -31,23 +31,23 @@ namespace Intervals.Tests.GranularIntervals;
 public partial class MonthGranularIntervalTests
 {
     [Test]
-    public void New_WhenNegativeOneGranuleMonthsCount_ThrowArgumentException()
+    public void New_WhenNegativeOneMonthsCount_ThrowArgumentException()
     {
         var leftValue = new DateTime(2022, 1, 1);
-        var rightValue = new DateTime(2022, 2, 1);
+        var rightValue = new DateTime(2021, 12, 1);
 
-        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, -1));
+        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1)));
 
         action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must not be less or equal zero");
     }
 
     [Test]
-    public void New_WhenZeroGranuleMonthsCount_ThrowArgumentException()
+    public void New_WhenZeroMonthsCount_ThrowArgumentException()
     {
         var leftValue = new DateTime(2022, 1, 1);
-        var rightValue = new DateTime(2022, 2, 1);
+        var rightValue = new DateTime(2022, 1, 1);
 
-        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, 0));
+        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1)));
 
         action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must not be less or equal zero");
     }
@@ -58,7 +58,7 @@ public partial class MonthGranularIntervalTests
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 2, 1, 1, 1, 1);
 
-        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, 1));
+        var action = new Action(() => new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1)));
 
         action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must be aligned");
     }
@@ -70,7 +70,7 @@ public partial class MonthGranularIntervalTests
         var rightValue = new DateTime(2022, 2, 1);
 
         var action = new Action(() =>
-            new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.LeftOpened));
+            new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.LeftOpened));
 
         action.Should().Throw<ArgumentException>().And.Message.Should()
             .ContainAny("must be first day of month", "must be last day of month");
@@ -83,7 +83,7 @@ public partial class MonthGranularIntervalTests
         var rightValue = new DateTime(2022, 2, 1);
 
         var action = new Action(() =>
-            new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.LeftOpened));
+            new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.LeftOpened));
 
         action.Should().Throw<ArgumentException>().And.Message.Should()
             .ContainAny("must be first day of month", "must be last day of month");
@@ -93,10 +93,10 @@ public partial class MonthGranularIntervalTests
     public void New_WhenRightOpenedAndRightIsLastDayOfMonth_ThrowArgumentException()
     {
         var leftValue = new DateTime(2022, 1, 1);
-        var rightValue = new DateTime(2022, 1, 31);
+        var rightValue = new DateTime(2022, 2, 28);
 
         var action = new Action(() =>
-            new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.RightOpened));
+            new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.RightOpened));
 
         action.Should().Throw<ArgumentException>().And.Message.Should()
             .ContainAny("must be first day of month", "must be last day of month");
@@ -109,7 +109,7 @@ public partial class MonthGranularIntervalTests
         var rightValue = new DateTime(2022, 2, 1);
 
         var action = new Action(() =>
-            new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.RightOpened));
+            new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.RightOpened));
 
         action.Should().Throw<ArgumentException>().And.Message.Should()
             .ContainAny("must be first day of month", "must be last day of month");
@@ -120,7 +120,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
 
-        var interval = new MonthGranularInterval(leftValue, 1, 1, IntervalInclusion.Opened);
+        var interval = new MonthGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.Opened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 2, 1));
     }
@@ -130,7 +130,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
 
-        var interval = new MonthGranularInterval(leftValue, 1, 1, IntervalInclusion.LeftOpened);
+        var interval = new MonthGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.LeftOpened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 1, 31));
     }
@@ -140,7 +140,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
 
-        var interval = new MonthGranularInterval(leftValue, 1, 1, IntervalInclusion.RightOpened);
+        var interval = new MonthGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.RightOpened);
 
         interval.RightValue.Should().Be(new DateTime(2022, 2, 1));
     }
@@ -150,7 +150,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
 
-        var interval = new MonthGranularInterval(leftValue, 1, 1, IntervalInclusion.Closed);
+        var interval = new MonthGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.Closed);
 
         interval.RightValue.Should().Be(new DateTime(2022, 1, 31));
     }

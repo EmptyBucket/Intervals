@@ -23,67 +23,40 @@
 
 using System.Text.Json.Serialization;
 using Intervals.Intervals;
-using Intervals.Points;
 using Intervals.Utils;
 
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an year interval instance where the granule size is year
+/// Represents an year interval instance
 /// </summary>
 [Serializable]
-public record class YearlyInterval : MonthGranularInterval
+public record class YearInterval : MonthGranularInterval
 {
-    private new const int GranuleMonthsCount = DateTimeHelper.MonthsInYear;
-
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.YearlyInterval"/>
-    /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
-    /// </summary>
-    /// <param name="leftPoint"></param>
-    /// <param name="rightPoint"></param>
-    public YearlyInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
-        : base(leftPoint, rightPoint, GranuleMonthsCount)
-    {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.YearlyInterval"/>
-    /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
-    /// <param name="rightValue"></param>
+    /// <param name="granuleLength"></param>
     /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public YearlyInterval(DateTime leftValue, DateTime rightValue,
+    public YearInterval(DateTime leftValue, TimeSpan granuleLength,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, rightValue, GranuleMonthsCount, inclusion)
-    {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.YearlyInterval"/>
-    /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
-    /// </summary>
-    /// <param name="leftValue"></param>
-    /// <param name="granulesCount"></param>
-    /// <param name="inclusion"></param>
-    public YearlyInterval(DateTime leftValue, int granulesCount = 1,
-        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, GranuleMonthsCount, granulesCount, inclusion)
+        : base(leftValue, granuleLength, DateTimeHelper.MonthsInYear, inclusion)
     {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.YearInterval"/>
-    /// with specified <paramref name="year" />, <paramref name="kind" /> and <paramref name="granulesCount" />
+    /// with specified <paramref name="year" />, <paramref name="granuleLength" /> and <paramref name="kind" />
     /// </summary>
     /// <param name="year"></param>
+    /// <param name="granuleLength"></param>
     /// <param name="kind"></param>
-    /// <param name="granulesCount"></param>
-    public YearlyInterval(int year, DateTimeKind kind = DateTimeKind.Unspecified, int granulesCount = 1)
-        : base(DateTimeHelper.New(year, 1, 1, kind), GranuleMonthsCount, granulesCount)
+    public YearInterval(int year, TimeSpan granuleLength, DateTimeKind kind = DateTimeKind.Unspecified)
+        : this(DateTimeHelper.New(year, 1, 1, kind), granuleLength)
     {
     }
 }

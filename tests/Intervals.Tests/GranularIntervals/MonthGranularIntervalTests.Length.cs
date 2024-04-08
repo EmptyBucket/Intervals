@@ -12,7 +12,8 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.Opened);
+        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+            IntervalInclusion.Opened);
 
         var length = interval.Length;
 
@@ -24,7 +25,8 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.LeftOpened);
+        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+            IntervalInclusion.LeftOpened);
 
         var length = interval.Length;
 
@@ -36,7 +38,8 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.RightOpened);
+        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+            IntervalInclusion.RightOpened);
 
         var length = interval.Length;
 
@@ -48,7 +51,8 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, 1, IntervalInclusion.Closed);
+        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+            IntervalInclusion.Closed);
 
         var length = interval.Length;
 

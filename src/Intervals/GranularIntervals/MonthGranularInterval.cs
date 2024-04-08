@@ -34,82 +34,89 @@ namespace Intervals.GranularIntervals;
 [Serializable]
 public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
 {
-    private static TimeSpan _essentialGranuleLength = TimeSpan.FromDays(1);
-
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthGranularInterval"/>
     /// with specified <paramref name="leftPoint" />, <paramref name="rightPoint" /> and
-    /// <paramref name="granuleMonthsCount" />
+    /// <paramref name="granuleLength" />
     /// </summary>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    /// <param name="granuleMonthsCount"></param>
-    public MonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, int granuleMonthsCount)
+    /// <param name="granuleLength"></param>
+    public MonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleLength)
         : base(leftPoint, rightPoint)
     {
-        ThrowIfNotValid(leftPoint.Value, rightPoint.Value, granuleMonthsCount, Inclusion);
+        MonthsCount = GetMonthsCount(leftPoint.Value, rightPoint.Value, Inclusion);
 
-        GranuleMonthsCount = granuleMonthsCount;
-        GranulesCount = GetMonthsCount(leftPoint.Value, rightPoint.Value) / granuleMonthsCount;
-        Length = GetLength(leftPoint.Value, rightPoint.Value, Inclusion);
+        ThrowIfNotValid(leftPoint.Value, rightPoint.Value, granuleLength, MonthsCount, Inclusion);
+
+        GranuleLength = granuleLength;
+        Length = GetLength(leftPoint.Value, rightPoint.Value, granuleLength, Inclusion);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthGranularInterval"/>
     /// with specified <paramref name="leftValue" />, <paramref name="rightValue" />,
-    /// <paramref name="granuleMonthsCount" /> and <paramref name="inclusion" />
+    /// <paramref name="granuleLength" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
     /// <param name="rightValue"></param>
-    /// <param name="granuleMonthsCount"></param>
+    /// <param name="granuleLength"></param>
     /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public MonthGranularInterval(DateTime leftValue, DateTime rightValue, int granuleMonthsCount,
+    public MonthGranularInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, rightValue, inclusion)
     {
-        ThrowIfNotValid(leftValue, rightValue, granuleMonthsCount, Inclusion);
+        MonthsCount = GetMonthsCount(leftValue, rightValue, inclusion);
 
-        GranuleMonthsCount = granuleMonthsCount;
-        GranulesCount = GetMonthsCount(leftValue, rightValue) / granuleMonthsCount;
-        Length = GetLength(leftValue, rightValue, Inclusion);
+        ThrowIfNotValid(leftValue, rightValue, granuleLength, MonthsCount, inclusion);
+
+        GranuleLength = granuleLength;
+        Length = GetLength(leftValue, rightValue, granuleLength, inclusion);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthGranularInterval"/>
-    /// with specified <paramref name="leftValue" />, <paramref name="granuleMonthsCount" />,
-    /// <paramref name="granulesCount" /> and <paramref name="inclusion" />
+    /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" />,
+    /// <paramref name="monthsCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
-    /// <param name="granuleMonthsCount"></param>
-    /// <param name="granulesCount"></param>
+    /// <param name="granuleLength"></param>
+    /// <param name="monthsCount"></param>
     /// <param name="inclusion"></param>
-    public MonthGranularInterval(DateTime leftValue, int granuleMonthsCount, int granulesCount,
+    public MonthGranularInterval(DateTime leftValue, TimeSpan granuleLength, int monthsCount,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : this(leftValue, GetRight(leftValue, granuleMonthsCount, granulesCount, inclusion), granuleMonthsCount,
-            inclusion)
+        : this(leftValue, GetRight(leftValue, granuleLength, monthsCount, inclusion), granuleLength, inclusion)
     {
     }
 
     /// <summary>
-    /// Months count in granule
+    /// Length of the granule
     /// </summary>
-    public int GranuleMonthsCount { get; protected set; }
-
-    /// <summary>
-    /// Granules count
-    /// </summary>
-    public int GranulesCount { get; protected set; }
+    public TimeSpan GranuleLength { get; }
 
     /// <inheritdoc />
     public override TimeSpan Length { get; }
 
+    /// <summary>
+    /// Months count in granule
+    /// </summary>
+    public int MonthsCount { get; protected set; }
+
     /// <inheritdoc />
-    public override GranularInterval<DateTime, TimeSpan> MoveByGranule(int leftMultiplier, int rightMultiplier)
+    public override GranularInterval<DateTime, TimeSpan> MoveByGranule(int leftMultiplier, int rightMultiplier) =>
+        this with
+        {
+            LeftValue = LeftValue + GranuleLength * leftMultiplier,
+            RightValue = RightValue + GranuleLength * rightMultiplier
+        };
+
+    /// <inheritdoc />
+    public override GranularInterval<DateTime, TimeSpan> MoveByLength(int leftMultiplier, int rightMultiplier)
     {
-        var leftValue = LeftValue.AddMonths(GranuleMonthsCount * leftMultiplier);
-        var rightValue = RightValue.AddMonths(GranuleMonthsCount * rightMultiplier);
+        var leftValue = LeftValue.AddMonths(MonthsCount * leftMultiplier);
+        var rightValue = RightValue.AddMonths(MonthsCount * rightMultiplier);
         var (leftAddition, rightAddition) = Inclusion switch
         {
             IntervalInclusion.Opened => (
@@ -124,18 +131,14 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
     }
 
     /// <inheritdoc />
-    public override GranularInterval<DateTime, TimeSpan> MoveByLength(int leftMultiplier, int rightMultiplier) =>
-        MoveByGranule(GranulesCount * leftMultiplier, GranulesCount * rightMultiplier);
-
-    /// <inheritdoc />
     public override GranularInterval<DateTime, TimeSpan> Convert(IntervalInclusion inclusion)
     {
         var (leftInclusion, rightInclusion) = IntervalInclusionConverter.ToInclusions(inclusion);
         var leftAddition = Left.Inclusion != leftInclusion
-            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Excluded) * _essentialGranuleLength
+            ? BitHelper.ToSign(leftInclusion == Points.Inclusion.Excluded) * GranuleLength
             : TimeSpan.Zero;
         var rightAddition = Right.Inclusion != rightInclusion
-            ? BitHelper.ToSign(rightInclusion == Points.Inclusion.Included) * _essentialGranuleLength
+            ? BitHelper.ToSign(rightInclusion == Points.Inclusion.Included) * GranuleLength
             : TimeSpan.Zero;
         return this with
         {
@@ -143,39 +146,49 @@ public record class MonthGranularInterval : GranularInterval<DateTime, TimeSpan>
         };
     }
 
-    private static TimeSpan GetLength(DateTime leftValue, DateTime rightValue, IntervalInclusion inclusion)
+    private static TimeSpan GetLength(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength,
+        IntervalInclusion inclusion)
     {
         var (leftAddition, rightAddition) = inclusion switch
         {
-            IntervalInclusion.Opened => (_essentialGranuleLength, TimeSpan.Zero),
-            IntervalInclusion.Closed => (TimeSpan.Zero, _essentialGranuleLength),
+            IntervalInclusion.Opened => (granuleLength, TimeSpan.Zero),
+            IntervalInclusion.Closed => (TimeSpan.Zero, granuleLength),
             _ => (TimeSpan.Zero, TimeSpan.Zero)
         };
         return GenericMath.Max((rightValue + rightAddition) - (leftValue + leftAddition), TimeSpan.Zero);
     }
 
-    private static DateTime GetRight(DateTime leftValue, int granuleMonthsCount, int granulesCount,
+    private static DateTime GetRight(DateTime leftValue, TimeSpan granuleLength, int monthsCount,
         IntervalInclusion inclusion)
     {
         var addition = inclusion switch
         {
-            IntervalInclusion.Opened => _essentialGranuleLength,
-            IntervalInclusion.Closed => -_essentialGranuleLength,
+            IntervalInclusion.Opened => granuleLength,
+            IntervalInclusion.Closed => -granuleLength,
             _ => TimeSpan.Zero
         };
-        return leftValue.AddMonths(granuleMonthsCount * granulesCount) + addition;
+        return leftValue.AddMonths(monthsCount) + addition;
     }
 
-    private static int GetMonthsCount(DateTime leftValue, DateTime rightValue) =>
-        (rightValue.Year - leftValue.Year) * DateTimeHelper.MonthsInYear + (rightValue.Month - leftValue.Month);
-
-    private static void ThrowIfNotValid(DateTime leftValue, DateTime rightValue, int granuleMonthsCount,
-        IntervalInclusion inclusion)
+    private static int GetMonthsCount(DateTime leftValue, DateTime rightValue, IntervalInclusion inclusion)
     {
-        if (granuleMonthsCount <= 0)
-            throw new ArgumentException($"The {granuleMonthsCount} must not be less or equal zero");
+        var addition = inclusion switch
+        {
+            IntervalInclusion.Opened => -1,
+            IntervalInclusion.Closed => 1,
+            _ => 0
+        };
+        return (rightValue.Year - leftValue.Year) * DateTimeHelper.MonthsInYear + (rightValue.Month - leftValue.Month) +
+               addition;
+    }
 
-        if (leftValue.Ticks % _essentialGranuleLength.Ticks != rightValue.Ticks % _essentialGranuleLength.Ticks)
+    private static void ThrowIfNotValid(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength,
+        int monthsCount, IntervalInclusion inclusion)
+    {
+        if (monthsCount <= 0)
+            throw new ArgumentException($"The {monthsCount} must not be less or equal zero");
+
+        if (leftValue.Ticks % granuleLength.Ticks != rightValue.Ticks % granuleLength.Ticks)
             throw new ArgumentException(
                 $"The {nameof(leftValue)} and {nameof(rightValue)} must be aligned to the time of day");
 

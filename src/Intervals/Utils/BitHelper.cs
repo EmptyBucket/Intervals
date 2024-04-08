@@ -25,8 +25,6 @@ namespace Intervals.Utils;
 
 internal static class BitHelper
 {
-    private const int ZeroAddition = ~0;
-
     /// <summary>
     /// Convert least significant bit to sign. From 0 to 1, from 1 to -1
     /// </summary>

@@ -42,48 +42,50 @@ public static partial class IntervalExtensions
     }
 
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="monthsCount" /> length and
-    /// the rest, which was less than <paramref name="monthsCount" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleMonthsCount" /> length and
+    /// the rest, which was less than <paramref name="granuleMonthsCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
-    /// <param name="monthsCount"></param>
+    /// <param name="granuleMonthsCount"></param>
     /// <returns></returns>
-    public static IEnumerable<Interval<DateTime>> SplitByMonths(this Interval<DateTime> interval, int monthsCount = 1)
+    public static IEnumerable<Interval<DateTime>> SplitByMonths(this Interval<DateTime> interval,
+        int granuleMonthsCount = 1)
     {
         var (leftValue, _, inclusion) = interval;
         var firstDayOfMonth = leftValue.AddDays(1 - leftValue.Day);
-        return Split(interval, new MonthGranularInterval(firstDayOfMonth, monthsCount, inclusion));
+        return Split(interval, new MonthGranularInterval(firstDayOfMonth, granuleMonthsCount, inclusion));
     }
 
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="quartersCount" /> length and
-    /// the rest, which was less than <paramref name="quartersCount" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleQuartersCount" /> length and
+    /// the rest, which was less than <paramref name="granuleQuartersCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
-    /// <param name="quartersCount"></param>
+    /// <param name="granuleQuartersCount"></param>
     /// <returns></returns>
     public static IEnumerable<Interval<DateTime>> SplitByQuarters(this Interval<DateTime> interval,
-        int quartersCount = 1) => interval.SplitByMonths(quartersCount * DateTimeHelper.MonthsInQuarter);
+        int granuleQuartersCount = 1) => interval.SplitByMonths(granuleQuartersCount * DateTimeHelper.MonthsInQuarter);
 
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="halfYearsCount" /> length and
-    /// the rest, which was less than <paramref name="halfYearsCount" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleHalfYearsCount" /> length and
+    /// the rest, which was less than <paramref name="granuleHalfYearsCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
-    /// <param name="halfYearsCount"></param>
+    /// <param name="granuleHalfYearsCount"></param>
     /// <returns></returns>
     public static IEnumerable<Interval<DateTime>> SplitByHalfYears(this Interval<DateTime> interval,
-        int halfYearsCount = 1) => interval.SplitByMonths(halfYearsCount * DateTimeHelper.MonthsInHalfYear);
+        int granuleHalfYearsCount = 1) =>
+        interval.SplitByMonths(granuleHalfYearsCount * DateTimeHelper.MonthsInHalfYear);
 
     /// <summary>
-    /// Splits the interval into sub-intervals of <paramref name="yearsCount" /> length and
-    /// the rest, which was less than <paramref name="yearsCount" /> in length
+    /// Splits the interval into sub-intervals of <paramref name="granuleYearsCount" /> length and
+    /// the rest, which was less than <paramref name="granuleYearsCount" /> in length
     /// </summary>
     /// <param name="interval"></param>
-    /// <param name="yearsCount"></param>
+    /// <param name="granuleYearsCount"></param>
     /// <returns></returns>
     public static IEnumerable<Interval<DateTime>> SplitByYears(this Interval<DateTime> interval,
-        int yearsCount = 1) => interval.SplitByMonths(yearsCount * DateTimeHelper.MonthsInYear);
+        int granuleYearsCount = 1) => interval.SplitByMonths(granuleYearsCount * DateTimeHelper.MonthsInYear);
 
     private static IEnumerable<Interval<DateTime>> Split(Interval<DateTime> originInterval,
         GranularInterval<DateTime, TimeSpan> granularInterval)

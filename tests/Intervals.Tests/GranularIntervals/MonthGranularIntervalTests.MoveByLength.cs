@@ -4,14 +4,14 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.GranularIntervals;
 
-public partial class MonthGranularIntervalTests
+public partial class MonthlyIntervalTests
 {
     [Test]
     public void MoveByLength_WhenOne_ReturnNext()
     {
         var leftValue = new DateTime(2022, 1, 1, 2, 3, 4);
         var rightValue = new DateTime(2023, 1, 1, 2, 3, 4);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1));
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1));
 
         var actual = interval.MoveByLength(1);
 
@@ -24,7 +24,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1, 2, 3, 4);
         var rightValue = new DateTime(2023, 1, 1, 2, 3, 4);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1));
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1));
 
         var actual = interval.MoveByLength(-1);
 
@@ -37,7 +37,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1, 2, 3, 4);
         var rightValue = new DateTime(2023, 1, 1, 2, 3, 4);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1));
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1));
 
         var actual = interval.MoveByLength(-1, 0);
 
@@ -50,7 +50,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1, 2, 3, 4);
         var rightValue = new DateTime(2023, 1, 1, 2, 3, 4);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1));
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1));
 
         var actual = interval.MoveByLength(1, 0);
 
@@ -63,7 +63,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1, 2, 3, 4);
         var rightValue = new DateTime(2023, 1, 1, 2, 3, 4);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1));
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1));
 
         var actual = interval.MoveByLength(0, -1);
 
@@ -76,7 +76,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1, 2, 3, 4);
         var rightValue = new DateTime(2023, 1, 1, 2, 3, 4);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1));
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1));
 
         var actual = interval.MoveByLength(0, 1);
 

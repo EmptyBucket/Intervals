@@ -6,12 +6,12 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Intervals.Tests.GranularIntervals;
 
-public partial class MonthGranularIntervalTests
+public partial class MonthlyIntervalTests
 {
     [Test]
     public void Serialize_WhenSystemTextJson_ShouldNotThrowException()
     {
-        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1),
+        var interval = new MonthlyInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1),
             TimeSpan.FromDays(1));
 
         var action = new Action(() => JsonSerializer.Serialize(interval));
@@ -25,7 +25,7 @@ public partial class MonthGranularIntervalTests
         const string str =
             """{"LeftValue":"2022-01-01T00:00:00","RightValue":"2023-01-01T00:00:00","GranuleLength":"1.00:00:00","Inclusion":2}""";
 
-        var action = new Action(() => JsonSerializer.Deserialize<MonthGranularInterval>(str));
+        var action = new Action(() => JsonSerializer.Deserialize<MonthlyInterval>(str));
 
         action.Should().NotThrow();
     }
@@ -33,7 +33,7 @@ public partial class MonthGranularIntervalTests
     [Test]
     public void Serialize_WhenNewtonsoftJson_ShouldNotThrowException()
     {
-        var interval = new MonthGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1),
+        var interval = new MonthlyInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1),
             TimeSpan.FromDays(1));
 
         var action = new Action(() => JsonConvert.SerializeObject(interval));
@@ -47,7 +47,7 @@ public partial class MonthGranularIntervalTests
         const string str =
             """{"LeftValue":"2022-01-01T00:00:00","RightValue":"2023-01-01T00:00:00","GranuleLength":"1.00:00:00","Inclusion":2}""";
 
-        var action = new Action(() => JsonConvert.DeserializeObject<MonthGranularInterval>(str));
+        var action = new Action(() => JsonConvert.DeserializeObject<MonthlyInterval>(str));
 
         action.Should().NotThrow();
     }

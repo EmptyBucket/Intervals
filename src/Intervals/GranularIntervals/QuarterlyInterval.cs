@@ -28,38 +28,50 @@ using Intervals.Utils;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an quarter interval instance
+/// Represents an quarterly interval instance
 /// </summary>
 [Serializable]
-public record class QuarterInterval : MonthGranularInterval
+public record class QuarterlyInterval : MonthlyInterval
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterlyInterval"/>
-    /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" /> and <paramref name="inclusion" />
-    /// </summary>
-    /// <param name="leftValue"></param>
-    /// <param name="granuleLength"></param>
-    /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public QuarterInterval(DateTime leftValue, TimeSpan granuleLength,
+    private QuarterlyInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, granuleLength, DateTimeHelper.MonthsInQuarter, inclusion)
+        : base(leftValue, rightValue, granuleLength, inclusion)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterInterval"/>
-    /// with specified <paramref name="year" />, <paramref name="quarter" />, <paramref name="granuleLength" /> and
-    /// <paramref name="kind" />
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterlyInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" />,
+    /// <paramref name="quartersCount" />, <paramref name="inclusion" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="granuleLength"></param>
+    /// <param name="quartersCount"></param>
+    /// <param name="inclusion"></param>
+    /// <param name="kind"></param>
+    public QuarterlyInterval(DateTime leftValue, TimeSpan granuleLength, int quartersCount,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened, DateTimeKind kind = DateTimeKind.Unspecified)
+        : base(leftValue, granuleLength, quartersCount * DateTimeHelper.MonthsInQuarter, inclusion)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.QuarterlyInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="quarter" />, <paramref name="granuleLength" />,
+    /// <paramref name="quartersCount" />, <paramref name="inclusion" /> and <paramref name="kind" />
     /// </summary>
     /// <param name="year"></param>
     /// <param name="quarter"></param>
     /// <param name="granuleLength"></param>
+    /// <param name="quartersCount"></param>
+    /// <param name="inclusion"></param>
     /// <param name="kind"></param>
-    public QuarterInterval(int year, int quarter, TimeSpan granuleLength,
-        DateTimeKind kind = DateTimeKind.Unspecified)
-        : this(DateTimeHelper.New(year, DateTimeHelper.QuarterToMonth(quarter), 1, kind), granuleLength)
+    public QuarterlyInterval(int year, int quarter, TimeSpan granuleLength, int quartersCount,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened, DateTimeKind kind = DateTimeKind.Unspecified)
+        : base(DateTimeHelper.GetMonthStart(year, DateTimeHelper.QuarterToMonth(quarter), kind), granuleLength,
+            quartersCount * DateTimeHelper.MonthsInQuarter, inclusion)
     {
     }
 }

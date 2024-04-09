@@ -68,7 +68,7 @@ public record class MinutelyInterval : TimeGranularInterval
     /// <param name="leftValue"></param>
     /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public MinutelyInterval(DateTime leftValue, int granulesCount = 1,
+    public MinutelyInterval(DateTime leftValue, long granulesCount = 1,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, GranuleLength, granulesCount, inclusion)
     {

@@ -5,14 +5,14 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.GranularIntervals;
 
-public partial class MonthGranularIntervalTests
+public partial class MonthlyIntervalTests
 {
     [Test]
     public void Convert_WhenOpenedToOpened_ReturnOpenedWithSameLength()
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.Opened);
 
@@ -27,7 +27,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.LeftOpened);
 
@@ -42,7 +42,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.RightOpened);
 
@@ -57,7 +57,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Opened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.Closed);
 
@@ -72,7 +72,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1),
             IntervalInclusion.LeftOpened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.Opened);
@@ -88,7 +88,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1),
             IntervalInclusion.LeftOpened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.LeftOpened);
@@ -104,7 +104,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1),
             IntervalInclusion.LeftOpened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.RightOpened);
@@ -120,7 +120,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2021, 12, 31);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1),
             IntervalInclusion.LeftOpened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.Closed);
@@ -136,7 +136,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1),
             IntervalInclusion.RightOpened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.Opened);
@@ -152,7 +152,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1),
             IntervalInclusion.RightOpened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.LeftOpened);
@@ -168,7 +168,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1),
             IntervalInclusion.RightOpened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.RightOpened);
@@ -184,7 +184,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 2, 1);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1),
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1),
             IntervalInclusion.RightOpened);
 
         var convertedInterval = interval.Convert(IntervalInclusion.Closed);
@@ -200,7 +200,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
 
         var convertedInterval = interval.Convert(IntervalInclusion.Opened);
 
@@ -215,7 +215,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
 
         var convertedInterval = interval.Convert(IntervalInclusion.LeftOpened);
 
@@ -230,7 +230,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
 
         var convertedInterval = interval.Convert(IntervalInclusion.RightOpened);
 
@@ -245,7 +245,7 @@ public partial class MonthGranularIntervalTests
     {
         var leftValue = new DateTime(2022, 1, 1);
         var rightValue = new DateTime(2022, 1, 31);
-        var interval = new MonthGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
+        var interval = new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1), IntervalInclusion.Closed);
 
         var convertedInterval = interval.Convert(IntervalInclusion.Closed);
 

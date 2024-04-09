@@ -28,38 +28,50 @@ using Intervals.Utils;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an half-year interval instance
+/// Represents an half-yearly interval instance
 /// </summary>
 [Serializable]
-public record class HalfYearInterval : MonthGranularInterval
+public record class HalfYearlyInterval : MonthlyInterval
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HalfYearlyInterval"/>
-    /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" /> and <paramref name="inclusion" />
-    /// </summary>
-    /// <param name="leftValue"></param>
-    /// <param name="granuleLength"></param>
-    /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public HalfYearInterval(DateTime leftValue, TimeSpan granuleLength,
+    private HalfYearlyInterval(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, granuleLength, DateTimeHelper.MonthsInHalfYear, inclusion)
+        : base(leftValue, rightValue, granuleLength, inclusion)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HalfYearInterval"/>
-    /// with specified <paramref name="year" />, <paramref name="halfYear" />, <paramref name="granuleLength" /> and
-    /// <paramref name="kind" />
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HalfYearlyInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" />,
+    /// <paramref name="halfYearsCount" />, <paramref name="inclusion" /> and <paramref name="kind" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="granuleLength"></param>
+    /// <param name="halfYearsCount"></param>
+    /// <param name="inclusion"></param>
+    /// <param name="kind"></param>
+    public HalfYearlyInterval(DateTime leftValue, TimeSpan granuleLength, int halfYearsCount,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened, DateTimeKind kind = DateTimeKind.Unspecified)
+        : base(leftValue, granuleLength, halfYearsCount * DateTimeHelper.MonthsInHalfYear, inclusion)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HalfYearlyInterval"/>
+    /// with specified <paramref name="year" />, <paramref name="halfYear" />, <paramref name="granuleLength" />,
+    /// <paramref name="halfYearsCount" />, <paramref name="inclusion" /> and <paramref name="kind" />
     /// </summary>
     /// <param name="year"></param>
     /// <param name="halfYear"></param>
     /// <param name="granuleLength"></param>
+    /// <param name="halfYearsCount"></param>
+    /// <param name="inclusion"></param>
     /// <param name="kind"></param>
-    public HalfYearInterval(int year, int halfYear, TimeSpan granuleLength,
-        DateTimeKind kind = DateTimeKind.Unspecified)
-        : this(DateTimeHelper.New(year, DateTimeHelper.HalfYearToMonth(halfYear), 1, kind), granuleLength)
+    public HalfYearlyInterval(int year, int halfYear, TimeSpan granuleLength, int halfYearsCount,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened, DateTimeKind kind = DateTimeKind.Unspecified)
+        : base(DateTimeHelper.GetMonthStart(year, DateTimeHelper.HalfYearToMonth(halfYear), kind), granuleLength,
+            halfYearsCount * DateTimeHelper.MonthsInHalfYear, inclusion)
     {
     }
 }

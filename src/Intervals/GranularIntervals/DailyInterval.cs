@@ -68,7 +68,7 @@ public record class DailyInterval : TimeGranularInterval
     /// <param name="leftValue"></param>
     /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public DailyInterval(DateTime leftValue, int granulesCount = 1,
+    public DailyInterval(DateTime leftValue, long granulesCount = 1,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, GranuleLength, granulesCount, inclusion)
     {

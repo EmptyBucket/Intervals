@@ -38,4 +38,7 @@ public static class DateTimeExtensions
     /// <param name="dateTime"></param>
     /// <returns>half-year number</returns>
     public static int GetHalfYear(this DateTime dateTime) => (dateTime.Month - 1) / DateTimeHelper.MonthsInHalfYear + 1;
+
+    internal static int GetDaysUntilMonth(this DateTime dateTime) =>
+        DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - dateTime.Day;
 }

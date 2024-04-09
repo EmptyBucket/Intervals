@@ -68,7 +68,7 @@ public record class TickInterval : TimeGranularInterval
     /// <param name="leftValue"></param>
     /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public TickInterval(DateTime leftValue, int granulesCount = 1,
+    public TickInterval(DateTime leftValue, long granulesCount = 1,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, GranuleLength, granulesCount, inclusion)
     {

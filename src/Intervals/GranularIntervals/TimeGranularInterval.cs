@@ -81,7 +81,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
     /// <param name="granuleLength"></param>
     /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
-    public TimeGranularInterval(DateTime leftValue, TimeSpan granuleLength, int granulesCount = 1,
+    public TimeGranularInterval(DateTime leftValue, TimeSpan granuleLength, long granulesCount = 1,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : this(leftValue, GetRight(leftValue, granuleLength, granulesCount, inclusion), granuleLength, inclusion)
     {
@@ -138,7 +138,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
         return GenericMath.Max((rightValue + rightAddition) - (leftValue + leftAddition), TimeSpan.Zero);
     }
 
-    private static DateTime GetRight(DateTime leftValue, TimeSpan granuleLength, int granulesCount,
+    private static DateTime GetRight(DateTime leftValue, TimeSpan granuleLength, long granulesCount,
         IntervalInclusion inclusion)
     {
         var addition = inclusion switch

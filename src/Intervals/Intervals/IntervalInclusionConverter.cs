@@ -21,41 +21,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-using System.Numerics;
+using Intervals.Points;
 
 namespace Intervals.Intervals;
 
-public static partial class IntervalExtensions
+public static class IntervalInclusionConverter
 {
-#if NET7_0_OR_GREATER
     /// <summary>
-    /// Calculates length of interval
+    /// Returns the converted inclusion of the interval from the <paramref name="leftInclusion" /> and <paramref name="rightInclusion" /> of the point
     /// </summary>
-    /// <param name="interval"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TResult">Type representing difference of two <see cref="T"/></typeparam>
+    /// <param name="leftInclusion"></param>
+    /// <param name="rightInclusion"></param>
     /// <returns></returns>
-    public static TResult GetLength<T, TResult>(this Interval<T> interval)
-        where T : IComparable<T>, IEquatable<T>, ISubtractionOperators<T, T, TResult>
-        where TResult : INumberBase<TResult>
-    {
-        if (interval.IsEmpty()) return TResult.Zero;
-
-        var (left, right, _) = interval;
-        return right - left;
-    }
-#endif
+    public static IntervalInclusion FromInclusions(Inclusion leftInclusion, Inclusion rightInclusion) =>
+        (IntervalInclusion)((int)leftInclusion << (int)EndpointLocation.Left |
+                            (int)rightInclusion << (int)EndpointLocation.Right);
 
     /// <summary>
-    /// Calculates length of DateTime interval
+    /// Returns the converted inclusion of the point from the <paramref name="intervalInclusion" /> of the interval
     /// </summary>
-    /// <param name="interval"></param>
+    /// <param name="intervalInclusion"></param>
     /// <returns></returns>
-    public static TimeSpan GetLength(this Interval<DateTime> interval)
-    {
-        if (interval.IsEmpty()) return TimeSpan.Zero;
-
-        var (left, right, _) = interval;
-        return right - left;
-    }
+    public static (Inclusion Left, Inclusion Right) ToInclusions(IntervalInclusion intervalInclusion) =>
+        ((Inclusion)((int)intervalInclusion >> (int)EndpointLocation.Left & 1),
+            (Inclusion)((int)intervalInclusion >> (int)EndpointLocation.Right & 1));
 }

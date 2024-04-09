@@ -5,12 +5,12 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Intervals;
 
-public partial class IntervalLengthComparerTests
+public partial class IntervalDiffComparerTests
 {
     [TestCaseSource(nameof(Compare_WhenDateTimeInterval_Data))]
     public void Compare_WhenDateTimeInterval(Interval<DateTime>? first, Interval<DateTime>? second, int result)
     {
-        var defaultDateTimeIntervalLengthComparer = new DefaultDateTimeIntervalLengthComparer();
+        var defaultDateTimeIntervalLengthComparer = new DefaultDateTimeIntervalDiffComparer();
 
         var compareResult = defaultDateTimeIntervalLengthComparer.Compare(first, second);
 
@@ -20,7 +20,7 @@ public partial class IntervalLengthComparerTests
     [TestCaseSource(nameof(Compare_WhenIntInterval_Data))]
     public void Compare_WhenIntInterval(Interval<int>? first, Interval<int>? second, int result)
     {
-        var defaultIntervalLengthComparer = new DefaultIntervalLengthComparer<int, int>();
+        var defaultIntervalLengthComparer = new DefaultIntervalDiffComparer<int, int>();
 
         var compareResult = defaultIntervalLengthComparer.Compare(first, second);
 
@@ -30,7 +30,7 @@ public partial class IntervalLengthComparerTests
     [TestCaseSource(nameof(Compare_WhenDateTimeIntervalWithCustomComparison_Data))]
     public void Compare_WhenDateTimeIntervalWithCustomComparison(Interval<DateTime>? first, Interval<DateTime>? second, int result)
     {
-        var intervalLengthComparer = new IntervalLengthComparer<DateTime, int>(GetWorkingDays);
+        var intervalLengthComparer = new IntervalDiffComparer<DateTime, int>(GetWorkingDays);
 
         var compareResult = intervalLengthComparer.Compare(first, second);
 

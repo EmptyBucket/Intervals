@@ -28,7 +28,7 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Intervals;
 
-public class IntervalInclusionConvertTests
+public class IntervalInclusionConverterTests
 {
 	[TestCase(Inclusion.Excluded, Inclusion.Excluded, IntervalInclusion.Opened)]
 	[TestCase(Inclusion.Excluded, Inclusion.Included, IntervalInclusion.LeftOpened)]
@@ -37,7 +37,7 @@ public class IntervalInclusionConvertTests
 	public void FromInclusion_WhenGivenInclusions_ReturnIntervalInclusion(Inclusion left, Inclusion right,
 		IntervalInclusion result)
 	{
-		var actual = IntervalInclusionConvert.FromInclusions(left, right);
+		var actual = IntervalInclusionConverter.FromInclusions(left, right);
 
 		actual.Should().Be(result);
 	}
@@ -49,7 +49,7 @@ public class IntervalInclusionConvertTests
 	public void ToInclusions_WhenGivenIntervalInclusion_ReturnInclusions(IntervalInclusion intervalInclusion,
 		Inclusion left, Inclusion right)
 	{
-		var (actualLeft, actualRight) = IntervalInclusionConvert.ToInclusions(intervalInclusion);
+		var (actualLeft, actualRight) = IntervalInclusionConverter.ToInclusions(intervalInclusion);
 
 		actualLeft.Should().Be(left);
 		actualRight.Should().Be(right);

@@ -21,50 +21,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace Intervals.GranularIntervals;
+using System.Numerics;
 
-/// <summary>
-/// Represents an hour interval instance where the granule size is equal to a hour
-/// </summary>
-public record class HourInterval : TimeGranularInterval
+namespace Intervals.Intervals;
+
+public static partial class IntervalExtensions
 {
+#if NET7_0_OR_GREATER
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HourInterval"/>
-    /// with specified <paramref name="year" />, <paramref name="month" />, <paramref name="day" />,
-    /// <paramref name="hour" /> and <paramref name="kind" />
+    /// Calculates difference of the interval endpoints
     /// </summary>
-    /// <param name="year"></param>
-    /// <param name="month"></param>
-    /// <param name="day"></param>
-    /// <param name="hour"></param>
-    /// <param name="kind"></param>
-    public HourInterval(int year, int month, int day, int hour, DateTimeKind kind = DateTimeKind.Unspecified) : base(
-        new DateTime(year, month, day, hour, 0, 0, kind),
-        new DateTime(year, month, day, hour, 0, 0, kind).AddHours(1))
+    /// <param name="interval"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult">Type representing difference of two <see cref="T"/></typeparam>
+    /// <returns></returns>
+    public static TResult GetDiff<T, TResult>(this Interval<T> interval)
+        where T : IComparable<T>, IEquatable<T>, ISubtractionOperators<T, T, TResult>
+        where TResult : INumberBase<TResult>
     {
-        Year = year;
-        Month = month;
-        Day = day;
-        Hour = hour;
+        if (interval.IsEmpty()) return TResult.Zero;
+
+        var (left, right, _) = interval;
+        return right - left;
     }
+#endif
 
     /// <summary>
-    /// Year
+    /// Calculates difference of the <see cref="DateTime"/> interval endpoints
     /// </summary>
-    public int Year { get; }
+    /// <param name="interval"></param>
+    /// <returns></returns>
+    public static TimeSpan GetDiff(this Interval<DateTime> interval)
+    {
+        if (interval.IsEmpty()) return TimeSpan.Zero;
 
-    /// <summary>
-    /// Month
-    /// </summary>
-    public int Month { get; }
-
-    /// <summary>
-    /// Day
-    /// </summary>
-    public int Day { get; }
-
-    /// <summary>
-    /// Hour
-    /// </summary>
-    public int Hour { get; }
+        var (left, right, _) = interval;
+        return right - left;
+    }
 }

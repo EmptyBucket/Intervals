@@ -28,39 +28,49 @@ using Intervals.Points;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an part of the granular interval instance where the granule size is determined by the number of months and explicitly specified.
-/// That is, the granule size on the basis of which operations are executed can be larger or smaller than the interval itself
+/// Represents an hourly interval instance where the granule length is hour
 /// </summary>
 [Serializable]
-public record class PartOfMonthGranularInterval : MonthGranularInterval
+public record class HourlyInterval : TimeGranularInterval
 {
+    private new static readonly TimeSpan GranuleLength = TimeSpan.FromHours(1);
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfMonthGranularInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HourlyInterval"/>
     /// with specified <paramref name="leftPoint" /> and <paramref name="rightPoint" />
     /// </summary>
     /// <param name="leftPoint"></param>
     /// <param name="rightPoint"></param>
-    /// <param name="granulesCount"></param>
-    public PartOfMonthGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, int granulesCount)
-        : base(leftPoint, rightPoint)
+    public HourlyInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint)
+        : base(leftPoint, rightPoint, GranuleLength)
     {
-        GranulesCount = granulesCount;
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.PartOfMonthGranularInterval"/>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HourlyInterval"/>
     /// with specified <paramref name="leftValue" />, <paramref name="rightValue" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
     /// <param name="rightValue"></param>
-    /// <param name="granulesCount"></param>
     /// <param name="inclusion"></param>
     [JsonConstructor]
     [Newtonsoft.Json.JsonConstructor]
-    public PartOfMonthGranularInterval(DateTime leftValue, DateTime rightValue, int granulesCount,
+    public HourlyInterval(DateTime leftValue, DateTime rightValue,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : base(leftValue, rightValue, inclusion)
+        : base(leftValue, rightValue, GranuleLength, inclusion)
     {
-        GranulesCount = granulesCount;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.HourlyInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="granulesCount"></param>
+    /// <param name="inclusion"></param>
+    public HourlyInterval(DateTime leftValue, long granulesCount = 1,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleLength, granulesCount, inclusion)
+    {
     }
 }

@@ -43,6 +43,6 @@ internal static class DateTimeHelper
         return (halfYear - 1) * MonthsInHalfYear + 1;
     }
 
-    public static DateTime New(int year, int month, int day, DateTimeKind kind = DateTimeKind.Unspecified) =>
-        new(year, month, day, 0, 0, 0, kind);
+    public static DateTime GetMonthStart(int year, int month, DateTimeKind kind = DateTimeKind.Unspecified) =>
+        new(year, month, 1, 0, 0, 0, kind);
 }

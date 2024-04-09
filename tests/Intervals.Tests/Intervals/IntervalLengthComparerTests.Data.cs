@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Intervals.Tests.Intervals;
 
-public partial class IntervalLengthComparerTests
+public partial class IntervalDiffComparerTests
 {
     public static IEnumerable Compare_WhenDateTimeInterval_Data()
     {

@@ -11,7 +11,7 @@ public partial class IntervalExtensionsTests
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 3, 11, 0, 0), new DateTime(2022, 1, 2, 11, 0, 0));
 
-        var actual = interval.GetLength();
+        var actual = interval.GetDiff();
 
         actual.Should().Be(TimeSpan.Zero);
     }
@@ -21,7 +21,7 @@ public partial class IntervalExtensionsTests
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 3, 11, 0, 0), new DateTime(2022, 1, 3, 11, 0, 0));
 
-        var actual = interval.GetLength();
+        var actual = interval.GetDiff();
 
         actual.Should().Be(TimeSpan.Zero);
     }
@@ -31,7 +31,7 @@ public partial class IntervalExtensionsTests
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 11, 0, 0), new DateTime(2022, 1, 3, 11, 0, 0));
 
-        var actual = interval.GetLength();
+        var actual = interval.GetDiff();
 
         actual.Should().Be(TimeSpan.FromDays(1));
     }
@@ -41,7 +41,7 @@ public partial class IntervalExtensionsTests
     {
         var interval = new Interval<DateTime>(new DateTime(2022, 1, 2, 11, 0, 0), new DateTime(2022, 2, 2, 11, 0, 0));
 
-        var actual = interval.GetLength();
+        var actual = interval.GetDiff();
 
         actual.Should().Be(TimeSpan.FromDays(31));
     }
@@ -51,7 +51,7 @@ public partial class IntervalExtensionsTests
     {
         var interval = new Interval<int>(10, 1);
 
-        var actual = interval.GetLength<int, int>();
+        var actual = interval.GetDiff<int, int>();
 
         actual.Should().Be(0);
     }
@@ -61,7 +61,7 @@ public partial class IntervalExtensionsTests
     {
         var interval = new Interval<int>(10, 10);
 
-        var actual = interval.GetLength<int, int>();
+        var actual = interval.GetDiff<int, int>();
 
         actual.Should().Be(0);
     }
@@ -71,7 +71,7 @@ public partial class IntervalExtensionsTests
     {
         var interval = new Interval<int>(10, 30);
 
-        var actual = interval.GetLength<int, int>();
+        var actual = interval.GetDiff<int, int>();
 
         actual.Should().Be(20);
     }

@@ -23,132 +23,83 @@
 
 using FluentAssertions;
 using Intervals.GranularIntervals;
-using Intervals.Points;
-using Newtonsoft.Json;
+using Intervals.Intervals;
 using NUnit.Framework;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Intervals.Tests.GranularIntervals;
 
-public class TimeGranularIntervalTests
+public partial class TimeGranularIntervalTests
 {
     [Test]
-    public void Move_WhenOne_ReturnNext()
+    public void New_WhenNegativeOneGranuleLength_ThrowArgumentException()
     {
-        var left = Point.Included(new DateTime(2021, 1, 1, 1, 1, 1));
-        var right = Point.Excluded(new DateTime(2022, 1, 4, 5, 6, 7));
-        var interval = new TimeGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 1);
+        var rightValue = new DateTime(2022, 1, 12);
 
-        var actual = interval.Move(1);
+        var action = new Action(() => new TimeGranularInterval(leftValue, rightValue, TimeSpan.FromDays(-1)));
 
-        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must not be less or equal zero");
     }
 
     [Test]
-    public void Move_WhenNegativeOne_ReturnPrev()
+    public void New_WhenZeroGranuleLength_ThrowArgumentException()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new TimeGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 1);
+        var rightValue = new DateTime(2022, 1, 12);
 
-        var actual = interval.Move(-1);
+        var action = new Action(() => new TimeGranularInterval(leftValue, rightValue, TimeSpan.Zero));
 
-        actual.LeftValue.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
-        actual.RightValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must not be less or equal zero");
     }
 
     [Test]
-    public void ExpandLeft_WhenOne_ReturnIntervalWithLeftAddition()
+    public void New_WhenNotAlignedToGranuleLength_ThrowArgumentException()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new TimeGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 1);
+        var rightValue = new DateTime(2022, 1, 12, 1, 1, 1);
 
-        var actual = interval.ExpandLeft(1);
+        var action = new Action(() => new TimeGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1)));
 
-        actual.LeftValue.Should().Be(new DateTime(2021, 1, 1, 1, 1, 1));
-        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must be aligned");
     }
 
     [Test]
-    public void ExpandLeft_WhenNegativeOne_ReturnEmpty()
+    public void New_WhenOpened_ReturnIntervalWithGranularRight()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new TimeGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 1);
 
-        var actual = interval.ExpandLeft(-1);
+        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.Opened);
 
-        actual.LeftValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
-        actual.RightValue.Should().Be(new DateTime(2023, 1, 7, 9, 11, 13));
+        interval.RightValue.Should().Be(new DateTime(2022, 1, 3));
     }
 
     [Test]
-    public void ExpandRight_WhenOne_ReturnIntervalWithRightAddition()
+    public void New_WhenLeftOpened_ReturnIntervalWithGranularRight()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new TimeGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 1);
 
-        var actual = interval.ExpandRight(1);
+        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.LeftOpened);
 
-        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.RightValue.Should().Be(new DateTime(2024, 1, 10, 13, 16, 19));
+        interval.RightValue.Should().Be(new DateTime(2022, 1, 2));
     }
 
     [Test]
-    public void ExpandRight_WhenNegativeOne_ReturnEmpty()
+    public void New_WhenRightOpened_ReturnIntervalWithGranularRight()
     {
-        var left = Point.Included(new DateTime(2022, 1, 4, 5, 6, 7));
-        var right = Point.Excluded(new DateTime(2023, 1, 7, 9, 11, 13));
-        var interval = new TimeGranularInterval(left, right);
+        var leftValue = new DateTime(2022, 1, 1);
 
-        var actual = interval.ExpandRight(-1);
+        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.RightOpened);
 
-        actual.LeftValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
-        actual.RightValue.Should().Be(new DateTime(2022, 1, 4, 5, 6, 7));
+        interval.RightValue.Should().Be(new DateTime(2022, 1, 2));
     }
 
     [Test]
-    public void Serialize_WhenSystemTextJson_ShouldNotThrowException()
+    public void New_WhenClosed_ReturnIntervalWithGranularRight()
     {
-        var interval = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1));
+        var leftValue = new DateTime(2022, 1, 1);
 
-        var action = new Action(() => JsonSerializer.Serialize(interval));
+        var interval = new TimeGranularInterval(leftValue, TimeSpan.FromDays(1), 1, IntervalInclusion.Closed);
 
-        action.Should().NotThrow();
-    }
-
-    [Test]
-    public void Deserialize_WhenSystemTextJson_ShouldNotThrowException()
-    {
-        const string str =
-            "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"Inclusion\":2}";
-
-        var action = new Action(() => JsonSerializer.Deserialize<TimeGranularInterval>(str));
-
-        action.Should().NotThrow();
-    }
-
-    [Test]
-    public void Serialize_WhenNewtonsoftJson_ShouldNotThrowException()
-    {
-        var interval = new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2023, 1, 1));
-
-        var action = new Action(() => JsonConvert.SerializeObject(interval));
-
-        action.Should().NotThrow();
-    }
-
-    [Test]
-    public void Deserialize_WhenNewtonsoftJson_ShouldNotThrowException()
-    {
-        const string str =
-            "{\"LeftValue\":\"2022-01-01T00:00:00\",\"RightValue\":\"2023-01-01T00:00:00\",\"Inclusion\":2}";
-
-        var action = new Action(() => JsonConvert.DeserializeObject<TimeGranularInterval>(str));
-
-        action.Should().NotThrow();
+        interval.RightValue.Should().Be(new DateTime(2022, 1, 1));
     }
 }

@@ -50,9 +50,8 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// </summary>
     /// <param name="value"></param>
     public Interval(T value)
+        : this(Endpoint.Left(value, Points.Inclusion.Included), Endpoint.Right(value, Points.Inclusion.Included))
     {
-        Left = Endpoint.Left(value, Points.Inclusion.Included);
-        Right = Endpoint.Right(value, Points.Inclusion.Included);
     }
 
     /// <summary>
@@ -66,7 +65,7 @@ public record class Interval<T> : IComparable<Interval<T>>
     [Newtonsoft.Json.JsonConstructor]
     public Interval(T leftValue, T rightValue, IntervalInclusion inclusion = IntervalInclusion.RightOpened)
     {
-        var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(inclusion);
+        var (leftInclusion, rightInclusion) = IntervalInclusionConverter.ToInclusions(inclusion);
         Left = Endpoint.Left(leftValue, leftInclusion);
         Right = Endpoint.Right(rightValue, rightInclusion);
     }
@@ -110,10 +109,10 @@ public record class Interval<T> : IComparable<Interval<T>>
     /// </summary>
     public IntervalInclusion Inclusion
     {
-        get => IntervalInclusionConvert.FromInclusions(Left.Inclusion, Right.Inclusion);
+        get => IntervalInclusionConverter.FromInclusions(Left.Inclusion, Right.Inclusion);
         init
         {
-            var (leftInclusion, rightInclusion) = IntervalInclusionConvert.ToInclusions(value);
+            var (leftInclusion, rightInclusion) = IntervalInclusionConverter.ToInclusions(value);
             Left = Left with { Inclusion = leftInclusion };
             Right = Right with { Inclusion = rightInclusion };
         }

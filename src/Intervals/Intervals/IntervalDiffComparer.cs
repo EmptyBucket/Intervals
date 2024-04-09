@@ -26,17 +26,17 @@ using System.Numerics;
 namespace Intervals.Intervals;
 
 /// <summary>
-/// Compares intervals by its length using custom length computer
+/// Compares intervals by their difference in endpoints using custom difference computer
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <typeparam name="TResult">Length type</typeparam>
-public class IntervalLengthComparer<T, TResult> : IComparer<Interval<T>>
+public class IntervalDiffComparer<T, TResult> : IComparer<Interval<T>>
     where T : IComparable<T>, IEquatable<T>
     where TResult : IComparable<TResult>
 {
-    private readonly Func<Interval<T>, TResult> _lengthSelector;
+    private readonly Func<Interval<T>, TResult> _diffSelector;
 
-    public IntervalLengthComparer(Func<Interval<T>, TResult> lengthSelector) => _lengthSelector = lengthSelector;
+    public IntervalDiffComparer(Func<Interval<T>, TResult> diffSelector) => _diffSelector = diffSelector;
 
     /// <summary>
     /// Compares two intervals
@@ -50,31 +50,31 @@ public class IntervalLengthComparer<T, TResult> : IComparer<Interval<T>>
         if (ReferenceEquals(null, y)) return 1;
         if (ReferenceEquals(null, x)) return -1;
 
-        return _lengthSelector(x).CompareTo(_lengthSelector(y));
+        return _diffSelector(x).CompareTo(_diffSelector(y));
     }
 }
 
 /// <summary>
-/// Compares <see cref="DateTime"/> intervals by its length using default length computer
+/// Compares <see cref="DateTime"/> intervals by their difference using default difference computer
 /// </summary>
-public class DefaultDateTimeIntervalLengthComparer : IntervalLengthComparer<DateTime, TimeSpan>
+public class DefaultDateTimeIntervalDiffComparer : IntervalDiffComparer<DateTime, TimeSpan>
 {
-    public DefaultDateTimeIntervalLengthComparer() : base(IntervalExtensions.GetLength)
+    public DefaultDateTimeIntervalDiffComparer() : base(IntervalExtensions.GetDiff)
     {
     }
 }
 
 #if NET7_0_OR_GREATER
 /// <summary>
-/// Compares intervals by its length using default length computer
+/// Compares intervals by their difference using default difference computer
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <typeparam name="TResult"></typeparam>
-public class DefaultIntervalLengthComparer<T, TResult> : IntervalLengthComparer<T, TResult>
+public class DefaultIntervalDiffComparer<T, TResult> : IntervalDiffComparer<T, TResult>
     where T : IComparable<T>, IEquatable<T>, ISubtractionOperators<T, T, TResult>
     where TResult : INumberBase<TResult>, IComparable<TResult>
 {
-    public DefaultIntervalLengthComparer() : base(IntervalExtensions.GetLength<T, TResult>)
+    public DefaultIntervalDiffComparer() : base(IntervalExtensions.GetDiff<T, TResult>)
     {
     }
 }

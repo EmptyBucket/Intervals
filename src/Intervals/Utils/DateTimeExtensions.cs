@@ -23,7 +23,7 @@
 
 namespace Intervals.Utils;
 
-public static partial class DateTimeExtensions
+public static class DateTimeExtensions
 {
     /// <summary>
     /// Returns the quarter number for the specified <paramref name="dateTime" />
@@ -38,4 +38,7 @@ public static partial class DateTimeExtensions
     /// <param name="dateTime"></param>
     /// <returns>half-year number</returns>
     public static int GetHalfYear(this DateTime dateTime) => (dateTime.Month - 1) / DateTimeHelper.MonthsInHalfYear + 1;
+
+    internal static int GetDaysUntilMonth(this DateTime dateTime) =>
+        DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - dateTime.Day;
 }

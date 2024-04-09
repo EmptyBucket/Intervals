@@ -129,7 +129,7 @@ I mentioned earlier that operations are always obvious only for `IntervalInclusi
 `IntervalInclusion.LeftOpened`, so you probably have a question: what operations are not obvious for
 `IntervalInclusion.Closed` and `IntervalInclusion.Opened`?
 
-Let's look at an example: what is the length of the interval ['2022/01/01', '2022/01/10]?
+Let's look at an example: what is the length of the interval [2022/01/01, 2022/01/10]?
 The correct answer is 10 days or 10 days 23 hours 59 minutes or 10 days 23 hours 59 minutes ... to max precision?
 The correct answer will depend on the context. A similar problem occurs not only with the operation of getting the length,
 but also with other operations, for example, think about how `Split` should work for closed interval? Therefore,
@@ -144,7 +144,7 @@ Therefore, another terms monthly intervals arises. In this type of intervals, op
 ```csharp
 new MonthlyInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 28), TimeSpan.FromDays(1), IntervalInclusion.Closed)
 ```
-This is an interval that consists of 31 + 28 granules for 2 months
+This is an interval that consists of 31 + 28 granules of 1 day for 2 months
 
 More examples:
 ```csharp
@@ -242,7 +242,6 @@ new Interval<DateTime>(new DateTime(2022, 1, 1), new DateTime(2022, 2, 15)).Spli
 will return `[2022-01-01, 2022-02-01), [2022-02-01, 2022-02-15)`
 
 More examples:
-
 ```csharp
 // (2022-01-10, 2022-01-20), [2022-01-20, 2022-01-30), [2022-01-30, 2022-02-01)
 var result1 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(2022, 2, 1), IntervalInclusion.Opened)

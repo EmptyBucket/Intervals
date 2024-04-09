@@ -133,7 +133,7 @@ Let's look at an example: what is the length of the interval ['2022/01/01', '202
 The correct answer is 10 days or 10 days 23 hours 59 minutes or 10 days 23 hours 59 minutes ... to max precision?
 The correct answer will depend on the context. A similar problem occurs not only with the operation of getting the length,
 but also with other operations, for example, think about how `Split` should work for closed interval? Therefore,
-a new term granule interval appears, essentially this is the basis from which the interval consists, e.g.
+a new term granular interval appears, essentially this is the basis from which the interval consists, e.g.
 ```csharp
 new TimeGranularInterval(new DateTime(2022, 1, 1, 1, 0, 0), new DateTime(2022, 1, 10, 1, 0, 0), TimeSpan.FromDays(1), IntervalInclusion.Closed)
 ```

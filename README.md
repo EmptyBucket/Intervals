@@ -266,7 +266,7 @@ var result6 = new Interval<DateTime>(new DateTime(2022, 1, 10), new DateTime(202
 
 ### Helper methods that you might find useful
 
-https://github.com/EmptyBucket/Intervals/wiki/intervals.utils.datetimeextensions
-https://github.com/EmptyBucket/Intervals/wiki/intervals.points.pointextensions
-https://github.com/EmptyBucket/Intervals/wiki/intervals.points.inclusionextensions
-https://github.com/EmptyBucket/Intervals/wiki/intervals.points.endpointlocationextensions
+* https://github.com/EmptyBucket/Intervals/wiki/intervals.utils.datetimeextensions
+* https://github.com/EmptyBucket/Intervals/wiki/intervals.points.pointextensions
+* https://github.com/EmptyBucket/Intervals/wiki/intervals.points.inclusionextensions
+* https://github.com/EmptyBucket/Intervals/wiki/intervals.points.endpointlocationextensions

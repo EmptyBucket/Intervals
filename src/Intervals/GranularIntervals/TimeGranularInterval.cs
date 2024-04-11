@@ -34,6 +34,8 @@ namespace Intervals.GranularIntervals;
 [Serializable]
 public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
 {
+    private TimeSpan? _length;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TimeGranularInterval"/>
     /// with specified <paramref name="leftPoint" />, <paramref name="rightPoint" /> and
@@ -48,7 +50,6 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
         ThrowIfNotValid(granuleLength);
 
         GranuleLength = granuleLength;
-        Length = GetLength(leftPoint.Value, rightPoint.Value, granuleLength, Inclusion);
     }
 
     /// <summary>
@@ -69,7 +70,6 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
         ThrowIfNotValid(granuleLength);
 
         GranuleLength = granuleLength;
-        Length = GetLength(leftValue, rightValue, granuleLength, inclusion);
     }
 
     /// <summary>
@@ -88,7 +88,6 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
         ThrowIfNotValid(granuleLength);
 
         GranuleLength = granuleLength;
-        Length = length;
     }
 
     /// <summary>
@@ -112,7 +111,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
     public TimeSpan GranuleLength { get; }
 
     /// <inheritdoc />
-    public override TimeSpan Length { get; }
+    public override TimeSpan Length => _length ??= GetLength(LeftValue, RightValue, GranuleLength, Inclusion);
 
     /// <inheritdoc />
     public override GranularInterval<DateTime, TimeSpan> MoveByGranule(int leftMultiplier, int rightMultiplier) =>

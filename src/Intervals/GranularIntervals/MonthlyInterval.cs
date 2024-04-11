@@ -34,6 +34,8 @@ namespace Intervals.GranularIntervals;
 [Serializable]
 public record class MonthlyInterval : TimeGranularInterval
 {
+    private int? _monthsCount;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MonthlyInterval"/>
     /// with specified <paramref name="leftPoint" />, <paramref name="rightPoint" /> and
@@ -45,8 +47,6 @@ public record class MonthlyInterval : TimeGranularInterval
     public MonthlyInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleLength)
         : base(leftPoint, rightPoint, granuleLength)
     {
-        MonthsCount = GetMonthsCount(leftPoint.Value, rightPoint.Value, Inclusion);
-
         ThrowIfNotValid(leftPoint.Value, rightPoint.Value, Inclusion);
     }
 
@@ -65,8 +65,6 @@ public record class MonthlyInterval : TimeGranularInterval
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, rightValue, granuleLength, inclusion)
     {
-        MonthsCount = GetMonthsCount(leftValue, rightValue, inclusion);
-
         ThrowIfNotValid(leftValue, rightValue, inclusion);
     }
 
@@ -83,8 +81,6 @@ public record class MonthlyInterval : TimeGranularInterval
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, GetRight(leftValue, granuleLength, monthsCount, inclusion), granuleLength, inclusion)
     {
-        MonthsCount = monthsCount;
-
         ThrowIfNotValid(leftValue, RightValue, inclusion);
     }
 
@@ -107,9 +103,9 @@ public record class MonthlyInterval : TimeGranularInterval
     }
 
     /// <summary>
-    /// Months count in granule
+    /// Months count
     /// </summary>
-    public int MonthsCount { get; protected set; }
+    public int MonthsCount => _monthsCount ??= GetMonthsCount(LeftValue, RightValue, Inclusion);
 
     /// <inheritdoc />
     public override GranularInterval<DateTime, TimeSpan> MoveByLength(int leftMultiplier, int rightMultiplier)

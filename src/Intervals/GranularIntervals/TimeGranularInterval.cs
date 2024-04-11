@@ -75,6 +75,25 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TimeGranularInterval"/>
     /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" />,
+    /// <paramref name="length" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="granuleLength"></param>
+    /// <param name="length"></param>
+    /// <param name="inclusion"></param>
+    public TimeGranularInterval(DateTime leftValue, TimeSpan granuleLength, TimeSpan length,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GetRight(leftValue, granuleLength, length, inclusion), inclusion)
+    {
+        ThrowIfNotValid(granuleLength);
+
+        GranuleLength = granuleLength;
+        Length = length;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.TimeGranularInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="granuleLength" />,
     /// <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>
@@ -83,7 +102,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
     /// <param name="inclusion"></param>
     public TimeGranularInterval(DateTime leftValue, TimeSpan granuleLength, long granulesCount = 1,
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
-        : this(leftValue, GetRight(leftValue, granuleLength, granulesCount, inclusion), granuleLength, inclusion)
+        : this(leftValue, granuleLength, granuleLength * granulesCount, inclusion)
     {
     }
 
@@ -138,7 +157,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
         return GenericMath.Max((rightValue + rightAddition) - (leftValue + leftAddition), TimeSpan.Zero);
     }
 
-    private static DateTime GetRight(DateTime leftValue, TimeSpan granuleLength, long granulesCount,
+    private static DateTime GetRight(DateTime leftValue, TimeSpan granuleLength, TimeSpan length,
         IntervalInclusion inclusion)
     {
         var addition = inclusion switch
@@ -147,7 +166,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
             IntervalInclusion.Closed => -granuleLength,
             _ => TimeSpan.Zero
         };
-        return leftValue + granuleLength * granulesCount + addition;
+        return leftValue + length + addition;
     }
 
     private static void ThrowIfNotValid(TimeSpan granuleLength)

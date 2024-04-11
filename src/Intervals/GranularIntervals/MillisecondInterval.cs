@@ -63,6 +63,19 @@ public record class MillisecondInterval : TimeGranularInterval
 
     /// <summary>
     /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MillisecondInterval"/>
+    /// with specified <paramref name="leftValue" />, <paramref name="length" /> and <paramref name="inclusion" />
+    /// </summary>
+    /// <param name="leftValue"></param>
+    /// <param name="length"></param>
+    /// <param name="inclusion"></param>
+    public MillisecondInterval(DateTime leftValue, TimeSpan length,
+        IntervalInclusion inclusion = IntervalInclusion.RightOpened)
+        : base(leftValue, GranuleLength, length, inclusion)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Intervals.GranularIntervals.MillisecondInterval"/>
     /// with specified <paramref name="leftValue" />, <paramref name="granulesCount" /> and <paramref name="inclusion" />
     /// </summary>
     /// <param name="leftValue"></param>

@@ -106,6 +106,15 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
     }
 
     /// <summary>
+    /// Initializes a copy instance of the <see cref="T:Intervals.GranularIntervals.TimeGranularInterval"/>
+    /// </summary>
+    /// <param name="origin"></param>
+    public TimeGranularInterval(TimeGranularInterval origin) : base(origin)
+    {
+        GranuleLength = origin.GranuleLength;
+    }
+
+    /// <summary>
     /// Length of the granule
     /// </summary>
     public TimeSpan GranuleLength { get; }

@@ -103,6 +103,15 @@ public record class MonthlyInterval : TimeGranularInterval
     }
 
     /// <summary>
+    /// Initializes a copy instance of the <see cref="T:Intervals.GranularIntervals.MonthlyInterval"/>
+    /// </summary>
+    /// <param name="origin"></param>
+    public MonthlyInterval(MonthlyInterval origin) : base(origin)
+    {
+        // Cannot call validation after assignment via a "with" statement
+    }
+
+    /// <summary>
     /// Months count
     /// </summary>
     public int MonthsCount => _monthsCount ??= GetMonthsCount(LeftValue, RightValue, Inclusion);

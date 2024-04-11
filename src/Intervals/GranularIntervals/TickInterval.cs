@@ -28,7 +28,7 @@ using Intervals.Points;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an tick interval instance where the granule size is tick
+/// Represents an tick interval instance where the granule length is tick
 /// </summary>
 [Serializable]
 public record class TickInterval : TimeGranularInterval

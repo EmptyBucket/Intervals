@@ -29,7 +29,7 @@ using Intervals.Utils;
 namespace Intervals.GranularIntervals;
 
 /// <summary>
-/// Represents an monthly granular interval instance
+/// Represents an monthly interval instance
 /// </summary>
 [Serializable]
 public record class MonthlyInterval : TimeGranularInterval

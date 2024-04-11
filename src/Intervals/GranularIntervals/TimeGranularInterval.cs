@@ -45,7 +45,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
     public TimeGranularInterval(Point<DateTime> leftPoint, Point<DateTime> rightPoint, TimeSpan granuleLength)
         : base(leftPoint, rightPoint)
     {
-        ThrowIfNotValid(leftPoint.Value, rightPoint.Value, granuleLength);
+        ThrowIfNotValid(granuleLength);
 
         GranuleLength = granuleLength;
         Length = GetLength(leftPoint.Value, rightPoint.Value, granuleLength, Inclusion);
@@ -66,7 +66,7 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
         IntervalInclusion inclusion = IntervalInclusion.RightOpened)
         : base(leftValue, rightValue, inclusion)
     {
-        ThrowIfNotValid(leftValue, rightValue, granuleLength);
+        ThrowIfNotValid(granuleLength);
 
         GranuleLength = granuleLength;
         Length = GetLength(leftValue, rightValue, granuleLength, inclusion);
@@ -150,13 +150,9 @@ public record class TimeGranularInterval : GranularInterval<DateTime, TimeSpan>
         return leftValue + granuleLength * granulesCount + addition;
     }
 
-    private static void ThrowIfNotValid(DateTime leftValue, DateTime rightValue, TimeSpan granuleLength)
+    private static void ThrowIfNotValid(TimeSpan granuleLength)
     {
         if (granuleLength <= TimeSpan.Zero)
             throw new ArgumentException($"The {granuleLength} must not be less or equal zero");
-
-        if (leftValue.Ticks % granuleLength.Ticks != rightValue.Ticks % granuleLength.Ticks)
-            throw new ArgumentException(
-                $"The {nameof(leftValue)} and {nameof(rightValue)} must be aligned to the {nameof(granuleLength)}");
     }
 }

@@ -31,17 +31,6 @@ namespace Intervals.Tests.GranularIntervals;
 public partial class MonthlyIntervalTests
 {
     [Test]
-    public void New_WhenNotAlignedToGranuleLength_ThrowArgumentException()
-    {
-        var leftValue = new DateTime(2022, 1, 1);
-        var rightValue = new DateTime(2022, 2, 1, 1, 1, 1);
-
-        var action = new Action(() => new MonthlyInterval(leftValue, rightValue, TimeSpan.FromDays(1)));
-
-        action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must be aligned");
-    }
-
-    [Test]
     public void New_WhenLeftOpenedAndLeftIsFirstDayOfMonth_ThrowArgumentException()
     {
         var leftValue = new DateTime(2022, 1, 1);

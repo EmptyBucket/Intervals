@@ -3,10 +3,10 @@
 Library for working with generic intervals and generic granular intervals
 
 Intervals support different inclusions (`Opened`, `LeftOpened`, `RightOpened`, `Closed`)
-* `Opened` inclusion is when both of interval endpoints are excluded (math notation as __({LeftValue}, {RightValue})__ )
-* `LeftOpened` inclusion is when left endpoint of interval is excluded and right endpoint is included (math notation as __({LeftValue}, {RightValue}]__ )
-* `RightOpened` inclusion is when right endpoint of interval is included and right endpoint is excluded (math notation as __[{LeftValue}, {RightValue})__ )
-* `Closed` inclusion is when both of interval endpoints are included (math notation as __[{LeftValue}, {RightValue}]__ )
+* `Opened` inclusion is when both of interval endpoints are excluded (math notation as `({LeftValue}, {RightValue})` )
+* `LeftOpened` inclusion is when left endpoint of interval is excluded and right endpoint is included (math notation as `({LeftValue}, {RightValue}]` )
+* `RightOpened` inclusion is when right endpoint of interval is included and right endpoint is excluded (math notation as `[{LeftValue}, {RightValue})` )
+* `Closed` inclusion is when both of interval endpoints are included (math notation as `[{LeftValue}, {RightValue}]` )
 
 ### Documentation:
 
@@ -111,7 +111,7 @@ where each point would only be sorted once
 
 ### `Is` interval operations
 
-Any incorrect interval is considered empty, e.g. [2, 1], (1, 1), [1, 1), ...
+Any incorrect interval is considered empty, e.g. `[2, 1], (1, 1), [1, 1), ...`
 
 You can use intervals with any `IComparable<T>` type with interesting effects, look at string in the following example
 
@@ -129,22 +129,25 @@ I mentioned earlier that operations are always obvious only for `IntervalInclusi
 `IntervalInclusion.LeftOpened`, so you probably have a question: what operations are not obvious for
 `IntervalInclusion.Closed` and `IntervalInclusion.Opened`?
 
-Let's look at an example: what is the length of the interval [2022/01/01, 2022/01/10]?
-The correct answer is 10 days or 10 days 23 hours 59 minutes or 10 days 23 hours 59 minutes ... to max precision?
+Let's look at an example: what is the length of the interval `[2022-01-01, 2022-01-10]`?
+The correct answer is difference equal to 9 or 10 days or 10 days 23 hours 59 minutes 59 seconds or something else?
 The correct answer will depend on the context. A similar problem occurs not only with the operation of getting the length,
 but also with other operations, for example, think about how `Split` should work for closed interval? Therefore,
-a new term granular interval appears, essentially this is the basis from which the interval consists, e.g.
+a new term granular interval appears, essentially this is an interval whose endpoints are whole granules, e.g.
 ```csharp
-new TimeGranularInterval(new DateTime(2022, 1, 1, 1, 0, 0), new DateTime(2022, 1, 10, 1, 0, 0), TimeSpan.FromDays(1), IntervalInclusion.Closed)
+new TimeGranularInterval(new DateTime(2022, 1, 1), new DateTime(2022, 1, 10), TimeSpan.FromDays(1), IntervalInclusion.Closed)
 ```
-This is an interval that consists of 10 granules of 1 day, but all granules are shifted 1 hour forward
+This is an interval whose left endpoint is the full day of January 1st and the right endpoint of the full day of January 10th.
+Therefore, the length of such an interval is exactly 10 days
 
 You should keep in mind that each month has a different number of days, so intervals derived from a month also have a different lengths.
 Therefore, another terms monthly intervals arises. In this type of intervals, operations are calculated based on calendar months, e.g.
 ```csharp
 new MonthlyInterval(new DateTime(2022, 1, 1), new DateTime(2022, 2, 28), TimeSpan.FromDays(1), IntervalInclusion.Closed)
+    .MoveByLength()    
 ```
-This is an interval that consists of 31 + 28 granules of 1 day for 2 months
+The result will be with the same types of endpoint inclusions as the original interval,
+shifted forward by 2 calendar months `[2022-03-01, 2022-04-30]`
 
 More examples:
 ```csharp

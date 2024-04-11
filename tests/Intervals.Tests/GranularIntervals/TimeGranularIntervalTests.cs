@@ -53,17 +53,6 @@ public partial class TimeGranularIntervalTests
     }
 
     [Test]
-    public void New_WhenNotAlignedToGranuleLength_ThrowArgumentException()
-    {
-        var leftValue = new DateTime(2022, 1, 1);
-        var rightValue = new DateTime(2022, 1, 12, 1, 1, 1);
-
-        var action = new Action(() => new TimeGranularInterval(leftValue, rightValue, TimeSpan.FromDays(1)));
-
-        action.Should().Throw<ArgumentException>().And.Message.Should().Contain("must be aligned");
-    }
-
-    [Test]
     public void New_WhenOpened_ReturnIntervalWithGranularRight()
     {
         var leftValue = new DateTime(2022, 1, 1);
